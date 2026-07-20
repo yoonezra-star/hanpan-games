@@ -4,9 +4,9 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>뱀의 정원 - 한판게임즈</title>
-    <meta name="description" content="뱀의 정원는 한판게임즈에서 설치 없이 바로 즐길 수 있는 아케이드 게임입니다. 플레이 방법, 공략 팁, 자주 묻는 질문을 확인하고 바로 플레이하세요.">
+    <meta name="description" content="뱀의 정원 플레이 방법, 조작법, 점수 기준, 초보·심화 전략, 모바일 팁, FAQ를 정리한 무료 웹게임 페이지입니다.">
     <link rel="canonical" href="https://hanpan-games.pages.dev/games/snake-garden/">
-    <link rel="stylesheet" href="/assets/styles.css?v=20260720-motion">
+    <link rel="stylesheet" href="/assets/styles.css?v=20260720-depth">
   </head>
   <body>
     <header class="site-header">
@@ -33,39 +33,90 @@
           <a class="button secondary" href="/games/">전체 게임 보기</a>
         </div>
         <ul class="toc-list" aria-label="페이지 목차">
+          <li><a href="#overview">핵심 요약</a></li>
           <li><a href="#how">게임 방법</a></li>
-          <li><a href="#tips">공략 팁</a></li>
-          <li><a href="#faq">자주 묻는 질문</a></li>
+          <li><a href="#controls">조작</a></li>
+          <li><a href="#scoring">점수 기준</a></li>
+          <li><a href="#strategy">공략</a></li>
+          <li><a href="#mobile">모바일 팁</a></li>
+          <li><a href="#faq">FAQ</a></li>
           <li><a href="#related">관련 게임</a></li>
         </ul>
       </section>
 
       <div class="game-detail-grid">
-        <article class="article">
+        <article class="article featured-article">
+          <h2 id="overview">이 게임의 핵심</h2>
+          <p>뱀의 정원은 먹이를 먹어 몸을 늘리며 오래 버티는 그리드 아케이드 게임입니다. 몸이 길어질수록 점수는 오르지만 이동할 공간은 줄어듭니다.</p>
+          <p>짧은 조작과 빠른 결과가 매력인 고전 게임을 정원 테마로 다듬었습니다. 단순히 먹이를 향해 달리는 것보다 다음 회전 공간을 남기는 판단이 중요합니다.</p>
+          <div class="detail-snapshot" aria-label="게임 요약">
+            <div><strong>핵심 목표</strong><span>먹이를 먹고 몸을 늘리며 벽, 몸, 장애물을 피합니다.</span></div>
+            <div><strong>추천 상황</strong><span>빠른 집중력과 경로 판단을 동시에 쓰고 싶을 때 좋습니다.</span></div>
+            <div><strong>실력 포인트</strong><span>회전 공간 확보, 속도 적응, 위험한 먹이 포기입니다.</span></div>
+          </div>
+
           <h2 id="how">게임 방법</h2>
           <p>먹이를 먹으며 몸을 늘리는 그리드 게임입니다. 벽, 자신의 몸, 장애물에 닿으면 종료됩니다. 먹이를 먹을수록 속도가 오르고 장애물이 추가됩니다.</p>
-          <p>뱀의 정원는 별도 앱 설치나 로그인이 필요 없습니다. 페이지 안의 플레이 영역에서 바로 시작할 수 있고, 가능한 기록은 현재 브라우저에만 저장됩니다.</p>
+          <p>뱀의 정원는 별도 앱 설치나 로그인이 필요 없는 무료 웹게임입니다. 페이지 오른쪽 또는 아래쪽 플레이 영역에서 바로 실행할 수 있고, 결과와 최고 기록은 가능한 경우 현재 브라우저 안에만 저장됩니다.</p>
 
-          <h2 id="tips">공략 팁</h2>
-          <ul>
-            <li>가장자리로 몰리기보다 중앙에 회전 공간을 남깁니다.</li>
-            <li>긴 몸을 만들수록 다음 회전 경로를 미리 생각합니다.</li>
-            <li>속도가 오를 때는 무리하게 먹이를 쫓지 않는 편이 좋습니다.</li>
+          <h2 id="controls">조작과 진행</h2>
+          <ul class="detail-list">
+            <li>방향키 또는 화면 방향 버튼으로 이동 방향을 바꿉니다.</li>
+            <li>반대 방향으로 즉시 꺾는 입력은 몸과 충돌할 수 있어 제한됩니다.</li>
+            <li>먹이를 먹으면 점수가 오르고 몸이 길어지며, 진행에 따라 속도와 장애물 부담이 커집니다.</li>
           </ul>
 
-          <h2>플레이 흐름</h2>
-          <p>
-            한 판을 시작하면 상단 점수판에서 현재 진행 상태를 확인할 수 있습니다.
-            결과 메시지는 실수, 성공, 최고 기록 여부를 알려 주므로 다음 판에서 무엇을 바꿀지 바로 판단할 수 있습니다.
-          </p>
+          <h2 id="scoring">승리와 점수 기준</h2>
+          <ul class="detail-list">
+            <li>먹이 하나를 먹을 때마다 점수가 오릅니다.</li>
+            <li>벽이나 자신의 몸, 장애물에 닿으면 판이 종료됩니다.</li>
+            <li>최고 기록은 가능한 경우 현재 브라우저에 저장되어 다음 도전 기준으로 볼 수 있습니다.</li>
+          </ul>
+
+          <h2 id="strategy">초보 공략</h2>
+          <ul class="strategy-list">
+            <li>먹이를 향해 최단거리로만 움직이지 말고 돌아 나올 길을 먼저 생각합니다.</li>
+            <li>가장자리만 따라 돌면 탈출 공간이 줄어들 수 있어 중앙 회전 공간을 남깁니다.</li>
+            <li>속도가 빨라지면 작은 방향 전환을 미리 입력해 급한 꺾기를 줄입니다.</li>
+          </ul>
+
+          <h2>한 단계 더 올리는 전략</h2>
+          <ul class="strategy-list">
+            <li>몸이 길어지면 바깥쪽을 크게 순환하고 내부 공간을 천천히 쓰는 방식이 안정적입니다.</li>
+            <li>장애물 근처 먹이는 점수보다 위험이 크면 과감히 포기합니다.</li>
+            <li>긴 몸이 꼬인 상황에서는 꼬리가 빠질 위치를 보고 뒤따라가는 경로를 만들 수 있습니다.</li>
+          </ul>
+
+          <h2 id="mobile">모바일 플레이 팁</h2>
+          <ul class="detail-list">
+            <li>방향 버튼을 빠르게 여러 번 누르면 의도와 다른 방향이 들어갈 수 있으므로 한 박자씩 입력합니다.</li>
+            <li>손가락이 게임판을 가리지 않게 아래쪽 버튼 영역을 중심으로 조작합니다.</li>
+            <li>작은 화면에서는 먹이보다 몸 전체의 모양을 먼저 보는 습관이 좋습니다.</li>
+          </ul>
+
+          <h2>자주 나오는 실수</h2>
+          <ul class="mistake-list">
+            <li>먹이만 보고 탈출 경로를 확인하지 않는 실수</li>
+            <li>속도가 오른 뒤에도 벽 가까이에서 급회전하는 실수</li>
+            <li>몸이 길어진 뒤 중앙을 무리하게 가로지르는 실수</li>
+          </ul>
 
           <h2 id="faq">자주 묻는 질문</h2>
-          <h3>방향키를 지원하나요?</h3>
-          <p>네. 방향키와 화면 버튼을 모두 사용할 수 있습니다.</p>
-          <h3>모바일에서도 플레이할 수 있나요?</h3>
-          <p>네. 화면 버튼을 함께 제공하며, 작은 화면에서도 게임판과 결과 영역이 겹치지 않도록 구성했습니다.</p>
-          <h3>기록이 사라질 수 있나요?</h3>
-          <p>기록은 브라우저 로컬 저장소를 사용합니다. 브라우저 데이터를 삭제하거나 다른 기기에서 접속하면 기록이 이어지지 않을 수 있습니다.</p>
+          <div class="faq-list">
+          <h3>방향키를 계속 누르고 있어야 하나요?</h3>
+          <p>아니요. 한 번 방향을 바꾸면 다음 입력 전까지 계속 이동합니다.</p>
+          <h3>장애물이 항상 나오나요?</h3>
+          <p>진행 상황에 따라 장애물이 추가되어 후반 난이도를 높입니다.</p>
+          <h3>최고 기록은 저장되나요?</h3>
+          <p>지원되는 브라우저에서는 현재 기기 안에 저장됩니다.</p>
+          <h3>모바일 조작이 가능한가요?</h3>
+          <p>네. 화면 방향 버튼으로 플레이할 수 있습니다.</p>
+          <h3>점수를 빨리 올리는 방법은 무엇인가요?</h3>
+          <p>초반에는 먹이를 적극적으로 먹되, 몸이 길어진 뒤에는 안전한 순환 경로를 먼저 만드는 편이 좋습니다.</p>
+          </div>
+
+          <h2>업데이트 노트</h2>
+          <p class="site-note">2026년 7월 20일 뱀의 정원 대표 페이지에 경로 전략, 장애물 대응, 모바일 조작 설명을 확장했습니다.</p>
 
           <h2 id="related">관련 게임</h2>
           <p>
@@ -106,8 +157,8 @@
       </nav>
       <p class="copyright">© <span id="year"></span> Hanpan Games. All rights reserved.</p>
     </footer>
-    <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"VideoGame","name":"뱀의 정원","url":"https://hanpan-games.pages.dev/games/snake-garden/","description":"정원을 돌아다니며 먹이를 먹고 몸을 늘리는 그리드 게임입니다.","applicationCategory":"Game","operatingSystem":"Web Browser","inLanguage":"ko-KR","isAccessibleForFree":true,"publisher":{"@type":"Organization","name":"한판게임즈"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"홈","item":"https://hanpan-games.pages.dev/"},{"@type":"ListItem","position":2,"name":"게임","item":"https://hanpan-games.pages.dev/games/"},{"@type":"ListItem","position":3,"name":"뱀의 정원","item":"https://hanpan-games.pages.dev/games/snake-garden/"}]}]}</script>
-    <script src="/assets/app.js?v=20260720-motion" defer></script>
-    <script src="/assets/arcade.js?v=20260720-motion" defer></script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"VideoGame","name":"뱀의 정원","url":"https://hanpan-games.pages.dev/games/snake-garden/","description":"정원을 돌아다니며 먹이를 먹고 몸을 늘리는 그리드 게임입니다.","applicationCategory":"Game","operatingSystem":"Web Browser","inLanguage":"ko-KR","isAccessibleForFree":true,"publisher":{"@type":"Organization","name":"한판게임즈"}},{"@type":"FAQPage","mainEntity":[{"@type":"Question","name":"방향키를 계속 누르고 있어야 하나요?","acceptedAnswer":{"@type":"Answer","text":"아니요. 한 번 방향을 바꾸면 다음 입력 전까지 계속 이동합니다."}},{"@type":"Question","name":"장애물이 항상 나오나요?","acceptedAnswer":{"@type":"Answer","text":"진행 상황에 따라 장애물이 추가되어 후반 난이도를 높입니다."}},{"@type":"Question","name":"최고 기록은 저장되나요?","acceptedAnswer":{"@type":"Answer","text":"지원되는 브라우저에서는 현재 기기 안에 저장됩니다."}},{"@type":"Question","name":"모바일 조작이 가능한가요?","acceptedAnswer":{"@type":"Answer","text":"네. 화면 방향 버튼으로 플레이할 수 있습니다."}},{"@type":"Question","name":"점수를 빨리 올리는 방법은 무엇인가요?","acceptedAnswer":{"@type":"Answer","text":"초반에는 먹이를 적극적으로 먹되, 몸이 길어진 뒤에는 안전한 순환 경로를 먼저 만드는 편이 좋습니다."}}]},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"홈","item":"https://hanpan-games.pages.dev/"},{"@type":"ListItem","position":2,"name":"게임","item":"https://hanpan-games.pages.dev/games/"},{"@type":"ListItem","position":3,"name":"뱀의 정원","item":"https://hanpan-games.pages.dev/games/snake-garden/"}]}]}</script>
+    <script src="/assets/app.js?v=20260720-depth" defer></script>
+    <script src="/assets/arcade.js?v=20260720-depth" defer></script>
   </body>
 </html>

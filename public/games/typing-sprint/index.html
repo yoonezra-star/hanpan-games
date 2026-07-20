@@ -4,9 +4,9 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>타이핑 노선 - 한판게임즈</title>
-    <meta name="description" content="타이핑 노선는 한판게임즈에서 설치 없이 바로 즐길 수 있는 스킬 게임입니다. 플레이 방법, 공략 팁, 자주 묻는 질문을 확인하고 바로 플레이하세요.">
+    <meta name="description" content="타이핑 노선 플레이 방법, 조작법, 점수 기준, 초보·심화 전략, 모바일 팁, FAQ를 정리한 무료 웹게임 페이지입니다.">
     <link rel="canonical" href="https://hanpan-games.pages.dev/games/typing-sprint/">
-    <link rel="stylesheet" href="/assets/styles.css?v=20260720-motion">
+    <link rel="stylesheet" href="/assets/styles.css?v=20260720-depth">
   </head>
   <body>
     <header class="site-header">
@@ -33,39 +33,90 @@
           <a class="button secondary" href="/games/">전체 게임 보기</a>
         </div>
         <ul class="toc-list" aria-label="페이지 목차">
+          <li><a href="#overview">핵심 요약</a></li>
           <li><a href="#how">게임 방법</a></li>
-          <li><a href="#tips">공략 팁</a></li>
-          <li><a href="#faq">자주 묻는 질문</a></li>
+          <li><a href="#controls">조작</a></li>
+          <li><a href="#scoring">점수 기준</a></li>
+          <li><a href="#strategy">공략</a></li>
+          <li><a href="#mobile">모바일 팁</a></li>
+          <li><a href="#faq">FAQ</a></li>
           <li><a href="#related">관련 게임</a></li>
         </ul>
       </section>
 
       <div class="game-detail-grid">
-        <article class="article">
+        <article class="article featured-article">
+          <h2 id="overview">이 게임의 핵심</h2>
+          <p>타이핑 노선은 화면에 표시되는 역 이름을 정확히 입력해 열차를 다음 역으로 보내는 타자 레이스입니다. 속도만 빠른 것보다 오타를 줄이는 집중력이 더 좋은 기록을 만듭니다.</p>
+          <p>텍스트 입력 자체가 게임의 움직임과 연결되어 있어 플레이 목적이 분명합니다. 역이 하나씩 지나가며 진행도가 보이고, 속도와 정확도가 함께 계산되어 반복 연습하기 좋습니다.</p>
+          <div class="detail-snapshot" aria-label="게임 요약">
+            <div><strong>핵심 목표</strong><span>제시된 역 이름을 정확히 입력해 모든 역을 통과합니다.</span></div>
+            <div><strong>추천 상황</strong><span>짧은 타자 연습과 게임형 피드백을 함께 원할 때 좋습니다.</span></div>
+            <div><strong>실력 포인트</strong><span>정확도 유지, 오타 복구, 긴 단어 단위 읽기입니다.</span></div>
+          </div>
+
           <h2 id="how">게임 방법</h2>
           <p>화면에 표시되는 역 이름을 정확히 입력하면 열차가 다음 역으로 이동하는 타자 레이스입니다. 입력이 맞으면 자동으로 다음 역이 나오고, 틀리면 입력창이 흔들리듯 표시됩니다.</p>
-          <p>타이핑 노선는 별도 앱 설치나 로그인이 필요 없습니다. 페이지 안의 플레이 영역에서 바로 시작할 수 있고, 가능한 기록은 현재 브라우저에만 저장됩니다.</p>
+          <p>타이핑 노선는 별도 앱 설치나 로그인이 필요 없는 무료 웹게임입니다. 페이지 오른쪽 또는 아래쪽 플레이 영역에서 바로 실행할 수 있고, 결과와 최고 기록은 가능한 경우 현재 브라우저 안에만 저장됩니다.</p>
 
-          <h2 id="tips">공략 팁</h2>
-          <ul>
-            <li>긴 이름은 한 글자씩 보지 말고 익숙한 단어 덩어리로 읽습니다.</li>
-            <li>오타가 이어지면 Enter로 입력을 비우고 다시 시작합니다.</li>
-            <li>처음에는 속도보다 정확도를 우선하면 최종 기록이 더 안정적입니다.</li>
+          <h2 id="controls">조작과 진행</h2>
+          <ul class="detail-list">
+            <li>입력창에 현재 역 이름을 그대로 입력합니다.</li>
+            <li>문자가 맞으면 진행이 이어지고, 틀리면 입력창 상태와 결과 메시지로 오류를 알려 줍니다.</li>
+            <li>Enter 키를 누르면 현재 입력을 비우고 다시 입력할 수 있습니다.</li>
           </ul>
 
-          <h2>플레이 흐름</h2>
-          <p>
-            한 판을 시작하면 상단 점수판에서 현재 진행 상태를 확인할 수 있습니다.
-            결과 메시지는 실수, 성공, 최고 기록 여부를 알려 주므로 다음 판에서 무엇을 바꿀지 바로 판단할 수 있습니다.
-          </p>
+          <h2 id="scoring">승리와 점수 기준</h2>
+          <ul class="detail-list">
+            <li>완주 시 입력 속도와 정확도를 바탕으로 기록을 계산합니다.</li>
+            <li>오타가 늘면 단순 타수는 많아져도 최종 기록이 낮아질 수 있습니다.</li>
+            <li>모든 역을 통과하면 결과 메시지에 이번 판 기록과 최고 기록 여부가 표시됩니다.</li>
+          </ul>
+
+          <h2 id="strategy">초보 공략</h2>
+          <ul class="strategy-list">
+            <li>처음에는 빠르게 치기보다 한 글자씩 정확히 입력합니다.</li>
+            <li>긴 역 이름은 전체를 외우려 하지 말고 익숙한 음절 단위로 나누어 봅니다.</li>
+            <li>오타가 난 상태로 억지로 이어가기보다 Enter로 지우고 다시 입력하는 편이 좋습니다.</li>
+          </ul>
+
+          <h2>한 단계 더 올리는 전략</h2>
+          <ul class="strategy-list">
+            <li>다음 글자를 보기 전에 손이 먼저 움직이도록 짧은 리듬을 만듭니다.</li>
+            <li>자주 틀리는 받침이나 모음을 의식적으로 천천히 입력하면 전체 정확도가 올라갑니다.</li>
+            <li>완주 직전에는 속도를 높이기보다 정확도를 지켜 기록 손실을 막습니다.</li>
+          </ul>
+
+          <h2 id="mobile">모바일 플레이 팁</h2>
+          <ul class="detail-list">
+            <li>모바일 키보드 자동완성이나 자동수정이 켜져 있으면 의도와 다른 입력이 들어갈 수 있어 확인이 필요합니다.</li>
+            <li>세로 화면에서는 입력창이 보이는 위치를 유지하고, 키보드가 게임 진행 표시를 가리지 않는지 확인합니다.</li>
+            <li>오타가 많으면 천천히 입력해도 정확도 보정으로 더 좋은 기록이 나올 수 있습니다.</li>
+          </ul>
+
+          <h2>자주 나오는 실수</h2>
+          <ul class="mistake-list">
+            <li>처음부터 속도만 올려 오타가 누적되는 실수</li>
+            <li>입력창이 틀린 상태인데 계속 이어 치는 실수</li>
+            <li>한글 조합이 꼬였는데 지우지 않고 같은 오류를 반복하는 실수</li>
+          </ul>
 
           <h2 id="faq">자주 묻는 질문</h2>
-          <h3>한글 조합 중 오타가 날 수 있나요?</h3>
-          <p>브라우저 입력 방식에 따라 차이가 있을 수 있어, 꼬였을 때는 Enter로 현재 입력을 비우는 방식을 제공합니다.</p>
-          <h3>모바일에서도 플레이할 수 있나요?</h3>
-          <p>네. 화면 버튼을 함께 제공하며, 작은 화면에서도 게임판과 결과 영역이 겹치지 않도록 구성했습니다.</p>
-          <h3>기록이 사라질 수 있나요?</h3>
-          <p>기록은 브라우저 로컬 저장소를 사용합니다. 브라우저 데이터를 삭제하거나 다른 기기에서 접속하면 기록이 이어지지 않을 수 있습니다.</p>
+          <div class="faq-list">
+          <h3>한글 입력이 꼬이면 어떻게 하나요?</h3>
+          <p>Enter 키로 현재 입력을 비운 뒤 다시 입력하면 됩니다.</p>
+          <h3>속도와 정확도 중 무엇이 더 중요한가요?</h3>
+          <p>초보 단계에서는 정확도가 더 중요합니다. 정확도가 안정되면 속도를 올렸을 때 기록이 더 크게 좋아집니다.</p>
+          <h3>모바일 키보드로도 플레이할 수 있나요?</h3>
+          <p>네. 다만 자동완성 기능이 입력을 바꿀 수 있어 결과를 보며 조정하는 것이 좋습니다.</p>
+          <h3>완주 기록은 저장되나요?</h3>
+          <p>지원되는 브라우저에서는 현재 기기에 최고 기록이 저장됩니다.</p>
+          <h3>타자 연습용으로 써도 되나요?</h3>
+          <p>짧은 단어 입력과 즉시 피드백이 있어 가벼운 연습용으로 사용할 수 있습니다.</p>
+          </div>
+
+          <h2>업데이트 노트</h2>
+          <p class="site-note">2026년 7월 20일 타이핑 노선 대표 페이지에 정확도 전략, 입력 복구, 모바일 키보드 안내를 보강했습니다.</p>
 
           <h2 id="related">관련 게임</h2>
           <p>
@@ -106,8 +157,8 @@
       </nav>
       <p class="copyright">© <span id="year"></span> Hanpan Games. All rights reserved.</p>
     </footer>
-    <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"VideoGame","name":"타이핑 노선","url":"https://hanpan-games.pages.dev/games/typing-sprint/","description":"역 이름을 정확히 입력할수록 열차가 다음 역으로 달리는 타자 레이스입니다.","applicationCategory":"Game","operatingSystem":"Web Browser","inLanguage":"ko-KR","isAccessibleForFree":true,"publisher":{"@type":"Organization","name":"한판게임즈"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"홈","item":"https://hanpan-games.pages.dev/"},{"@type":"ListItem","position":2,"name":"게임","item":"https://hanpan-games.pages.dev/games/"},{"@type":"ListItem","position":3,"name":"타이핑 노선","item":"https://hanpan-games.pages.dev/games/typing-sprint/"}]}]}</script>
-    <script src="/assets/app.js?v=20260720-motion" defer></script>
-    <script src="/assets/arcade.js?v=20260720-motion" defer></script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"VideoGame","name":"타이핑 노선","url":"https://hanpan-games.pages.dev/games/typing-sprint/","description":"역 이름을 정확히 입력할수록 열차가 다음 역으로 달리는 타자 레이스입니다.","applicationCategory":"Game","operatingSystem":"Web Browser","inLanguage":"ko-KR","isAccessibleForFree":true,"publisher":{"@type":"Organization","name":"한판게임즈"}},{"@type":"FAQPage","mainEntity":[{"@type":"Question","name":"한글 입력이 꼬이면 어떻게 하나요?","acceptedAnswer":{"@type":"Answer","text":"Enter 키로 현재 입력을 비운 뒤 다시 입력하면 됩니다."}},{"@type":"Question","name":"속도와 정확도 중 무엇이 더 중요한가요?","acceptedAnswer":{"@type":"Answer","text":"초보 단계에서는 정확도가 더 중요합니다. 정확도가 안정되면 속도를 올렸을 때 기록이 더 크게 좋아집니다."}},{"@type":"Question","name":"모바일 키보드로도 플레이할 수 있나요?","acceptedAnswer":{"@type":"Answer","text":"네. 다만 자동완성 기능이 입력을 바꿀 수 있어 결과를 보며 조정하는 것이 좋습니다."}},{"@type":"Question","name":"완주 기록은 저장되나요?","acceptedAnswer":{"@type":"Answer","text":"지원되는 브라우저에서는 현재 기기에 최고 기록이 저장됩니다."}},{"@type":"Question","name":"타자 연습용으로 써도 되나요?","acceptedAnswer":{"@type":"Answer","text":"짧은 단어 입력과 즉시 피드백이 있어 가벼운 연습용으로 사용할 수 있습니다."}}]},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"홈","item":"https://hanpan-games.pages.dev/"},{"@type":"ListItem","position":2,"name":"게임","item":"https://hanpan-games.pages.dev/games/"},{"@type":"ListItem","position":3,"name":"타이핑 노선","item":"https://hanpan-games.pages.dev/games/typing-sprint/"}]}]}</script>
+    <script src="/assets/app.js?v=20260720-depth" defer></script>
+    <script src="/assets/arcade.js?v=20260720-depth" defer></script>
   </body>
 </html>

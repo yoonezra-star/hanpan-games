@@ -4,9 +4,9 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>플래피 점프 - 한판게임즈</title>
-    <meta name="description" content="플래피 점프는 한판게임즈에서 설치 없이 바로 즐길 수 있는 아케이드 게임입니다. 플레이 방법, 공략 팁, 자주 묻는 질문을 확인하고 바로 플레이하세요.">
+    <meta name="description" content="플래피 점프 플레이 방법, 조작법, 점수 기준, 초보·심화 전략, 모바일 팁, FAQ를 정리한 무료 웹게임 페이지입니다.">
     <link rel="canonical" href="https://hanpan-games.pages.dev/games/flappy-jump/">
-    <link rel="stylesheet" href="/assets/styles.css?v=20260720-motion">
+    <link rel="stylesheet" href="/assets/styles.css?v=20260720-depth">
   </head>
   <body>
     <header class="site-header">
@@ -33,39 +33,90 @@
           <a class="button secondary" href="/games/">전체 게임 보기</a>
         </div>
         <ul class="toc-list" aria-label="페이지 목차">
+          <li><a href="#overview">핵심 요약</a></li>
           <li><a href="#how">게임 방법</a></li>
-          <li><a href="#tips">공략 팁</a></li>
-          <li><a href="#faq">자주 묻는 질문</a></li>
+          <li><a href="#controls">조작</a></li>
+          <li><a href="#scoring">점수 기준</a></li>
+          <li><a href="#strategy">공략</a></li>
+          <li><a href="#mobile">모바일 팁</a></li>
+          <li><a href="#faq">FAQ</a></li>
           <li><a href="#related">관련 게임</a></li>
         </ul>
       </section>
 
       <div class="game-detail-grid">
-        <article class="article">
+        <article class="article featured-article">
+          <h2 id="overview">이 게임의 핵심</h2>
+          <p>플래피 점프는 짧은 점프 입력으로 높이를 조절해 기둥 사이를 통과하는 원버튼 아케이드 게임입니다. 쉬운 조작과 달리 리듬이 흐트러지면 바로 실패하는 긴장감이 있습니다.</p>
+          <p>마우스, 키보드, 터치 모두 같은 감각으로 플레이할 수 있어 접근성이 좋습니다. 페이지 안에서 캐릭터가 계속 움직이고 결과가 즉시 표시되어 한 판 재도전 흐름이 빠릅니다.</p>
+          <div class="detail-snapshot" aria-label="게임 요약">
+            <div><strong>핵심 목표</strong><span>기둥 사이의 틈을 통과하며 오래 버팁니다.</span></div>
+            <div><strong>추천 상황</strong><span>짧고 긴장감 있는 반응형 게임을 원할 때 좋습니다.</span></div>
+            <div><strong>실력 포인트</strong><span>점프 리듬, 틈 중앙 보기, 과입력 줄이기입니다.</span></div>
+          </div>
+
           <h2 id="how">게임 방법</h2>
           <p>점프 버튼을 짧게 눌러 캐릭터의 높이를 조절하고 기둥 사이를 통과하는 원버튼 게임입니다. 너무 많이 누르면 위로 튀고, 늦게 누르면 아래로 떨어집니다.</p>
-          <p>플래피 점프는 별도 앱 설치나 로그인이 필요 없습니다. 페이지 안의 플레이 영역에서 바로 시작할 수 있고, 가능한 기록은 현재 브라우저에만 저장됩니다.</p>
+          <p>플래피 점프는 별도 앱 설치나 로그인이 필요 없는 무료 웹게임입니다. 페이지 오른쪽 또는 아래쪽 플레이 영역에서 바로 실행할 수 있고, 결과와 최고 기록은 가능한 경우 현재 브라우저 안에만 저장됩니다.</p>
 
-          <h2 id="tips">공략 팁</h2>
-          <ul>
-            <li>기둥을 보는 것보다 다음 틈의 가운데를 보는 편이 안정적입니다.</li>
-            <li>길게 누르기보다 짧게 여러 번 눌러 높이를 조절합니다.</li>
-            <li>초반에는 점수보다 일정한 리듬을 만드는 데 집중합니다.</li>
+          <h2 id="controls">조작과 진행</h2>
+          <ul class="detail-list">
+            <li>스페이스바, 마우스 클릭, 화면 터치로 점프합니다.</li>
+            <li>점프 입력이 없으면 캐릭터는 아래로 떨어지고, 너무 자주 누르면 위로 치솟습니다.</li>
+            <li>다시 시작 버튼을 누르면 점수와 위치가 초기화됩니다.</li>
           </ul>
 
-          <h2>플레이 흐름</h2>
-          <p>
-            한 판을 시작하면 상단 점수판에서 현재 진행 상태를 확인할 수 있습니다.
-            결과 메시지는 실수, 성공, 최고 기록 여부를 알려 주므로 다음 판에서 무엇을 바꿀지 바로 판단할 수 있습니다.
-          </p>
+          <h2 id="scoring">승리와 점수 기준</h2>
+          <ul class="detail-list">
+            <li>기둥을 통과할 때마다 점수가 오릅니다.</li>
+            <li>기둥이나 바닥, 위쪽 경계에 닿으면 판이 종료됩니다.</li>
+            <li>점수가 높아질수록 같은 리듬을 오래 유지하는 집중력이 중요해집니다.</li>
+          </ul>
+
+          <h2 id="strategy">초보 공략</h2>
+          <ul class="strategy-list">
+            <li>기둥 자체보다 틈의 가운데 지점을 봅니다.</li>
+            <li>길게 누르는 느낌보다 짧게 톡톡 누르는 리듬을 만듭니다.</li>
+            <li>실패 직후 바로 재시작하기보다 방금 너무 많이 눌렀는지 늦게 눌렀는지 확인합니다.</li>
+          </ul>
+
+          <h2>한 단계 더 올리는 전략</h2>
+          <ul class="strategy-list">
+            <li>캐릭터가 떨어지는 속도를 이용해 틈 아래쪽에서 살짝 올리는 방식이 안정적입니다.</li>
+            <li>연속 기둥 간격을 보면 다음 입력을 미리 준비할 수 있습니다.</li>
+            <li>높이를 크게 흔들기보다 좁은 범위에서 작은 보정만 반복하면 점수가 오래 이어집니다.</li>
+          </ul>
+
+          <h2 id="mobile">모바일 플레이 팁</h2>
+          <ul class="detail-list">
+            <li>화면 아무 곳이나 누르기보다 일정한 위치를 정해 리듬을 유지합니다.</li>
+            <li>손가락이 캐릭터와 기둥을 가리지 않도록 아래쪽을 누릅니다.</li>
+            <li>터치 반응을 과하게 의식해 두 번 누르는 실수를 줄입니다.</li>
+          </ul>
+
+          <h2>자주 나오는 실수</h2>
+          <ul class="mistake-list">
+            <li>틈을 본 뒤 늦게 반응해 바닥으로 떨어지는 실수</li>
+            <li>위험하다고 느껴 연속 터치해 위쪽에 부딪히는 실수</li>
+            <li>매 기둥마다 높이를 크게 바꿔 리듬을 잃는 실수</li>
+          </ul>
 
           <h2 id="faq">자주 묻는 질문</h2>
-          <h3>모바일에서도 할 수 있나요?</h3>
-          <p>네. 점프 버튼이나 게임 화면을 터치하면 바로 점프합니다.</p>
-          <h3>모바일에서도 플레이할 수 있나요?</h3>
-          <p>네. 화면 버튼을 함께 제공하며, 작은 화면에서도 게임판과 결과 영역이 겹치지 않도록 구성했습니다.</p>
-          <h3>기록이 사라질 수 있나요?</h3>
-          <p>기록은 브라우저 로컬 저장소를 사용합니다. 브라우저 데이터를 삭제하거나 다른 기기에서 접속하면 기록이 이어지지 않을 수 있습니다.</p>
+          <div class="faq-list">
+          <h3>플래피 점프는 키보드가 필요한가요?</h3>
+          <p>아니요. 스페이스바, 클릭, 터치 입력을 지원합니다.</p>
+          <h3>점수가 오르면 속도도 빨라지나요?</h3>
+          <p>게임 흐름에 따라 난이도가 올라갈 수 있어 같은 리듬을 더 오래 유지해야 합니다.</p>
+          <h3>모바일에서 화면을 누르면 바로 점프하나요?</h3>
+          <p>네. 터치 입력으로 점프할 수 있습니다.</p>
+          <h3>초보자가 오래 버티는 방법은 무엇인가요?</h3>
+          <p>틈의 중앙을 보고 짧은 입력으로 높이를 조금씩 보정하는 연습이 좋습니다.</p>
+          <h3>실패 후 바로 다시 할 수 있나요?</h3>
+          <p>네. 다시 시작 버튼으로 바로 새 판을 시작할 수 있습니다.</p>
+          </div>
+
+          <h2>업데이트 노트</h2>
+          <p class="site-note">2026년 7월 20일 플래피 점프 대표 페이지에 리듬 전략, 입력 방식, 모바일 터치 팁을 추가했습니다.</p>
 
           <h2 id="related">관련 게임</h2>
           <p>
@@ -106,8 +157,8 @@
       </nav>
       <p class="copyright">© <span id="year"></span> Hanpan Games. All rights reserved.</p>
     </footer>
-    <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"VideoGame","name":"플래피 점프","url":"https://hanpan-games.pages.dev/games/flappy-jump/","description":"짧게 점프하며 기둥 사이를 통과하는 원버튼 회피 게임입니다.","applicationCategory":"Game","operatingSystem":"Web Browser","inLanguage":"ko-KR","isAccessibleForFree":true,"publisher":{"@type":"Organization","name":"한판게임즈"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"홈","item":"https://hanpan-games.pages.dev/"},{"@type":"ListItem","position":2,"name":"게임","item":"https://hanpan-games.pages.dev/games/"},{"@type":"ListItem","position":3,"name":"플래피 점프","item":"https://hanpan-games.pages.dev/games/flappy-jump/"}]}]}</script>
-    <script src="/assets/app.js?v=20260720-motion" defer></script>
-    <script src="/assets/arcade.js?v=20260720-motion" defer></script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"VideoGame","name":"플래피 점프","url":"https://hanpan-games.pages.dev/games/flappy-jump/","description":"짧게 점프하며 기둥 사이를 통과하는 원버튼 회피 게임입니다.","applicationCategory":"Game","operatingSystem":"Web Browser","inLanguage":"ko-KR","isAccessibleForFree":true,"publisher":{"@type":"Organization","name":"한판게임즈"}},{"@type":"FAQPage","mainEntity":[{"@type":"Question","name":"플래피 점프는 키보드가 필요한가요?","acceptedAnswer":{"@type":"Answer","text":"아니요. 스페이스바, 클릭, 터치 입력을 지원합니다."}},{"@type":"Question","name":"점수가 오르면 속도도 빨라지나요?","acceptedAnswer":{"@type":"Answer","text":"게임 흐름에 따라 난이도가 올라갈 수 있어 같은 리듬을 더 오래 유지해야 합니다."}},{"@type":"Question","name":"모바일에서 화면을 누르면 바로 점프하나요?","acceptedAnswer":{"@type":"Answer","text":"네. 터치 입력으로 점프할 수 있습니다."}},{"@type":"Question","name":"초보자가 오래 버티는 방법은 무엇인가요?","acceptedAnswer":{"@type":"Answer","text":"틈의 중앙을 보고 짧은 입력으로 높이를 조금씩 보정하는 연습이 좋습니다."}},{"@type":"Question","name":"실패 후 바로 다시 할 수 있나요?","acceptedAnswer":{"@type":"Answer","text":"네. 다시 시작 버튼으로 바로 새 판을 시작할 수 있습니다."}}]},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"홈","item":"https://hanpan-games.pages.dev/"},{"@type":"ListItem","position":2,"name":"게임","item":"https://hanpan-games.pages.dev/games/"},{"@type":"ListItem","position":3,"name":"플래피 점프","item":"https://hanpan-games.pages.dev/games/flappy-jump/"}]}]}</script>
+    <script src="/assets/app.js?v=20260720-depth" defer></script>
+    <script src="/assets/arcade.js?v=20260720-depth" defer></script>
   </body>
 </html>

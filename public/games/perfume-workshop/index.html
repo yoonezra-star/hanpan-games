@@ -4,9 +4,9 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>향수 소트 공방 - 한판게임즈</title>
-    <meta name="description" content="향수 소트 공방는 한판게임즈에서 설치 없이 바로 즐길 수 있는 테스트 게임입니다. 플레이 방법, 공략 팁, 자주 묻는 질문을 확인하고 바로 플레이하세요.">
+    <meta name="description" content="향수 소트 공방 플레이 방법, 조작법, 점수 기준, 초보·심화 전략, 모바일 팁, FAQ를 정리한 무료 웹게임 페이지입니다.">
     <link rel="canonical" href="https://hanpan-games.pages.dev/games/perfume-workshop/">
-    <link rel="stylesheet" href="/assets/styles.css?v=20260720-motion">
+    <link rel="stylesheet" href="/assets/styles.css?v=20260720-depth">
   </head>
   <body>
     <header class="site-header">
@@ -33,39 +33,90 @@
           <a class="button secondary" href="/games/">전체 게임 보기</a>
         </div>
         <ul class="toc-list" aria-label="페이지 목차">
+          <li><a href="#overview">핵심 요약</a></li>
           <li><a href="#how">게임 방법</a></li>
-          <li><a href="#tips">공략 팁</a></li>
-          <li><a href="#faq">자주 묻는 질문</a></li>
+          <li><a href="#controls">조작</a></li>
+          <li><a href="#scoring">점수 기준</a></li>
+          <li><a href="#strategy">공략</a></li>
+          <li><a href="#mobile">모바일 팁</a></li>
+          <li><a href="#faq">FAQ</a></li>
           <li><a href="#related">관련 게임</a></li>
         </ul>
       </section>
 
       <div class="game-detail-grid">
-        <article class="article">
+        <article class="article featured-article">
+          <h2 id="overview">이 게임의 핵심</h2>
+          <p>향수 소트 공방은 병마다 뒤섞인 향 노트를 옮겨 같은 향끼리 정리하는 컬러 소트 퍼즐입니다. 색을 맞추는 단순 퍼즐처럼 보이지만 빈 병을 어떻게 남기느냐가 난이도를 크게 바꿉니다.</p>
+          <p>시각적으로 이해하기 쉬운 병과 향 노트 구조를 사용해 처음 온 사용자도 바로 규칙을 잡을 수 있습니다. 되돌리기를 제한해 한 수의 의미가 살아 있고, 완성 병이 늘어나는 만족감도 분명합니다.</p>
+          <div class="detail-snapshot" aria-label="게임 요약">
+            <div><strong>핵심 목표</strong><span>모든 병을 같은 향 노트끼리 정리합니다.</span></div>
+            <div><strong>추천 상황</strong><span>차분하고 시각적인 퍼즐을 천천히 풀고 싶을 때 좋습니다.</span></div>
+            <div><strong>실력 포인트</strong><span>빈 병 관리, 같은 향 묶음 이동, 되돌리기 절약입니다.</span></div>
+          </div>
+
           <h2 id="how">게임 방법</h2>
           <p>여러 병에 뒤섞인 향 노트를 옮겨 같은 향끼리 모으는 소트 퍼즐입니다. 맨 위에 있는 같은 향 묶음은 한 번에 이동하고, 빈 병이나 같은 향 위에만 부을 수 있습니다.</p>
-          <p>향수 소트 공방는 별도 앱 설치나 로그인이 필요 없습니다. 페이지 안의 플레이 영역에서 바로 시작할 수 있고, 가능한 기록은 현재 브라우저에만 저장됩니다.</p>
+          <p>향수 소트 공방는 별도 앱 설치나 로그인이 필요 없는 무료 웹게임입니다. 페이지 오른쪽 또는 아래쪽 플레이 영역에서 바로 실행할 수 있고, 결과와 최고 기록은 가능한 경우 현재 브라우저 안에만 저장됩니다.</p>
 
-          <h2 id="tips">공략 팁</h2>
-          <ul>
-            <li>빈 병은 작업 공간이므로 초반에 너무 빨리 채우지 않습니다.</li>
-            <li>같은 향을 하나의 병으로 몰아 갈 순서를 먼저 생각합니다.</li>
-            <li>막혔다면 되돌리기를 써서 한 수 전으로 돌아갑니다.</li>
+          <h2 id="controls">조작과 진행</h2>
+          <ul class="detail-list">
+            <li>옮길 병을 먼저 선택하고, 받을 병을 선택하면 맨 위의 같은 향 묶음이 이동합니다.</li>
+            <li>빈 병 또는 맨 위 향이 같은 병에만 부을 수 있습니다.</li>
+            <li>되돌리기 버튼은 제한된 횟수만 사용할 수 있어 막힌 수를 복구할 때 사용합니다.</li>
           </ul>
 
-          <h2>플레이 흐름</h2>
-          <p>
-            한 판을 시작하면 상단 점수판에서 현재 진행 상태를 확인할 수 있습니다.
-            결과 메시지는 실수, 성공, 최고 기록 여부를 알려 주므로 다음 판에서 무엇을 바꿀지 바로 판단할 수 있습니다.
-          </p>
+          <h2 id="scoring">승리와 점수 기준</h2>
+          <ul class="detail-list">
+            <li>모든 병이 비어 있거나 한 가지 향으로만 가득 차면 성공입니다.</li>
+            <li>이동 횟수가 적을수록 더 깔끔한 풀이로 볼 수 있습니다.</li>
+            <li>완성된 병 수는 진행 상태를 보여 주며, 남은 병을 어떻게 풀지 판단하는 기준이 됩니다.</li>
+          </ul>
+
+          <h2 id="strategy">초보 공략</h2>
+          <ul class="strategy-list">
+            <li>빈 병을 바로 채우지 말고 임시 공간으로 남겨 둡니다.</li>
+            <li>맨 위에 같은 향이 여러 개 붙어 있으면 한 번에 옮길 수 있으므로 묶음을 먼저 확인합니다.</li>
+            <li>완성할 향을 하나 정하고 그 향을 한 병으로 모으는 흐름을 만듭니다.</li>
+          </ul>
+
+          <h2>한 단계 더 올리는 전략</h2>
+          <ul class="strategy-list">
+            <li>두 병에 같은 향이 나뉘어 있을 때 어느 병을 먼저 비울지 계산하면 이동 횟수를 줄일 수 있습니다.</li>
+            <li>빈 병이 하나뿐인 상황에서는 다음에 비울 병을 먼저 만들어야 막힘이 줄어듭니다.</li>
+            <li>되돌리기는 단순 실수보다 전체 구조가 막혔을 때 쓰는 편이 가치가 큽니다.</li>
+          </ul>
+
+          <h2 id="mobile">모바일 플레이 팁</h2>
+          <ul class="detail-list">
+            <li>병을 선택하면 살짝 떠오르는 상태를 확인하고 다음 병을 누릅니다.</li>
+            <li>색이 비슷해 보이면 칸 안의 첫 글자 표시를 함께 확인합니다.</li>
+            <li>작은 화면에서는 병을 빠르게 연속으로 누르기보다 선택 상태를 확인한 뒤 이동합니다.</li>
+          </ul>
+
+          <h2>자주 나오는 실수</h2>
+          <ul class="mistake-list">
+            <li>빈 병을 너무 빨리 채워 임시 공간을 없애는 실수</li>
+            <li>완성 직전 병 위에 다른 향을 올려 다시 풀어야 하는 실수</li>
+            <li>되돌리기를 초반 사소한 이동에 모두 쓰는 실수</li>
+          </ul>
 
           <h2 id="faq">자주 묻는 질문</h2>
-          <h3>색이 헷갈리면 어떻게 하나요?</h3>
-          <p>각 향 칸에는 첫 글자도 함께 표시해 색만으로 구분하기 어려운 상황을 줄였습니다.</p>
-          <h3>모바일에서도 플레이할 수 있나요?</h3>
-          <p>네. 화면 버튼을 함께 제공하며, 작은 화면에서도 게임판과 결과 영역이 겹치지 않도록 구성했습니다.</p>
-          <h3>기록이 사라질 수 있나요?</h3>
-          <p>기록은 브라우저 로컬 저장소를 사용합니다. 브라우저 데이터를 삭제하거나 다른 기기에서 접속하면 기록이 이어지지 않을 수 있습니다.</p>
+          <div class="faq-list">
+          <h3>어떤 병으로든 부을 수 있나요?</h3>
+          <p>아니요. 빈 병 또는 맨 위 향이 같은 병에만 부을 수 있습니다.</p>
+          <h3>색을 구분하기 어렵다면 어떻게 하나요?</h3>
+          <p>각 향 칸에 첫 글자도 표시해 색만으로 구분하기 어려운 상황을 줄였습니다.</p>
+          <h3>되돌리기는 무제한인가요?</h3>
+          <p>아니요. 제한된 횟수만 제공하므로 중요한 순간에 사용하는 편이 좋습니다.</p>
+          <h3>모바일에서도 선택 상태가 보이나요?</h3>
+          <p>네. 선택한 병은 시각적으로 떠오르게 표시됩니다.</p>
+          <h3>처음 풀 때 가장 중요한 원칙은 무엇인가요?</h3>
+          <p>빈 병을 작업 공간으로 아끼는 것입니다. 빈 병이 있어야 향 묶음을 안전하게 재배치할 수 있습니다.</p>
+          </div>
+
+          <h2>업데이트 노트</h2>
+          <p class="site-note">2026년 7월 20일 향수 소트 공방 대표 페이지에 빈 병 전략, 되돌리기 운용, 접근성 설명을 강화했습니다.</p>
 
           <h2 id="related">관련 게임</h2>
           <p>
@@ -106,8 +157,8 @@
       </nav>
       <p class="copyright">© <span id="year"></span> Hanpan Games. All rights reserved.</p>
     </footer>
-    <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"VideoGame","name":"향수 소트 공방","url":"https://hanpan-games.pages.dev/games/perfume-workshop/","description":"뒤섞인 향 노트를 병끼리 옮겨 같은 향으로 정렬하는 컬러 소트 퍼즐입니다.","applicationCategory":"Game","operatingSystem":"Web Browser","inLanguage":"ko-KR","isAccessibleForFree":true,"publisher":{"@type":"Organization","name":"한판게임즈"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"홈","item":"https://hanpan-games.pages.dev/"},{"@type":"ListItem","position":2,"name":"게임","item":"https://hanpan-games.pages.dev/games/"},{"@type":"ListItem","position":3,"name":"향수 소트 공방","item":"https://hanpan-games.pages.dev/games/perfume-workshop/"}]}]}</script>
-    <script src="/assets/app.js?v=20260720-motion" defer></script>
-    <script src="/assets/arcade.js?v=20260720-motion" defer></script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"VideoGame","name":"향수 소트 공방","url":"https://hanpan-games.pages.dev/games/perfume-workshop/","description":"뒤섞인 향 노트를 병끼리 옮겨 같은 향으로 정렬하는 컬러 소트 퍼즐입니다.","applicationCategory":"Game","operatingSystem":"Web Browser","inLanguage":"ko-KR","isAccessibleForFree":true,"publisher":{"@type":"Organization","name":"한판게임즈"}},{"@type":"FAQPage","mainEntity":[{"@type":"Question","name":"어떤 병으로든 부을 수 있나요?","acceptedAnswer":{"@type":"Answer","text":"아니요. 빈 병 또는 맨 위 향이 같은 병에만 부을 수 있습니다."}},{"@type":"Question","name":"색을 구분하기 어렵다면 어떻게 하나요?","acceptedAnswer":{"@type":"Answer","text":"각 향 칸에 첫 글자도 표시해 색만으로 구분하기 어려운 상황을 줄였습니다."}},{"@type":"Question","name":"되돌리기는 무제한인가요?","acceptedAnswer":{"@type":"Answer","text":"아니요. 제한된 횟수만 제공하므로 중요한 순간에 사용하는 편이 좋습니다."}},{"@type":"Question","name":"모바일에서도 선택 상태가 보이나요?","acceptedAnswer":{"@type":"Answer","text":"네. 선택한 병은 시각적으로 떠오르게 표시됩니다."}},{"@type":"Question","name":"처음 풀 때 가장 중요한 원칙은 무엇인가요?","acceptedAnswer":{"@type":"Answer","text":"빈 병을 작업 공간으로 아끼는 것입니다. 빈 병이 있어야 향 묶음을 안전하게 재배치할 수 있습니다."}}]},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"홈","item":"https://hanpan-games.pages.dev/"},{"@type":"ListItem","position":2,"name":"게임","item":"https://hanpan-games.pages.dev/games/"},{"@type":"ListItem","position":3,"name":"향수 소트 공방","item":"https://hanpan-games.pages.dev/games/perfume-workshop/"}]}]}</script>
+    <script src="/assets/app.js?v=20260720-depth" defer></script>
+    <script src="/assets/arcade.js?v=20260720-depth" defer></script>
   </body>
 </html>

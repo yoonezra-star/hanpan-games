@@ -4,9 +4,9 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>스도쿠 미니 - 한판게임즈</title>
-    <meta name="description" content="스도쿠 미니는 한판게임즈에서 설치 없이 바로 즐길 수 있는 퍼즐 게임입니다. 플레이 방법, 공략 팁, 자주 묻는 질문을 확인하고 바로 플레이하세요.">
+    <meta name="description" content="스도쿠 미니 플레이 방법, 조작법, 점수 기준, 초보·심화 전략, 모바일 팁, FAQ를 정리한 무료 웹게임 페이지입니다.">
     <link rel="canonical" href="https://hanpan-games.pages.dev/games/sudoku-mini/">
-    <link rel="stylesheet" href="/assets/styles.css?v=20260720-motion">
+    <link rel="stylesheet" href="/assets/styles.css?v=20260720-depth">
   </head>
   <body>
     <header class="site-header">
@@ -33,39 +33,90 @@
           <a class="button secondary" href="/games/">전체 게임 보기</a>
         </div>
         <ul class="toc-list" aria-label="페이지 목차">
+          <li><a href="#overview">핵심 요약</a></li>
           <li><a href="#how">게임 방법</a></li>
-          <li><a href="#tips">공략 팁</a></li>
-          <li><a href="#faq">자주 묻는 질문</a></li>
+          <li><a href="#controls">조작</a></li>
+          <li><a href="#scoring">점수 기준</a></li>
+          <li><a href="#strategy">공략</a></li>
+          <li><a href="#mobile">모바일 팁</a></li>
+          <li><a href="#faq">FAQ</a></li>
           <li><a href="#related">관련 게임</a></li>
         </ul>
       </section>
 
       <div class="game-detail-grid">
-        <article class="article">
+        <article class="article featured-article">
+          <h2 id="overview">이 게임의 핵심</h2>
+          <p>스도쿠 미니는 6x6 보드에서 행, 열, 2x3 박스의 숫자가 겹치지 않도록 빈칸을 채우는 논리 퍼즐입니다. 일반 9x9보다 빠르게 끝나지만 기본 추론 구조는 그대로 살아 있습니다.</p>
+          <p>짧은 쉬는 시간에도 논리 퍼즐을 완성하는 느낌을 주기 위해 판 크기를 줄이고, 충돌 표시와 제한된 힌트를 넣었습니다. 숫자를 찍기보다 후보를 줄이는 방식으로 플레이할 때 가장 재미있습니다.</p>
+          <div class="detail-snapshot" aria-label="게임 요약">
+            <div><strong>핵심 목표</strong><span>모든 빈칸에 1부터 6까지의 숫자를 규칙에 맞게 채웁니다.</span></div>
+            <div><strong>추천 상황</strong><span>차분한 두뇌 게임이나 짧은 논리 퍼즐이 필요할 때 좋습니다.</span></div>
+            <div><strong>실력 포인트</strong><span>후보 줄이기, 박스 확인, 힌트 절약입니다.</span></div>
+          </div>
+
           <h2 id="how">게임 방법</h2>
           <p>6x6 보드의 빈칸을 채워 각 행, 열, 2x3 박스에 같은 숫자가 겹치지 않게 만드는 논리 퍼즐입니다. 충돌하는 숫자는 화면에 표시됩니다.</p>
-          <p>스도쿠 미니는 별도 앱 설치나 로그인이 필요 없습니다. 페이지 안의 플레이 영역에서 바로 시작할 수 있고, 가능한 기록은 현재 브라우저에만 저장됩니다.</p>
+          <p>스도쿠 미니는 별도 앱 설치나 로그인이 필요 없는 무료 웹게임입니다. 페이지 오른쪽 또는 아래쪽 플레이 영역에서 바로 실행할 수 있고, 결과와 최고 기록은 가능한 경우 현재 브라우저 안에만 저장됩니다.</p>
 
-          <h2 id="tips">공략 팁</h2>
-          <ul>
-            <li>가장 후보가 적은 칸부터 채웁니다.</li>
-            <li>행과 열만 보지 말고 2x3 박스 안의 남은 숫자를 함께 확인합니다.</li>
-            <li>힌트는 막힌 구간을 여는 용도로 아껴 씁니다.</li>
+          <h2 id="controls">조작과 진행</h2>
+          <ul class="detail-list">
+            <li>빈칸을 선택하고 숫자를 입력하면 즉시 보드에 반영됩니다.</li>
+            <li>충돌하는 값은 화면에서 오류 상태로 표시되어 규칙 위반을 빠르게 확인할 수 있습니다.</li>
+            <li>힌트 버튼은 한 판에 제한된 횟수만 사용할 수 있어 막힌 지점에서 신중하게 쓰는 편이 좋습니다.</li>
           </ul>
 
-          <h2>플레이 흐름</h2>
-          <p>
-            한 판을 시작하면 상단 점수판에서 현재 진행 상태를 확인할 수 있습니다.
-            결과 메시지는 실수, 성공, 최고 기록 여부를 알려 주므로 다음 판에서 무엇을 바꿀지 바로 판단할 수 있습니다.
-          </p>
+          <h2 id="scoring">승리와 점수 기준</h2>
+          <ul class="detail-list">
+            <li>모든 칸이 규칙에 맞게 채워지면 성공입니다.</li>
+            <li>오류 표시가 남아 있으면 아직 완성된 판으로 인정되지 않습니다.</li>
+            <li>힌트를 적게 쓰고 스스로 후보를 좁힐수록 다음 판에서 더 안정적으로 풀이할 수 있습니다.</li>
+          </ul>
+
+          <h2 id="strategy">초보 공략</h2>
+          <ul class="strategy-list">
+            <li>가장 빈칸이 적은 행이나 열부터 살펴봅니다.</li>
+            <li>행과 열만 보지 말고 2x3 박스 안에 빠진 숫자를 함께 체크합니다.</li>
+            <li>후보가 하나만 남는 칸을 먼저 채우면 다음 단서가 자연스럽게 열립니다.</li>
+          </ul>
+
+          <h2>한 단계 더 올리는 전략</h2>
+          <ul class="strategy-list">
+            <li>특정 숫자가 한 박스 안에서 들어갈 수 있는 위치가 하나뿐인지 확인합니다.</li>
+            <li>행 후보와 열 후보의 교차점을 비교하면 직접 보이지 않는 확정 칸을 찾을 수 있습니다.</li>
+            <li>힌트는 단순 확인보다 새 흐름을 여는 지점에서 사용하는 편이 효율적입니다.</li>
+          </ul>
+
+          <h2 id="mobile">모바일 플레이 팁</h2>
+          <ul class="detail-list">
+            <li>숫자를 입력한 뒤 보드가 밀리지 않도록 화면을 세로로 두고 천천히 진행합니다.</li>
+            <li>작은 칸에서 오입력이 나면 바로 지우고 같은 행, 열, 박스를 다시 확인합니다.</li>
+            <li>힌트 버튼은 실수로 누르지 않도록 풀이가 완전히 막혔을 때만 사용합니다.</li>
+          </ul>
+
+          <h2>자주 나오는 실수</h2>
+          <ul class="mistake-list">
+            <li>행만 보고 박스 규칙을 빼먹는 실수</li>
+            <li>후보를 확인하지 않고 빈칸 순서대로 숫자를 넣는 실수</li>
+            <li>오류 표시를 방치한 채 뒤쪽 칸을 계속 채우는 실수</li>
+          </ul>
 
           <h2 id="faq">자주 묻는 질문</h2>
-          <h3>힌트는 몇 번 쓸 수 있나요?</h3>
-          <p>한 판에 3번까지 사용할 수 있습니다.</p>
-          <h3>모바일에서도 플레이할 수 있나요?</h3>
-          <p>네. 화면 버튼을 함께 제공하며, 작은 화면에서도 게임판과 결과 영역이 겹치지 않도록 구성했습니다.</p>
-          <h3>기록이 사라질 수 있나요?</h3>
-          <p>기록은 브라우저 로컬 저장소를 사용합니다. 브라우저 데이터를 삭제하거나 다른 기기에서 접속하면 기록이 이어지지 않을 수 있습니다.</p>
+          <div class="faq-list">
+          <h3>일반 스도쿠보다 쉬운가요?</h3>
+          <p>판은 작지만 행, 열, 박스 중복 금지라는 기본 규칙은 같습니다. 입문용으로 빠르게 익히기 좋습니다.</p>
+          <h3>힌트는 몇 번 사용할 수 있나요?</h3>
+          <p>한 판에 제한된 횟수만 사용할 수 있습니다. 너무 빨리 쓰면 뒤쪽에서 막힐 때 선택지가 줄어듭니다.</p>
+          <h3>오답을 넣으면 바로 끝나나요?</h3>
+          <p>바로 실패하지 않고 오류 상태로 알려 줍니다. 표시를 보고 값을 고쳐 이어서 풀 수 있습니다.</p>
+          <h3>모바일에서도 숫자 입력이 편한가요?</h3>
+          <p>숫자 입력 칸이 모바일에 맞게 반응하도록 구성되어 있습니다.</p>
+          <h3>스도쿠를 처음 하면 어디부터 보면 좋나요?</h3>
+          <p>빈칸이 적은 행, 열, 박스부터 확인하면 후보가 빠르게 줄어듭니다.</p>
+          </div>
+
+          <h2>업데이트 노트</h2>
+          <p class="site-note">2026년 7월 20일 스도쿠 미니 대표 페이지에 풀이 흐름, 후보 전략, 오류 처리 안내를 보강했습니다.</p>
 
           <h2 id="related">관련 게임</h2>
           <p>
@@ -106,8 +157,8 @@
       </nav>
       <p class="copyright">© <span id="year"></span> Hanpan Games. All rights reserved.</p>
     </footer>
-    <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"VideoGame","name":"스도쿠 미니","url":"https://hanpan-games.pages.dev/games/sudoku-mini/","description":"6x6 스도쿠 판을 완성하고 충돌 표시와 제한 힌트를 활용합니다.","applicationCategory":"Game","operatingSystem":"Web Browser","inLanguage":"ko-KR","isAccessibleForFree":true,"publisher":{"@type":"Organization","name":"한판게임즈"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"홈","item":"https://hanpan-games.pages.dev/"},{"@type":"ListItem","position":2,"name":"게임","item":"https://hanpan-games.pages.dev/games/"},{"@type":"ListItem","position":3,"name":"스도쿠 미니","item":"https://hanpan-games.pages.dev/games/sudoku-mini/"}]}]}</script>
-    <script src="/assets/app.js?v=20260720-motion" defer></script>
-    <script src="/assets/arcade.js?v=20260720-motion" defer></script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"VideoGame","name":"스도쿠 미니","url":"https://hanpan-games.pages.dev/games/sudoku-mini/","description":"6x6 스도쿠 판을 완성하고 충돌 표시와 제한 힌트를 활용합니다.","applicationCategory":"Game","operatingSystem":"Web Browser","inLanguage":"ko-KR","isAccessibleForFree":true,"publisher":{"@type":"Organization","name":"한판게임즈"}},{"@type":"FAQPage","mainEntity":[{"@type":"Question","name":"일반 스도쿠보다 쉬운가요?","acceptedAnswer":{"@type":"Answer","text":"판은 작지만 행, 열, 박스 중복 금지라는 기본 규칙은 같습니다. 입문용으로 빠르게 익히기 좋습니다."}},{"@type":"Question","name":"힌트는 몇 번 사용할 수 있나요?","acceptedAnswer":{"@type":"Answer","text":"한 판에 제한된 횟수만 사용할 수 있습니다. 너무 빨리 쓰면 뒤쪽에서 막힐 때 선택지가 줄어듭니다."}},{"@type":"Question","name":"오답을 넣으면 바로 끝나나요?","acceptedAnswer":{"@type":"Answer","text":"바로 실패하지 않고 오류 상태로 알려 줍니다. 표시를 보고 값을 고쳐 이어서 풀 수 있습니다."}},{"@type":"Question","name":"모바일에서도 숫자 입력이 편한가요?","acceptedAnswer":{"@type":"Answer","text":"숫자 입력 칸이 모바일에 맞게 반응하도록 구성되어 있습니다."}},{"@type":"Question","name":"스도쿠를 처음 하면 어디부터 보면 좋나요?","acceptedAnswer":{"@type":"Answer","text":"빈칸이 적은 행, 열, 박스부터 확인하면 후보가 빠르게 줄어듭니다."}}]},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"홈","item":"https://hanpan-games.pages.dev/"},{"@type":"ListItem","position":2,"name":"게임","item":"https://hanpan-games.pages.dev/games/"},{"@type":"ListItem","position":3,"name":"스도쿠 미니","item":"https://hanpan-games.pages.dev/games/sudoku-mini/"}]}]}</script>
+    <script src="/assets/app.js?v=20260720-depth" defer></script>
+    <script src="/assets/arcade.js?v=20260720-depth" defer></script>
   </body>
 </html>
