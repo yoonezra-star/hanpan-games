@@ -20,6 +20,8 @@ if (catalog.length < 30) {
   throw new Error(`Expected at least 30 games, found ${catalog.length}`);
 }
 
+const customPageIds = new Set(["tic-tac-toe"]);
+
 const categoryNames = {
   arcade: "아케이드",
   puzzle: "퍼즐",
@@ -265,8 +267,11 @@ function pageHtml(game) {
 
 for (const game of catalog) {
   const dir = path.join(publicDir, "games", game.id);
+  const outputPath = path.join(dir, "index.html");
   fs.mkdirSync(dir, { recursive: true });
-  fs.writeFileSync(path.join(dir, "index.html"), pageHtml(game), "utf8");
+  if (!customPageIds.has(game.id) || !fs.existsSync(outputPath)) {
+    fs.writeFileSync(outputPath, pageHtml(game), "utf8");
+  }
 }
 
 const staticUrls = [
@@ -300,4 +305,4 @@ ${staticUrls.concat(gameUrls).map((item) => `  <url>
 `;
 
 fs.writeFileSync(path.join(publicDir, "sitemap.xml"), sitemap, "utf8");
-console.log(`Generated ${catalog.length} game pages and sitemap entries.`);
+console.log(`Generated ${catalog.length} game pages and sitemap entries. Preserved ${customPageIds.size} custom page.`);

@@ -984,6 +984,278 @@ a:focus-visible {
   border-color: var(--ink);
 }
 
+.tictactoe-page,
+.tic-game {
+  --tic-text-primary: #ffffff;
+  --tic-text-secondary: #ffe500;
+  --tic-text-muted: #ececec;
+  --tic-text-dark: #222222;
+  --tic-surface-base: #000000;
+  --tic-surface-muted: #12121a;
+  --tic-surface-raised: #0a0a0a;
+  --tic-line: rgba(255, 229, 0, 0.34);
+  --tic-blue: #5ec8ff;
+  --tic-orange: #ffb45e;
+  --tic-shadow-blue: 0 6px 22px rgba(94, 200, 255, 0.3);
+  --tic-shadow-orange: 0 4px 16px rgba(255, 180, 94, 0.2);
+  --tic-shadow-soft: 0 2px 10px rgba(0, 0, 0, 0.28);
+}
+
+.tictactoe-page .page-title {
+  max-width: none;
+  padding: 26px;
+  color: var(--tic-text-primary);
+  background: var(--tic-surface-base);
+  border: 1px solid var(--tic-line);
+  border-radius: 14px;
+  box-shadow: var(--tic-shadow-soft);
+}
+
+.tictactoe-page .page-title h1,
+.tictactoe-page .page-title p {
+  color: var(--tic-text-primary);
+}
+
+.tictactoe-page .page-title .eyebrow,
+.tictactoe-page .toc-list a {
+  color: var(--tic-text-secondary);
+}
+
+.tictactoe-page .article,
+.tictactoe-page .inline-game-stage {
+  color: var(--tic-text-primary);
+  background: var(--tic-surface-muted);
+  border-color: var(--tic-line);
+  box-shadow: var(--tic-shadow-soft);
+}
+
+.tictactoe-page .article h2,
+.tictactoe-page .article h3,
+.tictactoe-page .inline-game-stage h2 {
+  color: var(--tic-text-primary);
+}
+
+.tictactoe-page .article p,
+.tictactoe-page .article ul,
+.tictactoe-page .article li,
+.tictactoe-page .site-note {
+  color: var(--tic-text-muted);
+}
+
+.tictactoe-page .article a {
+  color: var(--tic-text-secondary);
+  font-weight: 900;
+}
+
+.tictactoe-page .result-line {
+  color: var(--tic-text-secondary) !important;
+}
+
+.tic-feature-grid,
+.tic-rule-list,
+.tic-history {
+  display: grid;
+  gap: 10px;
+}
+
+.tic-feature-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  margin: 18px 0 0;
+}
+
+.tic-feature-card,
+.tic-history-item {
+  padding: 16px;
+  background: var(--tic-surface-raised);
+  border: 1px solid var(--tic-line);
+  border-radius: 14px;
+}
+
+.tic-feature-card strong,
+.tic-history-item strong {
+  display: block;
+  color: var(--tic-text-secondary);
+}
+
+.tic-game {
+  display: grid;
+  gap: 14px;
+}
+
+.tic-scoreboard {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.tic-scoreboard span {
+  display: grid;
+  gap: 2px;
+  min-height: 66px;
+  padding: 10px;
+  background: var(--tic-surface-raised);
+  border: 1px solid var(--tic-line);
+  border-radius: 14px;
+}
+
+.tic-scoreboard b {
+  color: var(--tic-text-secondary);
+  font-size: 24px;
+  line-height: 1;
+}
+
+.tic-scoreboard small {
+  color: var(--tic-text-muted);
+  font-size: 13px;
+  font-weight: 900;
+}
+
+.tic-control-panel {
+  display: grid;
+  gap: 10px;
+}
+
+.tic-control-group {
+  display: grid;
+  gap: 6px;
+}
+
+.tic-control-label {
+  color: var(--tic-text-muted);
+  font-size: 13px;
+  font-weight: 900;
+}
+
+.tic-segment {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.tic-segment-button {
+  min-height: 40px;
+  padding: 0 12px;
+  color: var(--tic-text-muted);
+  background: var(--tic-surface-raised);
+  border: 1px solid var(--tic-line);
+  border-radius: 14px;
+  font: inherit;
+  font-size: 14px;
+  font-weight: 900;
+  cursor: pointer;
+  transition: transform 150ms ease, border-color 150ms ease, background 150ms ease, color 150ms ease;
+}
+
+.tic-segment-button:hover:not(:disabled),
+.tic-segment-button.active {
+  color: var(--tic-text-dark);
+  background: var(--tic-text-secondary);
+  border-color: var(--tic-text-secondary);
+}
+
+.tic-segment-button:active:not(:disabled) {
+  transform: translateY(1px);
+}
+
+.tic-segment-button:disabled {
+  opacity: 0.48;
+  cursor: not-allowed;
+}
+
+.tic-board-wrap {
+  display: grid;
+  place-items: center;
+  padding: 12px;
+  background: var(--tic-surface-base);
+  border: 1px solid var(--tic-line);
+  border-radius: 14px;
+}
+
+.tic-board {
+  display: grid;
+  width: min(100%, 390px);
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.tic-cell {
+  display: grid;
+  place-items: center;
+  aspect-ratio: 1;
+  min-height: 86px;
+  color: var(--tic-text-primary);
+  background: var(--tic-surface-muted);
+  border: 2px solid rgba(255, 255, 255, 0.24);
+  border-radius: 14px;
+  font: inherit;
+  font-size: clamp(42px, 10vw, 72px);
+  font-weight: 1000;
+  line-height: 1;
+  cursor: pointer;
+  transition: transform 150ms ease, border-color 150ms ease, box-shadow 150ms ease, background 150ms ease;
+}
+
+.tic-cell:hover:not(:disabled) {
+  transform: translateY(-2px);
+  border-color: var(--tic-text-secondary);
+  box-shadow: var(--tic-shadow-blue);
+}
+
+.tic-cell:active:not(:disabled) {
+  transform: translateY(1px);
+}
+
+.tic-cell:disabled {
+  cursor: default;
+  opacity: 1;
+}
+
+.tic-cell[data-mark="X"] {
+  color: var(--tic-blue);
+  border-color: rgba(94, 200, 255, 0.48);
+  box-shadow: var(--tic-shadow-blue);
+}
+
+.tic-cell[data-mark="O"] {
+  color: var(--tic-orange);
+  border-color: rgba(255, 180, 94, 0.52);
+  box-shadow: var(--tic-shadow-orange);
+}
+
+.tic-cell.winning {
+  color: var(--tic-text-dark);
+  background: var(--tic-text-secondary);
+  border-color: var(--tic-text-secondary);
+}
+
+.tic-game[aria-busy="true"] .tic-board {
+  opacity: 0.78;
+}
+
+.tic-status,
+.tic-insight {
+  margin: 0;
+  padding: 12px 14px;
+  color: var(--tic-text-primary);
+  background: var(--tic-surface-raised);
+  border: 1px solid var(--tic-line);
+  border-radius: 14px;
+}
+
+.tic-insight {
+  color: var(--tic-text-secondary);
+  font-size: 14px;
+  font-weight: 900;
+}
+
+.tic-actions {
+  justify-content: center;
+}
+
+.tic-note {
+  color: var(--tic-text-muted);
+}
+
 .board-2048 .mini-cell {
   min-height: clamp(58px, 9vw, 96px);
   font-size: clamp(18px, 4vw, 34px);
@@ -1432,6 +1704,10 @@ a:focus-visible {
     position: static;
   }
 
+  .tic-feature-grid {
+    grid-template-columns: 1fr;
+  }
+
   .arcade-sidebar {
     position: static;
     max-height: none;
@@ -1518,6 +1794,18 @@ a:focus-visible {
 
   .station-pill {
     min-height: 38px;
+  }
+
+  .tic-scoreboard {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .tic-cell {
+    min-height: 76px;
+  }
+
+  .tic-board-wrap {
+    padding: 10px;
   }
 
   .mini-window {

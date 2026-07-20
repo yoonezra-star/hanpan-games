@@ -3,8 +3,8 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>틱택토 - 한판게임즈</title>
-    <meta name="description" content="틱택토는 한판게임즈에서 설치 없이 바로 즐길 수 있는 보드·전략 게임입니다. 플레이 방법, 공략 팁, 자주 묻는 질문을 확인하고 바로 플레이하세요.">
+    <title>틱택토 Tic-Tac-Toe - 무료 온라인 전략 게임 | 한판게임즈</title>
+    <meta name="description" content="틱택토 Tic-Tac-Toe를 설치 없이 플레이하세요. 미니맥스 AI 대전, 2인 로컬 대전, 난이도와 선후공 선택, 키보드 조작, 무패 전략과 FAQ를 제공합니다.">
     <link rel="canonical" href="https://hanpan-games.pages.dev/games/tic-tac-toe/">
     <link rel="stylesheet" href="/assets/styles.css">
   </head>
@@ -23,49 +23,102 @@
       </nav>
     </header>
 
-    <main class="subpage game-detail-page">
+    <main class="subpage game-detail-page tictactoe-page">
       <section class="page-title">
-        <p class="eyebrow">보드·전략 · 1분</p>
-        <h1 id="playTitle">틱택토</h1>
-        <p id="playDescription">세 칸을 먼저 잇는 클래식 보드 게임입니다.</p>
+        <p class="eyebrow">보드·전략 · 2분</p>
+        <h1 id="playTitle">틱택토 Tic-Tac-Toe</h1>
+        <p id="playDescription">미니맥스 AI와 겨루거나 같은 화면에서 친구와 번갈아 두는 3×3 전략 보드 게임입니다.</p>
         <div class="link-row">
           <a class="button primary" href="#play-area">바로 플레이</a>
           <a class="button secondary" href="/games/">전체 게임 보기</a>
         </div>
         <ul class="toc-list" aria-label="페이지 목차">
+          <li><a href="#intro">틱택토란?</a></li>
           <li><a href="#how">게임 방법</a></li>
-          <li><a href="#tips">공략 팁</a></li>
+          <li><a href="#controls">조작법</a></li>
+          <li><a href="#strategy">무패 전략</a></li>
+          <li><a href="#history">틱택토의 역사</a></li>
           <li><a href="#faq">자주 묻는 질문</a></li>
-          <li><a href="#related">관련 게임</a></li>
         </ul>
       </section>
 
       <div class="game-detail-grid">
         <article class="article">
-          <h2 id="how">게임 방법</h2>
-          <p>짧은 규칙을 읽고 바로 시작할 수 있는 브라우저 미니게임입니다. 화면의 점수판과 결과 안내를 보면서 한 판씩 기록을 갱신해 보세요.</p>
-          <p>틱택토는 별도 앱 설치나 로그인이 필요 없습니다. 페이지 안의 플레이 영역에서 바로 시작할 수 있고, 가능한 기록은 현재 브라우저에만 저장됩니다.</p>
+          <h2 id="intro">틱택토란?</h2>
+          <p>틱택토는 3×3 격자판에 X와 O를 번갈아 놓고, 가로·세로·대각선 중 한 줄을 먼저 완성하면 이기는 전략 게임입니다. 규칙은 짧지만 중앙, 모서리, 포크를 읽는 순간부터 수 싸움이 깊어집니다.</p>
+          <p>한판게임즈 틱택토는 혼자 AI와 대결하는 모드와 같은 기기에서 두 명이 번갈아 두는 2인 대전 모드를 모두 지원합니다. AI 어려움은 미니맥스 알고리즘을 사용해 완벽에 가까운 수를 둡니다.</p>
 
-          <h2 id="tips">공략 팁</h2>
-          <ul>
-            <li>처음 한 판은 규칙을 익히는 데 사용합니다.</li>
-            <li>결과 메시지를 보고 다음 판에서 줄일 실수를 정합니다.</li>
-            <li>모바일에서는 화면 버튼을 천천히 눌러 조작감을 먼저 확인합니다.</li>
+          <div class="tic-feature-grid" aria-label="틱택토 주요 기능">
+            <div class="tic-feature-card">
+              <strong>AI 대전</strong>
+              <span>쉬움, 보통, 어려움 난이도를 고르고 선공 또는 후공으로 플레이합니다.</span>
+            </div>
+            <div class="tic-feature-card">
+              <strong>2인 대전</strong>
+              <span>계정이나 방 만들기 없이 같은 화면에서 X와 O가 번갈아 둡니다.</span>
+            </div>
+            <div class="tic-feature-card">
+              <strong>키보드 지원</strong>
+              <span>숫자키 1~9로 칸을 선택하고 N 키로 새 판을 시작할 수 있습니다.</span>
+            </div>
+            <div class="tic-feature-card">
+              <strong>전적 누적</strong>
+              <span>현재 브라우저 세션 동안 X 승, O 승, 무승부와 무패 흐름을 확인합니다.</span>
+            </div>
+          </div>
+
+          <h2 id="how">게임 방법</h2>
+          <p>게임 영역 상단에서 AI 대전 또는 2인 대전을 선택합니다. AI 대전에서는 난이도와 내 표시를 고를 수 있고, X는 항상 선공입니다. 자신의 차례가 되면 빈 칸을 선택해 표시를 놓습니다.</p>
+          <ul class="tic-rule-list">
+            <li>가로 3줄, 세로 3줄, 대각선 2줄 중 하나를 같은 표시로 먼저 채우면 승리합니다.</li>
+            <li>9칸이 모두 채워졌는데 승리 줄이 없으면 무승부입니다.</li>
+            <li>AI가 생각하는 동안에는 보드가 잠기며, 다음 수가 놓이면 다시 선택할 수 있습니다.</li>
+            <li>새 판 버튼은 전적을 유지한 채 보드만 초기화합니다. 전적 초기화는 현재 세션 전적을 모두 지웁니다.</li>
           </ul>
 
-          <h2>플레이 흐름</h2>
-          <p>
-            한 판을 시작하면 상단 점수판에서 현재 진행 상태를 확인할 수 있습니다.
-            결과 메시지는 실수, 성공, 최고 기록 여부를 알려 주므로 다음 판에서 무엇을 바꿀지 바로 판단할 수 있습니다.
-          </p>
+          <h2 id="controls">조작법</h2>
+          <p>PC에서는 마우스로 빈 칸을 클릭하고, 모바일에서는 손가락으로 탭합니다. 키보드 사용자는 왼쪽 위부터 오른쪽 아래까지 숫자키 1~9로 칸을 고를 수 있습니다.</p>
+          <p>모든 버튼은 포커스 표시를 제공하며, 이미 놓인 칸과 AI 계산 중인 칸은 비활성화됩니다. 화면 낭독기는 현재 차례와 결과 메시지를 실시간으로 읽을 수 있습니다.</p>
+
+          <h2 id="strategy">무패 전략</h2>
+          <p>틱택토는 양쪽이 최선의 수를 두면 무승부가 되는 게임입니다. 어려움 AI를 상대할 때는 억지 승리보다 지지 않는 수순을 유지하는 것이 핵심입니다.</p>
+          <ul class="tic-rule-list">
+            <li>중앙이 비어 있으면 중앙부터 잡습니다. 중앙은 네 개의 승리선에 관여합니다.</li>
+            <li>중앙을 빼앗겼다면 모서리를 우선합니다. 모서리는 포크를 만들기 쉽습니다.</li>
+            <li>상대가 두 칸을 이었으면 다음 차례에 반드시 막습니다.</li>
+            <li>내가 동시에 두 줄을 위협하는 포크를 만들면 상대는 한 줄밖에 막지 못합니다.</li>
+            <li>어려움 AI와는 무승부를 목표로 두고, 쉬움과 보통에서 공격 패턴을 연습합니다.</li>
+          </ul>
+
+          <h2 id="history">틱택토의 역사</h2>
+          <div class="tic-history">
+            <div class="tic-history-item">
+              <strong>고대의 격자 게임</strong>
+              <span>세 칸을 잇는 형태의 격자 놀이는 오래전부터 여러 문화권에서 발견됩니다.</span>
+            </div>
+            <div class="tic-history-item">
+              <strong>Noughts and Crosses</strong>
+              <span>영국권에서는 나우츠 앤 크로스라는 이름으로 불리며 종이와 연필 게임으로 널리 퍼졌습니다.</span>
+            </div>
+            <div class="tic-history-item">
+              <strong>초기 컴퓨터 게임</strong>
+              <span>틱택토는 단순한 규칙과 명확한 승패 덕분에 초기 컴퓨터 AI 예제로 자주 사용됐습니다.</span>
+            </div>
+            <div class="tic-history-item">
+              <strong>오늘의 웹게임</strong>
+              <span>지금은 설치 없이 브라우저에서 AI, 터치, 키보드 조작을 갖춘 짧은 전략 게임으로 즐길 수 있습니다.</span>
+            </div>
+          </div>
 
           <h2 id="faq">자주 묻는 질문</h2>
-          <h3>기록은 어디에 저장되나요?</h3>
-          <p>최고 기록은 가능한 경우 현재 브라우저 안에만 저장됩니다.</p>
-          <h3>모바일에서도 플레이할 수 있나요?</h3>
-          <p>네. 화면 버튼을 함께 제공하며, 작은 화면에서도 게임판과 결과 영역이 겹치지 않도록 구성했습니다.</p>
-          <h3>기록이 사라질 수 있나요?</h3>
-          <p>기록은 브라우저 로컬 저장소를 사용합니다. 브라우저 데이터를 삭제하거나 다른 기기에서 접속하면 기록이 이어지지 않을 수 있습니다.</p>
+          <h3>어려움 AI를 이길 수 있나요?</h3>
+          <p>상대가 완벽하게 둔다면 틱택토의 최선 결과는 무승부입니다. 어려움 AI는 미니맥스 기반이라 실수를 거의 하지 않으므로, 먼저 지지 않는 수를 익히는 것이 좋습니다.</p>
+          <h3>2인 대전은 온라인 멀티플레이인가요?</h3>
+          <p>현재는 같은 화면에서 번갈아 두는 로컬 2인 대전입니다. 별도 로그인이나 방 생성 없이 바로 플레이할 수 있습니다.</p>
+          <h3>전적은 어디에 저장되나요?</h3>
+          <p>X 승, O 승, 무승부는 현재 브라우저 세션에 저장됩니다. 브라우저를 닫거나 세션이 초기화되면 사라질 수 있습니다.</p>
+          <h3>모바일에서도 잘 되나요?</h3>
+          <p>보드는 화면 폭에 맞춰 줄어들고, 칸은 터치하기 충분한 크기를 유지합니다. 작은 화면에서도 점수판과 조작 버튼이 겹치지 않도록 구성했습니다.</p>
 
           <h2 id="related">관련 게임</h2>
           <p>
@@ -77,8 +130,8 @@
         <section class="inline-game-stage" id="play-area" aria-live="polite">
           <div class="stage-head">
             <div>
-              <p class="eyebrow" id="playCategory">보드·전략 · 1분</p>
-              <h2 id="stageTitle">틱택토</h2>
+              <p class="eyebrow" id="playCategory">보드·전략 · 2분</p>
+              <h2 id="stageTitle">틱택토 Tic-Tac-Toe</h2>
             </div>
             <div class="stage-actions">
               <a class="button secondary" href="/play/?game=tic-tac-toe">큰 화면</a>
@@ -94,7 +147,7 @@
     <footer class="site-footer">
       <div>
         <strong>한판게임즈</strong>
-        <p>틱택토와 함께 즐기는 무료 웹 미니게임.</p>
+        <p>틱택토 Tic-Tac-Toe와 함께 즐기는 무료 웹 미니게임.</p>
       </div>
       <nav aria-label="푸터 메뉴">
         <a href="/about/">소개</a>
@@ -106,7 +159,7 @@
       </nav>
       <p class="copyright">© <span id="year"></span> Hanpan Games. All rights reserved.</p>
     </footer>
-    <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"VideoGame","name":"틱택토","url":"https://hanpan-games.pages.dev/games/tic-tac-toe/","description":"세 칸을 먼저 잇는 클래식 보드 게임입니다.","applicationCategory":"Game","operatingSystem":"Web Browser","inLanguage":"ko-KR","isAccessibleForFree":true,"publisher":{"@type":"Organization","name":"한판게임즈"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"홈","item":"https://hanpan-games.pages.dev/"},{"@type":"ListItem","position":2,"name":"게임","item":"https://hanpan-games.pages.dev/games/"},{"@type":"ListItem","position":3,"name":"틱택토","item":"https://hanpan-games.pages.dev/games/tic-tac-toe/"}]}]}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"VideoGame","name":"틱택토 Tic-Tac-Toe","url":"https://hanpan-games.pages.dev/games/tic-tac-toe/","description":"미니맥스 AI, 2인 대전, 난이도와 선후공 선택을 갖춘 무료 온라인 틱택토 게임입니다.","applicationCategory":"Game","operatingSystem":"Web Browser","inLanguage":"ko-KR","isAccessibleForFree":true,"genre":["BoardGame","StrategyGame"],"publisher":{"@type":"Organization","name":"한판게임즈"}},{"@type":"FAQPage","mainEntity":[{"@type":"Question","name":"어려움 AI를 이길 수 있나요?","acceptedAnswer":{"@type":"Answer","text":"상대가 완벽하게 둔다면 틱택토의 최선 결과는 무승부입니다. 어려움 AI는 미니맥스 기반이라 실수를 거의 하지 않습니다."}},{"@type":"Question","name":"2인 대전은 온라인 멀티플레이인가요?","acceptedAnswer":{"@type":"Answer","text":"현재는 같은 화면에서 번갈아 두는 로컬 2인 대전입니다. 별도 로그인이나 방 생성 없이 바로 플레이할 수 있습니다."}},{"@type":"Question","name":"전적은 어디에 저장되나요?","acceptedAnswer":{"@type":"Answer","text":"X 승, O 승, 무승부는 현재 브라우저 세션에 저장됩니다. 브라우저를 닫거나 세션이 초기화되면 사라질 수 있습니다."}}]},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"홈","item":"https://hanpan-games.pages.dev/"},{"@type":"ListItem","position":2,"name":"게임","item":"https://hanpan-games.pages.dev/games/"},{"@type":"ListItem","position":3,"name":"틱택토 Tic-Tac-Toe","item":"https://hanpan-games.pages.dev/games/tic-tac-toe/"}]}]}</script>
     <script src="/assets/app.js" defer></script>
     <script src="/assets/arcade.js" defer></script>
   </body>

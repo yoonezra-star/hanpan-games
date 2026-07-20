@@ -26,7 +26,7 @@
     { id: "chair-dash", title: "의자 질주", category: "arcade", type: "chair", minutes: "2분", description: "바퀴 달린 의자를 타고 사무실 통로를 미끄러지듯 달려 목적지에 도착합니다." },
     { id: "dessert-catch", title: "디저트 캐치", category: "arcade", type: "catcher", minutes: "1분", description: "떨어지는 디저트를 받아 점수를 올리고 탄 음식은 피합니다." },
     { id: "planet-toss", title: "행성 던지기", category: "arcade", type: "toss", minutes: "1분", description: "각도와 힘을 골라 목표 궤도에 행성을 던져 넣습니다." },
-    { id: "tic-tac-toe", title: "틱택토", category: "board", type: "tictactoe", minutes: "1분", description: "세 칸을 먼저 잇는 클래식 보드 게임입니다." },
+    { id: "tic-tac-toe", title: "틱택토 Tic-Tac-Toe", category: "board", type: "tictactoe", minutes: "2분", description: "미니맥스 AI, 2인 대전, 난이도와 선후공 선택을 갖춘 전략 보드 게임입니다." },
     { id: "connect-four", title: "사목 미니", category: "board", type: "connect4", minutes: "2분", description: "말을 떨어뜨려 네 개를 먼저 잇는 전략 게임입니다." },
     { id: "blackjack", title: "블랙잭 21", category: "board", type: "blackjack", minutes: "3분", description: "칩을 걸고 히트, 스탠드, 더블다운을 선택하며 딜러와 겨룹니다." },
     { id: "danger-dice", title: "위험한 주사위", category: "board", type: "dice", minutes: "1분", description: "계속 굴릴지 멈출지 결정해 목표 점수에 도전합니다." },
@@ -208,7 +208,7 @@
       $("#playDescription").textContent = current.description;
       $("#stageTitle").textContent = current.title;
       $("#playCategory").textContent = `${categoryNames[current.category]} · ${current.minutes}`;
-      document.title = `${current.title} - 한판게임즈`;
+      if (!surface.dataset.gameId) document.title = `${current.title} - 한판게임즈`;
       surface.innerHTML = "";
       setResult("게임을 시작해 보세요.");
       drawPicker();
@@ -1772,33 +1772,429 @@
   }
 
   function renderTicTacToe(game, surface) {
-    const board = Array(9).fill("");
-    const grid = makeGrid(9, "mini-grid");
-    surface.appendChild(grid);
-    function winner(mark) {
-      return [[0,1,2],[3,4,5],[6,7,8],[0,3,6],[1,4,7],[2,5,8],[0,4,8],[2,4,6]].some(function (line) {
-        return line.every(function (index) { return board[index] === mark; });
-      });
-    }
-    function draw() {
-      Array.from(grid.children).forEach(function (cell, index) {
-        cell.textContent = board[index];
-        cell.disabled = Boolean(board[index]);
-      });
-    }
-    Array.from(grid.children).forEach(function (cell, index) {
-      cell.addEventListener("click", function () {
-        if (board[index]) return;
-        board[index] = "O";
-        if (winner("O")) { draw(); setResult("승리했습니다."); return; }
-        const empty = board.map(function (value, i) { return value ? null : i; }).filter(function (value) { return value !== null; });
-        if (!empty.length) { draw(); setResult("무승부입니다."); return; }
-        board[sample(empty)] = "X";
-        draw();
-        setResult(winner("X") ? "상대가 이겼습니다." : "다음 수를 골라 보세요.");
-      });
+    surface.classList.add("tic-game");
+    const lines = [
+      [0, 1, 2], [3, 4, 5], [6, 7, 8],
+      [0, 3, 6], [1, 4, 7], [2, 5, 8],
+      [0, 4, 8], [2, 4, 6]
+    ];
+    const positions = [
+      "왼쪽 위", "위 가운데", "오른쪽 위",
+      "왼쪽 가운데", "중앙", "오른쪽 가운데",
+      "왼쪽 아래", "아래 가운데", "오른쪽 아래"
+    ];
+    const scoreKey = "hanpan-tictactoe-session";
+    let board = Array(9).fill("");
+    let mode = "ai";
+    let difficulty = "hard";
+    let humanMark = "X";
+    let aiMark = "O";
+    let turn = "X";
+    let gameOver = false;
+    let locked = false;
+    let winningLine = [];
+    let aiTimer = null;
+    let roundToken = 0;
+    let scores = loadScores();
+
+    const status = document.createElement("div");
+    status.className = "tic-status";
+    status.setAttribute("aria-live", "polite");
+
+    const scoreWrap = document.createElement("div");
+    scoreWrap.className = "tic-scoreboard";
+    const scoreItems = [
+      { key: "x", label: "X 승" },
+      { key: "o", label: "O 승" },
+      { key: "draw", label: "무승부" },
+      { key: "streak", label: "무패" }
+    ];
+    const statNodes = {};
+    scoreItems.forEach(function (item) {
+      const box = document.createElement("span");
+      const value = document.createElement("b");
+      const label = document.createElement("small");
+      value.textContent = "0";
+      label.textContent = item.label;
+      box.append(value, label);
+      scoreWrap.appendChild(box);
+      statNodes[item.key] = value;
     });
-    draw();
+
+    const controls = document.createElement("div");
+    controls.className = "tic-control-panel";
+    const modeButtons = makeSegment("대전 모드", [
+      ["ai", "AI 대전"],
+      ["local", "2인 대전"]
+    ], function (value) {
+      mode = value;
+      if (mode === "local") humanMark = "X";
+      startRound("새 모드로 판을 열었습니다.");
+    });
+    const difficultyButtons = makeSegment("AI 난이도", [
+      ["easy", "쉬움"],
+      ["normal", "보통"],
+      ["hard", "어려움"]
+    ], function (value) {
+      difficulty = value;
+      startRound("난이도를 바꾸고 새 판을 시작했습니다.");
+    });
+    const sideButtons = makeSegment("내 표시", [
+      ["X", "X 선공"],
+      ["O", "O 후공"]
+    ], function (value) {
+      humanMark = value;
+      startRound(value === "X" ? "X 선공으로 시작합니다." : "O 후공으로 시작합니다. AI가 먼저 둡니다.");
+    });
+    controls.append(modeButtons.wrap, difficultyButtons.wrap, sideButtons.wrap);
+
+    const boardWrap = document.createElement("div");
+    boardWrap.className = "tic-board-wrap";
+    const grid = document.createElement("div");
+    grid.className = "tic-board";
+    grid.setAttribute("role", "grid");
+    grid.setAttribute("aria-label", "틱택토 3 곱하기 3 보드");
+    const cells = Array.from({ length: 9 }, function (_, index) {
+      const cell = button("", "tic-cell");
+      cell.dataset.index = String(index);
+      cell.setAttribute("aria-keyshortcuts", String(index + 1));
+      cell.addEventListener("click", function () { playCell(index); });
+      grid.appendChild(cell);
+      return cell;
+    });
+    boardWrap.appendChild(grid);
+
+    const insight = document.createElement("p");
+    insight.className = "tic-insight";
+    const actions = document.createElement("div");
+    actions.className = "mini-controls tic-actions";
+    const newRound = button("새 판", "button primary");
+    const resetScore = button("전적 초기화", "button secondary");
+    actions.append(newRound, resetScore);
+    const guide = document.createElement("p");
+    guide.className = "mini-note tic-note";
+    guide.textContent = "마우스와 터치로 빈 칸을 선택하거나 숫자키 1~9를 눌러 둘 수 있습니다. N 키는 새 판을 시작합니다.";
+
+    surface.append(scoreWrap, controls, status, boardWrap, insight, actions, guide);
+
+    function loadScores() {
+      try {
+        const parsed = JSON.parse(sessionStorage.getItem(scoreKey) || "null");
+        if (parsed && typeof parsed === "object") {
+          return {
+            x: Number(parsed.x) || 0,
+            o: Number(parsed.o) || 0,
+            draw: Number(parsed.draw) || 0,
+            streak: Number(parsed.streak) || 0
+          };
+        }
+      } catch (error) {
+        return { x: 0, o: 0, draw: 0, streak: 0 };
+      }
+      return { x: 0, o: 0, draw: 0, streak: 0 };
+    }
+
+    function storeScores() {
+      try {
+        sessionStorage.setItem(scoreKey, JSON.stringify(scores));
+      } catch (error) {
+        return false;
+      }
+      return true;
+    }
+
+    function makeSegment(labelText, entries, onSelect) {
+      const wrap = document.createElement("div");
+      wrap.className = "tic-control-group";
+      const label = document.createElement("span");
+      label.className = "tic-control-label";
+      label.textContent = labelText;
+      const row = document.createElement("div");
+      row.className = "tic-segment";
+      const buttons = entries.map(function (entry) {
+        const item = button(entry[1], "tic-segment-button");
+        item.dataset.value = entry[0];
+        item.addEventListener("click", function () { onSelect(entry[0]); });
+        row.appendChild(item);
+        return item;
+      });
+      wrap.append(label, row);
+      return { wrap, buttons };
+    }
+
+    function available(state) {
+      return state
+        .map(function (value, index) { return value ? null : index; })
+        .filter(function (value) { return value !== null; });
+    }
+
+    function outcome(state) {
+      for (const line of lines) {
+        const mark = state[line[0]];
+        if (mark && line.every(function (index) { return state[index] === mark; })) {
+          return { mark, line };
+        }
+      }
+      return available(state).length ? null : { mark: "draw", line: [] };
+    }
+
+    function nextMark(mark) {
+      return mark === "X" ? "O" : "X";
+    }
+
+    function findImmediate(mark) {
+      for (const index of available(board)) {
+        const copy = board.slice();
+        copy[index] = mark;
+        const result = outcome(copy);
+        if (result && result.mark === mark) return index;
+      }
+      return null;
+    }
+
+    function randomMove() {
+      const free = available(board);
+      return free.length ? sample(free) : null;
+    }
+
+    function minimax(state, mark, depth, memo) {
+      const result = outcome(state);
+      if (result) {
+        if (result.mark === aiMark) return 10 - depth;
+        if (result.mark === humanMark) return depth - 10;
+        return 0;
+      }
+      const key = `${state.join("-")}|${mark}`;
+      if (memo.has(key)) return memo.get(key);
+      const scoresForMoves = available(state).map(function (index) {
+        const copy = state.slice();
+        copy[index] = mark;
+        return minimax(copy, nextMark(mark), depth + 1, memo);
+      });
+      const score = mark === aiMark ? Math.max.apply(null, scoresForMoves) : Math.min.apply(null, scoresForMoves);
+      memo.set(key, score);
+      return score;
+    }
+
+    function bestMove() {
+      const memo = new Map();
+      let bestScore = -Infinity;
+      let bestIndexes = [];
+      available(board).forEach(function (index) {
+        const copy = board.slice();
+        copy[index] = aiMark;
+        const score = minimax(copy, humanMark, 0, memo);
+        if (score > bestScore) {
+          bestScore = score;
+          bestIndexes = [index];
+        } else if (score === bestScore) {
+          bestIndexes.push(index);
+        }
+      });
+      return bestIndexes.length ? sample(bestIndexes) : null;
+    }
+
+    function chooseAiMove() {
+      const win = findImmediate(aiMark);
+      const block = findImmediate(humanMark);
+      if (difficulty === "easy") {
+        if (win !== null && Math.random() < 0.35) return win;
+        if (block !== null && Math.random() < 0.25) return block;
+        return Math.random() < 0.2 ? bestMove() : randomMove();
+      }
+      if (difficulty === "normal") {
+        if (win !== null) return win;
+        if (block !== null && Math.random() < 0.85) return block;
+        return Math.random() < 0.65 ? bestMove() : randomMove();
+      }
+      return bestMove();
+    }
+
+    function setStatus(text) {
+      status.textContent = text;
+      setResult(text);
+    }
+
+    function turnMessage() {
+      if (gameOver) return "판이 종료되었습니다.";
+      if (locked) return "AI가 다음 수를 계산하고 있습니다.";
+      if (mode === "ai") {
+        return turn === humanMark ? `${humanMark} 차례입니다. 빈 칸을 선택하세요.` : "AI 차례입니다.";
+      }
+      return `${turn} 차례입니다. 다음 플레이어가 빈 칸을 선택하세요.`;
+    }
+
+    function updateControls() {
+      modeButtons.buttons.forEach(function (item) {
+        const active = item.dataset.value === mode;
+        item.classList.toggle("active", active);
+        item.setAttribute("aria-pressed", String(active));
+      });
+      difficultyButtons.buttons.forEach(function (item) {
+        const active = item.dataset.value === difficulty;
+        item.classList.toggle("active", active);
+        item.setAttribute("aria-pressed", String(active));
+        item.disabled = mode !== "ai";
+      });
+      sideButtons.buttons.forEach(function (item) {
+        const active = item.dataset.value === humanMark;
+        item.classList.toggle("active", active);
+        item.setAttribute("aria-pressed", String(active));
+        item.disabled = mode !== "ai";
+      });
+    }
+
+    function updateBoard() {
+      const canHumanPlay = !gameOver && !locked && (mode === "local" || turn === humanMark);
+      cells.forEach(function (cell, index) {
+        const mark = board[index];
+        cell.textContent = mark;
+        cell.dataset.mark = mark || "empty";
+        cell.disabled = !canHumanPlay || Boolean(mark);
+        cell.classList.toggle("winning", winningLine.includes(index));
+        cell.setAttribute("aria-label", mark ? `${positions[index]} ${mark}` : `${positions[index]} 빈 칸, 단축키 ${index + 1}`);
+      });
+    }
+
+    function updateStats() {
+      statNodes.x.textContent = String(scores.x);
+      statNodes.o.textContent = String(scores.o);
+      statNodes.draw.textContent = String(scores.draw);
+      statNodes.streak.textContent = String(scores.streak);
+    }
+
+    function updateInsight() {
+      const center = board[4];
+      const corners = [0, 2, 6, 8].filter(function (index) { return board[index]; }).length;
+      if (gameOver) {
+        insight.textContent = "다음 판에서는 중앙, 모서리, 상대의 두 칸 위협 순서로 확인해 보세요.";
+      } else if (!center) {
+        insight.textContent = "전략 힌트: 중앙은 네 방향 승리선에 걸쳐 있어 가장 강한 시작점입니다.";
+      } else if (corners < 2) {
+        insight.textContent = "전략 힌트: 중앙이 막혔다면 모서리에서 포크 기회를 만드세요.";
+      } else {
+        insight.textContent = "전략 힌트: 상대가 두 칸을 이으면 즉시 막고, 동시에 두 줄을 위협하는 포크를 노리세요.";
+      }
+    }
+
+    function sync(message) {
+      surface.setAttribute("aria-busy", locked ? "true" : "false");
+      updateControls();
+      updateBoard();
+      updateStats();
+      updateInsight();
+      setStatus(message || turnMessage());
+    }
+
+    function finish(result) {
+      gameOver = true;
+      locked = false;
+      winningLine = result.line || [];
+      if (result.mark === "draw") {
+        scores.draw += 1;
+        if (mode === "ai") scores.streak += 1;
+        storeScores();
+        const best = saveBest(game.id, scores.streak, function (a, b) { return a > b; });
+        sync(best ? `무승부입니다. 무패 ${scores.streak}판으로 새 최고 기록입니다.` : "무승부입니다. 완벽한 수 싸움이었습니다.");
+        return;
+      }
+      if (result.mark === "X") scores.x += 1;
+      if (result.mark === "O") scores.o += 1;
+      if (mode === "ai") {
+        if (result.mark === humanMark) scores.streak += 1;
+        else scores.streak = 0;
+      }
+      storeScores();
+      if (mode === "ai") {
+        if (result.mark === humanMark) {
+          const best = saveBest(game.id, scores.streak, function (a, b) { return a > b; });
+          sync(best ? `${result.mark} 승리. AI를 꺾고 무패 ${scores.streak}판 최고 기록을 세웠습니다.` : `${result.mark} 승리. 좋은 포크와 차단이었습니다.`);
+        } else {
+          sync(`${result.mark} 승리. AI가 세 칸을 완성했습니다.`);
+        }
+      } else {
+        sync(`${result.mark} 승리. 같은 표시 세 칸이 연결되었습니다.`);
+      }
+    }
+
+    function afterMove(mark) {
+      const result = outcome(board);
+      if (result) {
+        finish(result);
+        return;
+      }
+      turn = nextMark(mark);
+      sync();
+      if (mode === "ai" && turn === aiMark) queueAi();
+    }
+
+    function playCell(index) {
+      if (locked || gameOver || board[index]) return;
+      if (mode === "ai" && turn !== humanMark) return;
+      board[index] = mode === "ai" ? humanMark : turn;
+      afterMove(board[index]);
+    }
+
+    function queueAi() {
+      locked = true;
+      const token = roundToken;
+      sync("AI가 다음 수를 계산하고 있습니다.");
+      clearTimeout(aiTimer);
+      aiTimer = setTimeout(function () {
+        if (token !== roundToken || gameOver) return;
+        const move = chooseAiMove();
+        locked = false;
+        if (move === null) return;
+        board[move] = aiMark;
+        afterMove(aiMark);
+      }, difficulty === "hard" ? 220 : 360);
+    }
+
+    function startRound(message) {
+      clearTimeout(aiTimer);
+      roundToken += 1;
+      board = Array(9).fill("");
+      winningLine = [];
+      gameOver = false;
+      locked = false;
+      turn = "X";
+      aiMark = humanMark === "X" ? "O" : "X";
+      if (mode === "local") aiMark = "O";
+      sync(message || "새 판을 시작했습니다.");
+      if (mode === "ai" && aiMark === "X") queueAi();
+      else setTimeout(function () {
+        const nextCell = cells.find(function (cell) { return !cell.disabled; });
+        if (nextCell) nextCell.focus();
+      }, 0);
+    }
+
+    function resetSession() {
+      scores = { x: 0, o: 0, draw: 0, streak: 0 };
+      storeScores();
+      startRound("전적을 초기화하고 새 판을 시작했습니다.");
+    }
+
+    function onKey(event) {
+      if (event.altKey || event.ctrlKey || event.metaKey) return;
+      if (/^[1-9]$/.test(event.key)) {
+        event.preventDefault();
+        playCell(Number(event.key) - 1);
+      }
+      if (event.key.toLowerCase() === "n") {
+        event.preventDefault();
+        startRound("단축키로 새 판을 시작했습니다.");
+      }
+    }
+
+    newRound.addEventListener("click", function () { startRound("새 판을 시작했습니다."); });
+    resetScore.addEventListener("click", resetSession);
+    document.addEventListener("keydown", onKey);
+    cleanup.push(function () {
+      clearTimeout(aiTimer);
+      document.removeEventListener("keydown", onKey);
+      surface.classList.remove("tic-game");
+    });
+    startRound("AI 대전 어려움 난이도로 시작합니다. X 차례입니다.");
   }
 
   function renderConnect4(game, surface) {
