@@ -16,6 +16,10 @@
     { id: "aim-trainer", title: "에임 트레이너", category: "skill", type: "target", minutes: "1분", description: "무작위 위치에 뜨는 표적을 빠르게 눌러 정확도를 올립니다." },
     { id: "mole-finder", title: "두더지 찾기", category: "arcade", type: "mole", minutes: "1분", description: "여러 구멍 중 튀어나온 두더지를 찾아 누르는 순발력 게임입니다." },
     { id: "brick-break", title: "벽돌깨기 미니", category: "arcade", type: "brick", minutes: "2분", description: "패들을 움직여 공을 받아내고 벽돌을 모두 깨며 레벨을 올립니다." },
+    { id: "block-drop-classic", title: "블록 드롭 클래식", category: "puzzle", type: "tetris", minutes: "4분", description: "떨어지는 블록을 회전하고 쌓아 가로줄을 지우는 고전 퍼즐입니다." },
+    { id: "pong-rally", title: "퐁 랠리", category: "arcade", type: "pong", minutes: "2분", description: "패들을 움직여 공을 받아내고 상대보다 먼저 득점하는 클래식 랠리 게임입니다." },
+    { id: "space-guard", title: "우주 방어선", category: "arcade", type: "space", minutes: "3분", description: "좌우로 움직이며 탄을 쏘고 내려오는 적 편대를 막아내는 슈팅 게임입니다." },
+    { id: "flappy-jump", title: "플래피 점프", category: "arcade", type: "flappy", minutes: "1분", description: "짧게 점프하며 기둥 사이를 통과하는 원버튼 회피 게임입니다." },
     { id: "bubble-pop", title: "버블팝", category: "arcade", type: "target", minutes: "1분", description: "반짝이는 버블을 놓치지 않고 눌러 점수를 모읍니다." },
     { id: "snake-garden", title: "뱀의 정원", category: "arcade", type: "snake", minutes: "2분", description: "정원을 돌아다니며 먹이를 먹고 몸을 늘리는 그리드 게임입니다." },
     { id: "airplane-dodge", title: "붕붕 비행기", category: "arcade", type: "lane", minutes: "1분", description: "세 개의 항로를 오가며 장애물을 피하는 비행 게임입니다." },
@@ -222,6 +226,10 @@
       target: renderTarget,
       mole: renderMole,
       brick: renderBrick,
+      tetris: renderTetris,
+      pong: renderPong,
+      space: renderSpaceGuard,
+      flappy: renderFlappy,
       snake: renderSnake,
       lane: renderLane,
       catcher: renderCatcher,
@@ -691,6 +699,760 @@
     resetBall();
     sync();
     step();
+  }
+
+  function renderTetris(game, surface) {
+    const cols = 10;
+    const rows = 20;
+    const cell = 24;
+    let board = Array.from({ length: rows }, function () { return Array(cols).fill(0); });
+    let piece = null;
+    let nextPiece = null;
+    let score = 0;
+    let lines = 0;
+    let level = 1;
+    let running = false;
+    let over = false;
+    let dropTimer = null;
+    let frame = null;
+    const pieces = [
+      { color: "#2877b9", shape: [[1,1,1,1]] },
+      { color: "#df4b38", shape: [[1,1],[1,1]] },
+      { color: "#258b62", shape: [[0,1,0],[1,1,1]] },
+      { color: "#c88b19", shape: [[1,0,0],[1,1,1]] },
+      { color: "#b9476a", shape: [[0,0,1],[1,1,1]] },
+      { color: "#df8b38", shape: [[0,1,1],[1,1,0]] },
+      { color: "#4b7f72", shape: [[1,1,0],[0,1,1]] }
+    ];
+    renderScore(surface, [
+      { label: "점수", value: "0" },
+      { label: "줄", value: "0" },
+      { label: "레벨", value: "1" },
+      { label: "최고", value: getBest(game.id) || "-" }
+    ]);
+    const stats = surface.querySelectorAll(".mini-score b");
+    const canvas = document.createElement("canvas");
+    canvas.className = "arcade-canvas tall-canvas";
+    canvas.width = cols * cell;
+    canvas.height = rows * cell;
+    canvas.setAttribute("aria-label", "블록 드롭 클래식 게임 화면");
+    surface.appendChild(canvas);
+    const ctx = canvas.getContext("2d");
+    const controls = document.createElement("div");
+    controls.className = "mini-controls pad-controls";
+    const start = button("시작", "button primary");
+    const leftBtn = button("왼쪽", "button secondary");
+    const rotateBtn = button("회전", "button secondary");
+    const rightBtn = button("오른쪽", "button secondary");
+    const downBtn = button("빠르게", "button secondary");
+    controls.append(start, leftBtn, rotateBtn, rightBtn, downBtn);
+    const guide = document.createElement("p");
+    guide.className = "mini-note";
+    guide.textContent = "방향키로 이동하고 위쪽 키로 회전합니다. 한 줄을 채우면 사라지고, 레벨이 오르면 낙하 속도가 빨라집니다.";
+    surface.append(controls, guide);
+    function cloneShape(shape) {
+      return shape.map(function (row) { return row.slice(); });
+    }
+    function makePiece() {
+      const base = sample(pieces);
+      return { shape: cloneShape(base.shape), color: base.color, x: 3, y: 0 };
+    }
+    function rotateShape(shape) {
+      return shape[0].map(function (_, c) {
+        return shape.map(function (row) { return row[c]; }).reverse();
+      });
+    }
+    function collides(testPiece, dx, dy, shape) {
+      const targetShape = shape || testPiece.shape;
+      for (let r = 0; r < targetShape.length; r += 1) {
+        for (let c = 0; c < targetShape[r].length; c += 1) {
+          if (!targetShape[r][c]) continue;
+          const x = testPiece.x + c + dx;
+          const y = testPiece.y + r + dy;
+          if (x < 0 || x >= cols || y >= rows) return true;
+          if (y >= 0 && board[y][x]) return true;
+        }
+      }
+      return false;
+    }
+    function lockPiece() {
+      piece.shape.forEach(function (row, r) {
+        row.forEach(function (value, c) {
+          if (value && piece.y + r >= 0) board[piece.y + r][piece.x + c] = piece.color;
+        });
+      });
+      clearLines();
+      spawn();
+    }
+    function clearLines() {
+      let removed = 0;
+      board = board.filter(function (row) {
+        if (row.every(Boolean)) {
+          removed += 1;
+          return false;
+        }
+        return true;
+      });
+      while (board.length < rows) board.unshift(Array(cols).fill(0));
+      if (removed) {
+        lines += removed;
+        score += [0, 100, 300, 500, 800][removed] * level;
+        level = 1 + Math.floor(lines / 5);
+        sync();
+        restartDrop();
+        setResult(`${removed}줄 제거. 레벨 ${level}입니다.`);
+      }
+    }
+    function spawn() {
+      piece = nextPiece || makePiece();
+      piece.x = 3;
+      piece.y = 0;
+      nextPiece = makePiece();
+      if (collides(piece, 0, 0)) {
+        over = true;
+        running = false;
+        clearInterval(dropTimer);
+        start.textContent = "다시 시작";
+        const isBest = saveBest(game.id, score, function (a, b) { return a > b; });
+        setResult(isBest ? `게임 종료. 새 최고 점수 ${score}점입니다.` : `게임 종료. ${score}점입니다.`);
+      }
+    }
+    function sync() {
+      stats[0].textContent = String(score);
+      stats[1].textContent = String(lines);
+      stats[2].textContent = String(level);
+    }
+    function move(dx, dy) {
+      if (!piece || over) return false;
+      if (!collides(piece, dx, dy)) {
+        piece.x += dx;
+        piece.y += dy;
+        return true;
+      }
+      if (dy > 0) lockPiece();
+      return false;
+    }
+    function rotate() {
+      if (!piece || over) return;
+      const next = rotateShape(piece.shape);
+      if (!collides(piece, 0, 0, next)) piece.shape = next;
+      else if (!collides(piece, -1, 0, next)) { piece.x -= 1; piece.shape = next; }
+      else if (!collides(piece, 1, 0, next)) { piece.x += 1; piece.shape = next; }
+    }
+    function hardDrop() {
+      if (!running || over) return;
+      while (move(0, 1)) score += 1;
+      sync();
+    }
+    function drop() {
+      if (running && !over) move(0, 1);
+    }
+    function restartDrop() {
+      clearInterval(dropTimer);
+      if (running && !over) dropTimer = setInterval(drop, Math.max(130, 620 - level * 55));
+    }
+    function drawCell(x, y, color) {
+      ctx.fillStyle = color;
+      ctx.fillRect(x * cell + 1, y * cell + 1, cell - 2, cell - 2);
+      ctx.strokeStyle = "#1d2433";
+      ctx.lineWidth = 1.5;
+      ctx.strokeRect(x * cell + 1, y * cell + 1, cell - 2, cell - 2);
+    }
+    function draw() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.fillStyle = "#fffaf0";
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      ctx.strokeStyle = "rgba(29,36,51,0.12)";
+      for (let x = 0; x <= cols; x += 1) {
+        ctx.beginPath();
+        ctx.moveTo(x * cell, 0);
+        ctx.lineTo(x * cell, canvas.height);
+        ctx.stroke();
+      }
+      for (let y = 0; y <= rows; y += 1) {
+        ctx.beginPath();
+        ctx.moveTo(0, y * cell);
+        ctx.lineTo(canvas.width, y * cell);
+        ctx.stroke();
+      }
+      board.forEach(function (row, r) {
+        row.forEach(function (value, c) { if (value) drawCell(c, r, value); });
+      });
+      if (piece) {
+        piece.shape.forEach(function (row, r) {
+          row.forEach(function (value, c) { if (value) drawCell(piece.x + c, piece.y + r, piece.color); });
+        });
+      }
+      if (!running) {
+        ctx.fillStyle = "rgba(29,36,51,0.74)";
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        ctx.fillStyle = "#fffdf7";
+        ctx.font = "700 22px sans-serif";
+        ctx.textAlign = "center";
+        ctx.fillText(over ? "게임 종료" : "시작을 눌러 플레이", canvas.width / 2, canvas.height / 2);
+      }
+      frame = requestAnimationFrame(draw);
+    }
+    function reset() {
+      board = Array.from({ length: rows }, function () { return Array(cols).fill(0); });
+      score = 0;
+      lines = 0;
+      level = 1;
+      over = false;
+      nextPiece = makePiece();
+      spawn();
+      sync();
+    }
+    function toggle() {
+      if (over) reset();
+      running = !running;
+      start.textContent = running ? "일시정지" : "계속";
+      setResult(running ? "블록을 쌓아 줄을 지워 보세요." : "일시정지했습니다.");
+      restartDrop();
+    }
+    function onKey(event) {
+      if (!["ArrowLeft", "ArrowRight", "ArrowDown", "ArrowUp", " "].includes(event.key)) return;
+      event.preventDefault();
+      if (event.type !== "keydown" || event.repeat) return;
+      if (!running && event.key === " ") {
+        toggle();
+        return;
+      }
+      if (!running && event.key !== " ") toggle();
+      if (event.key === "ArrowLeft") move(-1, 0);
+      if (event.key === "ArrowRight") move(1, 0);
+      if (event.key === "ArrowDown") move(0, 1);
+      if (event.key === "ArrowUp") rotate();
+      if (event.key === " ") hardDrop();
+      sync();
+    }
+    start.addEventListener("click", toggle);
+    leftBtn.addEventListener("click", function () { move(-1, 0); });
+    rightBtn.addEventListener("click", function () { move(1, 0); });
+    rotateBtn.addEventListener("click", rotate);
+    downBtn.addEventListener("click", function () { move(0, 1); });
+    document.addEventListener("keydown", onKey);
+    cleanup.push(function () {
+      clearInterval(dropTimer);
+      cancelAnimationFrame(frame);
+      document.removeEventListener("keydown", onKey);
+    });
+    reset();
+    draw();
+  }
+
+  function renderPong(game, surface) {
+    const width = 640;
+    const height = 360;
+    let player = 140;
+    let enemy = 140;
+    let ball = { x: width / 2, y: height / 2, dx: 4.2, dy: 3.1, r: 8 };
+    let playerScore = 0;
+    let enemyScore = 0;
+    let rally = 0;
+    let running = false;
+    let up = false;
+    let down = false;
+    let frame = null;
+    renderScore(surface, [
+      { label: "내 점수", value: "0" },
+      { label: "상대", value: "0" },
+      { label: "랠리", value: "0" },
+      { label: "최고 랠리", value: getBest(game.id) || "-" }
+    ]);
+    const stats = surface.querySelectorAll(".mini-score b");
+    const canvas = document.createElement("canvas");
+    canvas.className = "arcade-canvas wide-canvas";
+    canvas.width = width;
+    canvas.height = height;
+    canvas.setAttribute("aria-label", "퐁 랠리 게임 화면");
+    surface.appendChild(canvas);
+    const ctx = canvas.getContext("2d");
+    const controls = document.createElement("div");
+    controls.className = "mini-controls pad-controls";
+    const start = button("시작", "button primary");
+    const upBtn = button("위", "button secondary");
+    const downBtn = button("아래", "button secondary");
+    controls.append(start, upBtn, downBtn);
+    const guide = document.createElement("p");
+    guide.className = "mini-note";
+    guide.textContent = "위아래 방향키나 버튼으로 왼쪽 패들을 움직입니다. 먼저 5점을 얻으면 승리합니다.";
+    surface.append(controls, guide);
+    function sync() {
+      stats[0].textContent = String(playerScore);
+      stats[1].textContent = String(enemyScore);
+      stats[2].textContent = String(rally);
+    }
+    function resetBall(direction) {
+      ball.x = width / 2;
+      ball.y = height / 2;
+      ball.dx = direction * (4 + Math.random() * 1.2);
+      ball.dy = (Math.random() > 0.5 ? 1 : -1) * (2.4 + Math.random() * 1.8);
+      rally = 0;
+    }
+    function endCheck() {
+      if (playerScore >= 5 || enemyScore >= 5) {
+        running = false;
+        start.textContent = "다시 시작";
+        if (playerScore > enemyScore) setResult("승리했습니다. 패들 각도로 더 긴 랠리에 도전해 보세요.");
+        else setResult("상대가 먼저 5점을 얻었습니다.");
+      }
+    }
+    function update() {
+      if (running) {
+        if (up) player -= 7;
+        if (down) player += 7;
+        player = Math.max(12, Math.min(height - 92, player));
+        enemy += (ball.y - (enemy + 40)) * 0.075;
+        enemy = Math.max(12, Math.min(height - 92, enemy));
+        ball.x += ball.dx;
+        ball.y += ball.dy;
+        if (ball.y < ball.r || ball.y > height - ball.r) ball.dy *= -1;
+        if (ball.x - ball.r < 30 && ball.y > player && ball.y < player + 80 && ball.dx < 0) {
+          ball.dx = Math.abs(ball.dx) + 0.18;
+          ball.dy += (ball.y - (player + 40)) * 0.045;
+          rally += 1;
+          saveBest(game.id, rally, function (a, b) { return a > b; });
+        }
+        if (ball.x + ball.r > width - 30 && ball.y > enemy && ball.y < enemy + 80 && ball.dx > 0) {
+          ball.dx = -Math.abs(ball.dx) - 0.12;
+          ball.dy += (ball.y - (enemy + 40)) * 0.035;
+          rally += 1;
+        }
+        if (ball.x < -20) {
+          enemyScore += 1;
+          resetBall(1);
+          endCheck();
+        }
+        if (ball.x > width + 20) {
+          playerScore += 1;
+          resetBall(-1);
+          endCheck();
+        }
+        sync();
+      }
+    }
+    function draw() {
+      update();
+      ctx.clearRect(0, 0, width, height);
+      ctx.fillStyle = "#fffaf0";
+      ctx.fillRect(0, 0, width, height);
+      ctx.setLineDash([10, 10]);
+      ctx.strokeStyle = "rgba(29,36,51,0.25)";
+      ctx.beginPath();
+      ctx.moveTo(width / 2, 0);
+      ctx.lineTo(width / 2, height);
+      ctx.stroke();
+      ctx.setLineDash([]);
+      ctx.fillStyle = "#2877b9";
+      ctx.fillRect(18, player, 14, 80);
+      ctx.fillStyle = "#df4b38";
+      ctx.fillRect(width - 32, enemy, 14, 80);
+      ctx.beginPath();
+      ctx.arc(ball.x, ball.y, ball.r, 0, Math.PI * 2);
+      ctx.fillStyle = "#ffcf5d";
+      ctx.fill();
+      ctx.strokeStyle = "#1d2433";
+      ctx.lineWidth = 2;
+      ctx.stroke();
+      if (!running) {
+        ctx.fillStyle = "rgba(29,36,51,0.72)";
+        ctx.fillRect(0, 0, width, height);
+        ctx.fillStyle = "#fffdf7";
+        ctx.font = "700 26px sans-serif";
+        ctx.textAlign = "center";
+        ctx.fillText("시작을 눌러 랠리", width / 2, height / 2);
+      }
+      frame = requestAnimationFrame(draw);
+    }
+    function toggle() {
+      if (playerScore >= 5 || enemyScore >= 5) {
+        playerScore = 0;
+        enemyScore = 0;
+        resetBall(Math.random() > 0.5 ? 1 : -1);
+      }
+      running = !running;
+      start.textContent = running ? "일시정지" : "계속";
+      setResult(running ? "공을 놓치지 말고 받아내세요." : "일시정지했습니다.");
+      sync();
+    }
+    function hold(which, value) {
+      if (which === "up") up = value;
+      if (which === "down") down = value;
+    }
+    function onKey(event) {
+      if (!["ArrowUp", "ArrowDown", " "].includes(event.key)) return;
+      event.preventDefault();
+      if (event.key === "ArrowUp") hold("up", event.type === "keydown");
+      if (event.key === "ArrowDown") hold("down", event.type === "keydown");
+      if (event.key === " " && event.type === "keydown" && !event.repeat) toggle();
+    }
+    start.addEventListener("click", toggle);
+    upBtn.addEventListener("pointerdown", function () { hold("up", true); });
+    upBtn.addEventListener("pointerup", function () { hold("up", false); });
+    upBtn.addEventListener("pointerleave", function () { hold("up", false); });
+    downBtn.addEventListener("pointerdown", function () { hold("down", true); });
+    downBtn.addEventListener("pointerup", function () { hold("down", false); });
+    downBtn.addEventListener("pointerleave", function () { hold("down", false); });
+    canvas.addEventListener("pointermove", function (event) {
+      const rect = canvas.getBoundingClientRect();
+      player = Math.max(12, Math.min(height - 92, (event.clientY - rect.top) / rect.height * height - 40));
+    });
+    document.addEventListener("keydown", onKey);
+    document.addEventListener("keyup", onKey);
+    cleanup.push(function () {
+      cancelAnimationFrame(frame);
+      document.removeEventListener("keydown", onKey);
+      document.removeEventListener("keyup", onKey);
+    });
+    resetBall(Math.random() > 0.5 ? 1 : -1);
+    sync();
+    draw();
+  }
+
+  function renderSpaceGuard(game, surface) {
+    const width = 640;
+    const height = 390;
+    let ship = width / 2;
+    let bullets = [];
+    let enemies = [];
+    let score = 0;
+    let lives = 3;
+    let wave = 1;
+    let running = false;
+    let frame = null;
+    let left = false;
+    let right = false;
+    let lastShot = 0;
+    renderScore(surface, [
+      { label: "점수", value: "0" },
+      { label: "목숨", value: "3" },
+      { label: "웨이브", value: "1" },
+      { label: "최고", value: getBest(game.id) || "-" }
+    ]);
+    const stats = surface.querySelectorAll(".mini-score b");
+    const canvas = document.createElement("canvas");
+    canvas.className = "arcade-canvas wide-canvas";
+    canvas.width = width;
+    canvas.height = height;
+    canvas.setAttribute("aria-label", "우주 방어선 게임 화면");
+    surface.appendChild(canvas);
+    const ctx = canvas.getContext("2d");
+    const controls = document.createElement("div");
+    controls.className = "mini-controls pad-controls";
+    const start = button("시작", "button primary");
+    const leftBtn = button("왼쪽", "button secondary");
+    const fireBtn = button("발사", "button secondary");
+    const rightBtn = button("오른쪽", "button secondary");
+    controls.append(start, leftBtn, fireBtn, rightBtn);
+    const guide = document.createElement("p");
+    guide.className = "mini-note";
+    guide.textContent = "좌우 방향키로 이동하고 스페이스바로 발사합니다. 적 편대가 바닥까지 내려오기 전에 막아내세요.";
+    surface.append(controls, guide);
+    function buildWave() {
+      enemies = [];
+      const rows = Math.min(3 + wave, 6);
+      const cols = 8;
+      for (let r = 0; r < rows; r += 1) {
+        for (let c = 0; c < cols; c += 1) {
+          enemies.push({ x: 72 + c * 62, y: 34 + r * 32, alive: true });
+        }
+      }
+    }
+    function sync() {
+      stats[0].textContent = String(score);
+      stats[1].textContent = String(lives);
+      stats[2].textContent = String(wave);
+    }
+    function shoot() {
+      const now = Date.now();
+      if (!running || now - lastShot < 180) return;
+      lastShot = now;
+      bullets.push({ x: ship, y: height - 54 });
+    }
+    function finish(message) {
+      running = false;
+      start.textContent = lives > 0 ? "계속" : "다시 시작";
+      const isBest = saveBest(game.id, score, function (a, b) { return a > b; });
+      setResult(isBest ? `${message} 새 최고 점수 ${score}점입니다.` : message);
+    }
+    function update() {
+      if (!running) return;
+      if (left) ship -= 6.5;
+      if (right) ship += 6.5;
+      ship = Math.max(28, Math.min(width - 28, ship));
+      bullets.forEach(function (bullet) { bullet.y -= 8; });
+      bullets = bullets.filter(function (bullet) { return bullet.y > -20; });
+      const speed = 0.28 + wave * 0.08;
+      enemies.forEach(function (enemy, index) {
+        enemy.x += Math.sin((Date.now() / 400) + index) * 0.45;
+        enemy.y += speed;
+      });
+      bullets.forEach(function (bullet) {
+        enemies.forEach(function (enemy) {
+          if (!enemy.alive) return;
+          if (Math.abs(bullet.x - enemy.x) < 20 && Math.abs(bullet.y - enemy.y) < 16) {
+            enemy.alive = false;
+            bullet.y = -99;
+            score += 15;
+          }
+        });
+      });
+      enemies = enemies.filter(function (enemy) { return enemy.alive; });
+      if (enemies.some(function (enemy) { return enemy.y > height - 74; })) {
+        lives -= 1;
+        if (lives <= 0) {
+          sync();
+          finish("방어선이 무너졌습니다.");
+          return;
+        }
+        buildWave();
+        setResult(`적이 방어선에 닿았습니다. 목숨 ${lives}개 남았습니다.`);
+      }
+      if (!enemies.length) {
+        wave += 1;
+        score += 40;
+        buildWave();
+        setResult(`${wave - 1}웨이브 방어 성공. 다음 편대가 더 빠릅니다.`);
+      }
+      sync();
+    }
+    function draw() {
+      update();
+      ctx.clearRect(0, 0, width, height);
+      ctx.fillStyle = "#101827";
+      ctx.fillRect(0, 0, width, height);
+      ctx.fillStyle = "rgba(255,255,255,0.58)";
+      for (let i = 0; i < 42; i += 1) {
+        const x = (i * 83 + 17) % width;
+        const y = (i * 47 + Date.now() / 35) % height;
+        ctx.fillRect(x, y, 2, 2);
+      }
+      enemies.forEach(function (enemy) {
+        ctx.fillStyle = "#df4b38";
+        ctx.fillRect(enemy.x - 17, enemy.y - 10, 34, 20);
+        ctx.fillStyle = "#ffcf5d";
+        ctx.fillRect(enemy.x - 7, enemy.y - 16, 14, 8);
+      });
+      ctx.fillStyle = "#ffcf5d";
+      bullets.forEach(function (bullet) { ctx.fillRect(bullet.x - 2, bullet.y - 12, 4, 14); });
+      ctx.fillStyle = "#2877b9";
+      ctx.beginPath();
+      ctx.moveTo(ship, height - 66);
+      ctx.lineTo(ship - 26, height - 24);
+      ctx.lineTo(ship + 26, height - 24);
+      ctx.closePath();
+      ctx.fill();
+      ctx.strokeStyle = "#fffdf7";
+      ctx.lineWidth = 2;
+      ctx.stroke();
+      if (!running) {
+        ctx.fillStyle = "rgba(16,24,39,0.72)";
+        ctx.fillRect(0, 0, width, height);
+        ctx.fillStyle = "#fffdf7";
+        ctx.font = "700 26px sans-serif";
+        ctx.textAlign = "center";
+        ctx.fillText(lives > 0 ? "시작을 눌러 방어" : "게임 종료", width / 2, height / 2);
+      }
+      frame = requestAnimationFrame(draw);
+    }
+    function reset() {
+      ship = width / 2;
+      bullets = [];
+      score = 0;
+      lives = 3;
+      wave = 1;
+      buildWave();
+      sync();
+    }
+    function toggle() {
+      if (lives <= 0) reset();
+      running = !running;
+      start.textContent = running ? "일시정지" : "계속";
+      setResult(running ? "적 편대를 막아내세요." : "일시정지했습니다.");
+    }
+    function hold(which, value) {
+      if (which === "left") left = value;
+      if (which === "right") right = value;
+    }
+    function onKey(event) {
+      if (!["ArrowLeft", "ArrowRight", " "].includes(event.key)) return;
+      event.preventDefault();
+      if (event.key === "ArrowLeft") hold("left", event.type === "keydown");
+      if (event.key === "ArrowRight") hold("right", event.type === "keydown");
+      if (event.key === " " && event.type === "keydown" && !event.repeat) {
+        if (!running) toggle();
+        else shoot();
+      }
+    }
+    start.addEventListener("click", toggle);
+    fireBtn.addEventListener("click", shoot);
+    leftBtn.addEventListener("pointerdown", function () { hold("left", true); });
+    leftBtn.addEventListener("pointerup", function () { hold("left", false); });
+    leftBtn.addEventListener("pointerleave", function () { hold("left", false); });
+    rightBtn.addEventListener("pointerdown", function () { hold("right", true); });
+    rightBtn.addEventListener("pointerup", function () { hold("right", false); });
+    rightBtn.addEventListener("pointerleave", function () { hold("right", false); });
+    document.addEventListener("keydown", onKey);
+    document.addEventListener("keyup", onKey);
+    cleanup.push(function () {
+      cancelAnimationFrame(frame);
+      document.removeEventListener("keydown", onKey);
+      document.removeEventListener("keyup", onKey);
+    });
+    reset();
+    draw();
+  }
+
+  function renderFlappy(game, surface) {
+    const width = 520;
+    const height = 360;
+    let bird = { x: 100, y: 170, vy: 0 };
+    let pipes = [];
+    let score = 0;
+    let lives = 1;
+    let running = false;
+    let frame = null;
+    let tick = 0;
+    renderScore(surface, [
+      { label: "통과", value: "0" },
+      { label: "상태", value: "준비" },
+      { label: "최고", value: getBest(game.id) || "-" }
+    ]);
+    const stats = surface.querySelectorAll(".mini-score b");
+    const canvas = document.createElement("canvas");
+    canvas.className = "arcade-canvas wide-canvas";
+    canvas.width = width;
+    canvas.height = height;
+    canvas.setAttribute("aria-label", "플래피 점프 게임 화면");
+    surface.appendChild(canvas);
+    const ctx = canvas.getContext("2d");
+    const controls = document.createElement("div");
+    controls.className = "mini-controls pad-controls";
+    const start = button("시작", "button primary");
+    const jump = button("점프", "button secondary");
+    controls.append(start, jump);
+    const guide = document.createElement("p");
+    guide.className = "mini-note";
+    guide.textContent = "스페이스바나 점프 버튼을 짧게 눌러 높이를 조절합니다. 기둥 사이를 통과할 때마다 점수가 오릅니다.";
+    surface.append(controls, guide);
+    function addPipe() {
+      const gap = 118;
+      const top = 50 + Math.random() * 155;
+      pipes.push({ x: width + 20, top, bottom: top + gap, passed: false });
+    }
+    function sync(status) {
+      stats[0].textContent = String(score);
+      stats[1].textContent = status || (running ? "비행" : "준비");
+    }
+    function reset() {
+      bird = { x: 100, y: 170, vy: 0 };
+      pipes = [];
+      score = 0;
+      lives = 1;
+      tick = 0;
+      addPipe();
+      sync("준비");
+    }
+    function flap() {
+      if (!running) {
+        running = true;
+        start.textContent = "일시정지";
+        setResult("기둥 사이를 통과하세요.");
+      }
+      sync("비행");
+      bird.vy = -7.2;
+    }
+    function finish() {
+      running = false;
+      lives = 0;
+      start.textContent = "다시 시작";
+      const isBest = saveBest(game.id, score, function (a, b) { return a > b; });
+      sync("종료");
+      setResult(isBest ? `충돌했습니다. 새 최고 기록 ${score}개입니다.` : `충돌했습니다. ${score}개를 통과했습니다.`);
+    }
+    function update() {
+      if (!running) return;
+      tick += 1;
+      bird.vy += 0.42;
+      bird.y += bird.vy;
+      pipes.forEach(function (pipe) { pipe.x -= 2.8; });
+      pipes = pipes.filter(function (pipe) { return pipe.x > -70; });
+      if (!pipes.length || pipes[pipes.length - 1].x < width - 185) addPipe();
+      pipes.forEach(function (pipe) {
+        if (!pipe.passed && pipe.x + 48 < bird.x) {
+          pipe.passed = true;
+          score += 1;
+          sync("비행");
+        }
+        const inX = bird.x + 13 > pipe.x && bird.x - 13 < pipe.x + 48;
+        const inGap = bird.y - 13 > pipe.top && bird.y + 13 < pipe.bottom;
+        if (inX && !inGap) finish();
+      });
+      if (bird.y < 0 || bird.y > height - 24) finish();
+    }
+    function draw() {
+      update();
+      ctx.clearRect(0, 0, width, height);
+      ctx.fillStyle = "#dcecf7";
+      ctx.fillRect(0, 0, width, height);
+      ctx.fillStyle = "#fffdf7";
+      for (let i = 0; i < 5; i += 1) {
+        ctx.beginPath();
+        ctx.arc((i * 130 + tick) % (width + 80) - 40, 70 + (i % 3) * 34, 18, 0, Math.PI * 2);
+        ctx.arc((i * 130 + tick) % (width + 80) - 15, 70 + (i % 3) * 34, 24, 0, Math.PI * 2);
+        ctx.fill();
+      }
+      pipes.forEach(function (pipe) {
+        ctx.fillStyle = "#258b62";
+        ctx.fillRect(pipe.x, 0, 48, pipe.top);
+        ctx.fillRect(pipe.x, pipe.bottom, 48, height - pipe.bottom);
+        ctx.strokeStyle = "#1d2433";
+        ctx.lineWidth = 2;
+        ctx.strokeRect(pipe.x, 0, 48, pipe.top);
+        ctx.strokeRect(pipe.x, pipe.bottom, 48, height - pipe.bottom);
+      });
+      ctx.fillStyle = "#ffcf5d";
+      ctx.beginPath();
+      ctx.arc(bird.x, bird.y, 15, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.strokeStyle = "#1d2433";
+      ctx.lineWidth = 2;
+      ctx.stroke();
+      ctx.fillStyle = "#1d2433";
+      ctx.fillRect(0, height - 20, width, 20);
+      if (!running) {
+        ctx.fillStyle = "rgba(29,36,51,0.68)";
+        ctx.fillRect(0, 0, width, height);
+        ctx.fillStyle = "#fffdf7";
+        ctx.font = "700 24px sans-serif";
+        ctx.textAlign = "center";
+        ctx.fillText(lives > 0 ? "점프해서 시작" : "게임 종료", width / 2, height / 2);
+      }
+      frame = requestAnimationFrame(draw);
+    }
+    function toggle() {
+      if (lives <= 0) reset();
+      running = !running;
+      start.textContent = running ? "일시정지" : "계속";
+      setResult(running ? "높이를 조절하며 기둥 사이를 통과하세요." : "일시정지했습니다.");
+      sync();
+    }
+    function onKey(event) {
+      if (event.key !== " ") return;
+      event.preventDefault();
+      if (event.type === "keydown" && !event.repeat) flap();
+    }
+    start.addEventListener("click", toggle);
+    jump.addEventListener("click", flap);
+    canvas.addEventListener("pointerdown", flap);
+    document.addEventListener("keydown", onKey);
+    cleanup.push(function () {
+      cancelAnimationFrame(frame);
+      document.removeEventListener("keydown", onKey);
+    });
+    reset();
+    draw();
   }
 
   function renderLane(game, surface) {

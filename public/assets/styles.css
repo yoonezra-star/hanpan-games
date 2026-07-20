@@ -920,6 +920,14 @@ a:focus-visible {
   box-shadow: 8px 8px 0 rgba(29, 36, 51, 0.14);
 }
 
+.arcade-canvas.tall-canvas {
+  max-width: 320px;
+}
+
+.arcade-canvas.wide-canvas {
+  max-width: 640px;
+}
+
 .signal-pad,
 .mega-button {
   display: grid;
