@@ -1,37 +1,37 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://hanpan.tali.kr/</loc>
+    <loc>https://hanpan-games.pages.dev/</loc>
     <lastmod>2026-07-20</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://hanpan.tali.kr/games/</loc>
+    <loc>https://hanpan-games.pages.dev/games/</loc>
     <lastmod>2026-07-20</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://hanpan.tali.kr/guides/</loc>
+    <loc>https://hanpan-games.pages.dev/guides/</loc>
     <lastmod>2026-07-20</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://hanpan.tali.kr/about/</loc>
+    <loc>https://hanpan-games.pages.dev/about/</loc>
     <lastmod>2026-07-20</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://hanpan.tali.kr/privacy/</loc>
+    <loc>https://hanpan-games.pages.dev/privacy/</loc>
     <lastmod>2026-07-20</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
-    <loc>https://hanpan.tali.kr/contact/</loc>
+    <loc>https://hanpan-games.pages.dev/contact/</loc>
     <lastmod>2026-07-20</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.5</priority>
