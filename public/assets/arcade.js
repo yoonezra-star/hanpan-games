@@ -15,7 +15,7 @@
     { id: "click-sprint", title: "클릭 스프린트", category: "skill", type: "tap", minutes: "10초", description: "정해진 시간 안에 얼마나 빠르게 클릭하는지 측정합니다." },
     { id: "aim-trainer", title: "에임 트레이너", category: "skill", type: "target", minutes: "1분", description: "무작위 위치에 뜨는 표적을 빠르게 눌러 정확도를 올립니다." },
     { id: "mole-finder", title: "두더지 찾기", category: "arcade", type: "mole", minutes: "1분", description: "여러 구멍 중 튀어나온 두더지를 찾아 누르는 순발력 게임입니다." },
-    { id: "brick-break", title: "벽돌깨기 미니", category: "arcade", type: "brick", minutes: "1분", description: "숫자가 적힌 벽돌을 낮은 순서대로 깨며 콤보를 만듭니다." },
+    { id: "brick-break", title: "벽돌깨기 미니", category: "arcade", type: "brick", minutes: "2분", description: "패들을 움직여 공을 받아내고 벽돌을 모두 깨며 레벨을 올립니다." },
     { id: "bubble-pop", title: "버블팝", category: "arcade", type: "target", minutes: "1분", description: "반짝이는 버블을 놓치지 않고 눌러 점수를 모읍니다." },
     { id: "snake-garden", title: "뱀의 정원", category: "arcade", type: "snake", minutes: "2분", description: "정원을 돌아다니며 먹이를 먹고 몸을 늘리는 그리드 게임입니다." },
     { id: "airplane-dodge", title: "붕붕 비행기", category: "arcade", type: "lane", minutes: "1분", description: "세 개의 항로를 오가며 장애물을 피하는 비행 게임입니다." },
@@ -23,15 +23,15 @@
     { id: "planet-toss", title: "행성 던지기", category: "arcade", type: "toss", minutes: "1분", description: "각도와 힘을 골라 목표 궤도에 행성을 던져 넣습니다." },
     { id: "tic-tac-toe", title: "틱택토", category: "board", type: "tictactoe", minutes: "1분", description: "세 칸을 먼저 잇는 클래식 보드 게임입니다." },
     { id: "connect-four", title: "사목 미니", category: "board", type: "connect4", minutes: "2분", description: "말을 떨어뜨려 네 개를 먼저 잇는 전략 게임입니다." },
-    { id: "blackjack", title: "블랙잭 21", category: "board", type: "blackjack", minutes: "2분", description: "21에 가까운 손패를 만들며 딜러와 겨룹니다." },
+    { id: "blackjack", title: "블랙잭 21", category: "board", type: "blackjack", minutes: "3분", description: "칩을 걸고 히트, 스탠드, 더블다운을 선택하며 딜러와 겨룹니다." },
     { id: "danger-dice", title: "위험한 주사위", category: "board", type: "dice", minutes: "1분", description: "계속 굴릴지 멈출지 결정해 목표 점수에 도전합니다." },
     { id: "rps-survival", title: "가위바위보 서바이벌", category: "board", type: "rps", minutes: "1분", description: "연승을 이어가며 살아남는 가위바위보 게임입니다." },
     { id: "slot-machine", title: "슬롯머신", category: "board", type: "slot", minutes: "30초", description: "세 칸의 그림을 맞춰 짧게 운을 시험합니다." },
     { id: "mines", title: "지뢰찾기 미니", category: "puzzle", type: "mines", minutes: "2분", description: "숫자 힌트를 보고 지뢰가 없는 칸을 모두 엽니다." },
     { id: "sliding-puzzle", title: "슬라이딩 퍼즐", category: "puzzle", type: "sliding", minutes: "2분", description: "빈 칸을 이용해 숫자 타일을 순서대로 맞춥니다." },
-    { id: "sudoku-mini", title: "스도쿠 미니", category: "puzzle", type: "sudoku", minutes: "3분", description: "4x4 스도쿠 판을 완성하는 짧은 논리 퍼즐입니다." },
+    { id: "sudoku-mini", title: "스도쿠 미니", category: "puzzle", type: "sudoku", minutes: "4분", description: "6x6 스도쿠 판을 완성하고 충돌 표시와 제한 힌트를 활용합니다." },
     { id: "twenty-48", title: "2048 한판", category: "puzzle", type: "twenty48", minutes: "3분", description: "같은 숫자 타일을 합쳐 더 큰 숫자를 만드는 퍼즐입니다." },
-    { id: "match-three", title: "매치3 퍼즐", category: "puzzle", type: "match3", minutes: "2분", description: "인접한 타일을 바꿔 같은 그림 세 개를 맞춥니다." },
+    { id: "match-three", title: "매치3 퍼즐", category: "puzzle", type: "match3", minutes: "3분", description: "인접한 타일을 바꿔 연쇄 매치를 만들고 제한 이동 안에 목표 점수를 넘깁니다." },
     { id: "block-fill", title: "블록 채우기", category: "puzzle", type: "blockfill", minutes: "2분", description: "빈 칸을 모두 채우되 폭탄 칸은 피하는 블록 퍼즐입니다." },
     { id: "simon", title: "사이먼 게임", category: "brain", type: "sequence", minutes: "2분", description: "빛나는 순서를 기억했다가 그대로 따라 누릅니다." },
     { id: "pattern-memory", title: "패턴 기억", category: "brain", type: "pattern", minutes: "1분", description: "잠깐 보이는 패턴을 기억해 같은 칸을 다시 선택합니다." },
@@ -74,17 +74,25 @@
 
   function saveBest(id, value, better) {
     const key = `hanpan-arcade-${id}`;
-    const prev = Number(localStorage.getItem(key));
-    if (!Number.isFinite(prev) || better(value, prev)) {
-      localStorage.setItem(key, String(value));
-      return true;
+    try {
+      const prev = Number(localStorage.getItem(key));
+      if (!Number.isFinite(prev) || better(value, prev)) {
+        localStorage.setItem(key, String(value));
+        return true;
+      }
+    } catch (error) {
+      return false;
     }
     return false;
   }
 
   function getBest(id) {
-    const value = Number(localStorage.getItem(`hanpan-arcade-${id}`));
-    return Number.isFinite(value) ? value : null;
+    try {
+      const value = Number(localStorage.getItem(`hanpan-arcade-${id}`));
+      return Number.isFinite(value) ? value : null;
+    } catch (error) {
+      return null;
+    }
   }
 
   function button(label, className) {
@@ -177,6 +185,7 @@
         })
         .forEach(function (game) {
           const item = button(game.title, game.id === current.id ? "picker-item active" : "picker-item");
+          item.innerHTML = `<strong>${game.title}</strong><small>${categoryNames[game.category]} · ${game.minutes}</small>`;
           item.addEventListener("click", function () {
             current = game;
             history.replaceState(null, "", `/play/?game=${game.id}`);
@@ -192,6 +201,7 @@
       $("#playDescription").textContent = current.description;
       $("#stageTitle").textContent = current.title;
       $("#playCategory").textContent = `${categoryNames[current.category]} · ${current.minutes}`;
+      document.title = `${current.title} - 한판게임즈`;
       surface.innerHTML = "";
       setResult("게임을 시작해 보세요.");
       drawPicker();
@@ -489,34 +499,198 @@
   }
 
   function renderBrick(game, surface) {
-    const numbers = shuffle(Array.from({ length: 16 }, function (_, index) { return index + 1; }));
-    let next = 1;
-    let misses = 0;
-    renderScore(surface, [{ label: "다음", value: "1" }, { label: "실수", value: "0" }]);
-    const values = surface.querySelectorAll(".mini-score b");
-    const grid = makeGrid(16, "mini-grid");
-    surface.appendChild(grid);
-    Array.from(grid.children).forEach(function (cell, index) {
-      cell.textContent = String(numbers[index]);
-      cell.addEventListener("click", function () {
-        if (cell.disabled) return;
-        if (numbers[index] === next) {
-          cell.disabled = true;
-          cell.classList.add("done");
-          next += 1;
-          values[0].textContent = next > 16 ? "완료" : String(next);
-          if (next > 16) {
-            const score = Math.max(0, 16 - misses);
-            saveBest(game.id, score, function (a, b) { return a > b; });
-            setResult(`벽돌을 모두 깼습니다. 정확도 점수 ${score}점.`);
-          }
-        } else {
-          misses += 1;
-          values[1].textContent = String(misses);
-          setResult("낮은 숫자부터 차례대로 눌러야 합니다.");
+    let score = 0;
+    let lives = 3;
+    let level = 1;
+    let running = false;
+    let frame = null;
+    let left = false;
+    let right = false;
+    const width = 640;
+    const height = 380;
+    const paddle = { x: 270, y: 346, w: 100, h: 14 };
+    const ball = { x: 320, y: 316, dx: 3.2, dy: -3.6, r: 7 };
+    let bricks = [];
+    renderScore(surface, [
+      { label: "점수", value: "0" },
+      { label: "목숨", value: "3" },
+      { label: "레벨", value: "1" },
+      { label: "최고", value: getBest(game.id) || "-" }
+    ]);
+    const stats = surface.querySelectorAll(".mini-score b");
+    const canvas = document.createElement("canvas");
+    canvas.className = "arcade-canvas";
+    canvas.width = width;
+    canvas.height = height;
+    canvas.setAttribute("aria-label", "벽돌깨기 게임 화면");
+    surface.appendChild(canvas);
+    const ctx = canvas.getContext("2d");
+    const controls = document.createElement("div");
+    controls.className = "mini-controls pad-controls";
+    const start = button("시작", "button primary");
+    const leftBtn = button("왼쪽", "button secondary");
+    const rightBtn = button("오른쪽", "button secondary");
+    controls.append(start, leftBtn, rightBtn);
+    const guide = document.createElement("p");
+    guide.className = "mini-note";
+    guide.textContent = "방향키, 버튼, 마우스 이동으로 패들을 움직입니다. 공을 떨어뜨리지 않고 벽돌을 모두 깨면 다음 레벨로 갑니다.";
+    surface.append(controls, guide);
+    function buildBricks() {
+      bricks = [];
+      const rows = 4 + Math.min(level, 3);
+      const cols = 8;
+      const bw = 66;
+      const bh = 22;
+      const gap = 8;
+      const startX = 34;
+      const startY = 34;
+      for (let r = 0; r < rows; r += 1) {
+        for (let c = 0; c < cols; c += 1) {
+          bricks.push({
+            x: startX + c * (bw + gap),
+            y: startY + r * (bh + gap),
+            w: bw,
+            h: bh,
+            hp: r < level - 1 ? 2 : 1
+          });
         }
+      }
+    }
+    function resetBall() {
+      ball.x = paddle.x + paddle.w / 2;
+      ball.y = paddle.y - 22;
+      ball.dx = 3.1 + level * 0.25;
+      ball.dy = -3.5 - level * 0.22;
+    }
+    function sync() {
+      stats[0].textContent = String(score);
+      stats[1].textContent = String(lives);
+      stats[2].textContent = String(level);
+    }
+    function draw() {
+      ctx.clearRect(0, 0, width, height);
+      ctx.fillStyle = "#fffaf0";
+      ctx.fillRect(0, 0, width, height);
+      bricks.forEach(function (brick) {
+        ctx.fillStyle = brick.hp > 1 ? "#2877b9" : "#df4b38";
+        ctx.fillRect(brick.x, brick.y, brick.w, brick.h);
+        ctx.strokeStyle = "#1d2433";
+        ctx.lineWidth = 2;
+        ctx.strokeRect(brick.x, brick.y, brick.w, brick.h);
       });
+      ctx.fillStyle = "#1d2433";
+      ctx.fillRect(paddle.x, paddle.y, paddle.w, paddle.h);
+      ctx.beginPath();
+      ctx.arc(ball.x, ball.y, ball.r, 0, Math.PI * 2);
+      ctx.fillStyle = "#ffcf5d";
+      ctx.fill();
+      ctx.strokeStyle = "#1d2433";
+      ctx.lineWidth = 2;
+      ctx.stroke();
+      if (!running) {
+        ctx.fillStyle = "rgba(29,36,51,0.78)";
+        ctx.fillRect(0, 0, width, height);
+        ctx.fillStyle = "#fffdf7";
+        ctx.font = "700 28px sans-serif";
+        ctx.textAlign = "center";
+        ctx.fillText(lives > 0 ? "시작을 눌러 플레이" : "게임 종료", width / 2, height / 2);
+      }
+    }
+    function loseLife() {
+      lives -= 1;
+      sync();
+      running = false;
+      start.textContent = lives > 0 ? "계속" : "다시 시작";
+      if (lives <= 0) {
+        const isBest = saveBest(game.id, score, function (a, b) { return a > b; });
+        setResult(isBest ? `게임 종료. 새 최고 점수 ${score}점입니다.` : `게임 종료. ${score}점입니다.`);
+      } else {
+        resetBall();
+        setResult(`공을 놓쳤습니다. 목숨 ${lives}개 남았습니다.`);
+      }
+    }
+    function nextLevel() {
+      level += 1;
+      score += 25;
+      buildBricks();
+      resetBall();
+      running = false;
+      start.textContent = "다음 레벨";
+      setResult(`${level - 1}레벨 완료. 다음 레벨은 공이 조금 더 빠릅니다.`);
+      sync();
+    }
+    function step() {
+      if (running) {
+        if (left) paddle.x -= 7;
+        if (right) paddle.x += 7;
+        paddle.x = Math.max(8, Math.min(width - paddle.w - 8, paddle.x));
+        ball.x += ball.dx;
+        ball.y += ball.dy;
+        if (ball.x < ball.r || ball.x > width - ball.r) ball.dx *= -1;
+        if (ball.y < ball.r) ball.dy *= -1;
+        if (ball.y + ball.r >= paddle.y && ball.y - ball.r <= paddle.y + paddle.h && ball.x >= paddle.x && ball.x <= paddle.x + paddle.w && ball.dy > 0) {
+          const offset = (ball.x - (paddle.x + paddle.w / 2)) / (paddle.w / 2);
+          ball.dx = offset * (4.2 + level * 0.25);
+          ball.dy = -Math.abs(ball.dy);
+        }
+        bricks.forEach(function (brick) {
+          if (brick.hp <= 0) return;
+          const hit = ball.x + ball.r > brick.x && ball.x - ball.r < brick.x + brick.w && ball.y + ball.r > brick.y && ball.y - ball.r < brick.y + brick.h;
+          if (!hit) return;
+          brick.hp -= 1;
+          ball.dy *= -1;
+          score += brick.hp ? 3 : 10;
+        });
+        bricks = bricks.filter(function (brick) { return brick.hp > 0; });
+        if (!bricks.length) nextLevel();
+        if (ball.y > height + 20) loseLife();
+        sync();
+      }
+      draw();
+      frame = requestAnimationFrame(step);
+    }
+    function startGame() {
+      if (lives <= 0) {
+        score = 0;
+        lives = 3;
+        level = 1;
+        paddle.x = 270;
+        buildBricks();
+        resetBall();
+      }
+      running = !running;
+      start.textContent = running ? "일시정지" : "계속";
+      setResult(running ? "공을 받아 벽돌을 깨세요." : "일시정지했습니다.");
+      sync();
+    }
+    function onKey(event) {
+      if (event.key === "ArrowLeft") { event.preventDefault(); left = event.type === "keydown"; }
+      if (event.key === "ArrowRight") { event.preventDefault(); right = event.type === "keydown"; }
+      if (event.key === " ") { event.preventDefault(); if (event.type === "keydown" && !event.repeat) startGame(); }
+    }
+    start.addEventListener("click", startGame);
+    leftBtn.addEventListener("pointerdown", function () { left = true; });
+    leftBtn.addEventListener("pointerup", function () { left = false; });
+    leftBtn.addEventListener("pointerleave", function () { left = false; });
+    rightBtn.addEventListener("pointerdown", function () { right = true; });
+    rightBtn.addEventListener("pointerup", function () { right = false; });
+    rightBtn.addEventListener("pointerleave", function () { right = false; });
+    canvas.addEventListener("pointermove", function (event) {
+      const rect = canvas.getBoundingClientRect();
+      const x = (event.clientX - rect.left) / rect.width * width;
+      paddle.x = Math.max(8, Math.min(width - paddle.w - 8, x - paddle.w / 2));
     });
+    document.addEventListener("keydown", onKey);
+    document.addEventListener("keyup", onKey);
+    cleanup.push(function () {
+      cancelAnimationFrame(frame);
+      document.removeEventListener("keydown", onKey);
+      document.removeEventListener("keyup", onKey);
+    });
+    buildBricks();
+    resetBall();
+    sync();
+    step();
   }
 
   function renderLane(game, surface) {
@@ -724,38 +898,149 @@
   }
 
   function renderBlackjack(game, surface) {
-    const deck = [1,2,3,4,5,6,7,8,9,10,10,10,10];
-    let player = [sample(deck), sample(deck)];
-    let dealer = [sample(deck), sample(deck)];
-    surface.innerHTML = `<div class="card-table"><p id="blackHands"></p><button class="button secondary" id="hit">한 장 더</button><button class="button primary" id="stand">멈추기</button></div>`;
-    const hands = $("#blackHands", surface);
+    let bank = 100;
+    let bet = 10;
+    let roundOver = false;
+    let deck = [];
+    let player = [];
+    let dealer = [];
+    renderScore(surface, [
+      { label: "칩", value: "100" },
+      { label: "베팅", value: "10" },
+      { label: "최고 칩", value: getBest(game.id) || "-" }
+    ]);
+    const stats = surface.querySelectorAll(".mini-score b");
+    surface.insertAdjacentHTML("beforeend", `
+      <div class="card-table">
+        <div class="table-row"><strong>딜러</strong><div class="card-hand" id="dealerHand"></div><small id="dealerTotal"></small></div>
+        <div class="table-row"><strong>플레이어</strong><div class="card-hand" id="playerHand"></div><small id="playerTotal"></small></div>
+      </div>
+      <div class="mini-controls">
+        <button class="button secondary" id="betDown" type="button">-10</button>
+        <button class="button secondary" id="betUp" type="button">+10</button>
+        <button class="button secondary" id="hit" type="button">한 장 더</button>
+        <button class="button secondary" id="doubleDown" type="button">더블</button>
+        <button class="button primary" id="stand" type="button">멈추기</button>
+        <button class="button primary" id="nextRound" type="button">다음 라운드</button>
+      </div>
+      <p class="mini-note">A는 1 또는 11로 계산됩니다. 딜러는 17 이상에서 멈추고, 더블은 한 장만 받고 바로 승부합니다.</p>
+    `);
+    const dealerHand = $("#dealerHand", surface);
+    const playerHand = $("#playerHand", surface);
+    const dealerTotal = $("#dealerTotal", surface);
+    const playerTotal = $("#playerTotal", surface);
+    const hit = $("#hit", surface);
+    const stand = $("#stand", surface);
+    const doubleDown = $("#doubleDown", surface);
+    const nextRound = $("#nextRound", surface);
+    function freshDeck() {
+      const ranks = ["A","2","3","4","5","6","7","8","9","10","J","Q","K"];
+      const suits = ["♠","♥","♦","♣"];
+      return shuffle(suits.flatMap(function (suit) {
+        return ranks.map(function (rank) { return { rank, suit }; });
+      }));
+    }
+    function value(card) {
+      if (card.rank === "A") return 1;
+      if (["J", "Q", "K"].includes(card.rank)) return 10;
+      return Number(card.rank);
+    }
     function sum(cards) {
-      let total = cards.reduce(function (a, b) { return a + b; }, 0);
-      if (cards.includes(1) && total + 10 <= 21) total += 10;
+      let total = cards.reduce(function (a, b) { return a + value(b); }, 0);
+      const aces = cards.filter(function (card) { return card.rank === "A"; }).length;
+      for (let i = 0; i < aces; i += 1) {
+        if (total + 10 <= 21) total += 10;
+      }
       return total;
     }
-    function draw(done) {
-      hands.textContent = `내 패 ${player.join(", ")} = ${sum(player)} / 딜러 ${done ? dealer.join(", ") + " = " + sum(dealer) : "?"}`;
+    function drawCard(card, hidden) {
+      const item = document.createElement("span");
+      item.className = "playing-card";
+      item.textContent = hidden ? "?" : `${card.rank}${card.suit}`;
+      if (!hidden && (card.suit === "♥" || card.suit === "♦")) item.classList.add("red-card");
+      return item;
     }
-    function finish() {
-      while (sum(dealer) < 17) dealer.push(sample(deck));
+    function draw(revealDealer) {
+      stats[0].textContent = String(bank);
+      stats[1].textContent = String(bet);
+      dealerHand.innerHTML = "";
+      playerHand.innerHTML = "";
+      dealer.forEach(function (card, index) { dealerHand.appendChild(drawCard(card, !revealDealer && index === 1)); });
+      player.forEach(function (card) { playerHand.appendChild(drawCard(card, false)); });
+      dealerTotal.textContent = revealDealer ? `합계 ${sum(dealer)}` : `보이는 패 ${value(dealer[0])}`;
+      playerTotal.textContent = `합계 ${sum(player)}`;
+      hit.disabled = roundOver;
+      stand.disabled = roundOver;
+      doubleDown.disabled = roundOver || player.length !== 2 || bank < bet;
+      nextRound.disabled = !roundOver || bank <= 0;
+      $("#betDown", surface).disabled = !roundOver || bet <= 10;
+      $("#betUp", surface).disabled = !roundOver || bet + 10 > bank;
+    }
+    function deal() {
+      if (bank <= 0) {
+        setResult("칩이 모두 떨어졌습니다. 다시 시작 버튼으로 새 테이블을 열어 주세요.");
+        return;
+      }
+      if (bet > bank) bet = bank;
+      deck = freshDeck();
+      player = [deck.pop(), deck.pop()];
+      dealer = [deck.pop(), deck.pop()];
+      roundOver = false;
+      setResult("내 차례입니다. 21에 가까워지도록 선택하세요.");
+      if (sum(player) === 21) finish("blackjack");
+      else draw(false);
+    }
+    function finish(reason) {
       const ps = sum(player);
+      if (ps <= 21) {
+        while (sum(dealer) < 17) dealer.push(deck.pop());
+      }
       const ds = sum(dealer);
       let message = "패배했습니다.";
-      if (ps <= 21 && (ds > 21 || ps > ds)) message = "승리했습니다.";
-      else if (ps === ds) message = "비겼습니다.";
+      let delta = -bet;
+      if (reason === "blackjack") {
+        delta = Math.round(bet * 1.5);
+        message = "블랙잭입니다. 1.5배로 승리했습니다.";
+      } else if (ps > 21) {
+        message = "버스트. 21을 넘었습니다.";
+      } else if (ds > 21 || ps > ds) {
+        delta = bet;
+        message = "승리했습니다.";
+      } else if (ps === ds) {
+        delta = 0;
+        message = "비겼습니다.";
+      }
+      bank += delta;
+      roundOver = true;
+      if (bank > 0) saveBest(game.id, bank, function (a, b) { return a > b; });
       draw(true);
-      setResult(message);
-      $("#hit", surface).disabled = true;
-      $("#stand", surface).disabled = true;
+      setResult(`${message} 칩 ${delta >= 0 ? "+" : ""}${delta}.`);
     }
-    $("#hit", surface).addEventListener("click", function () {
-      player.push(sample(deck));
+    hit.addEventListener("click", function () {
+      player.push(deck.pop());
       if (sum(player) > 21) finish();
       else draw(false);
     });
-    $("#stand", surface).addEventListener("click", finish);
-    draw(false);
+    stand.addEventListener("click", function () { finish(); });
+    doubleDown.addEventListener("click", function () {
+      if (bank < bet) return;
+      bet *= 2;
+      player.push(deck.pop());
+      finish();
+    });
+    $("#betDown", surface).addEventListener("click", function () {
+      if (!roundOver || bet <= 10) return;
+      bet -= 10;
+      draw(true);
+    });
+    $("#betUp", surface).addEventListener("click", function () {
+      if (!roundOver || bet + 10 > bank) return;
+      bet += 10;
+      draw(true);
+    });
+    nextRound.addEventListener("click", deal);
+    roundOver = true;
+    deal();
   }
 
   function renderDice(game, surface) {
@@ -822,40 +1107,127 @@
   }
 
   function renderMines(game, surface) {
-    const size = 5;
-    const mineSet = new Set();
-    while (mineSet.size < 4) mineSet.add(Math.floor(Math.random() * size * size));
+    const size = 6;
+    const mineTotal = 7;
+    let mineSet = null;
     let opened = 0;
+    let flags = new Set();
+    let flagMode = false;
+    let gameOver = false;
+    renderScore(surface, [
+      { label: "안전 칸", value: `0/${size * size - mineTotal}` },
+      { label: "깃발", value: `0/${mineTotal}` },
+      { label: "최고", value: getBest(game.id) || "-" }
+    ]);
+    const stats = surface.querySelectorAll(".mini-score b");
+    const controls = document.createElement("div");
+    controls.className = "mini-controls";
+    const flagToggle = button("깃발 모드 끄기", "button secondary");
+    flagToggle.setAttribute("aria-pressed", "false");
+    controls.appendChild(flagToggle);
+    surface.appendChild(controls);
     const grid = makeGrid(size * size, "mini-grid mines-grid");
     surface.appendChild(grid);
-    function count(index) {
+    const guide = document.createElement("p");
+    guide.className = "mini-note";
+    guide.textContent = "첫 클릭은 안전합니다. 숫자는 주변 8칸의 지뢰 수이고, 깃발 모드로 의심 칸을 표시할 수 있습니다.";
+    surface.appendChild(guide);
+    function neighbors(index) {
       const r = Math.floor(index / size);
       const c = index % size;
-      let n = 0;
+      const items = [];
       for (let dr = -1; dr <= 1; dr += 1) for (let dc = -1; dc <= 1; dc += 1) {
+        if (!dr && !dc) continue;
         const rr = r + dr;
         const cc = c + dc;
-        const pos = rr * size + cc;
-        if (rr >= 0 && rr < size && cc >= 0 && cc < size && mineSet.has(pos)) n += 1;
+        if (rr >= 0 && rr < size && cc >= 0 && cc < size) items.push(rr * size + cc);
       }
-      return n;
+      return items;
     }
+    function buildMines(firstIndex) {
+      const forbidden = new Set(neighbors(firstIndex).concat([firstIndex]));
+      mineSet = new Set();
+      while (mineSet.size < mineTotal) {
+        const index = Math.floor(Math.random() * size * size);
+        if (!forbidden.has(index)) mineSet.add(index);
+      }
+    }
+    function count(index) {
+      return neighbors(index).filter(function (pos) { return mineSet.has(pos); }).length;
+    }
+    function syncStats() {
+      stats[0].textContent = `${opened}/${size * size - mineTotal}`;
+      stats[1].textContent = `${flags.size}/${mineTotal}`;
+    }
+    function revealAll() {
+      Array.from(grid.children).forEach(function (cell, index) {
+        cell.disabled = true;
+        if (mineSet && mineSet.has(index)) {
+          cell.textContent = "×";
+          cell.classList.add("danger");
+        }
+      });
+    }
+    function openCell(index) {
+      const cell = grid.children[index];
+      if (!cell || cell.disabled || flags.has(index) || gameOver) return;
+      if (!mineSet) buildMines(index);
+      if (mineSet.has(index)) {
+        gameOver = true;
+        revealAll();
+        setResult("지뢰를 밟았습니다. 깃발과 숫자 흐름을 다시 읽어 보세요.");
+        return;
+      }
+      const n = count(index);
+      cell.disabled = true;
+      cell.classList.add("done");
+      cell.textContent = n ? String(n) : "";
+      opened += 1;
+      if (!n) neighbors(index).forEach(openCell);
+      if (opened === size * size - mineTotal) {
+        gameOver = true;
+        revealAll();
+        const isBest = saveBest(game.id, flags.size, function (a, b) { return a < b; });
+        setResult(isBest ? "모든 안전 칸을 열었습니다. 깔끔한 새 기록입니다." : "모든 안전 칸을 열었습니다.");
+      } else {
+        setResult(n ? `주변 지뢰 ${n}개. 이어서 안전 칸을 찾아보세요.` : "빈 구역이 열렸습니다.");
+      }
+      syncStats();
+    }
+    function toggleFlag(index) {
+      if (gameOver) return;
+      const cell = grid.children[index];
+      if (cell.disabled) return;
+      if (flags.has(index)) {
+        flags.delete(index);
+        cell.textContent = "";
+        cell.classList.remove("flagged");
+      } else {
+        flags.add(index);
+        cell.textContent = "!";
+        cell.classList.add("flagged");
+      }
+      syncStats();
+    }
+    flagToggle.addEventListener("click", function () {
+      flagMode = !flagMode;
+      flagToggle.textContent = flagMode ? "깃발 모드 켜짐" : "깃발 모드 끄기";
+      flagToggle.classList.toggle("active", flagMode);
+      flagToggle.setAttribute("aria-pressed", flagMode ? "true" : "false");
+      setResult(flagMode ? "의심 칸을 눌러 깃발을 꽂으세요." : "칸을 눌러 열 수 있습니다.");
+    });
     Array.from(grid.children).forEach(function (cell, index) {
       cell.textContent = "";
       cell.addEventListener("click", function () {
-        if (cell.disabled) return;
-        cell.disabled = true;
-        if (mineSet.has(index)) {
-          cell.textContent = "X";
-          setResult("지뢰를 밟았습니다.");
-          Array.from(grid.children).forEach(function (item) { item.disabled = true; });
-          return;
-        }
-        cell.textContent = String(count(index));
-        opened += 1;
-        if (opened === size * size - mineSet.size) setResult("모든 안전 칸을 열었습니다.");
+        if (flagMode) toggleFlag(index);
+        else openCell(index);
+      });
+      cell.addEventListener("contextmenu", function (event) {
+        event.preventDefault();
+        toggleFlag(index);
       });
     });
+    setResult("안전해 보이는 첫 칸을 열어 보세요.");
   }
 
   function renderSliding(game, surface) {
@@ -886,73 +1258,193 @@
   }
 
   function renderSudoku(game, surface) {
-    const puzzle = [1,0,0,4,0,4,1,0,0,1,4,0,4,0,0,2];
-    const answer = [1,2,3,4,3,4,1,2,2,1,4,3,4,3,2,1];
+    const size = 6;
+    const puzzle = [
+      1,0,0,4,0,6,
+      0,5,6,0,2,0,
+      2,0,0,5,0,1,
+      0,6,1,0,3,0,
+      3,0,5,0,0,2,
+      0,1,0,3,4,0
+    ];
+    const answer = [
+      1,2,3,4,5,6,
+      4,5,6,1,2,3,
+      2,3,4,5,6,1,
+      5,6,1,2,3,4,
+      3,4,5,6,1,2,
+      6,1,2,3,4,5
+    ];
+    let mistakes = 0;
+    let hints = 0;
+    renderScore(surface, [
+      { label: "완성", value: "0/20" },
+      { label: "실수", value: "0" },
+      { label: "힌트", value: "3" }
+    ]);
+    const stats = surface.querySelectorAll(".mini-score b");
     const grid = document.createElement("div");
-    grid.className = "mini-grid sudoku-grid";
+    grid.className = "mini-grid sudoku-grid size-6";
     surface.appendChild(grid);
+    function filledCount() {
+      return Array.from(grid.querySelectorAll("input")).filter(function (input) { return input.value; }).length;
+    }
+    function peers(index) {
+      const row = Math.floor(index / size);
+      const col = index % size;
+      const boxRow = Math.floor(row / 2) * 2;
+      const boxCol = Math.floor(col / 3) * 3;
+      const items = new Set();
+      for (let c = 0; c < size; c += 1) items.add(row * size + c);
+      for (let r = 0; r < size; r += 1) items.add(r * size + col);
+      for (let r = boxRow; r < boxRow + 2; r += 1) for (let c = boxCol; c < boxCol + 3; c += 1) items.add(r * size + c);
+      items.delete(index);
+      return Array.from(items);
+    }
+    function valueAt(index) {
+      const fixed = puzzle[index];
+      if (fixed) return String(fixed);
+      const input = grid.querySelector(`input[data-index="${index}"]`);
+      return input ? input.value : "";
+    }
+    function sync() {
+      const inputs = Array.from(grid.querySelectorAll("input"));
+      inputs.forEach(function (input) {
+        const index = Number(input.dataset.index);
+        const value = input.value;
+        const conflict = value && peers(index).some(function (peer) { return valueAt(peer) === value; });
+        input.classList.toggle("error", Boolean(conflict));
+        input.setAttribute("aria-invalid", conflict ? "true" : "false");
+      });
+      stats[0].textContent = `${filledCount()}/${inputs.length}`;
+      stats[1].textContent = String(mistakes);
+      stats[2].textContent = String(3 - hints);
+    }
     puzzle.forEach(function (value, index) {
       if (value) {
         const fixed = document.createElement("span");
         fixed.className = "mini-cell done";
         fixed.textContent = String(value);
+        fixed.setAttribute("aria-label", `고정 숫자 ${value}`);
         grid.appendChild(fixed);
       } else {
         const input = document.createElement("input");
         input.className = "sudoku-input";
         input.type = "number";
         input.min = "1";
-        input.max = "4";
+        input.max = "6";
+        input.inputMode = "numeric";
+        input.placeholder = "·";
         input.dataset.index = String(index);
+        input.setAttribute("aria-label", `빈 칸 ${index + 1}`);
+        input.addEventListener("input", function () {
+          input.value = input.value.replace(/[^1-6]/g, "").slice(0, 1);
+          sync();
+        });
         grid.appendChild(input);
       }
     });
-    const check = button("정답 확인", "button primary full");
-    surface.appendChild(check);
+    const controls = document.createElement("div");
+    controls.className = "mini-controls";
+    const check = button("정답 확인", "button primary");
+    const hint = button("힌트", "button secondary");
+    controls.append(check, hint);
+    const guide = document.createElement("p");
+    guide.className = "mini-note";
+    guide.textContent = "각 행, 열, 2x3 박스에는 1부터 6까지 한 번씩 들어갑니다. 충돌하는 숫자는 바로 표시됩니다.";
+    surface.append(controls, guide);
     check.addEventListener("click", function () {
       const ok = Array.from(grid.querySelectorAll("input")).every(function (input) {
         return Number(input.value) === answer[Number(input.dataset.index)];
       });
-      setResult(ok ? "스도쿠를 완성했습니다." : "아직 맞지 않는 칸이 있습니다.");
+      if (ok) {
+        const score = Math.max(0, 100 - mistakes * 8 - hints * 10);
+        const isBest = saveBest(game.id, score, function (a, b) { return a > b; });
+        setResult(isBest ? `스도쿠 완성. 새 최고 점수 ${score}점입니다.` : `스도쿠 완성. 점수 ${score}점입니다.`);
+        Array.from(grid.querySelectorAll("input")).forEach(function (input) { input.disabled = true; input.classList.add("solved"); });
+      } else {
+        mistakes += 1;
+        setResult("아직 맞지 않는 칸이 있습니다. 충돌 표시를 먼저 확인해 보세요.");
+        sync();
+      }
     });
+    hint.addEventListener("click", function () {
+      if (hints >= 3) {
+        setResult("힌트는 한 판에 3번까지 사용할 수 있습니다.");
+        return;
+      }
+      const empty = Array.from(grid.querySelectorAll("input")).filter(function (input) { return !input.value; });
+      if (!empty.length) return;
+      const input = sample(empty);
+      const index = Number(input.dataset.index);
+      input.value = String(answer[index]);
+      input.classList.add("hinted");
+      hints += 1;
+      setResult(`힌트를 사용했습니다. ${3 - hints}번 남았습니다.`);
+      sync();
+    });
+    sync();
   }
 
   function render2048(game, surface) {
     let board = Array(16).fill(0);
+    let score = 0;
+    let moves = 0;
+    let finished = false;
+    renderScore(surface, [
+      { label: "점수", value: "0" },
+      { label: "최대 타일", value: "2" },
+      { label: "최고", value: getBest(game.id) || "-" }
+    ]);
+    const stats = surface.querySelectorAll(".mini-score b");
     const grid = makeGrid(16, "mini-grid board-2048");
+    grid.setAttribute("tabindex", "0");
+    grid.setAttribute("aria-label", "2048 보드. 방향키로 이동할 수 있습니다.");
     surface.appendChild(grid);
     const controls = document.createElement("div");
-    controls.className = "mini-controls";
+    controls.className = "mini-controls pad-controls";
     ["위", "왼쪽", "오른쪽", "아래"].forEach(function (label) {
       const item = button(label, "button secondary");
       item.dataset.dir = label;
       controls.appendChild(item);
     });
-    surface.appendChild(controls);
+    const guide = document.createElement("p");
+    guide.className = "mini-note";
+    guide.textContent = "같은 숫자는 한 번만 합쳐집니다. 방향키나 버튼으로 움직이고, 더 이상 움직일 수 없으면 종료됩니다.";
+    surface.append(controls, guide);
     function add() {
       const empty = board.map(function (value, index) { return value ? null : index; }).filter(function (value) { return value !== null; });
       if (empty.length) board[sample(empty)] = Math.random() < 0.88 ? 2 : 4;
     }
     function draw() {
-      Array.from(grid.children).forEach(function (cell, index) { cell.textContent = board[index] || ""; });
+      const max = Math.max.apply(null, board);
+      stats[0].textContent = String(score);
+      stats[1].textContent = String(max || 2);
+      Array.from(grid.children).forEach(function (cell, index) {
+        const value = board[index];
+        cell.textContent = value || "";
+        cell.dataset.value = value ? String(value) : "0";
+        cell.setAttribute("aria-label", value ? `${value} 타일` : `빈 칸 ${index + 1}`);
+      });
     }
     function merge(line) {
       const items = line.filter(Boolean);
       for (let i = 0; i < items.length - 1; i += 1) {
         if (items[i] === items[i + 1]) {
           items[i] *= 2;
+          score += items[i];
           items.splice(i + 1, 1);
         }
       }
       while (items.length < 4) items.push(0);
       return items;
     }
-    function move(dir) {
-      const next = board.slice();
+    function buildMove(dir, source) {
+      const next = source.slice();
       for (let i = 0; i < 4; i += 1) {
         let line;
-        if (dir === "왼쪽" || dir === "오른쪽") line = [0,1,2,3].map(function (c) { return board[i * 4 + c]; });
-        else line = [0,1,2,3].map(function (r) { return board[r * 4 + i]; });
+        if (dir === "왼쪽" || dir === "오른쪽") line = [0,1,2,3].map(function (c) { return source[i * 4 + c]; });
+        else line = [0,1,2,3].map(function (r) { return source[r * 4 + i]; });
         if (dir === "오른쪽" || dir === "아래") line.reverse();
         line = merge(line);
         if (dir === "오른쪽" || dir === "아래") line.reverse();
@@ -961,15 +1453,58 @@
           else next[j * 4 + i] = line[j];
         }
       }
+      return next;
+    }
+    function hasMove() {
+      if (board.some(function (value) { return value === 0; })) return true;
+      for (let r = 0; r < 4; r += 1) {
+        for (let c = 0; c < 4; c += 1) {
+          const value = board[r * 4 + c];
+          if (c < 3 && board[r * 4 + c + 1] === value) return true;
+          if (r < 3 && board[(r + 1) * 4 + c] === value) return true;
+        }
+      }
+      return false;
+    }
+    function move(dir) {
+      if (finished) return;
+      const before = board.join(",");
+      const scoreBefore = score;
+      const next = buildMove(dir, board);
+      if (next.join(",") === before) {
+        score = scoreBefore;
+        setResult("그 방향으로는 움직일 수 없습니다.");
+        return;
+      }
       board = next;
       add();
+      moves += 1;
       draw();
-      setResult(`최대 타일 ${Math.max.apply(null, board)}.`);
+      if (Math.max.apply(null, board) >= 2048) {
+        const isBest = saveBest(game.id, score, function (a, b) { return a > b; });
+        setResult(isBest ? `2048 달성. 새 최고 점수 ${score}점입니다.` : `2048 달성. ${moves}수 만에 성공했습니다.`);
+        return;
+      }
+      if (!hasMove()) {
+        finished = true;
+        const isBest = saveBest(game.id, score, function (a, b) { return a > b; });
+        setResult(isBest ? `게임 종료. 새 최고 점수 ${score}점입니다.` : `게임 종료. ${score}점으로 마무리했습니다.`);
+        return;
+      }
+      setResult(`${moves}수 진행. 빈 칸을 유지하며 큰 타일을 만들어 보세요.`);
     }
     controls.addEventListener("click", function (event) {
       const target = event.target.closest("button");
       if (target) move(target.dataset.dir);
     });
+    function onKey(event) {
+      const map = { ArrowUp: "위", ArrowLeft: "왼쪽", ArrowRight: "오른쪽", ArrowDown: "아래" };
+      if (!map[event.key]) return;
+      event.preventDefault();
+      move(map[event.key]);
+    }
+    document.addEventListener("keydown", onKey);
+    cleanup.push(function () { document.removeEventListener("keydown", onKey); });
     add();
     add();
     draw();
@@ -977,98 +1512,278 @@
 
   function renderSnake(game, surface) {
     const size = 10;
-    let snake = [44, 45, 46];
+    let snake = [45, 46, 47];
     let dir = -1;
+    let nextDir = -1;
     let food = 22;
     let score = 0;
+    let running = false;
+    let over = false;
+    let timer = null;
+    let speed = 260;
+    let rocks = new Set([33, 66]);
+    renderScore(surface, [
+      { label: "먹이", value: "0" },
+      { label: "속도", value: "1단계" },
+      { label: "최고", value: getBest(game.id) || "-" }
+    ]);
+    const stats = surface.querySelectorAll(".mini-score b");
     const grid = makeGrid(size * size, "snake-grid");
+    grid.setAttribute("tabindex", "0");
+    grid.setAttribute("aria-label", "스네이크 보드. 방향키로 조작할 수 있습니다.");
     surface.appendChild(grid);
     const controls = document.createElement("div");
-    controls.className = "mini-controls";
+    controls.className = "mini-controls pad-controls";
+    const start = button("시작", "button primary");
+    controls.appendChild(start);
     [["위", -10], ["왼쪽", -1], ["오른쪽", 1], ["아래", 10]].forEach(function (item) {
       const btn = button(item[0], "button secondary");
-      btn.addEventListener("click", function () { dir = item[1]; });
+      btn.addEventListener("click", function () { turn(item[1]); });
       controls.appendChild(btn);
     });
-    surface.appendChild(controls);
+    const guide = document.createElement("p");
+    guide.className = "mini-note";
+    guide.textContent = "먹이를 먹으면 몸이 길어지고 속도가 올라갑니다. 벽, 몸, 돌에 닿으면 종료됩니다.";
+    surface.append(controls, guide);
+    function placeFood() {
+      const empty = Array.from({ length: size * size }, function (_, index) { return index; })
+        .filter(function (index) { return !snake.includes(index) && !rocks.has(index); });
+      food = sample(empty);
+    }
+    function turn(value) {
+      if (over) return;
+      if (value + dir === 0) return;
+      nextDir = value;
+      if (!running) toggle();
+    }
     function draw() {
       Array.from(grid.children).forEach(function (cell, index) {
-        cell.textContent = snake.includes(index) ? "■" : index === food ? "●" : "";
+        cell.className = "mini-cell";
+        cell.textContent = "";
+        if (index === snake[0]) {
+          cell.textContent = "●";
+          cell.classList.add("snake-head");
+        } else if (snake.includes(index)) {
+          cell.textContent = "■";
+          cell.classList.add("snake-body");
+        } else if (index === food) {
+          cell.textContent = "◆";
+          cell.classList.add("snake-food");
+        } else if (rocks.has(index)) {
+          cell.textContent = "×";
+          cell.classList.add("snake-rock");
+        }
       });
+      stats[0].textContent = String(score);
+      stats[1].textContent = `${Math.max(1, Math.round((300 - speed) / 35))}단계`;
+    }
+    function restartTimer() {
+      clearInterval(timer);
+      if (running && !over) timer = setInterval(step, speed);
+    }
+    function toggle() {
+      if (over) return;
+      running = !running;
+      start.textContent = running ? "일시정지" : "계속";
+      setResult(running ? "방향키나 버튼으로 먹이를 쫓아가세요." : "일시정지했습니다.");
+      restartTimer();
     }
     function step() {
+      if (!running || over) return;
+      dir = nextDir;
       const head = snake[0];
       const next = head + dir;
       const wall = next < 0 || next >= size * size || (dir === 1 && head % size === size - 1) || (dir === -1 && head % size === 0);
-      if (wall || snake.includes(next)) {
+      if (wall || snake.includes(next) || rocks.has(next)) {
         clearInterval(timer);
-        setResult(`게임 종료. 먹이 ${score}개.`);
+        running = false;
+        over = true;
+        start.disabled = true;
+        const isBest = saveBest(game.id, score, function (a, b) { return a > b; });
+        setResult(isBest ? `게임 종료. 먹이 ${score}개로 새 최고 기록입니다.` : `게임 종료. 먹이 ${score}개.`);
         return;
       }
       snake.unshift(next);
       if (next === food) {
         score += 1;
-        const empty = Array.from({ length: size * size }, function (_, index) { return index; }).filter(function (index) { return !snake.includes(index); });
-        food = sample(empty);
+        if (score % 3 === 0 && speed > 125) {
+          speed -= 24;
+          restartTimer();
+        }
+        if (score % 4 === 0) {
+          const emptyForRock = Array.from({ length: size * size }, function (_, index) { return index; })
+            .filter(function (index) { return !snake.includes(index) && index !== food && !rocks.has(index); });
+          if (emptyForRock.length) rocks.add(sample(emptyForRock));
+        }
+        placeFood();
       } else {
         snake.pop();
       }
       draw();
     }
-    const timer = setInterval(step, 350);
-    cleanup.push(function () { clearInterval(timer); });
+    function onKey(event) {
+      const map = { ArrowUp: -10, ArrowLeft: -1, ArrowRight: 1, ArrowDown: 10, " ": 0 };
+      if (!(event.key in map)) return;
+      event.preventDefault();
+      if (event.key === " ") toggle();
+      else turn(map[event.key]);
+    }
+    start.addEventListener("click", toggle);
+    document.addEventListener("keydown", onKey);
+    cleanup.push(function () {
+      clearInterval(timer);
+      document.removeEventListener("keydown", onKey);
+    });
+    setResult("시작을 누르거나 방향키를 누르면 출발합니다.");
     draw();
   }
 
   function renderMatch3(game, surface) {
-    const icons = ["●", "◆", "▲", "■"];
-    let board = Array.from({ length: 36 }, function () { return sample(icons); });
+    const width = 6;
+    const icons = ["●", "◆", "▲", "■", "★"];
+    let board = [];
     let picked = null;
     let score = 0;
-    renderScore(surface, [{ label: "점수", value: "0" }]);
-    const scoreEl = surface.querySelector(".mini-score b");
+    let moves = 20;
+    let combo = 0;
+    let finished = false;
+    renderScore(surface, [
+      { label: "점수", value: "0" },
+      { label: "이동", value: "20" },
+      { label: "목표", value: "45" }
+    ]);
+    const stats = surface.querySelectorAll(".mini-score b");
     const grid = makeGrid(36, "match-grid");
     surface.appendChild(grid);
+    const guide = document.createElement("p");
+    guide.className = "mini-note";
+    guide.textContent = "인접한 두 타일을 바꿔 세 개 이상을 만드세요. 매치가 없으면 이동 수가 줄지 않습니다.";
+    surface.appendChild(guide);
+    function findMatches(source) {
+      const matched = new Set();
+      for (let r = 0; r < width; r += 1) {
+        let run = [r * width];
+        for (let c = 1; c < width; c += 1) {
+          const index = r * width + c;
+          if (source[index] === source[run[0]]) run.push(index);
+          else {
+            if (run.length >= 3) run.forEach(function (x) { matched.add(x); });
+            run = [index];
+          }
+        }
+        if (run.length >= 3) run.forEach(function (x) { matched.add(x); });
+      }
+      for (let c = 0; c < width; c += 1) {
+        let run = [c];
+        for (let r = 1; r < width; r += 1) {
+          const index = r * width + c;
+          if (source[index] === source[run[0]]) run.push(index);
+          else {
+            if (run.length >= 3) run.forEach(function (x) { matched.add(x); });
+            run = [index];
+          }
+        }
+        if (run.length >= 3) run.forEach(function (x) { matched.add(x); });
+      }
+      return matched;
+    }
+    function makeBoard() {
+      board = [];
+      for (let i = 0; i < 36; i += 1) {
+        let choices = icons.slice();
+        const left1 = i % width >= 1 ? board[i - 1] : null;
+        const left2 = i % width >= 2 ? board[i - 2] : null;
+        const up1 = i >= width ? board[i - width] : null;
+        const up2 = i >= width * 2 ? board[i - width * 2] : null;
+        choices = choices.filter(function (icon) {
+          return !(icon === left1 && icon === left2) && !(icon === up1 && icon === up2);
+        });
+        board.push(sample(choices));
+      }
+    }
     function draw() {
       Array.from(grid.children).forEach(function (cell, index) {
+        cell.className = "mini-cell";
         cell.textContent = board[index];
         cell.classList.toggle("active", picked === index);
+        cell.dataset.gem = board[index];
+        cell.setAttribute("aria-label", `${board[index]} 타일 ${index + 1}`);
       });
+      stats[0].textContent = String(score);
+      stats[1].textContent = String(moves);
     }
-    function clearMatches() {
-      const matched = new Set();
-      for (let r = 0; r < 6; r += 1) for (let c = 0; c < 4; c += 1) {
-        const i = r * 6 + c;
-        if (board[i] === board[i + 1] && board[i] === board[i + 2]) [i, i+1, i+2].forEach(function (x) { matched.add(x); });
+    function collapse(matched) {
+      matched.forEach(function (index) { board[index] = null; });
+      for (let c = 0; c < width; c += 1) {
+        const column = [];
+        for (let r = width - 1; r >= 0; r -= 1) {
+          const value = board[r * width + c];
+          if (value) column.push(value);
+        }
+        while (column.length < width) column.push(sample(icons));
+        for (let r = width - 1; r >= 0; r -= 1) {
+          board[r * width + c] = column[width - 1 - r];
+        }
       }
-      for (let c = 0; c < 6; c += 1) for (let r = 0; r < 4; r += 1) {
-        const i = r * 6 + c;
-        if (board[i] === board[i + 6] && board[i] === board[i + 12]) [i, i+6, i+12].forEach(function (x) { matched.add(x); });
+    }
+    function resolveMatches() {
+      let total = 0;
+      let matched = findMatches(board);
+      combo = 0;
+      while (matched.size) {
+        combo += 1;
+        total += matched.size;
+        score += matched.size * combo;
+        collapse(matched);
+        matched = findMatches(board);
       }
-      matched.forEach(function (index) { board[index] = sample(icons); });
-      score += matched.size;
-      scoreEl.textContent = String(score);
-      return matched.size;
+      return total;
+    }
+    function swap(a, b) {
+      const temp = board[a];
+      board[a] = board[b];
+      board[b] = temp;
+    }
+    function finish(message) {
+      finished = true;
+      Array.from(grid.children).forEach(function (cell) { cell.disabled = true; });
+      const isBest = saveBest(game.id, score, function (a, b) { return a > b; });
+      setResult(isBest ? `${message} 새 최고 점수 ${score}점입니다.` : `${message} 최종 ${score}점입니다.`);
     }
     Array.from(grid.children).forEach(function (cell, index) {
       cell.addEventListener("click", function () {
+        if (finished) return;
         if (picked === null) {
           picked = index;
           draw();
           return;
         }
-        const adjacent = Math.abs(picked - index) === 1 || Math.abs(picked - index) === 6;
+        if (picked === index) {
+          picked = null;
+          draw();
+          return;
+        }
+        const sameRow = Math.floor(picked / width) === Math.floor(index / width);
+        const adjacent = (sameRow && Math.abs(picked - index) === 1) || Math.abs(picked - index) === width;
         if (adjacent) {
-          const temp = board[picked];
-          board[picked] = board[index];
-          board[index] = temp;
-          const removed = clearMatches();
-          setResult(removed ? `${removed}개를 지웠습니다.` : "매치가 없어서 그래도 자리는 바뀌었습니다.");
+          swap(picked, index);
+          const initialMatches = findMatches(board);
+          if (!initialMatches.size) {
+            swap(picked, index);
+            setResult("세 개 이상이 만들어지는 자리만 바꿀 수 있습니다.");
+          } else {
+            moves -= 1;
+            const removed = resolveMatches();
+            if (score >= 45) finish(`목표 달성. ${removed}개를 연쇄로 지웠습니다.`);
+            else if (moves <= 0) finish("이동 수를 모두 사용했습니다.");
+            else setResult(combo > 1 ? `${combo}연쇄! ${removed}개를 지웠습니다.` : `${removed}개를 지웠습니다.`);
+          }
         }
         picked = null;
         draw();
       });
     });
+    makeBoard();
     draw();
   }
 

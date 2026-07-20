@@ -726,8 +726,10 @@ a:focus-visible {
 }
 
 .picker-item {
-  min-height: 38px;
-  padding: 0 10px;
+  display: grid;
+  gap: 1px;
+  min-height: 46px;
+  padding: 7px 10px;
   color: var(--muted);
   text-align: left;
   background: #f3efe5;
@@ -736,6 +738,19 @@ a:focus-visible {
   font: inherit;
   font-weight: 900;
   cursor: pointer;
+}
+
+.picker-item strong,
+.picker-item small {
+  display: block;
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.picker-item small {
+  font-size: 11px;
+  color: inherit;
+  opacity: 0.78;
 }
 
 .picker-item.active,
@@ -774,6 +789,13 @@ a:focus-visible {
   background: #fffaf0;
   border: 2px solid var(--ink);
   border-radius: 8px;
+}
+
+.mini-note {
+  margin: 0;
+  color: var(--muted);
+  font-size: 14px;
+  font-weight: 800;
 }
 
 .mini-score {
@@ -830,6 +852,10 @@ a:focus-visible {
   grid-template-columns: repeat(10, minmax(0, 1fr));
 }
 
+.mines-grid {
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+}
+
 .mini-cell,
 .mini-button {
   display: grid;
@@ -856,6 +882,16 @@ a:focus-visible {
   cursor: default;
 }
 
+.mini-cell.danger {
+  color: #fff;
+  background: var(--red);
+}
+
+.mini-cell.flagged {
+  color: #fff;
+  background: var(--gold);
+}
+
 .mini-cell:disabled {
   opacity: 0.82;
   cursor: default;
@@ -870,6 +906,18 @@ a:focus-visible {
 
 .memory-mini .mini-cell.open {
   background: #ffcf5d;
+}
+
+.arcade-canvas {
+  display: block;
+  width: 100%;
+  max-width: 760px;
+  height: auto;
+  margin: 0 auto;
+  background: #fffaf0;
+  border: 3px solid var(--ink);
+  border-radius: 8px;
+  box-shadow: 8px 8px 0 rgba(29, 36, 51, 0.14);
 }
 
 .signal-pad,
@@ -914,6 +962,79 @@ a:focus-visible {
   display: flex;
   flex-wrap: wrap;
   gap: 10px;
+}
+
+.pad-controls {
+  align-items: center;
+  justify-content: center;
+}
+
+.button.active,
+.button[aria-pressed="true"] {
+  color: #fff;
+  background: var(--ink);
+  border-color: var(--ink);
+}
+
+.board-2048 .mini-cell {
+  min-height: clamp(58px, 9vw, 96px);
+  font-size: clamp(18px, 4vw, 34px);
+  transition: transform 0.12s ease, background 0.12s ease;
+}
+
+.board-2048 .mini-cell:not([data-value="0"]) {
+  transform: scale(0.98);
+}
+
+.board-2048 .mini-cell[data-value="2"] { background: #efe9db; }
+.board-2048 .mini-cell[data-value="4"] { background: #e4d8bf; }
+.board-2048 .mini-cell[data-value="8"] { color: #fff; background: #df8b38; }
+.board-2048 .mini-cell[data-value="16"] { color: #fff; background: #df6b38; }
+.board-2048 .mini-cell[data-value="32"] { color: #fff; background: #df4b38; }
+.board-2048 .mini-cell[data-value="64"] { color: #fff; background: #b9476a; }
+.board-2048 .mini-cell[data-value="128"],
+.board-2048 .mini-cell[data-value="256"],
+.board-2048 .mini-cell[data-value="512"],
+.board-2048 .mini-cell[data-value="1024"],
+.board-2048 .mini-cell[data-value="2048"] {
+  color: #fff;
+  background: var(--blue);
+}
+
+.snake-grid .mini-cell {
+  min-height: 38px;
+  font-size: 16px;
+}
+
+.snake-grid .snake-head {
+  color: #fff;
+  background: var(--red);
+}
+
+.snake-grid .snake-body {
+  color: #fff;
+  background: var(--green);
+}
+
+.snake-grid .snake-food {
+  color: #fff;
+  background: var(--gold);
+}
+
+.snake-grid .snake-rock {
+  color: #fff;
+  background: var(--ink);
+}
+
+.match-grid .mini-cell {
+  min-height: 54px;
+  font-size: 28px;
+  transition: transform 0.12s ease, background 0.12s ease;
+}
+
+.match-grid .mini-cell.active {
+  transform: translateY(-3px);
+  box-shadow: 0 0 0 3px rgba(40, 119, 185, 0.22);
 }
 
 .lane-road,
@@ -974,10 +1095,78 @@ a:focus-visible {
   grid-template-columns: repeat(4, minmax(0, 1fr));
 }
 
+.sudoku-grid.size-6 {
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+}
+
 .sudoku-input {
   min-height: 58px;
   text-align: center;
   font-weight: 1000;
+  border: 2px solid var(--ink);
+  border-radius: 8px;
+  background: #fffdf7;
+}
+
+.sudoku-input.error {
+  color: #fff;
+  background: var(--red);
+}
+
+.sudoku-input.hinted {
+  background: #fff0c7;
+}
+
+.sudoku-input.solved {
+  color: var(--ink);
+  background: #dff3e8;
+}
+
+.card-table {
+  display: grid;
+  gap: 12px;
+  padding: 16px;
+  background: #1f6f52;
+  border: 3px solid var(--ink);
+  border-radius: 8px;
+  box-shadow: inset 0 0 0 4px rgba(255, 253, 247, 0.18);
+}
+
+.table-row {
+  display: grid;
+  grid-template-columns: minmax(74px, auto) 1fr auto;
+  gap: 12px;
+  align-items: center;
+  color: #fff;
+}
+
+.table-row small {
+  min-width: 72px;
+  font-weight: 900;
+  text-align: right;
+}
+
+.card-hand {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.playing-card {
+  display: grid;
+  place-items: center;
+  width: 48px;
+  min-height: 66px;
+  color: var(--ink);
+  background: #fffdf7;
+  border: 2px solid var(--ink);
+  border-radius: 8px;
+  font-weight: 1000;
+  box-shadow: 3px 3px 0 rgba(29, 36, 51, 0.22);
+}
+
+.playing-card.red-card {
+  color: var(--red);
 }
 
 .visually-hidden {
@@ -1149,6 +1338,29 @@ a:focus-visible {
 
   .stage-actions {
     justify-content: flex-start;
+  }
+
+  .play-surface {
+    padding: 12px;
+  }
+
+  .table-row {
+    grid-template-columns: 1fr;
+  }
+
+  .table-row small {
+    text-align: left;
+  }
+
+  .mines-grid,
+  .sudoku-grid.size-6 {
+    gap: 6px;
+  }
+
+  .sudoku-input,
+  .mines-grid .mini-cell,
+  .match-grid .mini-cell {
+    min-height: 42px;
   }
 
   .mini-window {
