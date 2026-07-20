@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>게임 플레이 - 한판게임즈</title>
+    <meta name="description" content="한판게임즈의 무료 웹 미니게임 플레이 화면입니다. 아케이드, 퍼즐, 두뇌, 테스트 게임을 설치 없이 바로 즐길 수 있습니다.">
+    <link rel="canonical" href="https://hanpan-games.pages.dev/play/">
+    <link rel="stylesheet" href="/assets/styles.css">
+  </head>
+  <body>
+    <header class="site-header">
+      <a class="brand" href="/" aria-label="한판게임즈 홈">
+        <span class="brand-mark" aria-hidden="true">H</span>
+        <span><strong>한판게임즈</strong><small>HANPAN GAMES</small></span>
+      </a>
+      <nav class="nav" aria-label="주요 메뉴">
+        <a href="/games/" aria-current="page">게임</a>
+        <a href="/guides/">가이드</a>
+        <a href="/about/">소개</a>
+        <a href="/help/">도움말</a>
+        <a href="/contact/">문의</a>
+      </nav>
+    </header>
+
+    <main class="subpage play-page">
+      <section class="page-title">
+        <p class="eyebrow">Play</p>
+        <h1 id="playTitle">한판 플레이</h1>
+        <p id="playDescription">왼쪽 목록에서 게임을 고르면 바로 시작할 수 있습니다.</p>
+      </section>
+
+      <section class="arcade-shell">
+        <aside class="arcade-sidebar" aria-label="게임 선택">
+          <label class="visually-hidden" for="playSearch">게임 검색</label>
+          <input id="playSearch" type="search" placeholder="게임 검색" aria-label="게임 검색">
+          <div class="arcade-picker" id="playPicker"></div>
+        </aside>
+
+        <section class="arcade-stage" aria-live="polite">
+          <div class="stage-head">
+            <div>
+              <p class="eyebrow" id="playCategory">Game</p>
+              <h2 id="stageTitle">게임을 불러오는 중</h2>
+            </div>
+            <div class="stage-actions">
+              <a class="button secondary" href="/games/">목록</a>
+              <button class="button primary" id="restartGame" type="button">다시 시작</button>
+            </div>
+          </div>
+          <div class="play-surface" id="playSurface"></div>
+          <p class="result-line" id="playResult">게임을 선택해 주세요.</p>
+        </section>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div>
+        <strong>한판게임즈</strong>
+        <p>설치 없이 바로 즐기는 무료 웹 미니게임.</p>
+      </div>
+      <nav aria-label="푸터 메뉴">
+        <a href="/about/">소개</a>
+        <a href="/help/">도움말</a>
+        <a href="/updates/">업데이트</a>
+        <a href="/privacy/">개인정보처리방침</a>
+        <a href="/terms/">이용약관</a>
+        <a href="/contact/">문의</a>
+      </nav>
+      <p class="copyright">© <span id="year"></span> Hanpan Games. All rights reserved.</p>
+    </footer>
+
+    <script src="/assets/app.js" defer></script>
+    <script src="/assets/arcade.js" defer></script>
+  </body>
+</html>
