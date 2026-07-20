@@ -843,6 +843,45 @@ a:focus-visible {
   background: #fffaf0;
   border: 2px solid var(--ink);
   border-radius: 8px;
+  touch-action: manipulation;
+}
+
+.play-surface canvas {
+  touch-action: none;
+}
+
+.play-guidance {
+  display: grid;
+  gap: 8px;
+  padding: 12px 14px;
+  color: #3e4658;
+  background: #f3efe5;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+}
+
+.play-guidance p {
+  display: grid;
+  grid-template-columns: minmax(92px, auto) 1fr;
+  gap: 10px;
+  margin: 0;
+}
+
+.play-guidance strong {
+  color: var(--ink);
+  font-size: 13px;
+  font-weight: 1000;
+}
+
+.play-guidance span {
+  min-width: 0;
+  font-size: 14px;
+  font-weight: 800;
+}
+
+.policy-note {
+  border-color: rgba(200, 139, 25, 0.42);
+  background: #fff7dd;
 }
 
 .live-motion {
@@ -1140,6 +1179,22 @@ a:focus-visible {
   background: var(--tic-surface-muted);
   border-color: var(--tic-line);
   box-shadow: var(--tic-shadow-soft);
+}
+
+.tictactoe-page .play-surface,
+.tictactoe-page .play-guidance {
+  color: var(--tic-text-primary);
+  background: var(--tic-surface-base);
+  border-color: var(--tic-line);
+}
+
+.tictactoe-page .play-guidance strong,
+.tictactoe-page .play-guidance span {
+  color: var(--tic-text-primary);
+}
+
+.tictactoe-page .play-guidance strong {
+  color: var(--tic-text-secondary);
 }
 
 .tictactoe-page .article h2,
@@ -2123,6 +2178,11 @@ a:focus-visible {
 
   .play-surface {
     padding: 12px;
+  }
+
+  .play-guidance p {
+    grid-template-columns: 1fr;
+    gap: 2px;
   }
 
   .table-row {

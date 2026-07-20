@@ -195,7 +195,9 @@
       button.textContent = "확인";
       setText(result, "1부터 50 사이의 숫자를 추리해 보세요.");
       renderStats();
-      input.focus();
+      if (document.activeElement === button || document.activeElement === resetButton) {
+        input.focus();
+      }
     }
 
     function guess() {

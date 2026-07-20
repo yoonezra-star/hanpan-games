@@ -1,295 +1,295 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://hanpan-games.pages.dev/</loc>
+    <loc>https://hanpangames.kr/</loc>
     <lastmod>2026-07-20</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://hanpan-games.pages.dev/games/</loc>
+    <loc>https://hanpangames.kr/games/</loc>
     <lastmod>2026-07-20</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://hanpan-games.pages.dev/play/</loc>
+    <loc>https://hanpangames.kr/play/</loc>
     <lastmod>2026-07-20</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://hanpan-games.pages.dev/guides/</loc>
+    <loc>https://hanpangames.kr/guides/</loc>
     <lastmod>2026-07-20</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://hanpan-games.pages.dev/help/</loc>
+    <loc>https://hanpangames.kr/help/</loc>
     <lastmod>2026-07-20</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://hanpan-games.pages.dev/updates/</loc>
+    <loc>https://hanpangames.kr/updates/</loc>
     <lastmod>2026-07-20</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://hanpan-games.pages.dev/about/</loc>
+    <loc>https://hanpangames.kr/about/</loc>
     <lastmod>2026-07-20</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://hanpan-games.pages.dev/privacy/</loc>
+    <loc>https://hanpangames.kr/privacy/</loc>
     <lastmod>2026-07-20</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
-    <loc>https://hanpan-games.pages.dev/terms/</loc>
+    <loc>https://hanpangames.kr/terms/</loc>
     <lastmod>2026-07-20</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
-    <loc>https://hanpan-games.pages.dev/contact/</loc>
+    <loc>https://hanpangames.kr/contact/</loc>
     <lastmod>2026-07-20</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
-    <loc>https://hanpan-games.pages.dev/games/reaction-speed/</loc>
+    <loc>https://hanpangames.kr/games/reaction-speed/</loc>
     <lastmod>2026-07-20</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://hanpan-games.pages.dev/games/number-vault/</loc>
+    <loc>https://hanpangames.kr/games/number-vault/</loc>
     <lastmod>2026-07-20</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://hanpan-games.pages.dev/games/memory-tiles/</loc>
+    <loc>https://hanpangames.kr/games/memory-tiles/</loc>
     <lastmod>2026-07-20</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://hanpan-games.pages.dev/games/click-sprint/</loc>
+    <loc>https://hanpangames.kr/games/click-sprint/</loc>
     <lastmod>2026-07-20</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://hanpan-games.pages.dev/games/aim-trainer/</loc>
+    <loc>https://hanpangames.kr/games/aim-trainer/</loc>
     <lastmod>2026-07-20</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://hanpan-games.pages.dev/games/mole-finder/</loc>
+    <loc>https://hanpangames.kr/games/mole-finder/</loc>
     <lastmod>2026-07-20</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://hanpan-games.pages.dev/games/brick-break/</loc>
+    <loc>https://hanpangames.kr/games/brick-break/</loc>
     <lastmod>2026-07-20</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://hanpan-games.pages.dev/games/block-drop-classic/</loc>
+    <loc>https://hanpangames.kr/games/block-drop-classic/</loc>
     <lastmod>2026-07-20</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://hanpan-games.pages.dev/games/pong-rally/</loc>
+    <loc>https://hanpangames.kr/games/pong-rally/</loc>
     <lastmod>2026-07-20</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://hanpan-games.pages.dev/games/space-guard/</loc>
+    <loc>https://hanpangames.kr/games/space-guard/</loc>
     <lastmod>2026-07-20</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://hanpan-games.pages.dev/games/flappy-jump/</loc>
+    <loc>https://hanpangames.kr/games/flappy-jump/</loc>
     <lastmod>2026-07-20</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://hanpan-games.pages.dev/games/bubble-pop/</loc>
+    <loc>https://hanpangames.kr/games/bubble-pop/</loc>
     <lastmod>2026-07-20</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://hanpan-games.pages.dev/games/snake-garden/</loc>
+    <loc>https://hanpangames.kr/games/snake-garden/</loc>
     <lastmod>2026-07-20</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://hanpan-games.pages.dev/games/airplane-dodge/</loc>
+    <loc>https://hanpangames.kr/games/airplane-dodge/</loc>
     <lastmod>2026-07-20</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://hanpan-games.pages.dev/games/chair-dash/</loc>
+    <loc>https://hanpangames.kr/games/chair-dash/</loc>
     <lastmod>2026-07-20</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://hanpan-games.pages.dev/games/dessert-catch/</loc>
+    <loc>https://hanpangames.kr/games/dessert-catch/</loc>
     <lastmod>2026-07-20</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://hanpan-games.pages.dev/games/planet-toss/</loc>
+    <loc>https://hanpangames.kr/games/planet-toss/</loc>
     <lastmod>2026-07-20</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://hanpan-games.pages.dev/games/tic-tac-toe/</loc>
+    <loc>https://hanpangames.kr/games/tic-tac-toe/</loc>
     <lastmod>2026-07-20</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://hanpan-games.pages.dev/games/connect-four/</loc>
+    <loc>https://hanpangames.kr/games/connect-four/</loc>
     <lastmod>2026-07-20</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://hanpan-games.pages.dev/games/blackjack/</loc>
+    <loc>https://hanpangames.kr/games/blackjack/</loc>
     <lastmod>2026-07-20</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://hanpan-games.pages.dev/games/danger-dice/</loc>
+    <loc>https://hanpangames.kr/games/danger-dice/</loc>
     <lastmod>2026-07-20</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://hanpan-games.pages.dev/games/rps-survival/</loc>
+    <loc>https://hanpangames.kr/games/rps-survival/</loc>
     <lastmod>2026-07-20</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://hanpan-games.pages.dev/games/slot-machine/</loc>
+    <loc>https://hanpangames.kr/games/slot-machine/</loc>
     <lastmod>2026-07-20</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://hanpan-games.pages.dev/games/mines/</loc>
+    <loc>https://hanpangames.kr/games/mines/</loc>
     <lastmod>2026-07-20</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://hanpan-games.pages.dev/games/sliding-puzzle/</loc>
+    <loc>https://hanpangames.kr/games/sliding-puzzle/</loc>
     <lastmod>2026-07-20</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://hanpan-games.pages.dev/games/sudoku-mini/</loc>
+    <loc>https://hanpangames.kr/games/sudoku-mini/</loc>
     <lastmod>2026-07-20</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://hanpan-games.pages.dev/games/twenty-48/</loc>
+    <loc>https://hanpangames.kr/games/twenty-48/</loc>
     <lastmod>2026-07-20</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://hanpan-games.pages.dev/games/match-three/</loc>
+    <loc>https://hanpangames.kr/games/match-three/</loc>
     <lastmod>2026-07-20</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://hanpan-games.pages.dev/games/block-fill/</loc>
+    <loc>https://hanpangames.kr/games/block-fill/</loc>
     <lastmod>2026-07-20</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://hanpan-games.pages.dev/games/simon/</loc>
+    <loc>https://hanpangames.kr/games/simon/</loc>
     <lastmod>2026-07-20</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://hanpan-games.pages.dev/games/pattern-memory/</loc>
+    <loc>https://hanpangames.kr/games/pattern-memory/</loc>
     <lastmod>2026-07-20</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://hanpan-games.pages.dev/games/word-guess/</loc>
+    <loc>https://hanpangames.kr/games/word-guess/</loc>
     <lastmod>2026-07-20</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://hanpan-games.pages.dev/games/hangman/</loc>
+    <loc>https://hanpangames.kr/games/hangman/</loc>
     <lastmod>2026-07-20</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://hanpan-games.pages.dev/games/typing-sprint/</loc>
+    <loc>https://hanpangames.kr/games/typing-sprint/</loc>
     <lastmod>2026-07-20</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://hanpan-games.pages.dev/games/math-climb/</loc>
+    <loc>https://hanpangames.kr/games/math-climb/</loc>
     <lastmod>2026-07-20</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://hanpan-games.pages.dev/games/color-match/</loc>
+    <loc>https://hanpangames.kr/games/color-match/</loc>
     <lastmod>2026-07-20</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://hanpan-games.pages.dev/games/perfume-workshop/</loc>
+    <loc>https://hanpangames.kr/games/perfume-workshop/</loc>
     <lastmod>2026-07-20</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://hanpan-games.pages.dev/games/constellation/</loc>
+    <loc>https://hanpangames.kr/games/constellation/</loc>
     <lastmod>2026-07-20</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://hanpan-games.pages.dev/games/garden-water/</loc>
+    <loc>https://hanpangames.kr/games/garden-water/</loc>
     <lastmod>2026-07-20</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>

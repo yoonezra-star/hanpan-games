@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://hanpan-games.pages.dev/sitemap.xml
+Sitemap: https://hanpangames.kr/sitemap.xml

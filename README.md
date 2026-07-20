@@ -8,12 +8,11 @@
 - Build command: `exit 0`
 - Build output directory: `public`
 - Production branch: `main`
-- Current production domain: `https://hanpan-games.pages.dev`
-- Optional custom domain recommendation: `hanpan.tali.kr` if the `tali.kr` zone is available in the target Cloudflare account.
+- Current production domain: `https://hanpangames.kr`
+- Cloudflare Pages project: `hanpan-games-git`
 
-현재는 다른 Cloudflare Pages 프로젝트에 영향이 없도록 Wrangler Direct Upload 방식으로 배포합니다.
-Cloudflare GitHub 앱 연결 문제가 해결되면 GitHub 저장소를 연결해 `main` 브랜치 push 시 자동 배포로 전환할 수 있습니다.
-다른 도메인을 사용할 경우 `public/sitemap.xml`, 각 HTML의 `canonical`, `robots.txt`의 도메인을 함께 교체하세요.
+현재는 Cloudflare Pages와 GitHub 저장소가 연결되어 있어 `main` 브랜치 push 시 자동 배포됩니다.
+다른 도메인을 사용할 경우 `tools/generate-game-pages.mjs`의 `siteUrl`, `public/sitemap.xml`, 각 HTML의 `canonical`, `robots.txt`의 도메인을 함께 교체하세요.
 
 ## 로컬 미리보기
 

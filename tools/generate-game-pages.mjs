@@ -6,6 +6,7 @@ const publicDir = path.join(root, "public");
 const arcadePath = path.join(publicDir, "assets", "arcade.js");
 const arcade = fs.readFileSync(arcadePath, "utf8");
 const assetVersion = "20260720-depth";
+const siteUrl = "https://hanpangames.kr";
 
 const catalog = [...arcade.matchAll(/\{ id: "([^"]+)", title: "([^"]+)", category: "([^"]+)", type: "([^"]+)", minutes: "([^"]+)", description: "([^"]+)" \}/g)]
   .map((match) => ({
@@ -40,6 +41,8 @@ const tagClass = {
   skill: "red",
   test: "gold",
 };
+
+const sensitiveGameIds = new Set(["blackjack", "slot-machine", "danger-dice"]);
 
 const typeGuides = {
   tetris: {
@@ -402,13 +405,13 @@ const standardDetails = {
   },
   slot: {
     keyPoint: "짧은 회전 결과와 크레딧 관리",
-    focus: "슬롯머신은 세 칸의 그림이 멈추는 결과를 확인하는 운 기반 미니게임입니다. 실제 돈이나 결제 요소 없이 크레딧 흐름과 결과 연출을 가볍게 즐기도록 구성했습니다.",
+    focus: "릴 매치는 세 칸의 그림이 멈추는 결과를 확인하는 운 기반 미니게임입니다. 실제 돈이나 결제 요소 없이 크레딧 흐름과 결과 연출을 가볍게 즐기도록 구성했습니다.",
     controls: ["스핀 버튼을 누르면 세 칸이 차례로 회전합니다.", "결과가 멈춘 뒤 같은 그림 조합에 따라 보상이 표시됩니다.", "크레딧이 부족하면 새 판 흐름을 확인해야 합니다."],
     scoring: ["같은 그림이 많이 맞을수록 보상이 큽니다.", "스핀에는 크레딧이 사용되고, 당첨 결과에 따라 크레딧이 늘어납니다.", "운 기반 게임이라 짧게 결과를 확인하는 용도로 즐기는 것이 좋습니다."],
     practice: ["결과가 멈추기 전 버튼을 반복해서 누르지 않습니다.", "크레딧 변화와 스핀 횟수를 함께 보며 흐름을 확인합니다.", "당첨이 이어져도 결과는 매번 새로 정해진다는 점을 기억합니다."],
     mobile: ["스핀 버튼을 한 번씩 누르고 회전이 끝난 뒤 결과를 확인합니다.", "작은 화면에서는 크레딧 표시와 결과 줄이 겹치지 않도록 세로 스크롤 위치를 조정합니다."],
-    faqs: [["실제 돈을 사용하는 게임인가요?", "아니요. 한판게임즈의 슬롯머신은 무료 웹 미니게임이며 결제, 환전, 현금 보상 요소가 없습니다."], ["실력으로 결과를 바꿀 수 있나요?", "결과는 운 기반입니다. 크레딧 흐름과 짧은 연출을 즐기는 게임으로 보면 됩니다."]],
-    update: "2026년 7월 20일 슬롯머신 페이지에 무료 게임 고지, 크레딧 흐름, 결과 확인 설명을 보강했습니다."
+    faqs: [["실제 돈을 사용하는 게임인가요?", "아니요. 한판게임즈의 릴 매치는 무료 웹 미니게임이며 결제, 환전, 현금 보상 요소가 없습니다."], ["실력으로 결과를 바꿀 수 있나요?", "결과는 운 기반입니다. 크레딧 흐름과 짧은 연출을 즐기는 게임으로 보면 됩니다."]],
+    update: "2026년 7월 20일 릴 매치 페이지에 무료 게임 고지, 크레딧 흐름, 결과 확인 설명을 보강했습니다."
   },
   sliding: {
     keyPoint: "빈칸을 이용한 순서 정리",
@@ -567,8 +570,9 @@ function detailFor(game) {
 }
 
 function relatedFor(game) {
-  const same = catalog.filter((item) => item.id !== game.id && item.category === game.category).slice(0, 3);
-  return same.length >= 3 ? same : catalog.filter((item) => item.id !== game.id).slice(0, 3);
+  const pool = catalog.filter((item) => item.id !== game.id && !sensitiveGameIds.has(item.id));
+  const same = pool.filter((item) => item.category === game.category).slice(0, 3);
+  return same.length >= 3 ? same : pool.slice(0, 3);
 }
 
 function listHtml(items, className = "") {
@@ -592,6 +596,14 @@ function faqHtml(faqs) {
 
 function relatedLinksHtml(related) {
   return related.map((item) => `<a href="/games/${item.id}/">${htmlEscape(item.title)}</a>`).join(", ");
+}
+
+function policyNoticeHtml(game) {
+  if (!sensitiveGameIds.has(game.id)) return "";
+  return `
+        <p class="site-note policy-note">
+          ${htmlEscape(topicName(game.title))} 무료 오락용 웹게임입니다. 실제 돈, 결제, 환전, 경품, 현금성 보상은 제공하지 않습니다.
+        </p>`;
 }
 
 function standardFaqs(game, guide, detail) {
@@ -702,7 +714,7 @@ function pageHtml(game) {
   const pageFaqs = featured ? featured.faqs : standardFaqs(game, guide, detail);
   const related = relatedFor(game);
   const category = categoryNames[game.category] || "게임";
-  const url = `https://hanpan-games.pages.dev/games/${game.id}/`;
+  const url = `${siteUrl}/games/${game.id}/`;
   const description = `${game.title} 플레이 방법, 조작법, 점수 기준, 공략 팁, 모바일 플레이와 FAQ를 정리한 무료 ${category} 웹게임 페이지입니다.`;
   const tocItems = [["overview", "핵심 요약"], ["how", "게임 방법"], ["controls", "조작"], ["scoring", "점수 기준"], ["strategy", "공략"], ["mobile", "모바일 팁"], ["faq", "FAQ"], ["related", "관련 게임"]];
   const jsonLd = {
@@ -722,8 +734,8 @@ function pageHtml(game) {
       {
         "@type": "BreadcrumbList",
         "itemListElement": [
-          { "@type": "ListItem", "position": 1, "name": "홈", "item": "https://hanpan-games.pages.dev/" },
-          { "@type": "ListItem", "position": 2, "name": "게임", "item": "https://hanpan-games.pages.dev/games/" },
+          { "@type": "ListItem", "position": 1, "name": "홈", "item": `${siteUrl}/` },
+          { "@type": "ListItem", "position": 2, "name": "게임", "item": `${siteUrl}/games/` },
           { "@type": "ListItem", "position": 3, "name": game.title, "item": url }
         ]
       }
@@ -746,6 +758,7 @@ function pageHtml(game) {
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml">
     <title>${htmlEscape(game.title)} - 한판게임즈</title>
     <meta name="description" content="${htmlEscape(description)}">
     <link rel="canonical" href="${url}">
@@ -771,6 +784,7 @@ function pageHtml(game) {
         <p class="eyebrow">${htmlEscape(category)} · ${htmlEscape(game.minutes)}</p>
         <h1 id="playTitle">${htmlEscape(game.title)}</h1>
         <p id="playDescription">${htmlEscape(game.description)}</p>
+        ${policyNoticeHtml(game)}
         <div class="link-row">
           <a class="button primary" href="#play-area">바로 플레이</a>
           <a class="button secondary" href="/games/">전체 게임 보기</a>
@@ -833,20 +847,20 @@ for (const game of catalog) {
 }
 
 const staticUrls = [
-  { loc: "https://hanpan-games.pages.dev/", priority: "1.0", changefreq: "weekly" },
-  { loc: "https://hanpan-games.pages.dev/games/", priority: "0.9", changefreq: "weekly" },
-  { loc: "https://hanpan-games.pages.dev/play/", priority: "0.9", changefreq: "weekly" },
-  { loc: "https://hanpan-games.pages.dev/guides/", priority: "0.8", changefreq: "monthly" },
-  { loc: "https://hanpan-games.pages.dev/help/", priority: "0.7", changefreq: "monthly" },
-  { loc: "https://hanpan-games.pages.dev/updates/", priority: "0.6", changefreq: "monthly" },
-  { loc: "https://hanpan-games.pages.dev/about/", priority: "0.6", changefreq: "monthly" },
-  { loc: "https://hanpan-games.pages.dev/privacy/", priority: "0.5", changefreq: "yearly" },
-  { loc: "https://hanpan-games.pages.dev/terms/", priority: "0.5", changefreq: "yearly" },
-  { loc: "https://hanpan-games.pages.dev/contact/", priority: "0.5", changefreq: "yearly" },
+  { loc: `${siteUrl}/`, priority: "1.0", changefreq: "weekly" },
+  { loc: `${siteUrl}/games/`, priority: "0.9", changefreq: "weekly" },
+  { loc: `${siteUrl}/play/`, priority: "0.9", changefreq: "weekly" },
+  { loc: `${siteUrl}/guides/`, priority: "0.8", changefreq: "monthly" },
+  { loc: `${siteUrl}/help/`, priority: "0.7", changefreq: "monthly" },
+  { loc: `${siteUrl}/updates/`, priority: "0.6", changefreq: "monthly" },
+  { loc: `${siteUrl}/about/`, priority: "0.6", changefreq: "monthly" },
+  { loc: `${siteUrl}/privacy/`, priority: "0.5", changefreq: "yearly" },
+  { loc: `${siteUrl}/terms/`, priority: "0.5", changefreq: "yearly" },
+  { loc: `${siteUrl}/contact/`, priority: "0.5", changefreq: "yearly" },
 ];
 
 const gameUrls = catalog.map((game) => ({
-  loc: `https://hanpan-games.pages.dev/games/${game.id}/`,
+  loc: `${siteUrl}/games/${game.id}/`,
   priority: "0.8",
   changefreq: "monthly",
 }));

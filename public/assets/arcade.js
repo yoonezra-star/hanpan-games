@@ -28,10 +28,10 @@
     { id: "planet-toss", title: "행성 던지기", category: "arcade", type: "toss", minutes: "1분", description: "각도와 힘을 골라 목표 궤도에 행성을 던져 넣습니다." },
     { id: "tic-tac-toe", title: "틱택토 Tic-Tac-Toe", category: "board", type: "tictactoe", minutes: "2분", description: "미니맥스 AI, 2인 대전, 난이도와 선후공 선택을 갖춘 전략 보드 게임입니다." },
     { id: "connect-four", title: "사목 미니", category: "board", type: "connect4", minutes: "2분", description: "말을 떨어뜨려 네 개를 먼저 잇는 전략 게임입니다." },
-    { id: "blackjack", title: "블랙잭 21", category: "board", type: "blackjack", minutes: "3분", description: "칩을 걸고 히트, 스탠드, 더블다운을 선택하며 딜러와 겨룹니다." },
+    { id: "blackjack", title: "블랙잭 21", category: "board", type: "blackjack", minutes: "3분", description: "연습용 포인트로 히트, 스탠드, 더블다운을 선택하며 딜러와 겨룹니다." },
     { id: "danger-dice", title: "위험한 주사위", category: "board", type: "dice", minutes: "1분", description: "계속 굴릴지 멈출지 결정해 목표 점수에 도전합니다." },
     { id: "rps-survival", title: "가위바위보 서바이벌", category: "board", type: "rps", minutes: "1분", description: "연승을 이어가며 살아남는 가위바위보 게임입니다." },
-    { id: "slot-machine", title: "슬롯머신", category: "board", type: "slot", minutes: "30초", description: "세 칸의 그림을 맞춰 짧게 운을 시험합니다." },
+    { id: "slot-machine", title: "릴 매치", category: "board", type: "slot", minutes: "30초", description: "세 칸의 그림이 멈추는 결과를 확인하는 무료 릴 매치 게임입니다." },
     { id: "mines", title: "지뢰찾기 미니", category: "puzzle", type: "mines", minutes: "2분", description: "숫자 힌트를 보고 지뢰가 없는 칸을 모두 엽니다." },
     { id: "sliding-puzzle", title: "슬라이딩 퍼즐", category: "puzzle", type: "sliding", minutes: "2분", description: "빈 칸을 이용해 숫자 타일을 순서대로 맞춥니다." },
     { id: "sudoku-mini", title: "스도쿠 미니", category: "puzzle", type: "sudoku", minutes: "4분", description: "6x6 스도쿠 판을 완성하고 충돌 표시와 제한 힌트를 활용합니다." },
@@ -266,6 +266,38 @@
     };
     (map[game.type] || renderTap)(game, surface);
     addLiveMotion(game, surface);
+    addPlayGuidance(game, surface);
+  }
+
+  function addPlayGuidance(game, surface) {
+    if (surface.querySelector(".play-guidance")) return;
+    const hints = {
+      brick: "마우스, 터치, 좌우 방향키로 패들을 움직입니다. 공과 조작 영역 주변에는 다른 클릭 요소를 두지 않는 구성이 안전합니다.",
+      tetris: "방향키로 이동과 회전, 스페이스바로 빠른 낙하를 사용할 수 있습니다. 모바일에서는 화면 버튼을 한 번씩 눌러 조작합니다.",
+      pong: "위아래 방향키 또는 포인터 이동으로 패들을 움직입니다. 랠리가 빨라지면 중앙으로 돌아오는 습관이 좋습니다.",
+      space: "좌우 방향키로 이동하고 스페이스바로 발사합니다. 화면 버튼도 같은 기능을 제공합니다.",
+      flappy: "스페이스바, 클릭, 터치로 짧게 점프합니다. 길게 누르기보다 일정한 리듬으로 입력하세요.",
+      snake: "방향키 또는 화면 방향 버튼으로 이동합니다. 반대 방향 급회전은 제한됩니다.",
+      chair: "좌우 방향키로 회전하고 위 방향키 또는 가속 버튼으로 밀어 줍니다. 관성 때문에 코너 전에 미리 방향을 잡는 편이 좋습니다.",
+      tictactoe: "칸 클릭, 터치, 숫자키 1-9로 둘 수 있습니다. 새 판은 N 키 또는 다시 시작 버튼으로 시작합니다.",
+      connect4: "원하는 열을 클릭하거나 터치하면 말이 아래 빈칸으로 떨어집니다.",
+      blackjack: "히트, 스탠드, 더블 버튼을 한 번씩 눌러 진행합니다. 실제 돈, 결제, 환전, 경품은 없습니다.",
+      dice: "굴리기와 멈추기 버튼으로 진행합니다. 결과 애니메이션이 끝난 뒤 다음 선택을 누르면 실수를 줄일 수 있습니다.",
+      slot: "돌리기 버튼은 회전이 끝난 뒤 다시 누를 수 있습니다. 실제 돈, 결제, 환전, 경품은 없습니다.",
+      typing: "입력창에 제시어를 정확히 입력합니다. Enter 키로 현재 입력을 지우고 다시 시작할 수 있습니다.",
+      recipe: "옮길 병을 먼저 선택하고 받을 병을 선택합니다. 빈 병은 작업 공간으로 남겨 두면 풀이가 쉬워집니다.",
+      mines: "일반 모드로 안전 칸을 열고 깃발 모드로 의심 칸을 표시합니다. 첫 클릭은 안전하게 시작됩니다.",
+      sudoku: "빈칸을 선택하고 숫자를 입력합니다. 충돌 표시를 보고 행, 열, 박스를 다시 확인하세요.",
+      twenty48: "방향키나 스와이프로 모든 타일을 밀어 같은 숫자를 합칩니다."
+    };
+    const note = document.createElement("div");
+    note.className = "play-guidance";
+    const hint = hints[game.type] || "버튼, 키보드, 터치 입력 중 화면에 표시되는 방식으로 진행합니다. 결과 메시지를 확인한 뒤 다음 판을 시작하세요.";
+    const policy = ["blackjack", "slot-machine", "danger-dice"].includes(game.id)
+      ? "<p class=\"policy-note\"><strong>무료 오락용 게임</strong><span>이 게임은 실제 돈, 결제, 환전, 경품, 현금성 보상 없이 브라우저 안에서만 진행됩니다.</span></p>"
+      : "";
+    note.innerHTML = `<p><strong>조작 힌트</strong><span>${hint}</span></p>${policy}`;
+    surface.prepend(note);
   }
 
   function addLiveMotion(game, surface) {
@@ -1878,7 +1910,7 @@
     ], function (value) {
       mode = value;
       if (mode === "local") humanMark = "X";
-      startRound("새 모드로 판을 열었습니다.");
+      startRound("새 모드로 판을 열었습니다.", true);
     });
     const difficultyButtons = makeSegment("AI 난이도", [
       ["easy", "쉬움"],
@@ -1886,14 +1918,14 @@
       ["hard", "어려움"]
     ], function (value) {
       difficulty = value;
-      startRound("난이도를 바꾸고 새 판을 시작했습니다.");
+      startRound("난이도를 바꾸고 새 판을 시작했습니다.", true);
     });
     const sideButtons = makeSegment("내 표시", [
       ["X", "X 선공"],
       ["O", "O 후공"]
     ], function (value) {
       humanMark = value;
-      startRound(value === "X" ? "X 선공으로 시작합니다." : "O 후공으로 시작합니다. AI가 먼저 둡니다.");
+      startRound(value === "X" ? "X 선공으로 시작합니다." : "O 후공으로 시작합니다. AI가 먼저 둡니다.", true);
     });
     controls.append(modeButtons.wrap, difficultyButtons.wrap, sideButtons.wrap);
 
@@ -2199,7 +2231,7 @@
       }, difficulty === "hard" ? 220 : 360);
     }
 
-    function startRound(message) {
+    function startRound(message, shouldFocus) {
       clearTimeout(aiTimer);
       roundToken += 1;
       board = Array(9).fill("");
@@ -2211,7 +2243,7 @@
       if (mode === "local") aiMark = "O";
       sync(message || "새 판을 시작했습니다.");
       if (mode === "ai" && aiMark === "X") queueAi();
-      else setTimeout(function () {
+      else if (shouldFocus) setTimeout(function () {
         const nextCell = cells.find(function (cell) { return !cell.disabled; });
         if (nextCell) nextCell.focus();
       }, 0);
@@ -2220,7 +2252,7 @@
     function resetSession() {
       scores = { x: 0, o: 0, draw: 0, streak: 0 };
       storeScores();
-      startRound("전적을 초기화하고 새 판을 시작했습니다.");
+      startRound("전적을 초기화하고 새 판을 시작했습니다.", true);
     }
 
     function onKey(event) {
@@ -2231,11 +2263,11 @@
       }
       if (event.key.toLowerCase() === "n") {
         event.preventDefault();
-        startRound("단축키로 새 판을 시작했습니다.");
+        startRound("단축키로 새 판을 시작했습니다.", true);
       }
     }
 
-    newRound.addEventListener("click", function () { startRound("새 판을 시작했습니다."); });
+    newRound.addEventListener("click", function () { startRound("새 판을 시작했습니다.", true); });
     resetScore.addEventListener("click", resetSession);
     document.addEventListener("keydown", onKey);
     cleanup.push(function () {
@@ -3549,7 +3581,6 @@
         setResult("현재 역 입력을 비웠습니다.");
       }
     });
-    setTimeout(function () { input.focus(); }, 50);
     sync();
   }
 
