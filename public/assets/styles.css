@@ -1045,6 +1045,88 @@ a:focus-visible {
   box-shadow: 0 0 0 3px rgba(40, 119, 185, 0.22);
 }
 
+.rail-route {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(96px, 1fr));
+  gap: 10px;
+}
+
+.station-pill {
+  position: relative;
+  display: grid;
+  place-items: center;
+  min-height: 42px;
+  padding: 8px;
+  text-align: center;
+  background: #efe9db;
+  border: 2px solid var(--ink);
+  border-radius: 999px;
+  font-weight: 1000;
+}
+
+.station-pill.active {
+  color: #fff;
+  background: var(--blue);
+}
+
+.station-pill.done {
+  color: #fff;
+  background: var(--green);
+}
+
+.typing-panel {
+  display: grid;
+  gap: 10px;
+}
+
+.typing-panel input.typing-error {
+  color: #fff;
+  background: var(--red);
+}
+
+.perfume-rack {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: 12px;
+  align-items: end;
+}
+
+.perfume-bottle {
+  display: grid;
+  grid-template-rows: repeat(4, 1fr);
+  gap: 4px;
+  min-height: 210px;
+  padding: 10px;
+  background: rgba(255, 253, 247, 0.72);
+  border: 3px solid var(--ink);
+  border-radius: 8px 8px 22px 22px;
+  cursor: pointer;
+}
+
+.perfume-bottle.selected {
+  transform: translateY(-8px);
+  box-shadow: 0 0 0 4px rgba(40, 119, 185, 0.22);
+}
+
+.perfume-bottle.complete {
+  border-color: var(--green);
+}
+
+.scent-segment {
+  display: grid;
+  place-items: center;
+  min-height: 32px;
+  color: #fff;
+  border: 1px solid rgba(29, 36, 51, 0.45);
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 1000;
+}
+
+.scent-empty {
+  background: rgba(223, 216, 200, 0.42);
+}
+
 .lane-road,
 .slot-row {
   display: grid;
@@ -1193,6 +1275,44 @@ a:focus-visible {
   max-width: 930px;
 }
 
+.game-detail-page {
+  max-width: 1100px;
+}
+
+.game-detail-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.08fr) minmax(280px, 0.92fr);
+  gap: 18px;
+  align-items: start;
+}
+
+.inline-game-stage {
+  position: sticky;
+  top: 92px;
+  padding: 18px;
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  box-shadow: var(--shadow);
+}
+
+.inline-game-stage .play-surface {
+  min-height: 300px;
+}
+
+.toc-list {
+  display: grid;
+  gap: 8px;
+  margin: 18px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.toc-list a {
+  display: inline-flex;
+  font-weight: 900;
+}
+
 .article {
   padding: 28px;
   background: var(--paper);
@@ -1277,6 +1397,14 @@ a:focus-visible {
 
   .site-header {
     align-items: stretch;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+
+  .nav {
+    width: 100%;
+    flex-wrap: wrap;
+    overflow-x: visible;
   }
 
   .hero {
@@ -1294,6 +1422,14 @@ a:focus-visible {
 
   .arcade-shell {
     grid-template-columns: 1fr;
+  }
+
+  .game-detail-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .inline-game-stage {
+    position: static;
   }
 
   .arcade-sidebar {
@@ -1369,6 +1505,19 @@ a:focus-visible {
   .mines-grid .mini-cell,
   .match-grid .mini-cell {
     min-height: 42px;
+  }
+
+  .perfume-rack {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .perfume-bottle {
+    min-height: 160px;
+    padding: 7px;
+  }
+
+  .station-pill {
+    min-height: 38px;
   }
 
   .mini-window {

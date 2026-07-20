@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>버블팝 - 한판게임즈</title>
+    <meta name="description" content="버블팝는 한판게임즈에서 설치 없이 바로 즐길 수 있는 아케이드 게임입니다. 플레이 방법, 공략 팁, 자주 묻는 질문을 확인하고 바로 플레이하세요.">
+    <link rel="canonical" href="https://hanpan-games.pages.dev/games/bubble-pop/">
+    <link rel="stylesheet" href="/assets/styles.css">
+  </head>
+  <body>
+    <header class="site-header">
+      <a class="brand" href="/" aria-label="한판게임즈 홈">
+        <span class="brand-mark" aria-hidden="true">H</span>
+        <span><strong>한판게임즈</strong><small>HANPAN GAMES</small></span>
+      </a>
+      <nav class="nav" aria-label="주요 메뉴">
+        <a href="/games/" aria-current="page">게임</a>
+        <a href="/guides/">가이드</a>
+        <a href="/about/">소개</a>
+        <a href="/help/">도움말</a>
+        <a href="/contact/">문의</a>
+      </nav>
+    </header>
+
+    <main class="subpage game-detail-page">
+      <section class="page-title">
+        <p class="eyebrow">아케이드 · 1분</p>
+        <h1 id="playTitle">버블팝</h1>
+        <p id="playDescription">반짝이는 버블을 놓치지 않고 눌러 점수를 모읍니다.</p>
+        <div class="link-row">
+          <a class="button primary" href="#play-area">바로 플레이</a>
+          <a class="button secondary" href="/games/">전체 게임 보기</a>
+        </div>
+        <ul class="toc-list" aria-label="페이지 목차">
+          <li><a href="#how">게임 방법</a></li>
+          <li><a href="#tips">공략 팁</a></li>
+          <li><a href="#faq">자주 묻는 질문</a></li>
+          <li><a href="#related">관련 게임</a></li>
+        </ul>
+      </section>
+
+      <div class="game-detail-grid">
+        <article class="article">
+          <h2 id="how">게임 방법</h2>
+          <p>짧은 규칙을 읽고 바로 시작할 수 있는 브라우저 미니게임입니다. 화면의 점수판과 결과 안내를 보면서 한 판씩 기록을 갱신해 보세요.</p>
+          <p>버블팝는 별도 앱 설치나 로그인이 필요 없습니다. 페이지 안의 플레이 영역에서 바로 시작할 수 있고, 가능한 기록은 현재 브라우저에만 저장됩니다.</p>
+
+          <h2 id="tips">공략 팁</h2>
+          <ul>
+            <li>처음 한 판은 규칙을 익히는 데 사용합니다.</li>
+            <li>결과 메시지를 보고 다음 판에서 줄일 실수를 정합니다.</li>
+            <li>모바일에서는 화면 버튼을 천천히 눌러 조작감을 먼저 확인합니다.</li>
+          </ul>
+
+          <h2>플레이 흐름</h2>
+          <p>
+            한 판을 시작하면 상단 점수판에서 현재 진행 상태를 확인할 수 있습니다.
+            결과 메시지는 실수, 성공, 최고 기록 여부를 알려 주므로 다음 판에서 무엇을 바꿀지 바로 판단할 수 있습니다.
+          </p>
+
+          <h2 id="faq">자주 묻는 질문</h2>
+          <h3>기록은 어디에 저장되나요?</h3>
+          <p>최고 기록은 가능한 경우 현재 브라우저 안에만 저장됩니다.</p>
+          <h3>모바일에서도 플레이할 수 있나요?</h3>
+          <p>네. 화면 버튼을 함께 제공하며, 작은 화면에서도 게임판과 결과 영역이 겹치지 않도록 구성했습니다.</p>
+          <h3>기록이 사라질 수 있나요?</h3>
+          <p>기록은 브라우저 로컬 저장소를 사용합니다. 브라우저 데이터를 삭제하거나 다른 기기에서 접속하면 기록이 이어지지 않을 수 있습니다.</p>
+
+          <h2 id="related">관련 게임</h2>
+          <p>
+            <a href="/games/mole-finder/">두더지 찾기</a>, <a href="/games/brick-break/">벽돌깨기 미니</a>, <a href="/games/pong-rally/">퐁 랠리</a>도 함께 플레이해 보세요.
+            전체 게임은 <a href="/games/">게임 목록</a>에서 장르별로 확인할 수 있습니다.
+          </p>
+        </article>
+
+        <section class="inline-game-stage" id="play-area" aria-live="polite">
+          <div class="stage-head">
+            <div>
+              <p class="eyebrow" id="playCategory">아케이드 · 1분</p>
+              <h2 id="stageTitle">버블팝</h2>
+            </div>
+            <div class="stage-actions">
+              <a class="button secondary" href="/play/?game=bubble-pop">큰 화면</a>
+              <button class="button primary" id="restartGame" type="button">다시 시작</button>
+            </div>
+          </div>
+          <div class="play-surface" id="playSurface" data-game-id="bubble-pop"></div>
+          <p class="result-line" id="playResult">게임을 불러오는 중입니다.</p>
+        </section>
+      </div>
+    </main>
+
+    <footer class="site-footer">
+      <div>
+        <strong>한판게임즈</strong>
+        <p>버블팝와 함께 즐기는 무료 웹 미니게임.</p>
+      </div>
+      <nav aria-label="푸터 메뉴">
+        <a href="/about/">소개</a>
+        <a href="/help/">도움말</a>
+        <a href="/updates/">업데이트</a>
+        <a href="/privacy/">개인정보처리방침</a>
+        <a href="/terms/">이용약관</a>
+        <a href="/contact/">문의</a>
+      </nav>
+      <p class="copyright">© <span id="year"></span> Hanpan Games. All rights reserved.</p>
+    </footer>
+    <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"VideoGame","name":"버블팝","url":"https://hanpan-games.pages.dev/games/bubble-pop/","description":"반짝이는 버블을 놓치지 않고 눌러 점수를 모읍니다.","applicationCategory":"Game","operatingSystem":"Web Browser","inLanguage":"ko-KR","isAccessibleForFree":true,"publisher":{"@type":"Organization","name":"한판게임즈"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"홈","item":"https://hanpan-games.pages.dev/"},{"@type":"ListItem","position":2,"name":"게임","item":"https://hanpan-games.pages.dev/games/"},{"@type":"ListItem","position":3,"name":"버블팝","item":"https://hanpan-games.pages.dev/games/bubble-pop/"}]}]}</script>
+    <script src="/assets/app.js" defer></script>
+    <script src="/assets/arcade.js" defer></script>
+  </body>
+</html>

@@ -23,6 +23,7 @@
     { id: "bubble-pop", title: "버블팝", category: "arcade", type: "target", minutes: "1분", description: "반짝이는 버블을 놓치지 않고 눌러 점수를 모읍니다." },
     { id: "snake-garden", title: "뱀의 정원", category: "arcade", type: "snake", minutes: "2분", description: "정원을 돌아다니며 먹이를 먹고 몸을 늘리는 그리드 게임입니다." },
     { id: "airplane-dodge", title: "붕붕 비행기", category: "arcade", type: "lane", minutes: "1분", description: "세 개의 항로를 오가며 장애물을 피하는 비행 게임입니다." },
+    { id: "chair-dash", title: "의자 질주", category: "arcade", type: "chair", minutes: "2분", description: "바퀴 달린 의자를 타고 사무실 통로를 미끄러지듯 달려 목적지에 도착합니다." },
     { id: "dessert-catch", title: "디저트 캐치", category: "arcade", type: "catcher", minutes: "1분", description: "떨어지는 디저트를 받아 점수를 올리고 탄 음식은 피합니다." },
     { id: "planet-toss", title: "행성 던지기", category: "arcade", type: "toss", minutes: "1분", description: "각도와 힘을 골라 목표 궤도에 행성을 던져 넣습니다." },
     { id: "tic-tac-toe", title: "틱택토", category: "board", type: "tictactoe", minutes: "1분", description: "세 칸을 먼저 잇는 클래식 보드 게임입니다." },
@@ -41,10 +42,10 @@
     { id: "pattern-memory", title: "패턴 기억", category: "brain", type: "pattern", minutes: "1분", description: "잠깐 보이는 패턴을 기억해 같은 칸을 다시 선택합니다." },
     { id: "word-guess", title: "단어 맞추기", category: "brain", type: "word", minutes: "2분", description: "힌트를 보고 숨겨진 단어를 추리합니다." },
     { id: "hangman", title: "행맨", category: "brain", type: "hangman", minutes: "2분", description: "글자를 하나씩 골라 숨은 단어를 완성합니다." },
-    { id: "typing-sprint", title: "타자 연습", category: "skill", type: "typing", minutes: "1분", description: "제시 문장을 정확히 입력해 속도와 정확도를 확인합니다." },
+    { id: "typing-sprint", title: "타이핑 노선", category: "skill", type: "typing", minutes: "2분", description: "역 이름을 정확히 입력할수록 열차가 다음 역으로 달리는 타자 레이스입니다." },
     { id: "math-climb", title: "수학 등산", category: "brain", type: "math", minutes: "1분", description: "짧은 계산 문제를 풀며 산 정상까지 올라갑니다." },
     { id: "color-match", title: "색깔 맞추기", category: "test", type: "color", minutes: "1분", description: "글자와 색이 일치하는지 빠르게 판단합니다." },
-    { id: "perfume-workshop", title: "향수 공방", category: "test", type: "recipe", minutes: "2분", description: "주문에 맞는 향 조합을 골라 작은 공방을 운영합니다." },
+    { id: "perfume-workshop", title: "향수 소트 공방", category: "test", type: "recipe", minutes: "3분", description: "뒤섞인 향 노트를 병끼리 옮겨 같은 향으로 정렬하는 컬러 소트 퍼즐입니다." },
     { id: "constellation", title: "별자리 잇기", category: "test", type: "constellation", minutes: "1분", description: "별을 순서대로 이어 작은 별자리를 완성합니다." },
     { id: "garden-water", title: "정원 물주기", category: "test", type: "garden", minutes: "1분", description: "마른 화분을 찾아 물을 주고 정원을 살립니다." }
   ];
@@ -143,7 +144,7 @@
           <p>${game.description}</p>
           <div class="game-meta"><span>${game.minutes}</span><span>즉시 플레이</span></div>
           <div class="link-row compact">
-            <a class="inline-link" href="/play/?game=${game.id}">플레이</a>
+            <a class="inline-link" href="/games/${game.id}/">게임 페이지</a>
           </div>
         `;
         list.appendChild(card);
@@ -177,9 +178,11 @@
     const picker = $("#playPicker");
     const search = $("#playSearch");
     const restart = $("#restartGame");
-    let current = catalog.find(function (game) { return game.id === new URLSearchParams(location.search).get("game"); }) || catalog[0];
+    const requestedGame = new URLSearchParams(location.search).get("game") || surface.dataset.gameId;
+    let current = catalog.find(function (game) { return game.id === requestedGame; }) || catalog[0];
 
     function drawPicker() {
+      if (!picker) return;
       const query = (search && search.value ? search.value : "").trim().toLowerCase();
       picker.innerHTML = "";
       catalog
@@ -232,6 +235,7 @@
       flappy: renderFlappy,
       snake: renderSnake,
       lane: renderLane,
+      chair: renderChairRace,
       catcher: renderCatcher,
       toss: renderToss,
       tictactoe: renderTicTacToe,
@@ -1507,6 +1511,197 @@
     draw(-1);
   }
 
+  function renderChairRace(game, surface) {
+    const width = 640;
+    const height = 420;
+    let chair = { x: 74, y: 342, angle: -0.18, speed: 0 };
+    let running = false;
+    let finished = false;
+    let frame = null;
+    let startTime = 0;
+    let snack = { x: 320, y: 210, active: true, boost: 0 };
+    const keys = { left: false, right: false, boost: false };
+    const goal = { x: 540, y: 46, w: 68, h: 58 };
+    const walls = [
+      { x: 0, y: 0, w: width, h: 12 },
+      { x: 0, y: height - 12, w: width, h: 12 },
+      { x: 0, y: 0, w: 12, h: height },
+      { x: width - 12, y: 0, w: 12, h: height },
+      { x: 116, y: 74, w: 34, h: 242 },
+      { x: 232, y: 22, w: 34, h: 250 },
+      { x: 358, y: 150, w: 34, h: 250 },
+      { x: 474, y: 22, w: 34, h: 260 },
+      { x: 156, y: 326, w: 148, h: 28 },
+      { x: 406, y: 94, w: 118, h: 28 }
+    ];
+    renderScore(surface, [
+      { label: "시간", value: "0.0" },
+      { label: "속도", value: "0" },
+      { label: "충돌", value: "0" },
+      { label: "최고", value: getBest(game.id) ? `${getBest(game.id)}초` : "-" }
+    ]);
+    const stats = surface.querySelectorAll(".mini-score b");
+    const canvas = document.createElement("canvas");
+    canvas.className = "arcade-canvas wide-canvas";
+    canvas.width = width;
+    canvas.height = height;
+    canvas.setAttribute("aria-label", "의자 질주 게임 화면");
+    surface.appendChild(canvas);
+    const ctx = canvas.getContext("2d");
+    const controls = document.createElement("div");
+    controls.className = "mini-controls pad-controls";
+    const start = button("시작", "button primary");
+    const leftBtn = button("왼쪽", "button secondary");
+    const boostBtn = button("밀기", "button secondary");
+    const rightBtn = button("오른쪽", "button secondary");
+    controls.append(start, leftBtn, boostBtn, rightBtn);
+    const guide = document.createElement("p");
+    guide.className = "mini-note";
+    guide.textContent = "좌우로 방향을 돌리고 위쪽 키나 스페이스바로 의자를 밀어 주세요. 관성이 있어 코너 전에 미리 방향을 잡는 것이 중요합니다.";
+    surface.append(controls, guide);
+    let bumps = 0;
+    function hitRect(x, y, rect) {
+      return x > rect.x && x < rect.x + rect.w && y > rect.y && y < rect.y + rect.h;
+    }
+    function reset() {
+      chair = { x: 74, y: 342, angle: -0.18, speed: 0 };
+      running = false;
+      finished = false;
+      startTime = 0;
+      snack = { x: 320, y: 210, active: true, boost: 0 };
+      bumps = 0;
+      start.textContent = "시작";
+      stats[0].textContent = "0.0";
+      stats[1].textContent = "0";
+      stats[2].textContent = "0";
+      setResult("회의실까지 의자를 몰고 가세요.");
+    }
+    function finish() {
+      finished = true;
+      running = false;
+      start.textContent = "다시 시작";
+      const elapsed = Number(((Date.now() - startTime) / 1000).toFixed(1));
+      const isBest = saveBest(game.id, elapsed, function (a, b) { return a < b; });
+      setResult(isBest ? `${elapsed}초 도착. 새 최고 기록입니다.` : `${elapsed}초 만에 회의실에 도착했습니다.`);
+    }
+    function update() {
+      if (!running || finished) return;
+      if (keys.left) chair.angle -= 0.055;
+      if (keys.right) chair.angle += 0.055;
+      if (keys.boost) chair.speed += snack.boost > 0 ? 0.19 : 0.13;
+      if (snack.boost > 0) snack.boost -= 1;
+      chair.speed *= 0.982;
+      chair.speed = Math.max(-1.6, Math.min(snack.boost > 0 ? 6.6 : 4.8, chair.speed));
+      const prev = { x: chair.x, y: chair.y };
+      chair.x += Math.cos(chair.angle) * chair.speed;
+      chair.y += Math.sin(chair.angle) * chair.speed;
+      if (walls.some(function (wall) { return hitRect(chair.x, chair.y, wall); })) {
+        chair.x = prev.x;
+        chair.y = prev.y;
+        chair.speed *= -0.42;
+        chair.angle += 0.42;
+        bumps += 1;
+      }
+      if (snack.active && Math.hypot(chair.x - snack.x, chair.y - snack.y) < 22) {
+        snack.active = false;
+        snack.boost = 190;
+        setResult("간식 버프. 잠깐 더 빠르게 밀 수 있습니다.");
+      }
+      if (hitRect(chair.x, chair.y, goal)) finish();
+      stats[0].textContent = ((Date.now() - startTime) / 1000).toFixed(1);
+      stats[1].textContent = String(Math.round(Math.abs(chair.speed) * 10));
+      stats[2].textContent = String(bumps);
+    }
+    function draw() {
+      update();
+      ctx.clearRect(0, 0, width, height);
+      ctx.fillStyle = "#f3efe5";
+      ctx.fillRect(0, 0, width, height);
+      ctx.fillStyle = "#e5ddcc";
+      for (let x = 40; x < width; x += 76) for (let y = 36; y < height; y += 76) ctx.fillRect(x, y, 34, 20);
+      ctx.fillStyle = "#dff3e8";
+      ctx.fillRect(goal.x, goal.y, goal.w, goal.h);
+      ctx.strokeStyle = "#258b62";
+      ctx.lineWidth = 3;
+      ctx.strokeRect(goal.x, goal.y, goal.w, goal.h);
+      ctx.fillStyle = "#258b62";
+      ctx.font = "700 16px sans-serif";
+      ctx.fillText("회의실", goal.x + 11, goal.y + 34);
+      ctx.fillStyle = "#1d2433";
+      walls.forEach(function (wall) { ctx.fillRect(wall.x, wall.y, wall.w, wall.h); });
+      if (snack.active) {
+        ctx.fillStyle = "#ffcf5d";
+        ctx.beginPath();
+        ctx.arc(snack.x, snack.y, 12, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.strokeStyle = "#1d2433";
+        ctx.stroke();
+      }
+      ctx.save();
+      ctx.translate(chair.x, chair.y);
+      ctx.rotate(chair.angle);
+      ctx.fillStyle = snack.boost > 0 ? "#df4b38" : "#2877b9";
+      ctx.fillRect(-17, -12, 34, 24);
+      ctx.fillStyle = "#fffdf7";
+      ctx.fillRect(-8, -18, 16, 8);
+      ctx.strokeStyle = "#1d2433";
+      ctx.lineWidth = 2;
+      ctx.strokeRect(-17, -12, 34, 24);
+      ctx.restore();
+      if (!running) {
+        ctx.fillStyle = "rgba(29,36,51,0.7)";
+        ctx.fillRect(0, 0, width, height);
+        ctx.fillStyle = "#fffdf7";
+        ctx.font = "700 26px sans-serif";
+        ctx.textAlign = "center";
+        ctx.fillText(finished ? "도착 완료" : "시작을 눌러 질주", width / 2, height / 2);
+      }
+      frame = requestAnimationFrame(draw);
+    }
+    function toggle() {
+      if (finished) reset();
+      running = !running;
+      if (running && !startTime) startTime = Date.now();
+      if (running && stats[0].textContent === "0.0") startTime = Date.now();
+      start.textContent = running ? "일시정지" : "계속";
+      setResult(running ? "관성을 이용해 목적지까지 달려 보세요." : "일시정지했습니다.");
+    }
+    function hold(which, value) {
+      keys[which] = value;
+    }
+    function onKey(event) {
+      if (!["ArrowLeft", "ArrowRight", "ArrowUp", " "].includes(event.key)) return;
+      event.preventDefault();
+      if (event.key === "ArrowLeft") hold("left", event.type === "keydown");
+      if (event.key === "ArrowRight") hold("right", event.type === "keydown");
+      if (event.key === "ArrowUp") hold("boost", event.type === "keydown");
+      if (event.key === " " && event.type === "keydown" && !event.repeat) {
+        if (!running) toggle();
+        hold("boost", true);
+      }
+      if (event.key === " " && event.type === "keyup") hold("boost", false);
+    }
+    start.addEventListener("click", toggle);
+    leftBtn.addEventListener("pointerdown", function () { hold("left", true); });
+    leftBtn.addEventListener("pointerup", function () { hold("left", false); });
+    leftBtn.addEventListener("pointerleave", function () { hold("left", false); });
+    rightBtn.addEventListener("pointerdown", function () { hold("right", true); });
+    rightBtn.addEventListener("pointerup", function () { hold("right", false); });
+    rightBtn.addEventListener("pointerleave", function () { hold("right", false); });
+    boostBtn.addEventListener("pointerdown", function () { if (!running) toggle(); hold("boost", true); });
+    boostBtn.addEventListener("pointerup", function () { hold("boost", false); });
+    boostBtn.addEventListener("pointerleave", function () { hold("boost", false); });
+    document.addEventListener("keydown", onKey);
+    document.addEventListener("keyup", onKey);
+    cleanup.push(function () {
+      cancelAnimationFrame(frame);
+      document.removeEventListener("keydown", onKey);
+      document.removeEventListener("keyup", onKey);
+    });
+    reset();
+    draw();
+  }
+
   function renderCatcher(game, surface) {
     let pos = 1;
     let score = 0;
@@ -2673,15 +2868,96 @@
   }
 
   function renderTyping(game, surface) {
-    const sentence = sample(["오늘도 가볍게 한 판", "설치 없이 바로 플레이", "기록을 다시 갱신하세요"]);
-    const start = Date.now();
-    surface.innerHTML = `<p class="hint-box">${sentence}</p><input id="typingInput" type="text" placeholder="문장을 그대로 입력"><button class="button primary full" id="typingSubmit">완료</button>`;
-    $("#typingSubmit", surface).addEventListener("click", function () {
-      const typed = $("#typingInput", surface).value;
-      const seconds = Math.max(1, Math.round((Date.now() - start) / 1000));
-      const correct = typed === sentence;
-      setResult(correct ? `${seconds}초 만에 정확히 입력했습니다.` : "문장이 정확히 일치하지 않습니다.");
+    const stations = ["한판역", "블록공원", "퍼즐시청", "초록신호", "은하항구", "기록광장", "게임연구소", "승리터미널"];
+    let index = 0;
+    let typed = 0;
+    let errors = 0;
+    let started = false;
+    let startTime = 0;
+    renderScore(surface, [
+      { label: "역", value: `1/${stations.length}` },
+      { label: "정확도", value: "100%" },
+      { label: "속도", value: "0타/분" },
+      { label: "최고", value: getBest(game.id) ? `${getBest(game.id)}타/분` : "-" }
+    ]);
+    const stats = surface.querySelectorAll(".mini-score b");
+    const route = document.createElement("div");
+    route.className = "rail-route";
+    stations.forEach(function (name, stationIndex) {
+      const item = document.createElement("span");
+      item.className = "station-pill";
+      item.textContent = name;
+      item.dataset.index = String(stationIndex);
+      route.appendChild(item);
     });
+    const panel = document.createElement("div");
+    panel.className = "typing-panel";
+    panel.innerHTML = `
+      <p class="hint-box" id="typingPrompt">${stations[0]}</p>
+      <input id="typingInput" type="text" inputmode="text" autocomplete="off" placeholder="역 이름 입력" aria-label="역 이름 입력">
+    `;
+    const guide = document.createElement("p");
+    guide.className = "mini-note";
+    guide.textContent = "표시된 역 이름을 정확히 입력하면 열차가 다음 역으로 이동합니다. 오타가 나면 Enter로 현재 입력을 비울 수 있습니다.";
+    surface.append(route, panel, guide);
+    const prompt = $("#typingPrompt", surface);
+    const input = $("#typingInput", surface);
+    function sync() {
+      route.querySelectorAll(".station-pill").forEach(function (item, stationIndex) {
+        item.classList.toggle("done", stationIndex < index);
+        item.classList.toggle("active", stationIndex === index);
+      });
+      const elapsed = started ? Math.max(1, (Date.now() - startTime) / 60000) : 1;
+      const speed = Math.round(typed / elapsed);
+      const accuracy = Math.max(0, Math.round((typed - errors) / Math.max(1, typed) * 100));
+      stats[0].textContent = `${Math.min(index + 1, stations.length)}/${stations.length}`;
+      stats[1].textContent = `${accuracy}%`;
+      stats[2].textContent = `${speed}타/분`;
+      return { speed, accuracy };
+    }
+    function complete() {
+      const result = sync();
+      input.disabled = true;
+      const score = Math.max(0, Math.round(result.speed * result.accuracy / 100));
+      const isBest = saveBest(game.id, score, function (a, b) { return a > b; });
+      setResult(isBest ? `종착역 도착. 새 최고 기록 ${score}타/분입니다.` : `종착역 도착. 환산 기록 ${score}타/분입니다.`);
+    }
+    input.addEventListener("input", function () {
+      if (!started) {
+        started = true;
+        startTime = Date.now();
+      }
+      const target = stations[index];
+      typed += 1;
+      if (!target.startsWith(input.value)) {
+        errors += 1;
+        input.classList.add("typing-error");
+        setResult("입력이 역 이름과 다릅니다. Enter로 비우고 다시 입력할 수 있습니다.");
+      } else {
+        input.classList.remove("typing-error");
+        setResult("좋습니다. 역 이름을 끝까지 입력하세요.");
+      }
+      if (input.value === target) {
+        index += 1;
+        input.value = "";
+        if (index >= stations.length) complete();
+        else {
+          prompt.textContent = stations[index];
+          setResult(`${stations[index - 1]} 통과. 다음 역으로 이동합니다.`);
+        }
+      }
+      sync();
+    });
+    input.addEventListener("keydown", function (event) {
+      if (event.key === "Enter") {
+        event.preventDefault();
+        input.value = "";
+        input.classList.remove("typing-error");
+        setResult("현재 역 입력을 비웠습니다.");
+      }
+    });
+    setTimeout(function () { input.focus(); }, 50);
+    sync();
   }
 
   function renderMath(game, surface) {
@@ -2749,32 +3025,149 @@
   }
 
   function renderRecipe(game, surface) {
-    const recipes = [
-      { order: "상큼한 아침 향", picks: ["레몬", "민트"] },
-      { order: "포근한 밤 향", picks: ["바닐라", "우디"] },
-      { order: "달콤한 정원 향", picks: ["장미", "꿀"] }
+    const scents = [
+      { id: "citrus", label: "시트러스", color: "#ffcf5d" },
+      { id: "rose", label: "로즈", color: "#b9476a" },
+      { id: "mint", label: "민트", color: "#258b62" },
+      { id: "wood", label: "우디", color: "#7c5b3e" }
     ];
-    const all = ["레몬", "민트", "바닐라", "우디", "장미", "꿀"];
-    const recipe = sample(recipes);
-    const picked = new Set();
-    surface.innerHTML = `<p class="hint-box">주문: ${recipe.order}</p>`;
-    const wrap = document.createElement("div");
-    wrap.className = "choice-row";
-    all.forEach(function (name) {
-      const item = button(name, "button secondary");
-      item.addEventListener("click", function () {
-        item.classList.toggle("active");
-        if (picked.has(name)) picked.delete(name);
-        else picked.add(name);
+    const capacity = 4;
+    let moves = 0;
+    let undo = 5;
+    let selected = null;
+    let history = [];
+    let bottles = scents.map(function (scent) { return [scent.id, scent.id, scent.id, scent.id]; }).concat([[], []]);
+    renderScore(surface, [
+      { label: "이동", value: "0" },
+      { label: "되돌리기", value: "5" },
+      { label: "완성 병", value: "0/4" },
+      { label: "최고", value: getBest(game.id) || "-" }
+    ]);
+    const stats = surface.querySelectorAll(".mini-score b");
+    const rack = document.createElement("div");
+    rack.className = "perfume-rack";
+    const controls = document.createElement("div");
+    controls.className = "mini-controls";
+    const undoBtn = button("되돌리기", "button secondary");
+    controls.appendChild(undoBtn);
+    const guide = document.createElement("p");
+    guide.className = "mini-note";
+    guide.textContent = "병을 하나 고르고 다른 병을 누르면 맨 위의 같은 향 노트가 함께 이동합니다. 같은 향 위나 빈 병으로만 옮길 수 있습니다.";
+    surface.append(rack, controls, guide);
+    function scentInfo(id) {
+      return scents.find(function (scent) { return scent.id === id; });
+    }
+    function topGroup(index) {
+      const bottle = bottles[index];
+      if (!bottle.length) return null;
+      const top = bottle[bottle.length - 1];
+      let count = 0;
+      for (let i = bottle.length - 1; i >= 0 && bottle[i] === top; i -= 1) count += 1;
+      return { id: top, count };
+    }
+    function canPour(from, to) {
+      if (from === to) return false;
+      const source = topGroup(from);
+      if (!source) return false;
+      const target = bottles[to];
+      if (target.length >= capacity) return false;
+      if (target.length && target[target.length - 1] !== source.id) return false;
+      return true;
+    }
+    function pour(from, to) {
+      if (!canPour(from, to)) {
+        setResult("같은 향 위나 빈 병으로만 옮길 수 있습니다.");
+        return false;
+      }
+      history.push(bottles.map(function (bottle) { return bottle.slice(); }));
+      const source = topGroup(from);
+      const room = capacity - bottles[to].length;
+      const amount = Math.min(source.count, room);
+      for (let i = 0; i < amount; i += 1) bottles[to].push(bottles[from].pop());
+      moves += 1;
+      selected = null;
+      setResult(`${scentInfo(source.id).label} 향 ${amount}칸을 옮겼습니다.`);
+      return true;
+    }
+    function solvedBottle(bottle) {
+      return !bottle.length || (bottle.length === capacity && bottle.every(function (id) { return id === bottle[0]; }));
+    }
+    function finishedCount() {
+      return bottles.filter(function (bottle) { return bottle.length === capacity && bottle.every(function (id) { return id === bottle[0]; }); }).length;
+    }
+    function isSolved() {
+      return bottles.every(solvedBottle);
+    }
+    function randomize() {
+      const notes = shuffle(scents.flatMap(function (scent) { return [scent.id, scent.id, scent.id, scent.id]; }));
+      bottles = [
+        notes.slice(0, 4),
+        notes.slice(4, 8),
+        notes.slice(8, 12),
+        notes.slice(12, 16),
+        [],
+        []
+      ];
+      if (isSolved()) randomize();
+      history = [];
+      moves = 0;
+      selected = null;
+    }
+    function sync() {
+      stats[0].textContent = String(moves);
+      stats[1].textContent = String(undo);
+      stats[2].textContent = `${finishedCount()}/4`;
+      undoBtn.disabled = !history.length || undo <= 0;
+    }
+    function draw() {
+      rack.innerHTML = "";
+      bottles.forEach(function (bottle, index) {
+        const item = button("", "perfume-bottle");
+        item.classList.toggle("selected", selected === index);
+        item.classList.toggle("complete", bottle.length === capacity && bottle.every(function (id) { return id === bottle[0]; }));
+        item.setAttribute("aria-label", `${index + 1}번 향수병`);
+        for (let i = capacity - 1; i >= 0; i -= 1) {
+          const segment = document.createElement("span");
+          segment.className = "scent-segment";
+          const id = bottle[i];
+          if (id) {
+            const scent = scentInfo(id);
+            segment.style.background = scent.color;
+            segment.textContent = scent.label.slice(0, 1);
+          } else {
+            segment.classList.add("scent-empty");
+          }
+          item.appendChild(segment);
+        }
+        item.addEventListener("click", function () {
+          if (selected === null) {
+            if (!bottle.length) return;
+            selected = index;
+            setResult(`${index + 1}번 병을 선택했습니다. 옮길 병을 고르세요.`);
+          } else {
+            pour(selected, index);
+          }
+          draw();
+        });
+        rack.appendChild(item);
       });
-      wrap.appendChild(item);
+      sync();
+      if (isSolved()) {
+        const score = Math.max(1, moves);
+        const isBest = saveBest(game.id, score, function (a, b) { return a < b; });
+        setResult(isBest ? `${moves}번 이동으로 완성. 새 최고 기록입니다.` : `${moves}번 이동으로 향 노트를 모두 정렬했습니다.`);
+      }
+    }
+    undoBtn.addEventListener("click", function () {
+      if (!history.length || undo <= 0) return;
+      bottles = history.pop().map(function (bottle) { return bottle.slice(); });
+      undo -= 1;
+      selected = null;
+      setResult("한 수 되돌렸습니다.");
+      draw();
     });
-    const submit = button("조향 완료", "button primary full");
-    surface.append(wrap, submit);
-    submit.addEventListener("click", function () {
-      const ok = recipe.picks.every(function (name) { return picked.has(name); }) && picked.size === recipe.picks.length;
-      setResult(ok ? "주문에 맞는 향수를 완성했습니다." : "주문과 다른 조합입니다.");
-    });
+    randomize();
+    draw();
   }
 
   function renderConstellation(game, surface) {

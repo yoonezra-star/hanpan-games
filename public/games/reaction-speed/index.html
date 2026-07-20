@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>반응속도 체크 - 한판게임즈</title>
-    <meta name="description" content="한판게임즈 반응속도 체크 게임 설명입니다. 플레이 방법, 기록 해석, 실수 줄이는 팁을 안내합니다.">
+    <meta name="description" content="반응속도 체크는 한판게임즈에서 설치 없이 바로 즐길 수 있는 스킬 게임입니다. 플레이 방법, 공략 팁, 자주 묻는 질문을 확인하고 바로 플레이하세요.">
     <link rel="canonical" href="https://hanpan-games.pages.dev/games/reaction-speed/">
     <link rel="stylesheet" href="/assets/styles.css">
   </head>
@@ -23,83 +23,78 @@
       </nav>
     </header>
 
-    <main class="subpage article-page">
+    <main class="subpage game-detail-page">
       <section class="page-title">
-        <p class="eyebrow">Skill game</p>
-        <h1>반응속도 체크</h1>
-        <p>
-          초록 신호가 켜지는 순간을 기다렸다가 최대한 빠르게 누르는 짧은 스킬 게임입니다.
-          최근 기록, 최고 기록, 평균 기록을 함께 보며 안정적인 반응을 확인할 수 있습니다.
-        </p>
+        <p class="eyebrow">스킬 · 15초</p>
+        <h1 id="playTitle">반응속도 체크</h1>
+        <p id="playDescription">초록 신호가 켜지는 순간을 누르는 반응속도 게임입니다.</p>
         <div class="link-row">
-          <a class="button primary" href="/#reaction-game">바로 플레이</a>
+          <a class="button primary" href="#play-area">바로 플레이</a>
           <a class="button secondary" href="/games/">전체 게임 보기</a>
         </div>
+        <ul class="toc-list" aria-label="페이지 목차">
+          <li><a href="#how">게임 방법</a></li>
+          <li><a href="#tips">공략 팁</a></li>
+          <li><a href="#faq">자주 묻는 질문</a></li>
+          <li><a href="#related">관련 게임</a></li>
+        </ul>
       </section>
 
-      <article class="article">
-        <h2>플레이 방법</h2>
-        <p>
-          시작 버튼을 누르면 화면이 대기 상태로 바뀝니다. 이때는 아직 누르면 안 됩니다.
-          잠시 뒤 신호판이 초록색으로 바뀌고 "지금!"이라는 문구가 보이면 버튼이나 신호판을 누르세요.
-          너무 일찍 누른 판은 실패로 처리되며 기록에 포함되지 않습니다.
-        </p>
+      <div class="game-detail-grid">
+        <article class="article">
+          <h2 id="how">게임 방법</h2>
+          <p>짧은 규칙을 읽고 바로 시작할 수 있는 브라우저 미니게임입니다. 화면의 점수판과 결과 안내를 보면서 한 판씩 기록을 갱신해 보세요.</p>
+          <p>반응속도 체크는 별도 앱 설치나 로그인이 필요 없습니다. 페이지 안의 플레이 영역에서 바로 시작할 수 있고, 가능한 기록은 현재 브라우저에만 저장됩니다.</p>
 
-        <h2>기록은 어떻게 보나요</h2>
-        <p>
-          기록은 밀리초 단위로 표시됩니다. 숫자가 낮을수록 빠른 반응입니다.
-          한 번의 최고 기록만으로 실력을 판단하기보다 최근 기록과 평균 기록을 함께 보는 편이 좋습니다.
-          손 위치, 입력 장치, 화면 주사율, 주변 소음 같은 조건에 따라 기록이 달라질 수 있습니다.
-        </p>
+          <h2 id="tips">공략 팁</h2>
+          <ul>
+            <li>처음 한 판은 규칙을 익히는 데 사용합니다.</li>
+            <li>결과 메시지를 보고 다음 판에서 줄일 실수를 정합니다.</li>
+            <li>모바일에서는 화면 버튼을 천천히 눌러 조작감을 먼저 확인합니다.</li>
+          </ul>
 
-        <h2>실수를 줄이는 팁</h2>
-        <ul>
-          <li>시작 후 바로 누르지 말고 신호가 바뀌는 순간까지 기다립니다.</li>
-          <li>마우스나 손가락을 버튼 위에 미리 올려두면 움직이는 시간을 줄일 수 있습니다.</li>
-          <li>한두 판의 기록보다 여러 번 반복했을 때의 평균을 확인합니다.</li>
-          <li>너무 빠르게 누르려다 실패가 잦다면 기다리는 감각부터 익히는 것이 좋습니다.</li>
-        </ul>
+          <h2>플레이 흐름</h2>
+          <p>
+            한 판을 시작하면 상단 점수판에서 현재 진행 상태를 확인할 수 있습니다.
+            결과 메시지는 실수, 성공, 최고 기록 여부를 알려 주므로 다음 판에서 무엇을 바꿀지 바로 판단할 수 있습니다.
+          </p>
 
-        <h2>모바일에서 플레이할 때</h2>
-        <p>
-          모바일에서는 버튼뿐 아니라 신호판 자체를 눌러도 기록됩니다.
-          화면을 확대하지 않아도 누를 수 있도록 큰 영역을 사용하므로, 손가락을 화면 위에 편하게 올려두고 신호를 기다리면 됩니다.
-        </p>
+          <h2 id="faq">자주 묻는 질문</h2>
+          <h3>기록은 어디에 저장되나요?</h3>
+          <p>최고 기록은 가능한 경우 현재 브라우저 안에만 저장됩니다.</p>
+          <h3>모바일에서도 플레이할 수 있나요?</h3>
+          <p>네. 화면 버튼을 함께 제공하며, 작은 화면에서도 게임판과 결과 영역이 겹치지 않도록 구성했습니다.</p>
+          <h3>기록이 사라질 수 있나요?</h3>
+          <p>기록은 브라우저 로컬 저장소를 사용합니다. 브라우저 데이터를 삭제하거나 다른 기기에서 접속하면 기록이 이어지지 않을 수 있습니다.</p>
 
-        <h2>추천하는 플레이 방식</h2>
-        <p>
-          짧게 5판 정도 반복한 뒤 최고 기록과 평균 기록을 함께 확인해 보세요.
-          기록이 불안정하다면 속도를 더 올리기보다 실패 없이 기다리는 리듬을 먼저 만드는 것이 좋습니다.
-        </p>
+          <h2 id="related">관련 게임</h2>
+          <p>
+            <a href="/games/click-sprint/">클릭 스프린트</a>, <a href="/games/aim-trainer/">에임 트레이너</a>, <a href="/games/typing-sprint/">타이핑 노선</a>도 함께 플레이해 보세요.
+            전체 게임은 <a href="/games/">게임 목록</a>에서 장르별로 확인할 수 있습니다.
+          </p>
+        </article>
 
-        <h2>자주 묻는 질문</h2>
-        <h3>기록이 너무 빠르게 나와도 정상인가요?</h3>
-        <p>
-          입력 장치나 화면 상태에 따라 아주 빠른 기록이 나올 수 있습니다. 다만 신호가 바뀌기 전에 누른 판은 실패 처리되므로,
-          여러 번 반복했을 때 비슷한 범위의 기록이 나오는지 함께 보는 것이 좋습니다.
-        </p>
-        <h3>키보드로도 플레이할 수 있나요?</h3>
-        <p>
-          신호판에 초점이 잡혀 있으면 Enter 또는 Space 키로도 누를 수 있습니다.
-          모바일에서는 신호판이나 버튼을 터치하면 됩니다.
-        </p>
-        <h3>기록이 사라졌습니다.</h3>
-        <p>
-          기록은 브라우저 로컬 저장소에 보관됩니다. 브라우저 데이터를 삭제했거나 다른 브라우저에서 접속한 경우 기록이 이어지지 않을 수 있습니다.
-          자세한 내용은 <a href="/help/">도움말</a>을 확인해 주세요.
-        </p>
-
-        <h2>관련 페이지</h2>
-        <p>
-          전체 게임은 <a href="/games/">게임 목록</a>에서 확인할 수 있고, 기록 저장 방식은 <a href="/privacy/">개인정보처리방침</a>에 정리되어 있습니다.
-        </p>
-      </article>
+        <section class="inline-game-stage" id="play-area" aria-live="polite">
+          <div class="stage-head">
+            <div>
+              <p class="eyebrow" id="playCategory">스킬 · 15초</p>
+              <h2 id="stageTitle">반응속도 체크</h2>
+            </div>
+            <div class="stage-actions">
+              <a class="button secondary" href="/play/?game=reaction-speed">큰 화면</a>
+              <button class="button primary" id="restartGame" type="button">다시 시작</button>
+            </div>
+          </div>
+          <div class="play-surface" id="playSurface" data-game-id="reaction-speed"></div>
+          <p class="result-line" id="playResult">게임을 불러오는 중입니다.</p>
+        </section>
+      </div>
     </main>
 
     <footer class="site-footer">
       <div>
         <strong>한판게임즈</strong>
-        <p>반응속도와 집중력을 짧게 확인하는 한 판.</p>
+        <p>반응속도 체크와 함께 즐기는 무료 웹 미니게임.</p>
       </div>
       <nav aria-label="푸터 메뉴">
         <a href="/about/">소개</a>
@@ -111,32 +106,8 @@
       </nav>
       <p class="copyright">© <span id="year"></span> Hanpan Games. All rights reserved.</p>
     </footer>
-    <script type="application/ld+json">
-      {
-        "@context": "https://schema.org",
-        "@type": "BreadcrumbList",
-        "itemListElement": [
-          {
-            "@type": "ListItem",
-            "position": 1,
-            "name": "홈",
-            "item": "https://hanpan-games.pages.dev/"
-          },
-          {
-            "@type": "ListItem",
-            "position": 2,
-            "name": "게임",
-            "item": "https://hanpan-games.pages.dev/games/"
-          },
-          {
-            "@type": "ListItem",
-            "position": 3,
-            "name": "반응속도 체크",
-            "item": "https://hanpan-games.pages.dev/games/reaction-speed/"
-          }
-        ]
-      }
-    </script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"VideoGame","name":"반응속도 체크","url":"https://hanpan-games.pages.dev/games/reaction-speed/","description":"초록 신호가 켜지는 순간을 누르는 반응속도 게임입니다.","applicationCategory":"Game","operatingSystem":"Web Browser","inLanguage":"ko-KR","isAccessibleForFree":true,"publisher":{"@type":"Organization","name":"한판게임즈"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"홈","item":"https://hanpan-games.pages.dev/"},{"@type":"ListItem","position":2,"name":"게임","item":"https://hanpan-games.pages.dev/games/"},{"@type":"ListItem","position":3,"name":"반응속도 체크","item":"https://hanpan-games.pages.dev/games/reaction-speed/"}]}]}</script>
     <script src="/assets/app.js" defer></script>
+    <script src="/assets/arcade.js" defer></script>
   </body>
 </html>
