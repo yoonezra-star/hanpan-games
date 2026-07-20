@@ -7,6 +7,8 @@ const arcadePath = path.join(publicDir, "assets", "arcade.js");
 const arcade = fs.readFileSync(arcadePath, "utf8");
 const assetVersion = "20260720-depth";
 const siteUrl = "https://hanpangames.kr";
+const adsenseClient = "ca-pub-6918910185244897";
+const adsenseScript = `<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${adsenseClient}" crossorigin="anonymous"></script>`;
 
 const catalog = [...arcade.matchAll(/\{ id: "([^"]+)", title: "([^"]+)", category: "([^"]+)", type: "([^"]+)", minutes: "([^"]+)", description: "([^"]+)" \}/g)]
   .map((match) => ({
@@ -759,6 +761,7 @@ function pageHtml(game) {
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+    ${adsenseScript}
     <title>${htmlEscape(game.title)} - 한판게임즈</title>
     <meta name="description" content="${htmlEscape(description)}">
     <link rel="canonical" href="${url}">
