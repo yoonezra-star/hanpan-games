@@ -20,7 +20,7 @@
     { id: "pong-rally", title: "퐁 랠리", category: "arcade", type: "pong", minutes: "2분", description: "패들을 움직여 공을 받아내고 상대보다 먼저 득점하는 클래식 랠리 게임입니다." },
     { id: "space-guard", title: "우주 방어선", category: "arcade", type: "space", minutes: "3분", description: "좌우로 움직이며 탄을 쏘고 내려오는 적 편대를 막아내는 슈팅 게임입니다." },
     { id: "flappy-jump", title: "플래피 점프", category: "arcade", type: "flappy", minutes: "1분", description: "짧게 점프하며 기둥 사이를 통과하는 원버튼 회피 게임입니다." },
-    { id: "bubble-pop", title: "버블팝", category: "arcade", type: "target", minutes: "1분", description: "반짝이는 버블을 놓치지 않고 눌러 점수를 모읍니다." },
+    { id: "bubble-pop", title: "버블팝", category: "arcade", type: "bubble", minutes: "1분", description: "반짝이는 버블을 놓치지 않고 눌러 점수를 모읍니다." },
     { id: "snake-garden", title: "뱀의 정원", category: "arcade", type: "snake", minutes: "2분", description: "정원을 돌아다니며 먹이를 먹고 몸을 늘리는 그리드 게임입니다." },
     { id: "airplane-dodge", title: "붕붕 비행기", category: "arcade", type: "lane", minutes: "1분", description: "세 개의 항로를 오가며 장애물을 피하는 비행 게임입니다." },
     { id: "chair-dash", title: "의자 질주", category: "arcade", type: "chair", minutes: "2분", description: "바퀴 달린 의자를 타고 사무실 통로를 미끄러지듯 달려 목적지에 도착합니다." },
@@ -49,6 +49,11 @@
     { id: "constellation", title: "별자리 잇기", category: "test", type: "constellation", minutes: "1분", description: "별을 순서대로 이어 작은 별자리를 완성합니다." },
     { id: "garden-water", title: "정원 물주기", category: "test", type: "garden", minutes: "1분", description: "마른 화분을 찾아 물을 주고 정원을 살립니다." }
   ];
+
+  const approvalHiddenGameIds = new Set(["blackjack", "danger-dice", "slot-machine"]);
+  const publicCatalog = catalog.filter(function (game) {
+    return !approvalHiddenGameIds.has(game.id);
+  });
 
   let cleanup = [];
 
@@ -129,7 +134,7 @@
 
     function draw() {
       const query = (search && search.value ? search.value : "").trim().toLowerCase();
-      const games = catalog.filter(function (game) {
+      const games = publicCatalog.filter(function (game) {
         const categoryMatch = active === "all" || game.category === active;
         const text = `${game.title} ${game.description} ${categoryNames[game.category]}`.toLowerCase();
         return categoryMatch && (!query || text.includes(query));
@@ -179,13 +184,14 @@
     const search = $("#playSearch");
     const restart = $("#restartGame");
     const requestedGame = new URLSearchParams(location.search).get("game") || surface.dataset.gameId;
-    let current = catalog.find(function (game) { return game.id === requestedGame; }) || catalog[0];
+    const availableGames = surface.dataset.gameId ? catalog : publicCatalog;
+    let current = availableGames.find(function (game) { return game.id === requestedGame; }) || availableGames[0];
 
     function drawPicker() {
       if (!picker) return;
       const query = (search && search.value ? search.value : "").trim().toLowerCase();
       picker.innerHTML = "";
-      catalog
+      availableGames
         .filter(function (game) {
           const text = `${game.title} ${game.description} ${categoryNames[game.category]}`.toLowerCase();
           return !query || text.includes(query);
@@ -230,6 +236,7 @@
       pairs: renderPairs,
       tap: renderTap,
       target: renderTarget,
+      bubble: renderTarget,
       mole: renderMole,
       brick: renderBrick,
       tetris: renderTetris,

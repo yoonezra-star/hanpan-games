@@ -37,6 +37,7 @@
         </div>
         <ul class="toc-list" aria-label="페이지 목차">
           <li><a href="#intro">틱택토란?</a></li>
+          <li><a href="#play-notes">플레이 포인트</a></li>
           <li><a href="#how">게임 방법</a></li>
           <li><a href="#controls">조작법</a></li>
           <li><a href="#strategy">무패 전략</a></li>
@@ -69,6 +70,19 @@
               <span>현재 브라우저 세션 동안 X 승, O 승, 무승부와 무패 흐름을 확인합니다.</span>
             </div>
           </div>
+
+          <h2 id="play-notes">플레이 포인트</h2>
+          <p>틱택토는 규칙보다 수순 관리가 중요한 게임입니다. 한 수를 놓기 전에 내가 만들 수 있는 승리선과 상대가 다음 턴에 완성할 수 있는 승리선을 함께 보면, 쉬운 난이도에서는 공격 패턴을 익히고 어려움 난이도에서는 무승부 방어를 안정적으로 연습할 수 있습니다.</p>
+          <div class="detail-snapshot" aria-label="틱택토 플레이 요약">
+            <div><strong>추천 상황</strong><span>짧은 전략 게임으로 중앙, 모서리, 차단 판단을 연습하고 싶을 때</span></div>
+            <div><strong>좋은 기록</strong><span>어려움 AI를 상대로 연속 무패 흐름 유지</span></div>
+            <div><strong>주의할 점</strong><span>내 승리 후보만 보다가 상대의 즉시 승리 줄을 놓치는 상황</span></div>
+          </div>
+          <ul class="tic-rule-list">
+            <li>중앙, 모서리, 변 순서로 각 칸의 가치를 비교합니다.</li>
+            <li>상대가 두 칸을 이은 줄은 내 공격보다 먼저 막습니다.</li>
+            <li>두 줄을 동시에 위협하는 포크 자리를 만들 수 있는지 확인합니다.</li>
+          </ul>
 
           <h2 id="how">게임 방법</h2>
           <p>게임 영역 상단에서 AI 대전 또는 2인 대전을 선택합니다. AI 대전에서는 난이도와 내 표시를 고를 수 있고, X는 항상 선공입니다. 자신의 차례가 되면 빈 칸을 선택해 표시를 놓습니다.</p>
