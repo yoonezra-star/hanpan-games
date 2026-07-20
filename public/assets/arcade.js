@@ -262,6 +262,33 @@
       garden: renderGarden
     };
     (map[game.type] || renderTap)(game, surface);
+    addLiveMotion(game, surface);
+  }
+
+  function addLiveMotion(game, surface) {
+    if (surface.querySelector("canvas")) return;
+    if (surface.querySelector(".live-motion")) return;
+    const panel = document.createElement("div");
+    panel.className = `live-motion live-motion-${game.category}`;
+    panel.setAttribute("aria-hidden", "true");
+    for (let i = 0; i < 7; i += 1) {
+      const dot = document.createElement("span");
+      dot.className = "live-dot";
+      dot.style.setProperty("--dot-index", String(i));
+      dot.style.setProperty("--dot-delay", `${i * -0.34}s`);
+      panel.appendChild(dot);
+    }
+    const rail = document.createElement("i");
+    rail.className = "live-rail";
+    panel.appendChild(rail);
+    surface.prepend(panel);
+  }
+
+  function pulseClass(element, className) {
+    if (!element) return;
+    element.classList.remove(className);
+    void element.offsetWidth;
+    element.classList.add(className);
   }
 
   function renderScore(surface, items) {
@@ -326,16 +353,30 @@
     let tries = 0;
     surface.innerHTML = `
       <div class="game-stats"><span><b id="miniRange">1-80</b><small>범위</small></span><span><b id="miniTries">0</b><small>시도</small></span><span><b>${getBest(game.id) || "-"}</b><small>최고</small></span></div>
+      <div class="vault-visual" aria-hidden="true"><span id="vaultWindow"></span><i id="vaultNeedle"></i></div>
       <div class="number-row"><input id="miniNumber" type="number" min="1" max="80" inputmode="numeric" placeholder="숫자 입력"><button class="button secondary" id="miniGuess" type="button">확인</button></div>
     `;
     const input = $("#miniNumber", surface);
     const guess = $("#miniGuess", surface);
     const range = $("#miniRange", surface);
     const triesEl = $("#miniTries", surface);
+    const windowEl = $("#vaultWindow", surface);
+    const needle = $("#vaultNeedle", surface);
+    function syncWindow(value) {
+      const start = ((low - 1) / 79) * 100;
+      const width = ((high - low + 1) / 80) * 100;
+      windowEl.style.left = `${start}%`;
+      windowEl.style.width = `${width}%`;
+      if (Number.isFinite(value)) {
+        needle.style.left = `${((value - 1) / 79) * 100}%`;
+        pulseClass(needle, "ping");
+      }
+    }
     function submit() {
       const value = Number(input.value);
       if (!Number.isInteger(value) || value < low || value > high) {
         setResult(`${low}부터 ${high} 사이의 숫자를 입력하세요.`);
+        pulseClass(input, "input-shake");
         return;
       }
       tries += 1;
@@ -343,22 +384,27 @@
       if (value === answer) {
         input.disabled = true;
         guess.disabled = true;
+        syncWindow(value);
+        windowEl.classList.add("solved");
         const isBest = saveBest(game.id, tries, function (a, b) { return a < b; });
         setResult(isBest ? `${tries}번 만에 성공. 새 최고 기록입니다.` : `${tries}번 만에 성공했습니다.`);
       } else if (value < answer) {
         low = value + 1;
         range.textContent = `${low}-${high}`;
         input.value = "";
+        syncWindow(value);
         setResult(`${value}보다 큽니다.`);
       } else {
         high = value - 1;
         range.textContent = `${low}-${high}`;
         input.value = "";
+        syncWindow(value);
         setResult(`${value}보다 작습니다.`);
       }
     }
     guess.addEventListener("click", submit);
     input.addEventListener("keydown", function (event) { if (event.key === "Enter") submit(); });
+    syncWindow();
   }
 
   function renderPairs(game, surface) {
@@ -2399,10 +2445,33 @@
   function renderDice(game, surface) {
     let total = 0;
     let turn = 0;
-    surface.innerHTML = `<div class="dice-face" id="diceFace">?</div><div class="mini-controls"><button class="button secondary" id="roll">굴리기</button><button class="button primary" id="hold">멈추기</button></div>`;
-    $("#roll", surface).addEventListener("click", function () {
-      const value = 1 + Math.floor(Math.random() * 6);
-      $("#diceFace", surface).textContent = String(value);
+    let rolling = false;
+    let rollTimer = null;
+    let stopTimer = null;
+    renderScore(surface, [
+      { label: "누적", value: "0" },
+      { label: "이번 턴", value: "0" },
+      { label: "목표", value: "30" }
+    ]);
+    const stats = surface.querySelectorAll(".mini-score b");
+    surface.insertAdjacentHTML("beforeend", `<div class="dice-face" id="diceFace">?</div><div class="dice-progress" aria-hidden="true"><span id="diceProgress"></span></div><div class="mini-controls"><button class="button secondary" id="roll">굴리기</button><button class="button primary" id="hold">멈추기</button></div>`);
+    const face = $("#diceFace", surface);
+    const progress = $("#diceProgress", surface);
+    const roll = $("#roll", surface);
+    const hold = $("#hold", surface);
+    function sync() {
+      stats[0].textContent = String(total);
+      stats[1].textContent = String(turn);
+      progress.style.width = `${Math.min(100, (total / 30) * 100)}%`;
+    }
+    function finishRoll(value) {
+      clearInterval(rollTimer);
+      rollTimer = null;
+      rolling = false;
+      face.classList.remove("rolling");
+      face.textContent = String(value);
+      roll.disabled = false;
+      hold.disabled = false;
       if (value === 1) {
         turn = 0;
         setResult("1이 나와 이번 턴 점수를 잃었습니다.");
@@ -2410,8 +2479,25 @@
         turn += value;
         setResult(`이번 턴 ${turn}점. 계속 굴릴까요?`);
       }
+      sync();
+      pulseClass(face, value === 1 ? "danger-pop" : "success-pop");
+    }
+    roll.addEventListener("click", function () {
+      if (rolling) return;
+      rolling = true;
+      roll.disabled = true;
+      hold.disabled = true;
+      face.classList.add("rolling");
+      setResult("주사위를 굴리는 중입니다.");
+      rollTimer = setInterval(function () {
+        face.textContent = String(1 + Math.floor(Math.random() * 6));
+      }, 70);
+      stopTimer = setTimeout(function () {
+        finishRoll(1 + Math.floor(Math.random() * 6));
+      }, 560);
     });
-    $("#hold", surface).addEventListener("click", function () {
+    hold.addEventListener("click", function () {
+      if (rolling) return;
       total += turn;
       turn = 0;
       if (total >= 30) {
@@ -2420,7 +2506,13 @@
       } else {
         setResult(`누적 ${total}점. 목표는 30점입니다.`);
       }
+      sync();
     });
+    cleanup.push(function () {
+      clearInterval(rollTimer);
+      clearTimeout(stopTimer);
+    });
+    sync();
   }
 
   function renderRps(game, surface) {
@@ -2450,13 +2542,65 @@
 
   function renderSlot(game, surface) {
     const symbols = ["7", "★", "◆", "●", "H"];
-    surface.innerHTML = `<div class="slot-row"><span>?</span><span>?</span><span>?</span></div><button class="button primary full" id="spin">돌리기</button>`;
-    $("#spin", surface).addEventListener("click", function () {
-      const result = [sample(symbols), sample(symbols), sample(symbols)];
-      surface.querySelectorAll(".slot-row span").forEach(function (slot, index) { slot.textContent = result[index]; });
-      const score = result[0] === result[1] && result[1] === result[2] ? 100 : result[0] === result[1] || result[1] === result[2] ? 30 : 5;
+    let credits = 50;
+    let spins = 0;
+    let spinning = false;
+    let timers = [];
+    renderScore(surface, [
+      { label: "크레딧", value: "50" },
+      { label: "스핀", value: "0" },
+      { label: "최고", value: getBest(game.id) || "-" }
+    ]);
+    const stats = surface.querySelectorAll(".mini-score b");
+    surface.insertAdjacentHTML("beforeend", `<div class="slot-row"><span>?</span><span>?</span><span>?</span></div><button class="button primary full" id="spin">돌리기</button>`);
+    const reels = Array.from(surface.querySelectorAll(".slot-row span"));
+    const spin = $("#spin", surface);
+    function sync() {
+      stats[0].textContent = String(credits);
+      stats[1].textContent = String(spins);
+    }
+    function clearSpinTimers() {
+      timers.forEach(function (timer) { clearInterval(timer); clearTimeout(timer); });
+      timers = [];
+    }
+    function finish(result) {
+      spinning = false;
+      spin.disabled = false;
+      clearSpinTimers();
+      reels.forEach(function (slot, index) {
+        slot.classList.remove("spinning");
+        slot.textContent = result[index];
+      });
+      const score = result[0] === result[1] && result[1] === result[2] ? 100 : result[0] === result[1] || result[1] === result[2] || result[0] === result[2] ? 30 : 5;
+      credits += score;
+      saveBest(game.id, credits, function (a, b) { return a > b; });
+      sync();
+      surface.querySelector(".slot-row").classList.toggle("jackpot", score === 100);
       setResult(`점수 ${score}. ${score === 100 ? "잭팟입니다." : "다시 돌려 보세요."}`);
+    }
+    spin.addEventListener("click", function () {
+      if (spinning || credits <= 0) return;
+      spinning = true;
+      credits -= 5;
+      spins += 1;
+      sync();
+      spin.disabled = true;
+      surface.querySelector(".slot-row").classList.remove("jackpot");
+      setResult("릴이 돌아가는 중입니다.");
+      const result = [sample(symbols), sample(symbols), sample(symbols)];
+      reels.forEach(function (slot, index) {
+        slot.classList.add("spinning");
+        timers.push(setInterval(function () { slot.textContent = sample(symbols); }, 70 + index * 20));
+        timers.push(setTimeout(function () {
+          slot.classList.remove("spinning");
+          slot.textContent = result[index];
+          pulseClass(slot, "success-pop");
+          if (index === reels.length - 1) finish(result);
+        }, 520 + index * 260));
+      });
     });
+    cleanup.push(clearSpinTimers);
+    sync();
   }
 
   function renderMines(game, surface) {
@@ -3166,32 +3310,82 @@
     let sequence = [];
     let input = [];
     let level = 0;
+    let showing = false;
+    let timers = [];
     const colors = ["빨강", "파랑", "초록", "노랑"];
+    renderScore(surface, [
+      { label: "단계", value: "0" },
+      { label: "입력", value: "0/0" },
+      { label: "최고", value: getBest(game.id) || "-" }
+    ]);
+    const stats = surface.querySelectorAll(".mini-score b");
     const wrap = document.createElement("div");
-    wrap.className = "choice-row";
+    wrap.className = "choice-row simon-pad";
     colors.forEach(function (color) {
       const item = button(color, "button secondary");
+      item.dataset.color = color;
       item.addEventListener("click", function () {
+        if (showing || !sequence.length) return;
+        pulseClass(item, "simon-flash");
         input.push(color);
         const ok = input.every(function (value, index) { return value === sequence[index]; });
         if (!ok) {
+          showing = false;
+          Array.from(wrap.children).forEach(function (buttonEl) { buttonEl.disabled = true; });
+          saveBest(game.id, Math.max(0, level - 1), function (a, b) { return a > b; });
           setResult(`틀렸습니다. 도달 단계 ${level}.`);
           return;
         }
-        if (input.length === sequence.length) next();
+        sync();
+        if (input.length === sequence.length) {
+          setResult("정확합니다. 다음 순서를 준비합니다.");
+          timers.push(setTimeout(next, 520));
+        }
       });
       wrap.appendChild(item);
     });
     surface.appendChild(wrap);
     const start = button("순서 보기", "button primary full");
     surface.appendChild(start);
+    function clearSequenceTimers() {
+      timers.forEach(function (timer) { clearTimeout(timer); });
+      timers = [];
+    }
+    function sync() {
+      stats[0].textContent = String(level);
+      stats[1].textContent = `${input.length}/${sequence.length}`;
+    }
+    function flashSequence() {
+      showing = true;
+      start.disabled = true;
+      Array.from(wrap.children).forEach(function (buttonEl) { buttonEl.disabled = true; });
+      setResult(`단계 ${level} 순서를 보고 기억하세요.`);
+      sequence.forEach(function (color, index) {
+        timers.push(setTimeout(function () {
+          const item = wrap.querySelector(`[data-color="${color}"]`);
+          pulseClass(item, "simon-flash");
+        }, 360 + index * 520));
+      });
+      timers.push(setTimeout(function () {
+        showing = false;
+        start.disabled = false;
+        Array.from(wrap.children).forEach(function (buttonEl) { buttonEl.disabled = false; });
+        setResult("이제 같은 순서로 눌러 보세요.");
+        sync();
+      }, 360 + sequence.length * 520));
+    }
     function next() {
+      clearSequenceTimers();
       level += 1;
       input = [];
       sequence.push(sample(colors));
-      setResult(`단계 ${level}: ${sequence.join(" → ")}`);
+      sync();
+      flashSequence();
     }
     start.addEventListener("click", next);
+    cleanup.push(clearSequenceTimers);
+    sync();
+    setResult("순서 보기를 눌러 첫 패턴을 확인하세요.");
   }
 
   function renderPattern(game, surface) {
