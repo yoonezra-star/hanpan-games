@@ -9,6 +9,7 @@ const assetVersion = "20260720-depth";
 const siteUrl = "https://hanpangames.kr";
 const adsenseClient = "ca-pub-6918910185244897";
 const adsenseScript = `<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${adsenseClient}" crossorigin="anonymous"></script>`;
+const searchConsoleVerification = `<meta name="google-site-verification" content="qBlRPhDg3Tazy0wuTNee_wfGeDjuYz80N6R_Iinh9bs" />`;
 
 const catalog = [...arcade.matchAll(/\{ id: "([^"]+)", title: "([^"]+)", category: "([^"]+)", type: "([^"]+)", minutes: "([^"]+)", description: "([^"]+)" \}/g)]
   .map((match) => ({
@@ -762,6 +763,7 @@ function pageHtml(game) {
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="icon" href="/favicon.svg" type="image/svg+xml">
     ${adsenseScript}
+    ${searchConsoleVerification}
     <title>${htmlEscape(game.title)} - 한판게임즈</title>
     <meta name="description" content="${htmlEscape(description)}">
     <link rel="canonical" href="${url}">
