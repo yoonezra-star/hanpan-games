@@ -204,11 +204,14 @@
 
     function draw() {
       clearTimers();
-      $("#playTitle").textContent = current.title;
-      $("#playDescription").textContent = current.description;
+      const pageTitle = $("#playTitle");
+      const pageDescription = $("#playDescription");
+      if (surface.dataset.gameId) {
+        if (pageTitle) pageTitle.textContent = current.title;
+        if (pageDescription) pageDescription.textContent = current.description;
+      }
       $("#stageTitle").textContent = current.title;
       $("#playCategory").textContent = `${categoryNames[current.category]} · ${current.minutes}`;
-      if (!surface.dataset.gameId) document.title = `${current.title} - 한판게임즈`;
       surface.innerHTML = "";
       setResult("게임을 시작해 보세요.");
       drawPicker();
