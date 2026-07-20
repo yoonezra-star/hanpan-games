@@ -27,6 +27,7 @@
         <a href="/games/">게임</a>
         <a href="/guides/">가이드</a>
         <a href="/about/">소개</a>
+        <a href="/help/">도움말</a>
         <a href="/contact/">문의</a>
       </nav>
     </header>
@@ -208,7 +209,11 @@
             처음 온 사람도 실수 없이 이해할 수 있는지, 짧은 판이 끝난 뒤 다시 해보고 싶은지가
             업데이트의 우선순위입니다.
           </p>
-          <a class="inline-link" href="/guides/">운영 가이드 읽기</a>
+          <div class="link-row compact">
+            <a class="inline-link" href="/guides/">운영 가이드 읽기</a>
+            <a class="inline-link" href="/help/">도움말 보기</a>
+            <a class="inline-link" href="/updates/">업데이트 노트</a>
+          </div>
         </div>
       </section>
     </main>
@@ -220,6 +225,8 @@
       </div>
       <nav aria-label="푸터 메뉴">
         <a href="/about/">소개</a>
+        <a href="/help/">도움말</a>
+        <a href="/updates/">업데이트</a>
         <a href="/privacy/">개인정보처리방침</a>
         <a href="/terms/">이용약관</a>
         <a href="/contact/">문의</a>
@@ -227,6 +234,22 @@
       <p class="copyright">© <span id="year"></span> Hanpan Games. All rights reserved.</p>
     </footer>
 
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "WebSite",
+        "name": "한판게임즈",
+        "alternateName": "Hanpan Games",
+        "url": "https://hanpan-games.pages.dev/",
+        "description": "설치 없이 바로 즐기는 무료 웹 미니게임과 플레이 가이드.",
+        "inLanguage": "ko-KR",
+        "publisher": {
+          "@type": "Organization",
+          "name": "Hanpan Games",
+          "url": "https://hanpan-games.pages.dev/"
+        }
+      }
+    </script>
     <script src="/assets/app.js" defer></script>
   </body>
 </html>

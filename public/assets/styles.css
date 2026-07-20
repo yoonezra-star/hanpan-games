@@ -722,6 +722,16 @@ a:focus-visible {
   margin-top: 8px;
 }
 
+.faq-list h3,
+.timeline h3 {
+  margin-top: 22px;
+  font-size: 21px;
+}
+
+.timeline h2 + h3 {
+  margin-top: 12px;
+}
+
 .site-footer {
   display: grid;
   grid-template-columns: 1fr auto;
