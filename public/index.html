@@ -1,0 +1,214 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>한판게임즈 - 설치 없이 바로 즐기는 무료 미니게임</title>
+    <meta name="description" content="한판게임즈는 설치 없이 브라우저에서 바로 즐기는 무료 미니게임 허브입니다. 반응속도, 기억력, 숫자 추리, 퍼즐, 두뇌 게임을 가볍게 한 판씩 플레이하세요.">
+    <link rel="canonical" href="https://hanpan.tali.kr/">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="한판게임즈 - 무료 미니게임">
+    <meta property="og:description" content="설치 없이 바로 즐기는 무료 웹 미니게임. 오늘도 한 판만 더.">
+    <meta property="og:url" content="https://hanpan.tali.kr/">
+    <meta property="og:site_name" content="한판게임즈">
+    <meta name="twitter:card" content="summary">
+    <link rel="stylesheet" href="/assets/styles.css">
+  </head>
+  <body>
+    <header class="site-header">
+      <a class="brand" href="/" aria-label="한판게임즈 홈">
+        <span class="brand-mark" aria-hidden="true">H</span>
+        <span>
+          <strong>한판게임즈</strong>
+          <small>HANPAN GAMES</small>
+        </span>
+      </a>
+      <nav class="nav" aria-label="주요 메뉴">
+        <a href="/games/">게임</a>
+        <a href="/guides/">가이드</a>
+        <a href="/about/">소개</a>
+        <a href="/contact/">문의</a>
+      </nav>
+    </header>
+
+    <main>
+      <section class="hero">
+        <div class="hero-copy">
+          <p class="eyebrow">무료 웹 미니게임 허브</p>
+          <h1>설치 없이, 로그인 없이, 오늘도 가볍게 한 판.</h1>
+          <p class="lead">
+            한판게임즈는 짧은 쉬는 시간에 바로 시작할 수 있는 브라우저 게임을 모읍니다.
+            반응속도, 기억력, 추리력처럼 매번 기록이 남는 게임부터 천천히 풀어도 좋은 퍼즐까지
+            모바일과 데스크톱에서 편하게 즐길 수 있게 정리했습니다.
+          </p>
+          <div class="hero-actions">
+            <a class="button primary" href="#play-now">바로 플레이</a>
+            <a class="button secondary" href="/games/">전체 게임 보기</a>
+          </div>
+        </div>
+        <div class="hero-panel" aria-label="한판게임즈 미리보기">
+          <div class="mini-window">
+            <div class="window-bar">
+              <span></span><span></span><span></span>
+            </div>
+            <div class="score-strip">
+              <b>오늘의 한판</b>
+              <span>기록 갱신 도전</span>
+            </div>
+            <div class="tile-board" aria-hidden="true">
+              <span class="tile hot">12</span>
+              <span class="tile cool">OK</span>
+              <span class="tile sun">7</span>
+              <span class="tile ink">GO</span>
+              <span class="tile leaf">24</span>
+              <span class="tile rose">H</span>
+              <span class="tile sky">1</span>
+              <span class="tile gold">UP</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section stats-band" aria-label="사이트 요약">
+        <div>
+          <strong>3</strong>
+          <span>즉시 플레이 게임</span>
+        </div>
+        <div>
+          <strong>6</strong>
+          <span>준비 중 카테고리</span>
+        </div>
+        <div>
+          <strong>0원</strong>
+          <span>무료 이용</span>
+        </div>
+        <div>
+          <strong>무설치</strong>
+          <span>브라우저 실행</span>
+        </div>
+      </section>
+
+      <section id="play-now" class="section">
+        <div class="section-heading">
+          <p class="eyebrow">Play now</p>
+          <h2>지금 바로 할 수 있는 한 판</h2>
+          <p>
+            첫 버전은 광고보다 플레이 경험을 먼저 확인할 수 있도록 세 가지 게임을 직접 넣었습니다.
+            모든 기록은 기기 안에만 저장되며 회원가입을 요구하지 않습니다.
+          </p>
+        </div>
+
+        <div class="play-grid">
+          <article class="game-box" id="reaction-game">
+            <div class="game-meta">
+              <span class="tag red">스킬</span>
+              <span>평균 15초</span>
+            </div>
+            <h3>반응속도 체크</h3>
+            <p>초록 신호가 켜지는 순간 누르면 밀리초 단위 기록이 나옵니다.</p>
+            <div class="reaction-stage" data-state="idle">
+              <strong id="reactionText">준비되면 시작을 누르세요</strong>
+              <span id="reactionHint">성급하게 누르면 실패입니다.</span>
+            </div>
+            <button class="button primary full" id="reactionButton" type="button">시작</button>
+            <p class="result-line" id="reactionResult">최고 기록: 아직 없음</p>
+          </article>
+
+          <article class="game-box" id="number-game">
+            <div class="game-meta">
+              <span class="tag blue">추리</span>
+              <span>1부터 50까지</span>
+            </div>
+            <h3>숫자 금고</h3>
+            <p>숨겨진 숫자를 맞혀 보세요. 입력할 때마다 높은지 낮은지 힌트를 줍니다.</p>
+            <div class="number-row">
+              <input id="numberGuess" type="number" min="1" max="50" inputmode="numeric" placeholder="숫자 입력" aria-label="추측 숫자">
+              <button class="button secondary" id="numberButton" type="button">확인</button>
+            </div>
+            <p class="result-line" id="numberResult">새 금고가 준비되었습니다.</p>
+            <button class="text-button" id="numberReset" type="button">새 숫자로 다시 시작</button>
+          </article>
+
+          <article class="game-box" id="memory-game">
+            <div class="game-meta">
+              <span class="tag green">두뇌</span>
+              <span>8장 짝맞추기</span>
+            </div>
+            <h3>기억 타일</h3>
+            <p>카드를 뒤집어 같은 글자끼리 짝을 맞춥니다. 적은 횟수로 끝내는 것이 목표입니다.</p>
+            <div class="memory-board" id="memoryBoard" aria-label="기억 타일 게임판"></div>
+            <p class="result-line" id="memoryResult">시도 횟수: 0</p>
+            <button class="button secondary full" id="memoryReset" type="button">섞어서 다시 하기</button>
+          </article>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="section-heading">
+          <p class="eyebrow">Library</p>
+          <h2>확장 예정 게임 목록</h2>
+          <p>
+            한판게임즈는 짧고 반복 플레이가 쉬운 게임을 우선합니다.
+            첫 배포 후에는 점수 저장, 주간 랭킹, 공유용 결과 카드 순서로 기능을 넓힐 계획입니다.
+          </p>
+        </div>
+        <div class="cards">
+          <article class="card">
+            <span class="tag red">아케이드</span>
+            <h3>블록 드롭</h3>
+            <p>떨어지는 블록을 정리하며 오래 버티는 클래식 퍼즐입니다.</p>
+          </article>
+          <article class="card">
+            <span class="tag blue">퍼즐</span>
+            <h3>2048 한판</h3>
+            <p>숫자 타일을 합쳐 목표 숫자에 도달하는 집중형 퍼즐입니다.</p>
+          </article>
+          <article class="card">
+            <span class="tag green">두뇌</span>
+            <h3>순서 기억</h3>
+            <p>빛나는 순서를 보고 그대로 따라 누르는 기억력 테스트입니다.</p>
+          </article>
+          <article class="card">
+            <span class="tag gold">파티</span>
+            <h3>눈치 게임</h3>
+            <p>친구들과 한 화면에서 가볍게 즐기는 순발력 파티 게임입니다.</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="section editorial">
+        <div>
+          <p class="eyebrow">AdSense ready</p>
+          <h2>승인용 사이트로 필요한 기본기를 먼저 채웠습니다</h2>
+        </div>
+        <div class="editorial-copy">
+          <p>
+            광고 심사를 위해서는 단순 링크 모음보다 사이트의 목적, 고유 콘텐츠, 개인정보 처리,
+            문의 가능성이 분명해야 합니다. 그래서 홈에는 실제 플레이 영역을 배치하고,
+            게임 선택 기준과 플레이 팁을 별도 가이드로 정리했습니다.
+          </p>
+          <p>
+            광고 코드는 승인 전에는 넣지 않는 편이 깔끔합니다. 승인 후에는 콘텐츠를 가리지 않는 위치,
+            예를 들어 게임 목록 사이의 네이티브 광고나 가이드 본문 하단부터 천천히 적용하는 구성이 좋습니다.
+          </p>
+          <a class="inline-link" href="/guides/">운영 가이드 읽기</a>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div>
+        <strong>한판게임즈</strong>
+        <p>무료 웹 미니게임과 플레이 가이드를 제공하는 캐주얼 게임 허브입니다.</p>
+      </div>
+      <nav aria-label="푸터 메뉴">
+        <a href="/about/">소개</a>
+        <a href="/privacy/">개인정보처리방침</a>
+        <a href="/contact/">문의</a>
+      </nav>
+      <p class="copyright">© <span id="year"></span> Hanpan Games. All rights reserved.</p>
+    </footer>
+
+    <script src="/assets/app.js" defer></script>
+  </body>
+</html>

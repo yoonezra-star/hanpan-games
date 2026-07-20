@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>전체 게임 - 한판게임즈</title>
+    <meta name="description" content="한판게임즈의 무료 웹 미니게임 목록입니다. 반응속도, 숫자 추리, 기억 타일, 퍼즐, 아케이드, 파티 게임을 카테고리별로 확인하세요.">
+    <link rel="canonical" href="https://hanpan.tali.kr/games/">
+    <link rel="stylesheet" href="/assets/styles.css">
+  </head>
+  <body>
+    <header class="site-header">
+      <a class="brand" href="/" aria-label="한판게임즈 홈">
+        <span class="brand-mark" aria-hidden="true">H</span>
+        <span><strong>한판게임즈</strong><small>HANPAN GAMES</small></span>
+      </a>
+      <nav class="nav" aria-label="주요 메뉴">
+        <a href="/games/" aria-current="page">게임</a>
+        <a href="/guides/">가이드</a>
+        <a href="/about/">소개</a>
+        <a href="/contact/">문의</a>
+      </nav>
+    </header>
+
+    <main class="subpage">
+      <section class="page-title">
+        <p class="eyebrow">Game library</p>
+        <h1>전체 게임</h1>
+        <p>
+          한판게임즈의 게임은 짧은 플레이 시간, 쉬운 규칙, 모바일 대응, 반복 도전의 재미를 기준으로 정리합니다.
+          검색과 필터로 오늘 하고 싶은 한 판을 골라 보세요.
+        </p>
+      </section>
+
+      <section class="filter-panel" aria-label="게임 필터">
+        <input id="gameSearch" type="search" placeholder="게임 이름이나 설명 검색" aria-label="게임 검색">
+        <div class="filter-buttons" role="list">
+          <button type="button" class="filter active" data-filter="all">전체</button>
+          <button type="button" class="filter" data-filter="playable">플레이 가능</button>
+          <button type="button" class="filter" data-filter="skill">스킬</button>
+          <button type="button" class="filter" data-filter="puzzle">퍼즐</button>
+          <button type="button" class="filter" data-filter="brain">두뇌</button>
+          <button type="button" class="filter" data-filter="party">파티</button>
+        </div>
+      </section>
+
+      <section class="game-list" id="gameList">
+        <article class="game-card" data-category="playable skill" data-title="반응속도 체크">
+          <span class="tag red">플레이 가능</span>
+          <h2>반응속도 체크</h2>
+          <p>초록 신호를 기다렸다가 가장 빠른 순간에 누르는 스킬 게임입니다.</p>
+          <a class="inline-link" href="/#reaction-game">홈에서 플레이</a>
+        </article>
+        <article class="game-card" data-category="playable brain" data-title="기억 타일">
+          <span class="tag green">플레이 가능</span>
+          <h2>기억 타일</h2>
+          <p>뒤집힌 타일의 위치를 기억해 같은 글자를 맞추는 집중력 게임입니다.</p>
+          <a class="inline-link" href="/#memory-game">홈에서 플레이</a>
+        </article>
+        <article class="game-card" data-category="playable puzzle" data-title="숫자 금고">
+          <span class="tag blue">플레이 가능</span>
+          <h2>숫자 금고</h2>
+          <p>높다, 낮다 힌트를 이용해 숨은 숫자를 찾아내는 짧은 추리 게임입니다.</p>
+          <a class="inline-link" href="/#number-game">홈에서 플레이</a>
+        </article>
+        <article class="game-card" data-category="puzzle" data-title="2048 한판">
+          <span class="tag blue">준비 중</span>
+          <h2>2048 한판</h2>
+          <p>숫자 타일을 합치며 목표 숫자에 도달하는 퍼즐입니다. 키보드와 스와이프를 모두 지원할 예정입니다.</p>
+        </article>
+        <article class="game-card" data-category="skill" data-title="클릭 속도">
+          <span class="tag red">준비 중</span>
+          <h2>클릭 속도</h2>
+          <p>정해진 시간 동안 얼마나 빠르고 안정적으로 클릭하는지 측정하는 스킬 게임입니다.</p>
+        </article>
+        <article class="game-card" data-category="party" data-title="눈치 게임">
+          <span class="tag gold">준비 중</span>
+          <h2>눈치 게임</h2>
+          <p>여럿이 한 기기에서 순서를 읽으며 즐기는 파티형 미니게임입니다.</p>
+        </article>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div>
+        <strong>한판게임즈</strong>
+        <p>설치 없이 바로 즐기는 무료 웹 미니게임.</p>
+      </div>
+      <nav aria-label="푸터 메뉴">
+        <a href="/about/">소개</a>
+        <a href="/privacy/">개인정보처리방침</a>
+        <a href="/contact/">문의</a>
+      </nav>
+      <p class="copyright">© <span id="year"></span> Hanpan Games. All rights reserved.</p>
+    </footer>
+
+    <script src="/assets/app.js" defer></script>
+  </body>
+</html>
