@@ -5,6 +5,7 @@ const root = process.cwd();
 const publicDir = path.join(root, "public");
 const arcadePath = path.join(publicDir, "assets", "arcade.js");
 const arcade = fs.readFileSync(arcadePath, "utf8");
+const assetVersion = "20260720-motion";
 
 const catalog = [...arcade.matchAll(/\{ id: "([^"]+)", title: "([^"]+)", category: "([^"]+)", type: "([^"]+)", minutes: "([^"]+)", description: "([^"]+)" \}/g)]
   .map((match) => ({
@@ -159,7 +160,7 @@ function pageHtml(game) {
     <title>${htmlEscape(game.title)} - 한판게임즈</title>
     <meta name="description" content="${htmlEscape(description)}">
     <link rel="canonical" href="${url}">
-    <link rel="stylesheet" href="/assets/styles.css">
+    <link rel="stylesheet" href="/assets/styles.css?v=${assetVersion}">
   </head>
   <body>
     <header class="site-header">
@@ -258,8 +259,8 @@ function pageHtml(game) {
       <p class="copyright">© <span id="year"></span> Hanpan Games. All rights reserved.</p>
     </footer>
     <script type="application/ld+json">${JSON.stringify(jsonLd)}</script>
-    <script src="/assets/app.js" defer></script>
-    <script src="/assets/arcade.js" defer></script>
+    <script src="/assets/app.js?v=${assetVersion}" defer></script>
+    <script src="/assets/arcade.js?v=${assetVersion}" defer></script>
   </body>
 </html>
 `;
