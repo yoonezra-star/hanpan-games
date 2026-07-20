@@ -106,12 +106,17 @@
             </div>
             <h3>반응속도 체크</h3>
             <p>초록 신호가 켜지는 순간 누르면 밀리초 단위 기록이 나옵니다.</p>
-            <div class="reaction-stage" data-state="idle">
+            <div class="game-stats" aria-label="반응속도 기록">
+              <span><b id="reactionBest">-</b><small>최고</small></span>
+              <span><b id="reactionLast">-</b><small>최근</small></span>
+              <span><b id="reactionAverage">-</b><small>평균</small></span>
+            </div>
+            <div class="reaction-stage" data-state="idle" role="button" tabindex="0" aria-live="polite">
               <strong id="reactionText">준비되면 시작을 누르세요</strong>
-              <span id="reactionHint">성급하게 누르면 실패입니다.</span>
+              <span id="reactionHint">초록 신호 전에는 누르지 않는 것이 핵심입니다.</span>
             </div>
             <button class="button primary full" id="reactionButton" type="button">시작</button>
-            <p class="result-line" id="reactionResult">최고 기록: 아직 없음</p>
+            <p class="result-line" id="reactionResult">라운드를 시작하면 기록이 저장됩니다.</p>
           </article>
 
           <article class="game-box" id="number-game">
@@ -121,10 +126,16 @@
             </div>
             <h3>숫자 금고</h3>
             <p>숨겨진 숫자를 맞혀 보세요. 입력할 때마다 높은지 낮은지 힌트를 줍니다.</p>
+            <div class="game-stats" aria-label="숫자 금고 진행">
+              <span><b id="numberRange">1-50</b><small>가능 범위</small></span>
+              <span><b id="numberTries">0</b><small>시도</small></span>
+              <span><b id="numberBest">-</b><small>최고</small></span>
+            </div>
             <div class="number-row">
               <input id="numberGuess" type="number" min="1" max="50" inputmode="numeric" placeholder="숫자 입력" aria-label="추측 숫자">
               <button class="button secondary" id="numberButton" type="button">확인</button>
             </div>
+            <div class="guess-history" id="guessHistory" aria-label="입력한 숫자 기록"></div>
             <p class="result-line" id="numberResult">새 금고가 준비되었습니다.</p>
             <button class="text-button" id="numberReset" type="button">새 숫자로 다시 시작</button>
           </article>
@@ -132,10 +143,15 @@
           <article class="game-box" id="memory-game">
             <div class="game-meta">
               <span class="tag green">두뇌</span>
-              <span>8장 짝맞추기</span>
+              <span>12장 짝맞추기</span>
             </div>
             <h3>기억 타일</h3>
             <p>카드를 뒤집어 같은 글자끼리 짝을 맞춥니다. 적은 횟수로 끝내는 것이 목표입니다.</p>
+            <div class="game-stats" aria-label="기억 타일 진행">
+              <span><b id="memoryMoves">0</b><small>시도</small></span>
+              <span><b id="memoryTime">0초</b><small>시간</small></span>
+              <span><b id="memoryBest">-</b><small>최고</small></span>
+            </div>
             <div class="memory-board" id="memoryBoard" aria-label="기억 타일 게임판"></div>
             <p class="result-line" id="memoryResult">시도 횟수: 0</p>
             <button class="button secondary full" id="memoryReset" type="button">섞어서 다시 하기</button>

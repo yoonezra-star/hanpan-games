@@ -375,6 +375,40 @@ h3 {
   font-weight: 800;
 }
 
+.game-stats {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+  margin: 14px 0 16px;
+}
+
+.game-stats span {
+  min-width: 0;
+  padding: 9px 8px;
+  text-align: center;
+  background: #f3efe5;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+}
+
+.game-stats b,
+.game-stats small {
+  display: block;
+  overflow-wrap: anywhere;
+}
+
+.game-stats b {
+  color: var(--ink);
+  font-size: 17px;
+  line-height: 1.15;
+}
+
+.game-stats small {
+  color: var(--muted);
+  font-size: 11px;
+  font-weight: 900;
+}
+
 .tag {
   display: inline-flex;
   align-items: center;
@@ -394,6 +428,7 @@ h3 {
 .reaction-stage {
   display: grid;
   place-items: center;
+  gap: 6px;
   min-height: 170px;
   margin: auto 0 16px;
   padding: 18px;
@@ -401,6 +436,7 @@ h3 {
   border: 2px dashed #c9c0ad;
   border-radius: 8px;
   background: #f3efe5;
+  cursor: pointer;
 }
 
 .reaction-stage strong {
@@ -419,6 +455,16 @@ h3 {
 .reaction-stage[data-state="ready"] {
   background: #dff3e8;
   border-color: var(--green);
+}
+
+.reaction-stage[data-state="early"] {
+  background: #fff0c7;
+  border-color: var(--gold);
+}
+
+.reaction-stage[data-state="done"] {
+  background: #e8eef8;
+  border-color: var(--blue);
 }
 
 .number-row {
@@ -444,6 +490,43 @@ button:focus-visible,
 a:focus-visible {
   outline: 3px solid rgba(40, 119, 185, 0.45);
   outline-offset: 3px;
+}
+
+.guess-history {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+  min-height: 34px;
+  margin: 0 0 12px;
+}
+
+.guess-chip {
+  display: inline-flex;
+  align-items: center;
+  min-height: 28px;
+  padding: 0 9px;
+  color: var(--ink);
+  background: #efe9db;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 900;
+}
+
+.guess-chip.high {
+  color: #fff;
+  background: var(--blue);
+}
+
+.guess-chip.low {
+  color: #fff;
+  background: var(--red);
+}
+
+.guess-chip.correct {
+  color: #fff;
+  background: var(--green);
 }
 
 .result-line {
@@ -483,12 +566,32 @@ a:focus-visible {
   font-weight: 1000;
   border-radius: 8px;
   cursor: pointer;
+  transition: transform 140ms ease, background 140ms ease, color 140ms ease;
+}
+
+.memory-card:hover:not(:disabled) {
+  transform: translateY(-1px);
+}
+
+.memory-card span {
+  opacity: 0;
+  pointer-events: none;
 }
 
 .memory-card.revealed,
 .memory-card.matched {
   background: #ffcf5d;
   color: var(--ink);
+}
+
+.memory-card.revealed span,
+.memory-card.matched span {
+  opacity: 1;
+}
+
+.memory-card.matched {
+  background: #dff3e8;
+  cursor: default;
 }
 
 .editorial {
