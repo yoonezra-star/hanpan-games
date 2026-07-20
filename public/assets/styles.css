@@ -548,6 +548,18 @@ a:focus-visible {
   cursor: pointer;
 }
 
+.link-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 18px;
+}
+
+.link-row.compact {
+  gap: 14px;
+  margin-top: 12px;
+}
+
 .memory-board {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
@@ -698,6 +710,16 @@ a:focus-visible {
 
 .article p {
   color: #4d566b;
+}
+
+.article ul {
+  margin: 14px 0 0;
+  padding-left: 22px;
+  color: #4d566b;
+}
+
+.article li + li {
+  margin-top: 8px;
 }
 
 .site-footer {
