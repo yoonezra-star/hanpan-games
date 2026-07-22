@@ -47,6 +47,11 @@ const tagClass = {
 
 const sensitiveGameIds = new Set(["blackjack", "slot-machine", "danger-dice"]);
 const editorialGuideIds = [
+  "twenty-48-strategy",
+  "snake-garden-guide",
+  "mines-beginner-guide",
+  "memory-game-tips",
+  "browser-game-benefits",
   "short-break-web-games",
   "brick-break-strategy",
   "block-drop-beginner",
@@ -1151,14 +1156,14 @@ for (const game of catalog) {
 
 const staticUrls = [
   { loc: `${siteUrl}/`, priority: "1.0", changefreq: "weekly", lastmod: "2026-07-22" },
-  { loc: `${siteUrl}/games/`, priority: "0.9", changefreq: "weekly" },
+  { loc: `${siteUrl}/games/`, priority: "0.9", changefreq: "weekly", lastmod: "2026-07-22" },
   { loc: `${siteUrl}/play/`, priority: "0.9", changefreq: "weekly" },
   { loc: `${siteUrl}/guides/`, priority: "0.8", changefreq: "monthly", lastmod: "2026-07-22" },
-  { loc: `${siteUrl}/help/`, priority: "0.7", changefreq: "monthly" },
+  { loc: `${siteUrl}/help/`, priority: "0.7", changefreq: "monthly", lastmod: "2026-07-22" },
   { loc: `${siteUrl}/updates/`, priority: "0.6", changefreq: "monthly", lastmod: "2026-07-22" },
   { loc: `${siteUrl}/about/`, priority: "0.6", changefreq: "monthly" },
-  { loc: `${siteUrl}/privacy/`, priority: "0.5", changefreq: "yearly" },
-  { loc: `${siteUrl}/terms/`, priority: "0.5", changefreq: "yearly" },
+  { loc: `${siteUrl}/privacy/`, priority: "0.5", changefreq: "yearly", lastmod: "2026-07-22" },
+  { loc: `${siteUrl}/terms/`, priority: "0.5", changefreq: "yearly", lastmod: "2026-07-22" },
   { loc: `${siteUrl}/contact/`, priority: "0.5", changefreq: "yearly" },
   ...editorialGuideIds.map((id) => ({
     loc: `${siteUrl}/guides/${id}/`,
