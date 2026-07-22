@@ -1923,6 +1923,10 @@ a:focus-visible {
   gap: 12px;
 }
 
+.compact-guide-grid {
+  margin: 14px 0 18px;
+}
+
 .featured-link {
   display: grid;
   gap: 6px;

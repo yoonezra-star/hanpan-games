@@ -651,22 +651,34 @@ function guidePageHtml(guide) {
   const otherGuides = guides.filter((item) => item.id !== guide.id).slice(0, 3);
   const jsonLd = {
     "@context": "https://schema.org",
-    "@type": "Article",
-    headline: guide.title,
-    description: guide.description,
-    datePublished: publishedDate,
-    dateModified: publishedDate,
-    inLanguage: "ko-KR",
-    mainEntityOfPage: canonical,
-    author: {
-      "@type": "Organization",
-      name: "Hanpan Games"
-    },
-    publisher: {
-      "@type": "Organization",
-      name: "Hanpan Games",
-      url: siteUrl
-    }
+    "@graph": [
+      {
+        "@type": "Article",
+        headline: guide.title,
+        description: guide.description,
+        datePublished: publishedDate,
+        dateModified: publishedDate,
+        inLanguage: "ko-KR",
+        mainEntityOfPage: canonical,
+        author: {
+          "@type": "Organization",
+          name: "Hanpan Games"
+        },
+        publisher: {
+          "@type": "Organization",
+          name: "Hanpan Games",
+          url: siteUrl
+        }
+      },
+      {
+        "@type": "BreadcrumbList",
+        itemListElement: [
+          { "@type": "ListItem", position: 1, name: "홈", item: `${siteUrl}/` },
+          { "@type": "ListItem", position: 2, name: "가이드", item: `${siteUrl}/guides/` },
+          { "@type": "ListItem", position: 3, name: guide.title, item: canonical }
+        ]
+      }
+    ]
   };
 
   return `<!doctype html>
@@ -696,6 +708,7 @@ function guidePageHtml(guide) {
         <p class="eyebrow">${escapeHtml(guide.category)} · ${guide.readingTime}</p>
         <h1>${escapeHtml(guide.title)}</h1>
         <p>${escapeHtml(guide.summary)}</p>
+        <p class="mini-note">발행 및 수정: 2026년 7월 22일</p>
         <ul class="toc-list">
           ${guide.sections.map((section, index) => `<li><a href="#section-${index + 1}">${escapeHtml(section.heading)}</a></li>`).join("\n          ")}
           <li><a href="#checklist">플레이 체크리스트</a></li>
@@ -745,16 +758,27 @@ function guidePageHtml(guide) {
 function guideIndexHtml() {
   const jsonLd = {
     "@context": "https://schema.org",
-    "@type": "CollectionPage",
-    name: "한판게임즈 게임 가이드",
-    description: "무료 웹 미니게임을 더 편하게 즐기기 위한 플레이 팁과 장르별 공략 모음입니다.",
-    url: `${siteUrl}/guides/`,
-    inLanguage: "ko-KR",
-    publisher: {
-      "@type": "Organization",
-      name: "Hanpan Games",
-      url: siteUrl
-    }
+    "@graph": [
+      {
+        "@type": "CollectionPage",
+        name: "한판게임즈 게임 가이드",
+        description: "무료 웹 미니게임을 더 편하게 즐기기 위한 플레이 팁과 장르별 공략 모음입니다.",
+        url: `${siteUrl}/guides/`,
+        inLanguage: "ko-KR",
+        publisher: {
+          "@type": "Organization",
+          name: "Hanpan Games",
+          url: siteUrl
+        }
+      },
+      {
+        "@type": "BreadcrumbList",
+        itemListElement: [
+          { "@type": "ListItem", position: 1, name: "홈", item: `${siteUrl}/` },
+          { "@type": "ListItem", position: 2, name: "가이드", item: `${siteUrl}/guides/` }
+        ]
+      }
+    ]
   };
 
   return `<!doctype html>

@@ -59,6 +59,81 @@ const editorialGuideIds = [
   "mobile-browser-game-tips",
 ];
 
+const guideCards = {
+  "twenty-48-strategy": {
+    title: "2048 초보 전략",
+    text: "큰 타일을 모서리에 고정하고 보드 흐름을 지키는 방법"
+  },
+  "snake-garden-guide": {
+    title: "스네이크 오래 버티는 법",
+    text: "먹이보다 탈출 공간을 먼저 보는 경로 판단"
+  },
+  "mines-beginner-guide": {
+    title: "지뢰찾기 기본 규칙",
+    text: "숫자 힌트와 깃발로 안전한 칸을 찾는 법"
+  },
+  "memory-game-tips": {
+    title: "기억력 게임 잘하는 법",
+    text: "위치를 구역으로 나누고 오래 기억하는 습관"
+  },
+  "browser-game-benefits": {
+    title: "무료 브라우저 게임의 장점",
+    text: "설치 없는 웹게임을 안전하게 고르는 기준"
+  },
+  "short-break-web-games": {
+    title: "짧은 휴식 게임 고르는 법",
+    text: "플레이 시간과 조작 난이도로 게임을 선택하는 기준"
+  },
+  "brick-break-strategy": {
+    title: "벽돌깨기 초보 공략",
+    text: "패들 위치와 반사각으로 공을 오래 살리는 기본기"
+  },
+  "block-drop-beginner": {
+    title: "블록 드롭 초보 가이드",
+    text: "빈칸을 줄이고 보드를 낮게 유지하는 배치법"
+  },
+  "tic-tac-toe-strategy": {
+    title: "틱택토 전략 가이드",
+    text: "중앙, 모서리, 포크, 방어 순서를 익히는 방법"
+  },
+  "mobile-browser-game-tips": {
+    title: "모바일 브라우저 조작 팁",
+    text: "터치 실수와 화면 가림을 줄이는 휴대폰 플레이 기준"
+  },
+};
+
+const gameGuideIds = {
+  "twenty-48": ["twenty-48-strategy", "browser-game-benefits", "short-break-web-games"],
+  "snake-garden": ["snake-garden-guide", "mobile-browser-game-tips", "browser-game-benefits"],
+  mines: ["mines-beginner-guide", "browser-game-benefits", "short-break-web-games"],
+  "memory-tiles": ["memory-game-tips", "short-break-web-games", "browser-game-benefits"],
+  "pattern-memory": ["memory-game-tips", "mobile-browser-game-tips", "short-break-web-games"],
+  simon: ["memory-game-tips", "mobile-browser-game-tips", "short-break-web-games"],
+  "brick-break": ["brick-break-strategy", "mobile-browser-game-tips", "browser-game-benefits"],
+  "block-drop-classic": ["block-drop-beginner", "twenty-48-strategy", "browser-game-benefits"],
+  "block-fill": ["block-drop-beginner", "twenty-48-strategy", "short-break-web-games"],
+  "tic-tac-toe": ["tic-tac-toe-strategy", "browser-game-benefits", "short-break-web-games"],
+  "connect-four": ["tic-tac-toe-strategy", "browser-game-benefits", "short-break-web-games"],
+  "flappy-jump": ["mobile-browser-game-tips", "short-break-web-games", "browser-game-benefits"],
+  "chair-dash": ["mobile-browser-game-tips", "short-break-web-games", "browser-game-benefits"],
+  "perfume-workshop": ["mobile-browser-game-tips", "block-drop-beginner", "browser-game-benefits"],
+  "reaction-speed": ["short-break-web-games", "mobile-browser-game-tips", "browser-game-benefits"],
+  "click-sprint": ["short-break-web-games", "mobile-browser-game-tips", "browser-game-benefits"],
+  "aim-trainer": ["mobile-browser-game-tips", "short-break-web-games", "browser-game-benefits"],
+  "mole-finder": ["mobile-browser-game-tips", "short-break-web-games", "browser-game-benefits"],
+  "number-vault": ["mines-beginner-guide", "short-break-web-games", "browser-game-benefits"],
+  "sudoku-mini": ["mines-beginner-guide", "twenty-48-strategy", "browser-game-benefits"],
+};
+
+const categoryGuideIds = {
+  arcade: ["mobile-browser-game-tips", "short-break-web-games", "browser-game-benefits"],
+  puzzle: ["block-drop-beginner", "twenty-48-strategy", "browser-game-benefits"],
+  board: ["tic-tac-toe-strategy", "short-break-web-games", "browser-game-benefits"],
+  brain: ["memory-game-tips", "short-break-web-games", "browser-game-benefits"],
+  skill: ["mobile-browser-game-tips", "short-break-web-games", "browser-game-benefits"],
+  test: ["short-break-web-games", "browser-game-benefits", "mobile-browser-game-tips"],
+};
+
 const gameNotes = {
   "reaction-speed": {
     angle: "반응속도 체크는 기다리는 시간과 누르는 순간의 차이를 체감하는 짧은 측정 게임입니다. 초록 신호가 뜨기 전 손에 힘이 들어가면 오히려 실수가 늘어나므로, 화면 중앙을 편하게 보고 한 박자만 줄이는 방식이 좋습니다.",
@@ -898,6 +973,28 @@ function gameNoteHtml(game) {
           ${listHtml(note.routines, "detail-list")}`;
 }
 
+function guideIdsForGame(game) {
+  const ids = gameGuideIds[game.id] || categoryGuideIds[game.category] || ["short-break-web-games", "browser-game-benefits", "mobile-browser-game-tips"];
+  return [...new Set(ids)].slice(0, 3);
+}
+
+function guideCardsHtml(game) {
+  const cards = guideIdsForGame(game)
+    .map((id) => ({ id, ...guideCards[id] }))
+    .filter((guide) => guide.title);
+
+  if (!cards.length) return "";
+
+  return `<h2 id="related-guides">관련 공략</h2>
+          <p>
+            ${htmlEscape(topicName(game.title))} 더 편하게 즐기고 싶다면 아래 가이드를 함께 읽어 보세요.
+            조작, 기록, 모바일 환경, 장르별 기본기를 실제 플레이 기준으로 정리했습니다.
+          </p>
+          <div class="featured-link-grid compact-guide-grid">
+            ${cards.map((guide) => `<a class="featured-link" href="/guides/${guide.id}/"><strong>${htmlEscape(guide.title)}</strong><span>${htmlEscape(guide.text)}</span></a>`).join("\n            ")}
+          </div>`;
+}
+
 function policyNoticeHtml(game) {
   if (!sensitiveGameIds.has(game.id)) return "";
   return `
@@ -957,6 +1054,8 @@ function standardArticleHtml(game, guide, detail, related, category, faqs) {
           <h2>업데이트 노트</h2>
           <p class="site-note">${htmlEscape(detail.update)}</p>
 
+          ${guideCardsHtml(game)}
+
           <h2 id="related">관련 게임</h2>
           <p>
             ${relatedLinksHtml(related)}도 함께 플레이해 보세요.
@@ -1003,6 +1102,8 @@ function featuredArticleHtml(game, shortGuide, deepGuide, related) {
           <h2>업데이트 노트</h2>
           <p class="site-note">${htmlEscape(deepGuide.update)}</p>
 
+          ${guideCardsHtml(game)}
+
           <h2 id="related">관련 게임</h2>
           <p>
             ${relatedLinksHtml(related)}도 함께 플레이해 보세요.
@@ -1023,7 +1124,7 @@ function pageHtml(game) {
   const isApprovalSensitive = sensitiveGameIds.has(game.id);
   const pageAdsenseScript = isApprovalSensitive ? "" : `    ${adsenseScript}\n`;
   const robotsMeta = isApprovalSensitive ? `    <meta name="robots" content="noindex, follow">\n` : "";
-  const tocItems = [["overview", "핵심 요약"], ["play-notes", "플레이 포인트"], ["how", "게임 방법"], ["controls", "조작"], ["scoring", "점수 기준"], ["strategy", "공략"], ["mobile", "모바일 팁"], ["faq", "FAQ"], ["related", "관련 게임"]];
+  const tocItems = [["overview", "핵심 요약"], ["play-notes", "플레이 포인트"], ["how", "게임 방법"], ["controls", "조작"], ["scoring", "점수 기준"], ["strategy", "공략"], ["mobile", "모바일 팁"], ["faq", "FAQ"], ["related-guides", "관련 공략"], ["related", "관련 게임"]];
   const jsonLd = {
     "@context": "https://schema.org",
     "@graph": [
@@ -1179,6 +1280,7 @@ const gameUrls = catalog
     loc: `${siteUrl}/games/${game.id}/`,
     priority: "0.8",
     changefreq: "monthly",
+    lastmod: "2026-07-22",
   }));
 
 const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
