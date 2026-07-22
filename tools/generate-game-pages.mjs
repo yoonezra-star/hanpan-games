@@ -46,6 +46,13 @@ const tagClass = {
 };
 
 const sensitiveGameIds = new Set(["blackjack", "slot-machine", "danger-dice"]);
+const editorialGuideIds = [
+  "short-break-web-games",
+  "brick-break-strategy",
+  "block-drop-beginner",
+  "tic-tac-toe-strategy",
+  "mobile-browser-game-tips",
+];
 
 const gameNotes = {
   "reaction-speed": {
@@ -1143,16 +1150,22 @@ for (const game of catalog) {
 }
 
 const staticUrls = [
-  { loc: `${siteUrl}/`, priority: "1.0", changefreq: "weekly" },
+  { loc: `${siteUrl}/`, priority: "1.0", changefreq: "weekly", lastmod: "2026-07-22" },
   { loc: `${siteUrl}/games/`, priority: "0.9", changefreq: "weekly" },
   { loc: `${siteUrl}/play/`, priority: "0.9", changefreq: "weekly" },
-  { loc: `${siteUrl}/guides/`, priority: "0.8", changefreq: "monthly" },
+  { loc: `${siteUrl}/guides/`, priority: "0.8", changefreq: "monthly", lastmod: "2026-07-22" },
   { loc: `${siteUrl}/help/`, priority: "0.7", changefreq: "monthly" },
-  { loc: `${siteUrl}/updates/`, priority: "0.6", changefreq: "monthly" },
+  { loc: `${siteUrl}/updates/`, priority: "0.6", changefreq: "monthly", lastmod: "2026-07-22" },
   { loc: `${siteUrl}/about/`, priority: "0.6", changefreq: "monthly" },
   { loc: `${siteUrl}/privacy/`, priority: "0.5", changefreq: "yearly" },
   { loc: `${siteUrl}/terms/`, priority: "0.5", changefreq: "yearly" },
   { loc: `${siteUrl}/contact/`, priority: "0.5", changefreq: "yearly" },
+  ...editorialGuideIds.map((id) => ({
+    loc: `${siteUrl}/guides/${id}/`,
+    priority: "0.7",
+    changefreq: "monthly",
+    lastmod: "2026-07-22",
+  })),
 ];
 
 const gameUrls = catalog
@@ -1167,7 +1180,7 @@ const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 ${staticUrls.concat(gameUrls).map((item) => `  <url>
     <loc>${item.loc}</loc>
-    <lastmod>2026-07-20</lastmod>
+    <lastmod>${item.lastmod ?? "2026-07-20"}</lastmod>
     <changefreq>${item.changefreq}</changefreq>
     <priority>${item.priority}</priority>
   </url>`).join("\n")}

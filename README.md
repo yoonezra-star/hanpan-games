@@ -27,3 +27,12 @@ npx.cmd -y serve@latest public --listen 4174
 - AdSense 사이트 확인 스크립트는 전체 페이지 `<head>`에 적용되어 있습니다.
 - `public/ads.txt`에는 `pub-6918910185244897` 승인 정보가 들어 있습니다.
 - 게임별 상세 페이지와 가이드 글을 꾸준히 늘리면 검색 유입과 재방문에 도움이 됩니다.
+
+## 콘텐츠 생성
+
+```powershell
+node tools\generate-editorial-guides.mjs
+node tools\generate-game-pages.mjs
+```
+
+첫 번째 명령은 가이드 글과 가이드 허브를 생성하고, 두 번째 명령은 게임 상세 페이지와 sitemap.xml을 갱신합니다.
