@@ -1,11 +1,11 @@
 (function () {
   const categoryNames = {
-    arcade: "아케이드",
+    traditional: "한국 전통놀이",
+    arcade: "고전 오락실",
     puzzle: "퍼즐",
     board: "보드·전략",
     brain: "두뇌·기억",
-    skill: "스킬",
-    test: "테스트"
+    skill: "순발력·기록"
   };
 
   const catalog = [
@@ -26,12 +26,13 @@
     { id: "chair-dash", title: "의자 질주", category: "arcade", type: "chair", minutes: "2분", description: "바퀴 달린 의자를 타고 사무실 통로를 미끄러지듯 달려 목적지에 도착합니다." },
     { id: "dessert-catch", title: "디저트 캐치", category: "arcade", type: "catcher", minutes: "1분", description: "떨어지는 디저트를 받아 점수를 올리고 탄 음식은 피합니다." },
     { id: "planet-toss", title: "행성 던지기", category: "arcade", type: "toss", minutes: "1분", description: "각도와 힘을 골라 목표 궤도에 행성을 던져 넣습니다." },
+    { id: "jegi-kick", title: "제기차기 한판", category: "traditional", type: "jegi", minutes: "1분", description: "제기가 발 가까이 내려오는 순간을 맞춰 차며 연속 기록을 이어 갑니다." },
+    { id: "tuho", title: "투호 한판", category: "traditional", type: "tuho", minutes: "2분", description: "바람을 읽고 각도와 힘을 조절해 열 발의 화살을 항아리에 넣습니다." },
+    { id: "ddakji-flip", title: "딱지치기 한판", category: "traditional", type: "ddakji", minutes: "2분", description: "상대 딱지의 들린 모서리와 힘 게이지를 맞춰 딱지를 뒤집습니다." },
+    { id: "gonggi", title: "공기놀이 한판", category: "traditional", type: "gonggi", minutes: "3분", description: "공깃돌의 낙하 타이밍을 맞춰 한 알 줍기부터 꺾기까지 도전합니다." },
     { id: "tic-tac-toe", title: "틱택토 Tic-Tac-Toe", category: "board", type: "tictactoe", minutes: "2분", description: "미니맥스 AI, 2인 대전, 난이도와 선후공 선택을 갖춘 전략 보드 게임입니다." },
     { id: "connect-four", title: "사목 미니", category: "board", type: "connect4", minutes: "2분", description: "말을 떨어뜨려 네 개를 먼저 잇는 전략 게임입니다." },
-    { id: "blackjack", title: "블랙잭 21", category: "board", type: "blackjack", minutes: "3분", description: "연습용 포인트로 히트, 스탠드, 더블다운을 선택하며 딜러와 겨룹니다." },
-    { id: "danger-dice", title: "위험한 주사위", category: "board", type: "dice", minutes: "1분", description: "계속 굴릴지 멈출지 결정해 목표 점수에 도전합니다." },
     { id: "rps-survival", title: "가위바위보 서바이벌", category: "board", type: "rps", minutes: "1분", description: "연승을 이어가며 살아남는 가위바위보 게임입니다." },
-    { id: "slot-machine", title: "릴 매치", category: "board", type: "slot", minutes: "30초", description: "세 칸의 그림이 멈추는 결과를 확인하는 무료 릴 매치 게임입니다." },
     { id: "mines", title: "지뢰찾기 미니", category: "puzzle", type: "mines", minutes: "2분", description: "숫자 힌트를 보고 지뢰가 없는 칸을 모두 엽니다." },
     { id: "sliding-puzzle", title: "슬라이딩 퍼즐", category: "puzzle", type: "sliding", minutes: "2분", description: "빈 칸을 이용해 숫자 타일을 순서대로 맞춥니다." },
     { id: "sudoku-mini", title: "스도쿠 미니", category: "puzzle", type: "sudoku", minutes: "4분", description: "6x6 스도쿠 판을 완성하고 충돌 표시와 제한 힌트를 활용합니다." },
@@ -44,13 +45,15 @@
     { id: "hangman", title: "행맨", category: "brain", type: "hangman", minutes: "2분", description: "글자를 하나씩 골라 숨은 단어를 완성합니다." },
     { id: "typing-sprint", title: "타이핑 노선", category: "skill", type: "typing", minutes: "2분", description: "역 이름을 정확히 입력할수록 열차가 다음 역으로 달리는 타자 레이스입니다." },
     { id: "math-climb", title: "수학 등산", category: "brain", type: "math", minutes: "1분", description: "짧은 계산 문제를 풀며 산 정상까지 올라갑니다." },
-    { id: "color-match", title: "색깔 맞추기", category: "test", type: "color", minutes: "1분", description: "글자와 색이 일치하는지 빠르게 판단합니다." },
-    { id: "perfume-workshop", title: "향수 소트 공방", category: "test", type: "recipe", minutes: "3분", description: "뒤섞인 향 노트를 병끼리 옮겨 같은 향으로 정렬하는 컬러 소트 퍼즐입니다." },
-    { id: "constellation", title: "별자리 잇기", category: "test", type: "constellation", minutes: "1분", description: "별을 순서대로 이어 작은 별자리를 완성합니다." },
-    { id: "garden-water", title: "정원 물주기", category: "test", type: "garden", minutes: "1분", description: "마른 화분을 찾아 물을 주고 정원을 살립니다." }
+    { id: "color-match", title: "색깔 맞추기", category: "skill", type: "color", minutes: "1분", description: "글자와 색이 일치하는지 빠르게 판단합니다." },
+    { id: "perfume-workshop", title: "향수 소트 공방", category: "puzzle", type: "recipe", minutes: "3분", description: "뒤섞인 향 노트를 병끼리 옮겨 같은 향으로 정렬하는 컬러 소트 퍼즐입니다." },
+    { id: "constellation", title: "별자리 잇기", category: "puzzle", type: "constellation", minutes: "1분", description: "별을 순서대로 이어 작은 별자리를 완성합니다." },
+    { id: "garden-water", title: "정원 물주기", category: "skill", type: "garden", minutes: "1분", description: "마른 화분을 찾아 물을 주고 정원을 살립니다." }
   ];
 
-  const approvalHiddenGameIds = new Set(["blackjack", "danger-dice", "slot-machine"]);
+  const illustratedGameIds = new Set(["jegi-kick", "tuho", "ddakji-flip", "gonggi"]);
+
+  const approvalHiddenGameIds = new Set();
   const publicCatalog = catalog.filter(function (game) {
     return !approvalHiddenGameIds.has(game.id);
   });
@@ -196,6 +199,7 @@
     const search = $("#arcadeSearch");
     const count = $("#arcadeCount");
     const filters = Array.from(document.querySelectorAll("[data-arcade-filter]"));
+    const categoryJumps = Array.from(document.querySelectorAll("[data-arcade-jump]"));
     let active = "all";
 
     function draw() {
@@ -210,6 +214,7 @@
         const card = document.createElement("article");
         card.className = "game-card";
         card.innerHTML = `
+          ${illustratedGameIds.has(game.id) ? `<a class="game-card-art" href="/games/${game.id}/" aria-label="${game.title} 게임 열기"><img src="/assets/game-art/${game.id}.webp" width="640" height="360" loading="lazy" alt="${game.title} 플레이 장면"></a>` : ""}
           <span class="tag ${tagColor(game.category)}">${categoryNames[game.category]}</span>
           <h2>${game.title}</h2>
           <p>${game.description}</p>
@@ -231,11 +236,21 @@
         draw();
       });
     });
+    categoryJumps.forEach(function (jump) {
+      jump.addEventListener("click", function () {
+        active = jump.dataset.arcadeJump;
+        filters.forEach(function (item) {
+          item.classList.toggle("active", item.dataset.arcadeFilter === active);
+        });
+        draw();
+      });
+    });
     if (search) search.addEventListener("input", draw);
     draw();
   }
 
   function tagColor(category) {
+    if (category === "traditional") return "traditional";
     if (category === "arcade" || category === "skill") return "red";
     if (category === "puzzle") return "blue";
     if (category === "brain") return "green";
@@ -394,6 +409,11 @@
       $("#stageTitle").textContent = current.title;
       $("#playCategory").textContent = `${categoryNames[current.category]} · ${current.minutes}`;
       surface.innerHTML = "";
+      try {
+        localStorage.setItem("hanpan-recent-game", current.id);
+      } catch (error) {
+        // Recent-play state is optional.
+      }
       setResult("게임을 시작해 보세요.");
       drawPicker();
       renderGame(current, surface);
@@ -424,6 +444,10 @@
       chair: renderChairRace,
       catcher: renderCatcher,
       toss: renderToss,
+      jegi: renderTraditional,
+      tuho: renderTraditional,
+      ddakji: renderTraditional,
+      gonggi: renderTraditional,
       tictactoe: renderTicTacToe,
       connect4: renderConnect4,
       blackjack: renderBlackjack,
@@ -452,6 +476,23 @@
     addPlayGuidance(game, surface);
   }
 
+  function renderTraditional(game, surface) {
+    const renderer = window.HANPAN_TRADITIONAL_GAMES && window.HANPAN_TRADITIONAL_GAMES[game.type];
+    if (typeof renderer !== "function") {
+      renderTap(game, surface);
+      return;
+    }
+    renderer(game, surface, {
+      renderScore,
+      setResult,
+      saveBest,
+      getBest,
+      createTonePlayer,
+      createSpeedSelect,
+      cleanup
+    });
+  }
+
   function addPlayGuidance(game, surface) {
     if (surface.querySelector(".play-guidance")) return;
     const hints = {
@@ -472,6 +513,10 @@
       mines: "일반 모드로 안전 칸을 열고 깃발 모드로 의심 칸을 표시합니다. 첫 클릭은 안전하게 시작됩니다.",
       sudoku: "빈칸을 선택하고 숫자를 입력합니다. 충돌 표시를 보고 행, 열, 박스를 다시 확인하세요.",
       twenty48: "방향키나 스와이프로 모든 타일을 밀어 같은 숫자를 합칩니다."
+      ,jegi: "스페이스바, 화면 터치 또는 제기 차기 버튼으로 발 가까이 내려온 제기를 찹니다. 너무 일찍 차면 연속 기록이 끊깁니다."
+      ,tuho: "각도와 힘 슬라이더를 조절하고 화살 던지기를 누릅니다. 바람 방향과 이전 궤적을 보고 다음 발을 보정하세요."
+      ,ddakji: "들린 모서리를 방향 버튼으로 고르고 힘 게이지가 노란 구간에 들어올 때 내려치기 버튼이나 스페이스바를 누릅니다."
+      ,gonggi: "공깃돌이 손 가까이 돌아오는 순간 화면, 공깃돌 받기 버튼 또는 스페이스바를 누릅니다. 단계가 오를수록 성공 구간이 좁아집니다."
     };
     const note = document.createElement("div");
     note.className = "play-guidance";

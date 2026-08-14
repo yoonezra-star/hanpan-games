@@ -5,7 +5,7 @@ const root = process.cwd();
 const publicDir = path.join(root, "public");
 const arcadePath = path.join(publicDir, "assets", "arcade.js");
 const arcade = fs.readFileSync(arcadePath, "utf8");
-const assetVersion = "20260814-fullscreen";
+const assetVersion = "20260814-traditional";
 const siteUrl = "https://hanpangames.kr";
 const adsenseClient = "ca-pub-6918910185244897";
 const adsenseScript = `<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${adsenseClient}" crossorigin="anonymous"></script>`;
@@ -26,26 +26,27 @@ if (catalog.length < 30) {
 }
 
 const customPageIds = new Set(["tic-tac-toe"]);
+const illustratedGameIds = new Set(["jegi-kick", "tuho", "ddakji-flip", "gonggi"]);
 
 const categoryNames = {
-  arcade: "아케이드",
+  traditional: "한국 전통놀이",
+  arcade: "고전 오락실",
   puzzle: "퍼즐",
   board: "보드·전략",
   brain: "두뇌·기억",
-  skill: "스킬",
-  test: "테스트",
+  skill: "순발력·기록",
 };
 
 const tagClass = {
+  traditional: "traditional",
   arcade: "red",
   puzzle: "blue",
   board: "gold",
   brain: "green",
   skill: "red",
-  test: "gold",
 };
 
-const sensitiveGameIds = new Set(["blackjack", "slot-machine", "danger-dice"]);
+const sensitiveGameIds = new Set();
 const editorialGuideIds = [
   "twenty-48-strategy",
   "snake-garden-guide",
@@ -126,12 +127,35 @@ const gameGuideIds = {
 };
 
 const categoryGuideIds = {
+  traditional: ["short-break-web-games", "mobile-browser-game-tips", "browser-game-benefits"],
   arcade: ["mobile-browser-game-tips", "short-break-web-games", "browser-game-benefits"],
   puzzle: ["block-drop-beginner", "twenty-48-strategy", "browser-game-benefits"],
   board: ["tic-tac-toe-strategy", "short-break-web-games", "browser-game-benefits"],
   brain: ["memory-game-tips", "short-break-web-games", "browser-game-benefits"],
   skill: ["mobile-browser-game-tips", "short-break-web-games", "browser-game-benefits"],
-  test: ["short-break-web-games", "browser-game-benefits", "mobile-browser-game-tips"],
+};
+
+const traditionalBackgrounds = {
+  "jegi-kick": {
+    text: "제기차기는 제기를 발로 차 올리며 땅에 떨어뜨리지 않고 횟수를 이어 가는 놀이입니다. 한판게임즈 버전은 실제 발동작 전체를 재현하기보다 제기가 내려오는 높이와 박자를 읽는 부분에 집중했습니다.",
+    sourceTitle: "국립민속박물관 어린이박물관 제기차기 자료",
+    sourceUrl: "https://nfm.go.kr/kids/elecontents/view.do?topic=13"
+  },
+  tuho: {
+    text: "투호는 일정한 거리에서 화살 모양의 도구를 병이나 항아리 형태의 목표에 던져 넣는 놀이입니다. 이 게임은 목표물을 맞히는 기본 구조를 바람과 포물선 보정이 있는 열 발 기록 도전으로 바꾸었습니다.",
+    sourceTitle: "국립민속박물관 투호 이야기",
+    sourceUrl: "https://webzine.nfm.go.kr/2026/05/11/%ED%88%AC%ED%98%B8-%EB%8D%98%EC%A7%80%EA%B8%B0-%EB%86%80%EC%9D%B4target-throwing-game%EC%9D%98-%EB%B3%80%EC%A3%BC%EC%99%80-%EB%B3%B4%ED%8E%B8%EC%84%B1/"
+  },
+  "ddakji-flip": {
+    text: "딱지치기는 종이를 접어 만든 딱지를 바닥에 놓고 다른 딱지로 내려쳐 뒤집는 놀이입니다. 한판게임즈에서는 들린 모서리를 읽는 방향 선택과 내려치는 힘의 타이밍을 결합해 화면 속 타격감으로 표현했습니다.",
+    sourceTitle: "국립민속박물관 민속놀이 딱지치기 교육자료",
+    sourceUrl: "https://www.nfm.go.kr/user/bbs/home/101/1566/bbsDataView/25054.do?bbsDataCategory=&column=&page=2&search=&searchEDate=&searchSDate="
+  },
+  gonggi: {
+    text: "다섯 알 공기는 한 알 집기, 두 알 집기, 세 알 집기, 네 알 집기와 꺾기처럼 순서가 있는 놀이입니다. 이 게임은 각 단계의 손동작을 공깃돌이 돌아오는 순간을 맞히는 타이밍 규칙으로 단순화했습니다.",
+    sourceTitle: "국립민속박물관 공기놀이 자료",
+    sourceUrl: "https://webzine.nfm.go.kr/2016/03/30/%EA%B3%B5%EA%B8%B0%EB%86%80%EC%9D%B4-%EC%96%B4%EB%96%BB%EA%B2%8C-%ED%95%98%EB%8A%94-%EB%86%80%EC%9D%B4%EC%9D%BC%EA%B9%8C/"
+  }
 };
 
 const gameNotes = {
@@ -379,6 +403,34 @@ const gameNotes = {
     goal: "마른 화분을 놓치지 않고 정원 상태 유지",
     watch: "화려한 꽃에 시선이 끌려 마른 화분을 늦게 찾는 상황",
     routines: ["왼쪽 위에서 오른쪽 아래로 순서대로 훑습니다.", "마른 화분 표시가 보이면 바로 물을 줍니다.", "화면이 복잡해질수록 중앙보다 가장자리를 먼저 봅니다."]
+  },
+  "jegi-kick": {
+    angle: "제기차기 한판은 제기가 발 가까이 내려오는 순간을 읽어 다시 차 올리는 리듬 게임입니다. 높이 올라갔을 때 연속으로 누르기보다 하강 방향과 발의 위치가 만나는 한 번의 타이밍을 고르는 것이 중요합니다. 연속 성공이 길어질수록 제기의 좌우 흔들림도 커져 다음 착지 지점을 미리 봐야 합니다.",
+    bestFor: "한국 전통놀이를 짧은 리듬 게임으로 즐기고 싶을 때",
+    goal: "45초 동안 제기를 떨어뜨리지 않고 연속 기록 이어 가기",
+    watch: "제기가 아직 올라가는 중인데 버튼을 반복해 연속 기록을 잃는 상황",
+    routines: ["첫 몇 번은 제기가 발에 닿는 높이를 눈으로 익힙니다.", "제기 자체보다 그림자와 발 사이의 거리를 함께 봅니다.", "좌우로 흔들리기 시작하면 현재 위치보다 내려올 위치로 시선을 옮깁니다."]
+  },
+  tuho: {
+    angle: "투호 한판은 단순히 버튼을 누르는 게임이 아니라 바람, 발사 각도, 힘이 만드는 포물선을 관찰하고 다음 화살을 보정하는 투척 게임입니다. 열 발이라는 제한 안에서 직전 궤적을 기억해 조금씩 조절하면 무작위로 던질 때보다 안정적인 명중 기록을 만들 수 있습니다.",
+    bestFor: "각도와 힘을 조절하는 차분한 기록 게임을 즐기고 싶을 때",
+    goal: "열 발의 궤적을 보정해 연속 명중과 최고 점수 만들기",
+    watch: "바람이 바뀌었는데 이전과 같은 설정으로 바로 던지는 상황",
+    routines: ["첫 화살은 중간 각도와 힘으로 던져 기준 궤적을 확인합니다.", "짧게 떨어졌다면 힘을 올리고, 너무 높게 지나갔다면 각도를 낮춥니다.", "명중 뒤에도 바람 표시가 달라졌는지 확인하고 다음 화살을 준비합니다."]
+  },
+  "ddakji-flip": {
+    angle: "딱지치기 한판은 상대 딱지의 들린 모서리를 고르는 방향 판단과 움직이는 힘 게이지를 멈추는 타이밍을 결합했습니다. 노란 구간에 정확히 맞히면 방향이 조금 어긋나도 뒤집을 수 있지만, 보통은 약한 모서리와 타격 시점을 함께 맞춰야 안정적으로 성공합니다.",
+    bestFor: "짧고 강한 타격감과 타이밍 도전을 원할 때",
+    goal: "여덟 판 동안 연속 뒤집기를 유지해 높은 점수 만들기",
+    watch: "힘 게이지만 보고 상대 딱지의 들린 방향을 확인하지 않는 상황",
+    routines: ["매 판 먼저 들린 모서리 표시를 읽습니다.", "게이지가 왕복하는 속도를 한 번 본 뒤 두 번째 진입에서 누릅니다.", "실패한 뒤에는 방향과 타이밍 중 어느 쪽이 어긋났는지 결과를 확인합니다."]
+  },
+  gonggi: {
+    angle: "공기놀이 한판은 한 알 줍기부터 꺾기까지 다섯 단계를 한 버튼 타이밍으로 재구성한 게임입니다. 공깃돌이 가장 높이 올라갔을 때가 아니라 손 가까이 돌아오는 순간에 받아야 하며, 단계가 오를수록 성공 구간이 좁아져 일정한 박자가 중요해집니다.",
+    bestFor: "순서가 있는 전통놀이와 정교한 타이밍을 함께 연습하고 싶을 때",
+    goal: "세 번의 기회 안에 다섯 단계를 모두 통과하기",
+    watch: "돌이 최고점에 도달하자마자 너무 일찍 받기 버튼을 누르는 상황",
+    routines: ["첫 단계에서는 공깃돌이 내려오는 전체 속도를 익힙니다.", "손 위의 점선 구간을 성공 기준으로 삼습니다.", "단계가 바뀌면 이전보다 한 박자 더 집중해 입력 폭이 좁아진 점에 적응합니다."]
   }
 };
 
@@ -442,6 +494,26 @@ const typeGuides = {
     how: "6x6 보드의 빈칸을 채워 각 행, 열, 2x3 박스에 같은 숫자가 겹치지 않게 만드는 논리 퍼즐입니다. 충돌하는 숫자는 화면에 표시됩니다.",
     tips: ["가장 후보가 적은 칸부터 채웁니다.", "행과 열만 보지 말고 2x3 박스 안의 남은 숫자를 함께 확인합니다.", "힌트는 막힌 구간을 여는 용도로 아껴 씁니다."],
     faq: ["힌트는 몇 번 쓸 수 있나요?", "한 판에 3번까지 사용할 수 있습니다."],
+  },
+  jegi: {
+    how: "제기가 발 가까이 내려오는 순간 차기 버튼, 화면 터치 또는 스페이스바를 눌러 다시 띄우는 리듬 게임입니다. 정확한 높이에서 차면 더 많은 점수를 받고 연속 성공 보너스가 쌓입니다. 45초가 지나거나 제기가 바닥에 닿으면 한 판이 끝납니다.",
+    tips: ["제기가 올라갈 때 누르지 말고 내려오는 방향을 확인합니다.", "화면 속 그림자가 제기와 가까워질 때 입력을 준비합니다.", "연속 기록이 길어지면 좌우 이동까지 예상해 착지 지점을 먼저 봅니다."],
+    faq: ["제기차기 경험이 없어도 할 수 있나요?", "네. 실제 동작 대신 한 번의 타이밍 입력으로 구성해 규칙을 바로 익힐 수 있습니다."],
+  },
+  tuho: {
+    how: "각도와 힘을 슬라이더로 정한 뒤 화살을 던져 항아리 입구에 넣는 포물선 게임입니다. 매번 바람이 바뀌며 열 발의 제한 안에서 이전 궤적을 보고 설정을 보정해야 합니다.",
+    tips: ["첫 화살은 기본값으로 던져 거리 기준을 만듭니다.", "화살이 짧으면 힘을 조금 올리고, 높게 넘어가면 각도를 낮춥니다.", "바람 화살표가 바뀌면 좌우 편차도 함께 예상합니다."],
+    faq: ["명중 점수는 모두 같나요?", "아니요. 항아리 중심에 가까울수록 기본 점수가 높고 연속 명중 보너스도 더해집니다."],
+  },
+  ddakji: {
+    how: "상대 딱지의 들린 모서리를 왼쪽·중앙·오른쪽 중에서 고르고, 움직이는 힘 게이지가 노란 구간에 들어왔을 때 내려칩니다. 방향과 타이밍이 모두 맞으면 뒤집힐 확률이 높고 정확한 타이밍은 추가 점수를 줍니다.",
+    tips: ["게이지를 보기 전에 약한 모서리 방향부터 선택합니다.", "게이지 왕복을 한 차례 관찰하고 다음 진입에서 누릅니다.", "실패한 뒤에는 방향 선택과 힘 타이밍을 따로 점검합니다."],
+    faq: ["키보드로도 할 수 있나요?", "네. A·S·D로 방향을 고르고 스페이스바로 내려칠 수 있습니다."],
+  },
+  gonggi: {
+    how: "떠오른 공깃돌이 손 가까이 내려오는 순간 받기 버튼이나 스페이스바를 누르는 순서형 타이밍 게임입니다. 한 알 줍기, 두 알 줍기, 세 알과 한 알, 네 알 줍기, 꺾기의 다섯 단계를 차례로 통과합니다.",
+    tips: ["최고점보다 손 가까이 돌아오는 순간을 기준으로 봅니다.", "단계별 성공 횟수를 점수판 아래 진행 표시로 확인합니다.", "단계가 오르면 성공 구간이 좁아지므로 이전보다 입력을 조금 늦춥니다."],
+    faq: ["실제 공기놀이 규칙과 완전히 같은가요?", "전통적인 단계 이름과 순서를 바탕으로 브라우저에서 즐기기 쉬운 한 버튼 타이밍 규칙으로 재구성했습니다."],
   },
   default: {
     how: "짧은 규칙을 읽고 바로 시작할 수 있는 브라우저 미니게임입니다. 화면의 점수판과 결과 안내를 보면서 한 판씩 기록을 갱신해 보세요.",
@@ -876,6 +948,46 @@ const standardDetails = {
     faqs: [["목표가 여러 개 동시에 나오나요?", "현재 흐름에서는 표시된 화분을 찾아 누르는 방식으로 진행됩니다."], ["높은 점수를 내려면 무엇이 중요한가요?", "표시를 찾는 시선 이동을 일정하게 만들고 빈칸 터치를 줄이는 것이 중요합니다."]],
     update: "2026년 7월 20일 정원 물주기 페이지에 관찰 순서와 모바일 터치 팁을 추가했습니다."
   },
+  jegi: {
+    keyPoint: "하강 높이와 발 위치가 만나는 타이밍",
+    focus: "제기차기 한판은 한국의 제기차기를 화면 속 리듬 게임으로 재구성했습니다. 제기가 위로 올라가는 동안 입력을 참았다가 발 가까이 내려오는 순간 한 번 정확히 차는 것이 핵심입니다. 연속 성공이 길어지면 좌우 흔들림이 커져 높이뿐 아니라 착지 위치도 함께 읽어야 합니다.",
+    controls: ["제기 차기 버튼, 게임 화면 터치, 스페이스바가 같은 동작을 수행합니다.", "새 판 버튼은 점수와 45초 제한 시간을 초기화합니다.", "속도 선택과 소리 버튼은 플레이 중에도 바꿀 수 있습니다."],
+    scoring: ["성공할 때마다 기본 점수와 타이밍 보너스를 얻습니다.", "연속 성공 수가 높을수록 콤보 점수가 커집니다.", "제기를 놓치거나 제한 시간이 끝나면 현재 점수가 최고 기록과 비교됩니다."],
+    practice: ["그림자와 제기 사이가 가까워지는 순간을 입력 기준으로 삼습니다.", "초반에는 높은 점수보다 같은 높이에서 반복해 차는 데 집중합니다.", "제기가 좌우로 이동하면 발이 있는 현재 위치보다 내려올 위치를 먼저 봅니다."],
+    mobile: ["게임 화면 어디를 터치해도 차기 입력이 되므로 엄지손가락을 화면 아래에 두는 편이 편합니다.", "가로 전체화면에서는 점수 HUD 아래의 제기와 그림자가 함께 보이도록 화면 중앙을 봅니다."],
+    faqs: [["속도를 느리게 바꿔도 기록되나요?", "네. 속도 설정과 관계없이 최고 점수는 현재 브라우저에 저장됩니다."], ["계속 빠르게 누르면 되나요?", "아니요. 제기가 너무 높이 있거나 상승 중일 때 누르면 연속 기록이 초기화됩니다."]],
+    update: "2026년 8월 14일 제기 물리 움직임, 콤보 점수, 45초 제한, 속도와 효과음을 갖춘 첫 버전을 공개했습니다."
+  },
+  tuho: {
+    keyPoint: "직전 궤적을 이용한 각도·힘 보정",
+    focus: "투호 한판은 화살을 항아리 입구에 넣는 전통놀이를 각도와 힘을 조절하는 포물선 게임으로 구현했습니다. 열 발마다 바람이 달라지므로 첫 시도부터 정답을 맞히기보다 화살이 짧았는지, 높았는지, 좌우로 얼마나 밀렸는지를 보고 다음 발을 보정하는 과정이 중요합니다.",
+    controls: ["각도 슬라이더는 화살이 떠오르는 높이를, 힘 슬라이더는 전체 비행 거리를 조절합니다.", "화살 던지기 버튼 또는 스페이스바로 현재 설정의 화살을 발사합니다.", "새 판과 소리 버튼으로 열 발 기록과 효과음을 관리합니다."],
+    scoring: ["항아리 입구 안쪽에 들어가면 명중 점수를 얻습니다.", "입구 중심에 가까울수록 점수가 높고 연속 명중 보너스가 추가됩니다.", "열 발이 끝나면 합계 점수가 최고 기록과 비교됩니다."],
+    practice: ["첫 발은 각도 45도와 힘 55 부근에서 시작해 기준 궤적을 봅니다.", "짧으면 힘을 조금 올리고, 항아리를 높게 넘어가면 각도를 낮춥니다.", "명중 뒤에도 바람 수치가 바뀌므로 다음 발을 바로 던지지 말고 표시를 확인합니다."],
+    mobile: ["슬라이더 값은 한 번에 크게 바꾸기보다 작은 폭으로 조절하는 편이 정확합니다.", "전체화면에서는 조작부가 아래에 고정되므로 화살 궤적과 항아리를 가리지 않습니다."],
+    faqs: [["바람은 어떤 영향을 주나요?", "화살 비행 중 좌우 속도를 조금씩 바꿉니다. 화살표 방향과 숫자로 세기를 확인할 수 있습니다."], ["열 발보다 더 던질 수 있나요?", "한 판은 열 발이며 새 판 버튼으로 다시 도전할 수 있습니다."]],
+    update: "2026년 8월 14일 바람, 각도, 힘, 포물선 물리와 중심 명중 점수를 갖춘 투호 게임을 공개했습니다."
+  },
+  ddakji: {
+    keyPoint: "약한 모서리 선택과 힘 게이지의 동시 판단",
+    focus: "딱지치기 한판은 종이 딱지를 내려쳐 상대 딱지를 뒤집는 장면을 방향 선택과 타이밍 입력으로 표현했습니다. 들린 모서리를 정확히 고르는 판단과 노란 힘 구간에 바늘을 맞추는 손의 리듬이 함께 요구됩니다. 여덟 판 동안 연속 뒤집기를 이어 가면 콤보 점수가 커집니다.",
+    controls: ["왼쪽·중앙·오른쪽 버튼 또는 A·S·D 키로 타격 방향을 고릅니다.", "내려치기 버튼이나 스페이스바로 현재 힘 게이지를 멈춥니다.", "새 판 버튼은 여덟 판의 점수와 연속 성공을 초기화합니다."],
+    scoring: ["정확한 방향과 노란 힘 구간을 함께 맞히면 딱지가 뒤집힙니다.", "노란 구간 중심에 가까울수록 성공 점수가 높습니다.", "연속 뒤집기에는 추가 점수가 붙고 실패하면 연속 기록이 초기화됩니다."],
+    practice: ["매 판 바뀌는 들린 모서리를 먼저 읽고 방향을 고릅니다.", "바늘이 노란 구간을 왕복하는 속도를 한 번 본 뒤 입력합니다.", "방향을 맞혔는데 실패했다면 다음 판에서는 힘 타이밍에만 집중합니다."],
+    mobile: ["방향 버튼은 세 칸 고정 폭으로 배치되어 엄지손가락으로 구분하기 쉽습니다.", "가로 전체화면에서는 딱지 애니메이션이 넓게 보이고 내려치기 버튼은 하단에 유지됩니다."],
+    faqs: [["매 판 성공 구간이 바뀌나요?", "네. 힘 게이지의 노란 구간과 들린 모서리 방향이 새 판마다 달라집니다."], ["방향이 달라도 뒤집힐 수 있나요?", "게이지 중심을 매우 정확히 맞히면 가능하지만, 일반적으로 약한 모서리까지 맞히는 편이 안정적입니다."]],
+    update: "2026년 8월 14일 방향 선택, 움직이는 힘 게이지, 뒤집기 애니메이션과 콤보 점수를 구현했습니다."
+  },
+  gonggi: {
+    keyPoint: "단계별로 좁아지는 받기 타이밍",
+    focus: "공기놀이 한판은 전통 공기놀이의 다섯 단계 이름과 진행 순서를 살리면서 한 버튼 타이밍 게임으로 재구성했습니다. 던진 돌이 최고점에 도달한 직후가 아니라 손 가까이 돌아오는 순간 받아야 합니다. 단계가 오를수록 허용 구간이 좁아져 같은 박자를 더 정확하게 유지해야 합니다.",
+    controls: ["공깃돌 받기 버튼, 게임 화면 터치, 스페이스바가 같은 받기 동작을 수행합니다.", "속도 선택은 전체 움직임을 조절하고 새 판은 단계와 기회를 초기화합니다.", "소리 버튼으로 성공, 실패 효과음을 켜거나 끌 수 있습니다."],
+    scoring: ["각 단계에서 정해진 횟수만큼 받기에 성공하면 다음 단계로 올라갑니다.", "높은 단계와 연속 성공일수록 한 번에 얻는 점수가 커집니다.", "세 번의 기회를 모두 쓰면 도달한 단계가 최고 단계 기록과 비교됩니다."],
+    practice: ["돌이 손에 가까워지는 마지막 구간을 성공 기준으로 봅니다.", "첫 단계에서는 속도를 외우고 이후 단계에서는 입력 폭만 더 좁힙니다.", "실패 직후 급하게 누르지 말고 새로 시작한 포물선을 다시 확인합니다."],
+    mobile: ["게임 화면 전체가 받기 버튼 역할을 하므로 손이 편한 빈 공간을 눌러도 됩니다.", "화면이 작다면 전체화면에서 손과 공깃돌의 거리를 크게 보고 플레이하세요."],
+    faqs: [["다섯 단계는 무엇인가요?", "한 알 줍기, 두 알 줍기, 세 알과 한 알, 네 알 줍기, 꺾기 순서입니다."], ["실제 공기놀이와 규칙이 다른가요?", "실제 손동작 전체를 재현하지 않고 단계 구조를 브라우저용 타이밍 규칙으로 단순화했습니다."]],
+    update: "2026년 8월 14일 다섯 단계, 세 번의 기회, 단계별 타이밍 변화와 효과음을 구현했습니다."
+  },
   default: {
     keyPoint: "짧은 규칙 이해와 반복 도전",
     focus: "이 게임은 설치 없이 바로 시작할 수 있는 브라우저 미니게임입니다. 점수판과 결과 문구를 확인하며 한 판씩 규칙을 익히고, 다음 판에서 더 좋은 기록을 노리는 흐름으로 구성했습니다.",
@@ -1012,6 +1124,14 @@ function standardFaqs(game, guide, detail) {
   ].slice(0, 5);
 }
 
+function traditionalBackgroundHtml(game) {
+  const background = traditionalBackgrounds[game.id];
+  if (!background) return "";
+  return `<h2 id="background">놀이 배경과 웹게임 재구성</h2>
+          <p>${htmlEscape(background.text)}</p>
+          <p class="source-note">참고: <a href="${background.sourceUrl}" rel="external">${htmlEscape(background.sourceTitle)}</a></p>`;
+}
+
 function standardArticleHtml(game, guide, detail, related, category, faqs) {
   return `<article class="article featured-article">
           <h2 id="overview">이 게임의 핵심</h2>
@@ -1028,6 +1148,8 @@ function standardArticleHtml(game, guide, detail, related, category, faqs) {
           <h2 id="how">게임 방법</h2>
           <p>${htmlEscape(guide.how)}</p>
           <p>${htmlEscape(topicName(game.title))} 별도 앱 설치나 로그인이 필요 없는 무료 웹게임입니다. 페이지 오른쪽 또는 아래쪽 플레이 영역에서 바로 시작할 수 있고, 한 판이 짧아 규칙을 익힌 뒤 곧바로 다시 도전하기 좋습니다.</p>
+
+${traditionalBackgroundHtml(game)}
 
           <h2 id="controls">조작과 진행</h2>
           ${listHtml(detail.controls, "detail-list")}
@@ -1121,10 +1243,13 @@ function pageHtml(game) {
   const category = categoryNames[game.category] || "게임";
   const url = `${siteUrl}/games/${game.id}/`;
   const description = `${game.title} 플레이 방법, 조작법, 점수 기준, 공략 팁, 모바일 플레이와 FAQ를 정리한 무료 ${category} 웹게임 페이지입니다.`;
+  const socialImageMeta = illustratedGameIds.has(game.id)
+    ? `    <meta property="og:image" content="${siteUrl}/assets/game-art/${game.id}.webp">\n    <meta property="og:image:alt" content="${htmlEscape(game.title)} 플레이 장면">\n`
+    : "";
   const isApprovalSensitive = sensitiveGameIds.has(game.id);
   const pageAdsenseScript = isApprovalSensitive ? "" : `    ${adsenseScript}\n`;
   const robotsMeta = isApprovalSensitive ? `    <meta name="robots" content="noindex, follow">\n` : "";
-  const tocItems = [["overview", "핵심 요약"], ["play-notes", "플레이 포인트"], ["how", "게임 방법"], ["controls", "조작"], ["scoring", "점수 기준"], ["strategy", "공략"], ["mobile", "모바일 팁"], ["faq", "FAQ"], ["related-guides", "관련 공략"], ["related", "관련 게임"]];
+  const tocItems = [["overview", "핵심 요약"], ["play-notes", "플레이 포인트"], ["how", "게임 방법"], ...(traditionalBackgrounds[game.id] ? [["background", "놀이 배경"]] : []), ["controls", "조작"], ["scoring", "점수 기준"], ["strategy", "공략"], ["mobile", "모바일 팁"], ["faq", "FAQ"], ["related-guides", "관련 공략"], ["related", "관련 게임"]];
   const jsonLd = {
     "@context": "https://schema.org",
     "@graph": [
@@ -1171,6 +1296,9 @@ ${pageAdsenseScript}    ${searchConsoleVerification}
 ${robotsMeta}    <title>${htmlEscape(game.title)} - 한판게임즈</title>
     <meta name="description" content="${htmlEscape(description)}">
     <link rel="canonical" href="${url}">
+${socialImageMeta}    <meta property="og:type" content="website">
+    <meta property="og:title" content="${htmlEscape(game.title)} - 한판게임즈">
+    <meta property="og:description" content="${htmlEscape(description)}">
     <link rel="stylesheet" href="/assets/styles.css?v=${assetVersion}">
   </head>
   <body>
@@ -1248,6 +1376,7 @@ ${robotsMeta}    <title>${htmlEscape(game.title)} - 한판게임즈</title>
     </footer>
     <script type="application/ld+json">${JSON.stringify(jsonLd)}</script>
     <script src="/assets/app.js?v=${assetVersion}" defer></script>
+    <script src="/assets/traditional-games.js?v=${assetVersion}" defer></script>
     <script src="/assets/arcade.js?v=${assetVersion}" defer></script>
   </body>
 </html>
