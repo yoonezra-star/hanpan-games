@@ -51,7 +51,7 @@
     { id: "garden-water", title: "정원 물주기", category: "skill", type: "garden", minutes: "1분", description: "마른 화분을 찾아 물을 주고 정원을 살립니다." }
   ];
 
-  const illustratedGameIds = new Set(["jegi-kick", "tuho", "ddakji-flip", "gonggi"]);
+  const illustratedGameIds = new Set(catalog.map(function (game) { return game.id; }));
 
   const approvalHiddenGameIds = new Set();
   const publicCatalog = catalog.filter(function (game) {
@@ -214,7 +214,7 @@
         const card = document.createElement("article");
         card.className = "game-card";
         card.innerHTML = `
-          ${illustratedGameIds.has(game.id) ? `<a class="game-card-art" href="/games/${game.id}/" aria-label="${game.title} 게임 열기"><img src="/assets/game-art/${game.id}.webp" width="640" height="360" loading="lazy" alt="${game.title} 플레이 장면"></a>` : ""}
+          ${illustratedGameIds.has(game.id) ? `<a class="game-card-art" href="/games/${game.id}/" aria-label="${game.title} 게임 열기"><img src="/assets/game-art/${game.id}.webp" width="640" height="360" loading="lazy" decoding="async" alt="${game.title} 플레이 장면"></a>` : ""}
           <span class="tag ${tagColor(game.category)}">${categoryNames[game.category]}</span>
           <h2>${game.title}</h2>
           <p>${game.description}</p>

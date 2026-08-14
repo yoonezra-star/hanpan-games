@@ -5,7 +5,7 @@ const root = process.cwd();
 const publicDir = path.join(root, "public");
 const arcadePath = path.join(publicDir, "assets", "arcade.js");
 const arcade = fs.readFileSync(arcadePath, "utf8");
-const assetVersion = "20260815-gameplay-final";
+const assetVersion = "20260815-game-art";
 const siteUrl = "https://hanpangames.kr";
 const adsenseClient = "ca-pub-6918910185244897";
 const adsenseScript = `<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${adsenseClient}" crossorigin="anonymous"></script>`;
@@ -26,7 +26,7 @@ if (catalog.length < 30) {
 }
 
 const customPageIds = new Set(["tic-tac-toe"]);
-const illustratedGameIds = new Set(["jegi-kick", "tuho", "ddakji-flip", "gonggi"]);
+const illustratedGameIds = new Set(catalog.map((game) => game.id));
 
 const categoryNames = {
   traditional: "한국 전통놀이",
