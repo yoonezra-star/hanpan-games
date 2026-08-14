@@ -5,7 +5,7 @@ const root = process.cwd();
 const publicDir = path.join(root, "public");
 const arcadePath = path.join(publicDir, "assets", "arcade.js");
 const arcade = fs.readFileSync(arcadePath, "utf8");
-const assetVersion = "20260814-traditional";
+const assetVersion = "20260815-gameplay-final";
 const siteUrl = "https://hanpangames.kr";
 const adsenseClient = "ca-pub-6918910185244897";
 const adsenseScript = `<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${adsenseClient}" crossorigin="anonymous"></script>`;
@@ -1394,11 +1394,11 @@ for (const game of catalog) {
 
 const staticUrls = [
   { loc: `${siteUrl}/`, priority: "1.0", changefreq: "weekly", lastmod: "2026-07-22" },
-  { loc: `${siteUrl}/games/`, priority: "0.9", changefreq: "weekly", lastmod: "2026-08-14" },
-  { loc: `${siteUrl}/play/`, priority: "0.9", changefreq: "weekly" },
+  { loc: `${siteUrl}/games/`, priority: "0.9", changefreq: "weekly", lastmod: "2026-08-15" },
+  { loc: `${siteUrl}/play/`, priority: "0.9", changefreq: "weekly", lastmod: "2026-08-15" },
   { loc: `${siteUrl}/guides/`, priority: "0.8", changefreq: "monthly", lastmod: "2026-07-22" },
   { loc: `${siteUrl}/help/`, priority: "0.7", changefreq: "monthly", lastmod: "2026-07-22" },
-  { loc: `${siteUrl}/updates/`, priority: "0.6", changefreq: "monthly", lastmod: "2026-08-14" },
+  { loc: `${siteUrl}/updates/`, priority: "0.6", changefreq: "monthly", lastmod: "2026-08-15" },
   { loc: `${siteUrl}/about/`, priority: "0.6", changefreq: "monthly" },
   { loc: `${siteUrl}/privacy/`, priority: "0.5", changefreq: "yearly", lastmod: "2026-07-22" },
   { loc: `${siteUrl}/terms/`, priority: "0.5", changefreq: "yearly", lastmod: "2026-07-22" },
@@ -1417,7 +1417,7 @@ const gameUrls = catalog
     loc: `${siteUrl}/games/${game.id}/`,
     priority: "0.8",
     changefreq: "monthly",
-    lastmod: "2026-08-14",
+    lastmod: "2026-08-15",
   }));
 
 const sitemap = `<?xml version="1.0" encoding="UTF-8"?>

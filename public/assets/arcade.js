@@ -612,14 +612,14 @@
   }
 
   function renderNumber(game, surface) {
-    const answer = 1 + Math.floor(Math.random() * 80);
+    const answer = 1 + Math.floor(Math.random() * 50);
     let low = 1;
-    let high = 80;
+    let high = 50;
     let tries = 0;
     surface.innerHTML = `
-      <div class="game-stats"><span><b id="miniRange">1-80</b><small>범위</small></span><span><b id="miniTries">0</b><small>시도</small></span><span><b>${getBest(game.id) || "-"}</b><small>최고</small></span></div>
+      <div class="game-stats"><span><b id="miniRange">1-50</b><small>범위</small></span><span><b id="miniTries">0</b><small>시도</small></span><span><b>${getBest(game.id) || "-"}</b><small>최고</small></span></div>
       <div class="vault-visual" aria-hidden="true"><span id="vaultWindow"></span><i id="vaultNeedle"></i></div>
-      <div class="number-row"><input id="miniNumber" type="number" min="1" max="80" inputmode="numeric" placeholder="숫자 입력"><button class="button secondary" id="miniGuess" type="button">확인</button></div>
+      <div class="number-row"><input id="miniNumber" type="number" min="1" max="50" inputmode="numeric" placeholder="숫자 입력"><button class="button secondary" id="miniGuess" type="button">확인</button></div>
     `;
     const input = $("#miniNumber", surface);
     const guess = $("#miniGuess", surface);
@@ -628,12 +628,12 @@
     const windowEl = $("#vaultWindow", surface);
     const needle = $("#vaultNeedle", surface);
     function syncWindow(value) {
-      const start = ((low - 1) / 79) * 100;
-      const width = ((high - low + 1) / 80) * 100;
+      const start = ((low - 1) / 49) * 100;
+      const width = ((high - low + 1) / 50) * 100;
       windowEl.style.left = `${start}%`;
       windowEl.style.width = `${width}%`;
       if (Number.isFinite(value)) {
-        needle.style.left = `${((value - 1) / 79) * 100}%`;
+        needle.style.left = `${((value - 1) / 49) * 100}%`;
         pulseClass(needle, "ping");
       }
     }
@@ -724,23 +724,32 @@
   function renderTap(game, surface) {
     let score = 0;
     let left = 10;
+    let running = false;
+    let timer = null;
     renderScore(surface, [{ label: "점수", value: "0" }, { label: "남은 시간", value: "10" }]);
     const values = surface.querySelectorAll(".mini-score b");
     const tap = button("연타 시작", "mega-button");
     surface.appendChild(tap);
-    const timer = setInterval(function () {
-      left -= 1;
-      values[1].textContent = String(left);
-      if (left <= 0) {
-        clearInterval(timer);
-        tap.disabled = true;
-        const isBest = saveBest(game.id, score, function (a, b) { return a > b; });
-        setResult(isBest ? `${score}점. 새 최고 기록입니다.` : `${score}점으로 마무리했습니다.`);
-      }
-    }, 1000);
+    function startRound() {
+      if (running || left <= 0) return;
+      running = true;
+      setResult("10초 연타가 시작됐습니다.");
+      timer = setInterval(function () {
+        left -= 1;
+        values[1].textContent = String(left);
+        if (left <= 0) {
+          clearInterval(timer);
+          running = false;
+          tap.disabled = true;
+          const isBest = saveBest(game.id, score, function (a, b) { return a > b; });
+          setResult(isBest ? `${score}점. 새 최고 기록입니다.` : `${score}점으로 마무리했습니다.`);
+        }
+      }, 1000);
+    }
     cleanup.push(function () { clearInterval(timer); });
     tap.addEventListener("click", function () {
       if (left <= 0) return;
+      startRound();
       score += 1;
       tap.textContent = `${score}번`;
       values[0].textContent = String(score);
@@ -785,10 +794,18 @@
   function renderMole(game, surface) {
     let score = 0;
     let left = 20;
+    let running = false;
+    let timer = null;
     renderScore(surface, [{ label: "점수", value: "0" }, { label: "남은", value: "20" }]);
     const values = surface.querySelectorAll(".mini-score b");
     const grid = makeGrid(9, "mini-grid mole-grid");
     surface.appendChild(grid);
+    const controls = document.createElement("div");
+    controls.className = "mini-controls";
+    const start = button("시작", "button primary");
+    const speedSelect = createSpeedSelect();
+    controls.append(start, speedSelect);
+    surface.appendChild(controls);
     function show() {
       Array.from(grid.children).forEach(function (cell) {
         cell.textContent = "";
@@ -798,27 +815,44 @@
       active.textContent = "!";
       active.classList.add("active");
     }
-    const timer = setInterval(function () {
-      left -= 1;
-      values[1].textContent = String(left);
+    function finish() {
+      clearInterval(timer);
+      running = false;
+      start.disabled = true;
+      start.textContent = "종료";
+      Array.from(grid.children).forEach(function (cell) {
+        cell.textContent = "";
+        cell.classList.remove("active");
+      });
+      const isBest = saveBest(game.id, score, function (a, b) { return a > b; });
+      setResult(isBest ? `${score}점. 새 최고 기록입니다.` : `${score}점으로 종료했습니다.`);
+    }
+    function startRound() {
+      if (running) return;
+      running = true;
+      start.disabled = true;
+      start.textContent = "진행 중";
+      setResult("나타나는 두더지를 빠르게 누르세요.");
       show();
-      if (left <= 0) {
-        clearInterval(timer);
-        const isBest = saveBest(game.id, score, function (a, b) { return a > b; });
-        setResult(isBest ? `${score}점. 새 최고 기록입니다.` : `${score}점으로 종료했습니다.`);
-      }
-    }, 700);
+      timer = setInterval(function () {
+        left -= 1;
+        values[1].textContent = String(left);
+        if (left <= 0) finish();
+        else show();
+      }, 780 / (Number(speedSelect.value) || 1));
+    }
     cleanup.push(function () { clearInterval(timer); });
     Array.from(grid.children).forEach(function (cell) {
       cell.addEventListener("click", function () {
-        if (left > 0 && cell.classList.contains("active")) {
+        if (running && left > 0 && cell.classList.contains("active")) {
           score += 1;
           values[0].textContent = String(score);
           show();
         }
       });
     });
-    show();
+    start.addEventListener("click", startRound);
+    setResult("시작을 누르면 두더지가 나타납니다.");
   }
 
   function renderBrickLegacy(game, surface) {
@@ -2924,8 +2958,11 @@
 
   function renderLane(game, surface) {
     let lane = 1;
+    let obstacle = -1;
     let score = 0;
     let left = 18;
+    let running = false;
+    let timer = null;
     renderScore(surface, [{ label: "거리", value: "0" }, { label: "남은", value: "18" }]);
     const values = surface.querySelectorAll(".mini-score b");
     const road = document.createElement("div");
@@ -2933,45 +2970,82 @@
     surface.appendChild(road);
     const controls = document.createElement("div");
     controls.className = "mini-controls";
+    const start = button("시작", "button primary");
+    const speedSelect = createSpeedSelect();
     const leftBtn = button("왼쪽", "button secondary");
     const rightBtn = button("오른쪽", "button secondary");
-    controls.append(leftBtn, rightBtn);
+    leftBtn.disabled = true;
+    rightBtn.disabled = true;
+    controls.append(start, speedSelect, leftBtn, rightBtn);
     surface.appendChild(controls);
     function draw(obstacle) {
       road.innerHTML = "";
       for (let i = 0; i < 3; i += 1) {
         const cell = document.createElement("span");
-        cell.textContent = i === lane ? "✦" : i === obstacle ? "■" : "";
-        cell.className = i === lane ? "player" : i === obstacle ? "danger" : "";
+        const collision = i === lane && i === obstacle;
+        cell.textContent = collision ? "✦×" : i === lane ? "✦" : i === obstacle ? "■" : "";
+        cell.className = collision ? "player danger" : i === lane ? "player" : i === obstacle ? "danger" : "";
         road.appendChild(cell);
       }
     }
     function move(delta) {
+      if (!running) return;
       lane = Math.max(0, Math.min(2, lane + delta));
-      draw(-1);
+      draw(obstacle);
     }
     leftBtn.addEventListener("click", function () { move(-1); });
     rightBtn.addEventListener("click", function () { move(1); });
-    const timer = setInterval(function () {
-      const obstacle = Math.floor(Math.random() * 3);
-      left -= 1;
-      values[1].textContent = String(left);
+    function finish(message) {
+      clearInterval(timer);
+      running = false;
+      leftBtn.disabled = true;
+      rightBtn.disabled = true;
+      start.disabled = true;
+      start.textContent = "종료";
+      setResult(message);
+    }
+    function startRound() {
+      if (running) return;
+      running = true;
+      start.disabled = true;
+      start.textContent = "비행 중";
+      leftBtn.disabled = false;
+      rightBtn.disabled = false;
+      setResult("좌우로 항로를 바꾸며 장애물을 피하세요.");
+      obstacle = Math.floor(Math.random() * 3);
       draw(obstacle);
-      if (obstacle === lane) {
-        clearInterval(timer);
-        setResult(`장애물에 부딪혔습니다. 이동 거리 ${score}.`);
-        return;
-      }
-      score += 1;
-      values[0].textContent = String(score);
-      if (left <= 0) {
-        clearInterval(timer);
-        saveBest(game.id, score, function (a, b) { return a > b; });
-        setResult(`비행 성공. 이동 거리 ${score}.`);
-      }
-    }, 650);
-    cleanup.push(function () { clearInterval(timer); });
+      timer = setInterval(function () {
+        left -= 1;
+        values[1].textContent = String(left);
+        if (obstacle === lane) {
+          draw(obstacle);
+          finish(`장애물에 부딪혔습니다. 이동 거리 ${score}.`);
+          return;
+        }
+        score += 1;
+        values[0].textContent = String(score);
+        if (left <= 0) {
+          saveBest(game.id, score, function (a, b) { return a > b; });
+          finish(`비행 성공. 이동 거리 ${score}.`);
+          return;
+        }
+        obstacle = Math.floor(Math.random() * 3);
+        draw(obstacle);
+      }, 900 / (Number(speedSelect.value) || 1));
+    }
+    function onKey(event) {
+      if (!running || !["ArrowLeft", "ArrowRight"].includes(event.key)) return;
+      event.preventDefault();
+      move(event.key === "ArrowLeft" ? -1 : 1);
+    }
+    start.addEventListener("click", startRound);
+    document.addEventListener("keydown", onKey);
+    cleanup.push(function () {
+      clearInterval(timer);
+      document.removeEventListener("keydown", onKey);
+    });
     draw(-1);
+    setResult("시작을 누르면 비행이 시작됩니다.");
   }
 
   function renderChairRace(game, surface) {
@@ -3181,8 +3255,12 @@
 
   function renderCatcher(game, surface) {
     let pos = 1;
+    let drop = -1;
+    let dropSymbol = "";
     let score = 0;
     let left = 18;
+    let running = false;
+    let timer = null;
     renderScore(surface, [{ label: "점수", value: "0" }, { label: "남은", value: "18" }]);
     const values = surface.querySelectorAll(".mini-score b");
     const road = document.createElement("div");
@@ -3190,36 +3268,74 @@
     surface.appendChild(road);
     const controls = document.createElement("div");
     controls.className = "mini-controls";
+    const start = button("시작", "button primary");
+    const speedSelect = createSpeedSelect();
     const leftBtn = button("왼쪽", "button secondary");
     const rightBtn = button("오른쪽", "button secondary");
-    controls.append(leftBtn, rightBtn);
+    leftBtn.disabled = true;
+    rightBtn.disabled = true;
+    controls.append(start, speedSelect, leftBtn, rightBtn);
     surface.appendChild(controls);
-    leftBtn.addEventListener("click", function () { pos = Math.max(0, pos - 1); draw(-1, ""); });
-    rightBtn.addEventListener("click", function () { pos = Math.min(2, pos + 1); draw(-1, ""); });
+    leftBtn.addEventListener("click", function () { if (running) { pos = Math.max(0, pos - 1); draw(drop, dropSymbol); } });
+    rightBtn.addEventListener("click", function () { if (running) { pos = Math.min(2, pos + 1); draw(drop, dropSymbol); } });
     function draw(drop, symbol) {
       road.innerHTML = "";
       for (let i = 0; i < 3; i += 1) {
         const cell = document.createElement("span");
-        cell.textContent = i === pos ? "▣" : i === drop ? symbol : "";
+        cell.textContent = i === pos && i === drop ? `▣${symbol}` : i === pos ? "▣" : i === drop ? symbol : "";
+        if (i === pos && i === drop) cell.className = symbol === "X" ? "danger" : "player";
         road.appendChild(cell);
       }
     }
-    const timer = setInterval(function () {
-      left -= 1;
-      values[1].textContent = String(left);
-      const drop = Math.floor(Math.random() * 3);
-      const bad = Math.random() < 0.22;
-      draw(drop, bad ? "X" : "●");
-      if (drop === pos) score += bad ? -2 : 2;
-      values[0].textContent = String(score);
-      if (left <= 0) {
-        clearInterval(timer);
-        saveBest(game.id, score, function (a, b) { return a > b; });
-        setResult(`${score}점으로 종료했습니다.`);
-      }
-    }, 700);
-    cleanup.push(function () { clearInterval(timer); });
+    function finish() {
+      clearInterval(timer);
+      running = false;
+      start.disabled = true;
+      start.textContent = "종료";
+      leftBtn.disabled = true;
+      rightBtn.disabled = true;
+      saveBest(game.id, score, function (a, b) { return a > b; });
+      setResult(`${score}점으로 종료했습니다.`);
+    }
+    function startRound() {
+      if (running) return;
+      running = true;
+      start.disabled = true;
+      start.textContent = "진행 중";
+      leftBtn.disabled = false;
+      rightBtn.disabled = false;
+      setResult("디저트는 받고 탄 음식은 피하세요.");
+      drop = Math.floor(Math.random() * 3);
+      dropSymbol = Math.random() < 0.22 ? "X" : "●";
+      draw(drop, dropSymbol);
+      timer = setInterval(function () {
+        left -= 1;
+        values[1].textContent = String(left);
+        if (drop === pos) score += dropSymbol === "X" ? -2 : 2;
+        values[0].textContent = String(score);
+        if (left <= 0) {
+          finish();
+          return;
+        }
+        drop = Math.floor(Math.random() * 3);
+        dropSymbol = Math.random() < 0.22 ? "X" : "●";
+        draw(drop, dropSymbol);
+      }, 900 / (Number(speedSelect.value) || 1));
+    }
+    function onKey(event) {
+      if (!running || !["ArrowLeft", "ArrowRight"].includes(event.key)) return;
+      event.preventDefault();
+      if (event.key === "ArrowLeft") leftBtn.click();
+      else rightBtn.click();
+    }
+    start.addEventListener("click", startRound);
+    document.addEventListener("keydown", onKey);
+    cleanup.push(function () {
+      clearInterval(timer);
+      document.removeEventListener("keydown", onKey);
+    });
     draw(-1, "");
+    setResult("시작을 누르면 디저트가 떨어집니다.");
   }
 
   function renderToss(game, surface) {
@@ -4159,14 +4275,39 @@
   }
 
   function renderSliding(game, surface) {
-    let tiles = shuffle([1,2,3,4,5,6,7,8,""]);
+    let tiles = [1,2,3,4,5,6,7,8,""];
+    let moves = 0;
+    renderScore(surface, [
+      { label: "이동", value: "0" },
+      { label: "최고", value: getBest(game.id) || "-" }
+    ]);
+    const stats = surface.querySelectorAll(".mini-score b");
     const grid = makeGrid(9, "mini-grid");
     surface.appendChild(grid);
+    function adjacentIndexes(empty) {
+      return [empty - 1, empty + 1, empty - 3, empty + 3].filter(function (index) {
+        return index >= 0 && index < 9 && Math.abs((empty % 3) - (index % 3)) <= 1;
+      });
+    }
+    function shuffleSolvable() {
+      let previous = -1;
+      for (let i = 0; i < 120; i += 1) {
+        const empty = tiles.indexOf("");
+        const choices = adjacentIndexes(empty).filter(function (index) { return index !== previous; });
+        const next = sample(choices.length ? choices : adjacentIndexes(empty));
+        tiles[empty] = tiles[next];
+        tiles[next] = "";
+        previous = empty;
+      }
+      if (solved()) shuffleSolvable();
+    }
     function draw() {
       Array.from(grid.children).forEach(function (cell, index) {
         cell.textContent = String(tiles[index]);
         cell.disabled = tiles[index] === "";
+        cell.setAttribute("aria-label", tiles[index] === "" ? `빈 칸 ${index + 1}` : `${tiles[index]} 타일`);
       });
+      stats[0].textContent = String(moves);
     }
     function solved() {
       return tiles.join(",") === "1,2,3,4,5,6,7,8,";
@@ -4174,15 +4315,23 @@
     Array.from(grid.children).forEach(function (cell, index) {
       cell.addEventListener("click", function () {
         const empty = tiles.indexOf("");
-        const adjacent = [empty - 1, empty + 1, empty - 3, empty + 3].includes(index) && Math.abs((empty % 3) - (index % 3)) <= 1;
-        if (!adjacent) return;
+        if (!adjacentIndexes(empty).includes(index)) return;
         tiles[empty] = tiles[index];
         tiles[index] = "";
+        moves += 1;
         draw();
-        setResult(solved() ? "퍼즐을 맞췄습니다." : "타일을 순서대로 맞춰 보세요.");
+        if (solved()) {
+          Array.from(grid.children).forEach(function (item) { item.disabled = true; });
+          const isBest = saveBest(game.id, moves, function (a, b) { return a < b; });
+          setResult(isBest ? `${moves}번 이동으로 완성. 새 최고 기록입니다.` : `${moves}번 이동으로 퍼즐을 맞췄습니다.`);
+        } else {
+          setResult("타일을 순서대로 맞춰 보세요.");
+        }
       });
     });
+    shuffleSolvable();
     draw();
+    setResult("항상 풀 수 있는 퍼즐입니다. 빈 칸 옆 타일부터 움직여 보세요.");
   }
 
   function renderSudoku(game, surface) {
@@ -4694,19 +4843,40 @@
       }
       return matched;
     }
-    function makeBoard() {
-      board = [];
-      for (let i = 0; i < 36; i += 1) {
-        let choices = icons.slice();
-        const left1 = i % width >= 1 ? board[i - 1] : null;
-        const left2 = i % width >= 2 ? board[i - 2] : null;
-        const up1 = i >= width ? board[i - width] : null;
-        const up2 = i >= width * 2 ? board[i - width * 2] : null;
-        choices = choices.filter(function (icon) {
-          return !(icon === left1 && icon === left2) && !(icon === up1 && icon === up2);
-        });
-        board.push(sample(choices));
+    function hasLegalMove(source) {
+      for (let index = 0; index < source.length; index += 1) {
+        const row = Math.floor(index / width);
+        const col = index % width;
+        const candidates = [];
+        if (col < width - 1) candidates.push(index + 1);
+        if (row < width - 1) candidates.push(index + width);
+        for (const other of candidates) {
+          const temp = source[index];
+          source[index] = source[other];
+          source[other] = temp;
+          const possible = findMatches(source).size > 0;
+          source[other] = source[index];
+          source[index] = temp;
+          if (possible) return true;
+        }
       }
+      return false;
+    }
+    function makeBoard() {
+      do {
+        board = [];
+        for (let i = 0; i < 36; i += 1) {
+          let choices = icons.slice();
+          const left1 = i % width >= 1 ? board[i - 1] : null;
+          const left2 = i % width >= 2 ? board[i - 2] : null;
+          const up1 = i >= width ? board[i - width] : null;
+          const up2 = i >= width * 2 ? board[i - width * 2] : null;
+          choices = choices.filter(function (icon) {
+            return !(icon === left1 && icon === left2) && !(icon === up1 && icon === up2);
+          });
+          board.push(sample(choices));
+        }
+      } while (!hasLegalMove(board));
     }
     function draw() {
       Array.from(grid.children).forEach(function (cell, index) {
@@ -4783,7 +4953,12 @@
             const removed = resolveMatches();
             if (score >= 45) finish(`목표 달성. ${removed}개를 연쇄로 지웠습니다.`);
             else if (moves <= 0) finish("이동 수를 모두 사용했습니다.");
-            else setResult(combo > 1 ? `${combo}연쇄! ${removed}개를 지웠습니다.` : `${removed}개를 지웠습니다.`);
+            else if (!hasLegalMove(board)) {
+              makeBoard();
+              setResult("가능한 이동이 없어 새 판으로 자동 재배열했습니다.");
+            } else {
+              setResult(combo > 1 ? `${combo}연쇄! ${removed}개를 지웠습니다.` : `${removed}개를 지웠습니다.`);
+            }
           }
         }
         picked = null;
@@ -4797,23 +4972,77 @@
   function renderBlockFill(game, surface) {
     const bombs = new Set(shuffle(Array.from({ length: 16 }, function (_, i) { return i; })).slice(0, 3));
     let filled = 0;
+    let ready = false;
+    let gameOver = false;
+    let previewTimer = null;
+    renderScore(surface, [
+      { label: "채운 칸", value: "0/13" },
+      { label: "상태", value: "준비" }
+    ]);
+    const stats = surface.querySelectorAll(".mini-score b");
     const grid = makeGrid(16, "mini-grid");
     surface.appendChild(grid);
+    const controls = document.createElement("div");
+    controls.className = "mini-controls";
+    const preview = button("폭탄 위치 보기", "button primary");
+    controls.appendChild(preview);
+    surface.appendChild(controls);
+    function revealBombs(disableAll) {
+      Array.from(grid.children).forEach(function (cell, index) {
+        if (bombs.has(index)) {
+          cell.textContent = "×";
+          cell.classList.add("danger");
+        }
+        if (disableAll) cell.disabled = true;
+      });
+    }
+    function hideBombs() {
+      Array.from(grid.children).forEach(function (cell, index) {
+        if (bombs.has(index)) {
+          cell.textContent = "";
+          cell.classList.remove("danger");
+        }
+      });
+      ready = true;
+      stats[1].textContent = "진행";
+      setResult("기억한 폭탄 3칸을 피해 나머지 칸을 채우세요.");
+    }
+    preview.addEventListener("click", function () {
+      if (ready || gameOver) return;
+      preview.disabled = true;
+      stats[1].textContent = "기억";
+      revealBombs(false);
+      setResult("1.5초 동안 폭탄 위치를 기억하세요.");
+      previewTimer = setTimeout(hideBombs, 1500);
+    });
     Array.from(grid.children).forEach(function (cell, index) {
       cell.addEventListener("click", function () {
-        if (cell.disabled) return;
+        if (!ready || gameOver || cell.disabled) {
+          if (!ready && !gameOver) setResult("먼저 폭탄 위치 보기를 누르세요.");
+          return;
+        }
         cell.disabled = true;
         if (bombs.has(index)) {
-          cell.textContent = "X";
-          setResult("폭탄 칸을 눌렀습니다. 다시 도전해 보세요.");
+          gameOver = true;
+          stats[1].textContent = "실패";
+          revealBombs(true);
+          setResult("폭탄 칸을 눌렀습니다. 다시 시작해 새 판에 도전하세요.");
           return;
         }
         cell.textContent = "■";
         filled += 1;
+        stats[0].textContent = `${filled}/13`;
         setResult(`${filled}/13칸을 채웠습니다.`);
-        if (filled === 13) setResult("모든 안전 칸을 채웠습니다.");
+        if (filled === 13) {
+          gameOver = true;
+          stats[1].textContent = "성공";
+          Array.from(grid.children).forEach(function (item) { item.disabled = true; });
+          setResult("폭탄을 모두 피해 안전 칸을 채웠습니다.");
+        }
       });
     });
+    cleanup.push(function () { clearTimeout(previewTimer); });
+    setResult("폭탄 위치 보기를 누르고 세 칸을 기억하세요.");
   }
 
   function renderSequence(game, surface) {
@@ -4900,28 +5129,46 @@
 
   function renderPattern(game, surface) {
     const active = new Set(shuffle(Array.from({ length: 16 }, function (_, i) { return i; })).slice(0, 5));
+    let previewTimer = null;
+    let accepting = false;
     const grid = makeGrid(16, "mini-grid");
     surface.appendChild(grid);
-    Array.from(grid.children).forEach(function (cell, index) {
-      if (active.has(index)) cell.classList.add("active");
-    });
-    setResult("3초 동안 패턴을 기억하세요.");
-    setTimeout(function () {
+    const start = button("패턴 보기", "button primary full");
+    surface.appendChild(start);
+    function begin() {
+      start.disabled = true;
+      Array.from(grid.children).forEach(function (cell, index) {
+        if (active.has(index)) cell.classList.add("active");
+      });
+      setResult("3초 동안 패턴을 기억하세요.");
+      previewTimer = setTimeout(function () {
       Array.from(grid.children).forEach(function (cell) { cell.classList.remove("active"); });
+      accepting = true;
       let picked = new Set();
       Array.from(grid.children).forEach(function (cell, index) {
         cell.addEventListener("click", function () {
+          if (!accepting) return;
           cell.classList.toggle("active");
           if (picked.has(index)) picked.delete(index);
           else picked.add(index);
           if (picked.size === active.size) {
             const ok = Array.from(active).every(function (i) { return picked.has(i); });
-            setResult(ok ? "패턴을 정확히 기억했습니다." : "다른 칸이 섞였습니다.");
+            if (ok) {
+              accepting = false;
+              Array.from(grid.children).forEach(function (item) { item.disabled = true; });
+              setResult("패턴을 정확히 기억했습니다.");
+            } else {
+              setResult("다른 칸이 섞였습니다. 선택을 바꿔 보세요.");
+            }
           }
         });
       });
       setResult("기억한 칸 5개를 다시 선택하세요.");
-    }, 3000);
+      }, 3000);
+    }
+    start.addEventListener("click", begin);
+    cleanup.push(function () { clearTimeout(previewTimer); });
+    setResult("패턴 보기를 누르면 3초 동안 정답 칸이 나타납니다.");
   }
 
   function renderWord(game, surface) {
@@ -4932,14 +5179,27 @@
     ];
     const item = sample(words);
     surface.innerHTML = `<p class="hint-box">${item.hint}</p><input id="wordInput" type="text" placeholder="정답 입력"><button class="button primary full" id="wordSubmit">확인</button>`;
-    $("#wordSubmit", surface).addEventListener("click", function () {
-      setResult($("#wordInput", surface).value.trim() === item.word ? "정답입니다." : "아직 아닙니다. 힌트를 다시 읽어 보세요.");
+    const input = $("#wordInput", surface);
+    const submit = $("#wordSubmit", surface);
+    function check() {
+      if (input.value.trim() === item.word) {
+        input.disabled = true;
+        submit.disabled = true;
+        setResult("정답입니다.");
+      } else {
+        setResult("아직 아닙니다. 힌트를 다시 읽어 보세요.");
+      }
+    }
+    submit.addEventListener("click", check);
+    input.addEventListener("keydown", function (event) {
+      if (event.key === "Enter") check();
     });
   }
 
   function renderHangman(game, surface) {
     const word = sample(["HANPAN", "GAME", "PUZZLE", "ARCADE"]);
     let misses = 0;
+    let finished = false;
     const picked = new Set();
     const display = document.createElement("p");
     display.className = "word-display";
@@ -4949,6 +5209,7 @@
     "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("").forEach(function (letter) {
       const item = button(letter, "mini-button");
       item.addEventListener("click", function () {
+        if (finished) return;
         item.disabled = true;
         picked.add(letter);
         if (!word.includes(letter)) misses += 1;
@@ -4960,9 +5221,13 @@
     function draw() {
       const shown = word.split("").map(function (letter) { return picked.has(letter) ? letter : "_"; }).join(" ");
       display.textContent = shown;
-      if (!shown.includes("_")) setResult("단어를 완성했습니다.");
-      else if (misses >= 6) setResult(`실패했습니다. 정답은 ${word}.`);
-      else setResult(`남은 실수 ${6 - misses}회.`);
+      if (!shown.includes("_") || misses >= 6) {
+        finished = true;
+        Array.from(wrap.children).forEach(function (item) { item.disabled = true; });
+        setResult(!shown.includes("_") ? "단어를 완성했습니다." : `실패했습니다. 정답은 ${word}.`);
+      } else {
+        setResult(`남은 실수 ${6 - misses}회.`);
+      }
     }
     draw();
   }
@@ -5062,6 +5327,7 @@
   function renderMath(game, surface) {
     let step = 0;
     let score = 0;
+    let finished = false;
     surface.innerHTML = `<p id="mathQuestion" class="hint-box"></p><input id="mathAnswer" type="number" inputmode="numeric"><button class="button primary full" id="mathSubmit">확인</button>`;
     const q = $("#mathQuestion", surface);
     const input = $("#mathAnswer", surface);
@@ -5073,11 +5339,24 @@
       q.textContent = `${a} + ${b} = ?`;
       input.value = "";
     }
-    $("#mathSubmit", surface).addEventListener("click", function () {
+    const submit = $("#mathSubmit", surface);
+    function answerQuestion() {
+      if (finished) return;
       step += 1;
       if (Number(input.value) === answer) score += 1;
-      if (step >= 7) setResult(`7문제 중 ${score}개 정답입니다.`);
-      else next();
+      if (step >= 7) {
+        finished = true;
+        input.disabled = true;
+        submit.disabled = true;
+        saveBest(game.id, score, function (a, b) { return a > b; });
+        setResult(`7문제 중 ${score}개 정답입니다.`);
+      } else {
+        next();
+      }
+    }
+    submit.addEventListener("click", answerQuestion);
+    input.addEventListener("keydown", function (event) {
+      if (event.key === "Enter") answerQuestion();
     });
     next();
   }
@@ -5091,6 +5370,7 @@
     ];
     let score = 0;
     let round = 0;
+    let finished = false;
     const card = document.createElement("div");
     card.className = "color-card";
     surface.appendChild(card);
@@ -5102,10 +5382,6 @@
     surface.appendChild(controls);
     let correct = false;
     function next() {
-      if (round >= 10) {
-        setResult(`10문제 중 ${score}개 정답입니다.`);
-        return;
-      }
       round += 1;
       const word = sample(colors);
       const paint = sample(colors);
@@ -5115,8 +5391,17 @@
       setResult(`${round}/10: 글자 이름과 색이 같은가요?`);
     }
     function choose(value) {
+      if (finished) return;
       if (value === correct) score += 1;
-      next();
+      if (round >= 10) {
+        finished = true;
+        yes.disabled = true;
+        no.disabled = true;
+        saveBest(game.id, score, function (a, b) { return a > b; });
+        setResult(`10문제 중 ${score}개 정답입니다.`);
+      } else {
+        next();
+      }
     }
     yes.addEventListener("click", function () { choose(true); });
     no.addEventListener("click", function () { choose(false); });
@@ -5280,11 +5565,14 @@
     });
     Array.from(grid.children).forEach(function (cell) {
       cell.addEventListener("click", function () {
-        if (!cell.textContent) return;
+        if (!cell.textContent || cell.classList.contains("done") || next >= order.length) return;
         if (Number(cell.textContent) === order[next]) {
           cell.classList.add("done");
           next += 1;
-          if (next === order.length) setResult("별자리를 완성했습니다.");
+          if (next === order.length) {
+            Array.from(grid.children).forEach(function (item) { item.disabled = true; });
+            setResult("별자리를 완성했습니다.");
+          }
           else setResult("다음 별을 이어 주세요.");
         } else {
           setResult("순서가 다릅니다.");
@@ -5296,10 +5584,18 @@
   function renderGarden(game, surface) {
     let score = 0;
     let left = 16;
+    let running = false;
+    let timer = null;
     renderScore(surface, [{ label: "살린 화분", value: "0" }, { label: "남은", value: "16" }]);
     const values = surface.querySelectorAll(".mini-score b");
     const grid = makeGrid(12, "mini-grid garden-grid");
     surface.appendChild(grid);
+    const controls = document.createElement("div");
+    controls.className = "mini-controls";
+    const start = button("시작", "button primary");
+    const speedSelect = createSpeedSelect();
+    controls.append(start, speedSelect);
+    surface.appendChild(controls);
     function dry() {
       Array.from(grid.children).forEach(function (cell) {
         cell.textContent = "";
@@ -5311,26 +5607,42 @@
     }
     Array.from(grid.children).forEach(function (cell) {
       cell.addEventListener("click", function () {
-        if (cell.classList.contains("active")) {
+        if (running && cell.classList.contains("active")) {
           score += 1;
           values[0].textContent = String(score);
           dry();
         }
       });
     });
-    const timer = setInterval(function () {
-      left -= 1;
-      values[1].textContent = String(left);
-      if (left <= 0) {
-        clearInterval(timer);
-        saveBest(game.id, score, function (a, b) { return a > b; });
-        setResult(`${score}개의 화분을 살렸습니다.`);
-      } else {
-        dry();
-      }
-    }, 800);
+    function finish() {
+      clearInterval(timer);
+      running = false;
+      start.disabled = true;
+      start.textContent = "종료";
+      Array.from(grid.children).forEach(function (cell) {
+        cell.textContent = "";
+        cell.classList.remove("active");
+      });
+      saveBest(game.id, score, function (a, b) { return a > b; });
+      setResult(`${score}개의 화분을 살렸습니다.`);
+    }
+    function startRound() {
+      if (running) return;
+      running = true;
+      start.disabled = true;
+      start.textContent = "진행 중";
+      dry();
+      setResult("마른 화분이 나타나는 즉시 물을 주세요.");
+      timer = setInterval(function () {
+        left -= 1;
+        values[1].textContent = String(left);
+        if (left <= 0) finish();
+        else dry();
+      }, 900 / (Number(speedSelect.value) || 1));
+    }
     cleanup.push(function () { clearInterval(timer); });
-    dry();
+    start.addEventListener("click", startRound);
+    setResult("시작을 누르면 마른 화분이 나타납니다.");
   }
 
   function renderGamePageLauncher() {
