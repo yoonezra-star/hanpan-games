@@ -9,7 +9,7 @@
     <title>벽돌깨기 미니 - 한판게임즈</title>
     <meta name="description" content="벽돌깨기 미니 플레이 방법, 조작법, 점수 기준, 공략 팁, 모바일 플레이와 FAQ를 정리한 무료 아케이드 웹게임 페이지입니다.">
     <link rel="canonical" href="https://hanpangames.kr/games/brick-break/">
-    <link rel="stylesheet" href="/assets/styles.css?v=20260814-arcade">
+    <link rel="stylesheet" href="/assets/styles.css?v=20260814-classic">
   </head>
   <body>
     <header class="site-header">
@@ -32,25 +32,48 @@
         <h1 id="playTitle">벽돌깨기 미니</h1>
         <p id="playDescription">패들을 움직여 공을 받아내고 벽돌을 모두 깨며 레벨을 올립니다.</p>
         
-        <div class="link-row">
-          <a class="button primary" href="#play-area">바로 플레이</a>
-          <a class="button secondary" href="/games/">전체 게임 보기</a>
+        <div class="game-launcher" aria-label="게임 선택">
+          <label for="gamePagePicker">
+            <span>플레이할 게임</span>
+            <select id="gamePagePicker" data-game-page-picker data-current-game="brick-break"></select>
+          </label>
+          <a class="button primary" id="gamePageStart" data-game-page-start href="#play-area">바로 시작</a>
+          <a class="button secondary" href="/games/">전체 게임</a>
         </div>
-        <ul class="toc-list" aria-label="페이지 목차">
-          <li><a href="#overview">핵심 요약</a></li>
-          <li><a href="#play-notes">플레이 포인트</a></li>
-          <li><a href="#how">게임 방법</a></li>
-          <li><a href="#controls">조작</a></li>
-          <li><a href="#scoring">점수 기준</a></li>
-          <li><a href="#strategy">공략</a></li>
-          <li><a href="#mobile">모바일 팁</a></li>
-          <li><a href="#faq">FAQ</a></li>
-          <li><a href="#related-guides">관련 공략</a></li>
-          <li><a href="#related">관련 게임</a></li>
-        </ul>
       </section>
 
-      <div class="game-detail-grid">
+      <div class="game-detail-stack">
+        <section class="inline-game-stage game-first-stage" id="play-area" aria-live="polite">
+          <div class="stage-head">
+            <div>
+              <p class="eyebrow" id="playCategory">아케이드 · 2분</p>
+              <h2 id="stageTitle">벽돌깨기 미니</h2>
+            </div>
+            <div class="stage-actions">
+              <a class="button secondary" href="/play/?game=brick-break">큰 화면</a>
+              <button class="button primary" id="restartGame" type="button">다시 시작</button>
+            </div>
+          </div>
+          <div class="play-surface" id="playSurface" data-game-id="brick-break"></div>
+          <p class="result-line" id="playResult">게임을 불러오는 중입니다.</p>
+        </section>
+
+        <nav class="game-detail-nav" aria-label="게임 설명 목차">
+          <strong>게임 설명</strong>
+          <ul class="toc-list">
+            <li><a href="#overview">핵심 요약</a></li>
+            <li><a href="#play-notes">플레이 포인트</a></li>
+            <li><a href="#how">게임 방법</a></li>
+            <li><a href="#controls">조작</a></li>
+            <li><a href="#scoring">점수 기준</a></li>
+            <li><a href="#strategy">공략</a></li>
+            <li><a href="#mobile">모바일 팁</a></li>
+            <li><a href="#faq">FAQ</a></li>
+            <li><a href="#related-guides">관련 공략</a></li>
+            <li><a href="#related">관련 게임</a></li>
+          </ul>
+        </nav>
+
         <article class="article featured-article">
           <h2 id="overview">이 게임의 핵심</h2>
           <p>벽돌깨기 미니는 패들로 공을 받아 내구도가 다른 벽돌을 깨고 다음 스테이지로 올라가는 고전 아케이드 게임입니다. 공의 속도만 쫓기보다 패들의 어느 위치에 맞히는지로 반사각을 설계하는 것이 핵심입니다.</p>
@@ -154,21 +177,6 @@
             전체 게임은 <a href="/games/">게임 목록</a>에서 장르별로 확인할 수 있습니다.
           </p>
         </article>
-
-        <section class="inline-game-stage" id="play-area" aria-live="polite">
-          <div class="stage-head">
-            <div>
-              <p class="eyebrow" id="playCategory">아케이드 · 2분</p>
-              <h2 id="stageTitle">벽돌깨기 미니</h2>
-            </div>
-            <div class="stage-actions">
-              <a class="button secondary" href="/play/?game=brick-break">큰 화면</a>
-              <button class="button primary" id="restartGame" type="button">다시 시작</button>
-            </div>
-          </div>
-          <div class="play-surface" id="playSurface" data-game-id="brick-break"></div>
-          <p class="result-line" id="playResult">게임을 불러오는 중입니다.</p>
-        </section>
       </div>
     </main>
 
@@ -188,7 +196,7 @@
       <p class="copyright">© <span id="year"></span> Hanpan Games. All rights reserved.</p>
     </footer>
     <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"VideoGame","name":"벽돌깨기 미니","url":"https://hanpangames.kr/games/brick-break/","description":"패들을 움직여 공을 받아내고 벽돌을 모두 깨며 레벨을 올립니다.","applicationCategory":"Game","operatingSystem":"Web Browser","inLanguage":"ko-KR","isAccessibleForFree":true,"publisher":{"@type":"Organization","name":"한판게임즈"}},{"@type":"FAQPage","mainEntity":[{"@type":"Question","name":"벽돌깨기 미니는 설치가 필요한가요?","acceptedAnswer":{"@type":"Answer","text":"아니요. 브라우저에서 바로 실행되며 별도 설치나 로그인 없이 플레이할 수 있습니다."}},{"@type":"Question","name":"아이템은 무엇을 하나요?","acceptedAnswer":{"@type":"Answer","text":"W는 패들을 넓히고, +는 멀티볼을 만들며, S는 공이 한 번 떨어져도 막아 주는 보호막입니다."}},{"@type":"Question","name":"공 각도는 어떻게 바뀌나요?","acceptedAnswer":{"@type":"Answer","text":"패들의 가운데에 가까울수록 안정적인 반사가 나오고, 가장자리에 맞을수록 좌우 각도가 커집니다. 패들을 움직이는 방향도 약간 반영됩니다."}},{"@type":"Question","name":"모바일에서 조작이 어렵지 않나요?","acceptedAnswer":{"@type":"Answer","text":"게임판을 따라 손가락을 움직이거나 화면의 좌우 버튼을 길게 눌러 조작할 수 있습니다."}},{"@type":"Question","name":"기록은 어디에 저장되나요?","acceptedAnswer":{"@type":"Answer","text":"지원되는 브라우저에서는 최고 점수가 현재 기기의 로컬 저장소에 기록됩니다. 다른 브라우저나 기기와 자동 동기화되지는 않습니다."}}]},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"홈","item":"https://hanpangames.kr/"},{"@type":"ListItem","position":2,"name":"게임","item":"https://hanpangames.kr/games/"},{"@type":"ListItem","position":3,"name":"벽돌깨기 미니","item":"https://hanpangames.kr/games/brick-break/"}]}]}</script>
-    <script src="/assets/app.js?v=20260814-arcade" defer></script>
-    <script src="/assets/arcade.js?v=20260814-arcade" defer></script>
+    <script src="/assets/app.js?v=20260814-classic" defer></script>
+    <script src="/assets/arcade.js?v=20260814-classic" defer></script>
   </body>
 </html>

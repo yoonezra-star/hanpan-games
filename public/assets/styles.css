@@ -1087,7 +1087,19 @@ a:focus-visible {
   box-shadow: 10px 10px 0 rgba(16, 33, 56, 0.16);
 }
 
+.block-drop-canvas {
+  max-width: 430px;
+  background: #102a44;
+  border-color: #102138;
+  box-shadow: 10px 10px 0 rgba(16, 33, 56, 0.16);
+}
+
 .brick-controls {
+  align-items: center;
+  justify-content: center;
+}
+
+.block-controls {
   align-items: center;
   justify-content: center;
 }
@@ -1099,6 +1111,12 @@ a:focus-visible {
 
 .brick-note {
   max-width: 720px;
+  margin: 2px auto 0;
+  text-align: center;
+}
+
+.block-note {
+  max-width: 430px;
   margin: 2px auto 0;
   text-align: center;
 }
@@ -1804,6 +1822,62 @@ a:focus-visible {
   max-width: 1100px;
 }
 
+.game-launcher {
+  display: grid;
+  grid-template-columns: minmax(220px, 1fr) auto auto;
+  gap: 10px;
+  align-items: end;
+  max-width: 760px;
+  margin-top: 20px;
+}
+
+.game-launcher label {
+  display: grid;
+  gap: 6px;
+  color: var(--muted);
+  font-size: 13px;
+  font-weight: 900;
+}
+
+.game-launcher select {
+  width: 100%;
+  min-height: 46px;
+  padding: 0 38px 0 12px;
+  color: var(--ink);
+  background: var(--paper);
+  border: 2px solid var(--ink);
+  border-radius: 8px;
+  font: inherit;
+  font-weight: 850;
+}
+
+.game-launcher select:focus-visible {
+  outline: 3px solid var(--gold);
+  outline-offset: 2px;
+}
+
+.game-detail-stack {
+  display: grid;
+  gap: 22px;
+}
+
+.game-detail-nav {
+  display: grid;
+  gap: 10px;
+  padding: 18px 0;
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+}
+
+.game-detail-nav > strong {
+  font-size: 18px;
+}
+
+.game-detail-nav .toc-list {
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  margin: 0;
+}
+
 .game-detail-grid {
   display: grid;
   grid-template-columns: minmax(0, 1.08fr) minmax(280px, 0.92fr);
@@ -1819,6 +1893,16 @@ a:focus-visible {
   border: 1px solid var(--line);
   border-radius: 8px;
   box-shadow: var(--shadow);
+}
+
+.game-first-stage {
+  position: static;
+  top: auto;
+  padding: 22px;
+}
+
+.game-first-stage .play-surface {
+  min-height: 340px;
 }
 
 .inline-game-stage .play-surface {
@@ -2199,6 +2283,14 @@ a:focus-visible {
     display: grid;
   }
 
+  .game-launcher {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .game-launcher label {
+    grid-column: 1 / -1;
+  }
+
   .stage-actions {
     justify-content: flex-start;
   }
@@ -2217,6 +2309,20 @@ a:focus-visible {
   }
 
   .brick-note {
+    text-align: left;
+  }
+
+  .block-controls {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .block-controls .button:first-child,
+  .block-controls .button:nth-child(7) {
+    grid-column: span 2;
+  }
+
+  .block-note {
     text-align: left;
   }
 

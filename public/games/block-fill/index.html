@@ -9,7 +9,7 @@
     <title>블록 채우기 - 한판게임즈</title>
     <meta name="description" content="블록 채우기 플레이 방법, 조작법, 점수 기준, 공략 팁, 모바일 플레이와 FAQ를 정리한 무료 퍼즐 웹게임 페이지입니다.">
     <link rel="canonical" href="https://hanpangames.kr/games/block-fill/">
-    <link rel="stylesheet" href="/assets/styles.css?v=20260814-arcade">
+    <link rel="stylesheet" href="/assets/styles.css?v=20260814-classic">
   </head>
   <body>
     <header class="site-header">
@@ -32,25 +32,48 @@
         <h1 id="playTitle">블록 채우기</h1>
         <p id="playDescription">빈 칸을 모두 채우되 폭탄 칸은 피하는 블록 퍼즐입니다.</p>
         
-        <div class="link-row">
-          <a class="button primary" href="#play-area">바로 플레이</a>
-          <a class="button secondary" href="/games/">전체 게임 보기</a>
+        <div class="game-launcher" aria-label="게임 선택">
+          <label for="gamePagePicker">
+            <span>플레이할 게임</span>
+            <select id="gamePagePicker" data-game-page-picker data-current-game="block-fill"></select>
+          </label>
+          <a class="button primary" id="gamePageStart" data-game-page-start href="#play-area">바로 시작</a>
+          <a class="button secondary" href="/games/">전체 게임</a>
         </div>
-        <ul class="toc-list" aria-label="페이지 목차">
-          <li><a href="#overview">핵심 요약</a></li>
-          <li><a href="#play-notes">플레이 포인트</a></li>
-          <li><a href="#how">게임 방법</a></li>
-          <li><a href="#controls">조작</a></li>
-          <li><a href="#scoring">점수 기준</a></li>
-          <li><a href="#strategy">공략</a></li>
-          <li><a href="#mobile">모바일 팁</a></li>
-          <li><a href="#faq">FAQ</a></li>
-          <li><a href="#related-guides">관련 공략</a></li>
-          <li><a href="#related">관련 게임</a></li>
-        </ul>
       </section>
 
-      <div class="game-detail-grid">
+      <div class="game-detail-stack">
+        <section class="inline-game-stage game-first-stage" id="play-area" aria-live="polite">
+          <div class="stage-head">
+            <div>
+              <p class="eyebrow" id="playCategory">퍼즐 · 2분</p>
+              <h2 id="stageTitle">블록 채우기</h2>
+            </div>
+            <div class="stage-actions">
+              <a class="button secondary" href="/play/?game=block-fill">큰 화면</a>
+              <button class="button primary" id="restartGame" type="button">다시 시작</button>
+            </div>
+          </div>
+          <div class="play-surface" id="playSurface" data-game-id="block-fill"></div>
+          <p class="result-line" id="playResult">게임을 불러오는 중입니다.</p>
+        </section>
+
+        <nav class="game-detail-nav" aria-label="게임 설명 목차">
+          <strong>게임 설명</strong>
+          <ul class="toc-list">
+            <li><a href="#overview">핵심 요약</a></li>
+            <li><a href="#play-notes">플레이 포인트</a></li>
+            <li><a href="#how">게임 방법</a></li>
+            <li><a href="#controls">조작</a></li>
+            <li><a href="#scoring">점수 기준</a></li>
+            <li><a href="#strategy">공략</a></li>
+            <li><a href="#mobile">모바일 팁</a></li>
+            <li><a href="#faq">FAQ</a></li>
+            <li><a href="#related-guides">관련 공략</a></li>
+            <li><a href="#related">관련 게임</a></li>
+          </ul>
+        </nav>
+
         <article class="article featured-article">
           <h2 id="overview">이 게임의 핵심</h2>
           <p>빈 칸을 모두 채우되 폭탄 칸은 피하는 블록 퍼즐입니다.</p>
@@ -148,21 +171,6 @@
             전체 게임은 <a href="/games/">게임 목록</a>에서 장르별로 확인할 수 있습니다.
           </p>
         </article>
-
-        <section class="inline-game-stage" id="play-area" aria-live="polite">
-          <div class="stage-head">
-            <div>
-              <p class="eyebrow" id="playCategory">퍼즐 · 2분</p>
-              <h2 id="stageTitle">블록 채우기</h2>
-            </div>
-            <div class="stage-actions">
-              <a class="button secondary" href="/play/?game=block-fill">큰 화면</a>
-              <button class="button primary" id="restartGame" type="button">다시 시작</button>
-            </div>
-          </div>
-          <div class="play-surface" id="playSurface" data-game-id="block-fill"></div>
-          <p class="result-line" id="playResult">게임을 불러오는 중입니다.</p>
-        </section>
       </div>
     </main>
 
@@ -182,7 +190,7 @@
       <p class="copyright">© <span id="year"></span> Hanpan Games. All rights reserved.</p>
     </footer>
     <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"VideoGame","name":"블록 채우기","url":"https://hanpangames.kr/games/block-fill/","description":"빈 칸을 모두 채우되 폭탄 칸은 피하는 블록 퍼즐입니다.","applicationCategory":"Game","operatingSystem":"Web Browser","inLanguage":"ko-KR","isAccessibleForFree":true,"publisher":{"@type":"Organization","name":"한판게임즈"}},{"@type":"FAQPage","mainEntity":[{"@type":"Question","name":"기록은 어디에 저장되나요?","acceptedAnswer":{"@type":"Answer","text":"최고 기록은 가능한 경우 현재 브라우저 안에만 저장됩니다."}},{"@type":"Question","name":"정답이 하나뿐인가요?","acceptedAnswer":{"@type":"Answer","text":"퍼즐에 따라 여러 배치가 가능할 수 있습니다. 중요한 것은 빈칸 없이 모든 조각을 넣는 것입니다."}},{"@type":"Question","name":"막히면 어떻게 풀어야 하나요?","acceptedAnswer":{"@type":"Answer","text":"작은 조각보다 큰 조각의 위치를 먼저 바꾸는 편이 해결 가능성이 높습니다."}},{"@type":"Question","name":"모바일에서도 플레이할 수 있나요?","acceptedAnswer":{"@type":"Answer","text":"네. 화면 버튼과 터치 입력을 함께 고려해 작은 화면에서도 게임판과 결과 영역이 겹치지 않도록 구성했습니다."}},{"@type":"Question","name":"기록이 사라질 수 있나요?","acceptedAnswer":{"@type":"Answer","text":"기록은 가능한 경우 현재 브라우저의 로컬 저장소에 저장됩니다. 브라우저 데이터를 삭제하거나 다른 기기에서 접속하면 이어지지 않을 수 있습니다."}}]},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"홈","item":"https://hanpangames.kr/"},{"@type":"ListItem","position":2,"name":"게임","item":"https://hanpangames.kr/games/"},{"@type":"ListItem","position":3,"name":"블록 채우기","item":"https://hanpangames.kr/games/block-fill/"}]}]}</script>
-    <script src="/assets/app.js?v=20260814-arcade" defer></script>
-    <script src="/assets/arcade.js?v=20260814-arcade" defer></script>
+    <script src="/assets/app.js?v=20260814-classic" defer></script>
+    <script src="/assets/arcade.js?v=20260814-classic" defer></script>
   </body>
 </html>

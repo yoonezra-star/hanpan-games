@@ -1272,7 +1272,7 @@
     tick(performance.now());
   }
 
-  function renderTetris(game, surface) {
+  function renderTetrisLegacy(game, surface) {
     const cols = 10;
     const rows = 20;
     const cell = 24;
@@ -1507,6 +1507,464 @@
       clearInterval(dropTimer);
       cancelAnimationFrame(frame);
       document.removeEventListener("keydown", onKey);
+    });
+    reset();
+    draw();
+  }
+
+  function renderTetris(game, surface) {
+    const cols = 10;
+    const rows = 20;
+    const cell = 24;
+    const boardX = 22;
+    const boardY = 30;
+    const width = 430;
+    const height = 540;
+    const pieces = [
+      { id: "I", color: "#55c8e6", shape: [[1, 1, 1, 1]] },
+      { id: "O", color: "#f6c85f", shape: [[1, 1], [1, 1]] },
+      { id: "T", color: "#ad7be9", shape: [[0, 1, 0], [1, 1, 1]] },
+      { id: "L", color: "#f19a4b", shape: [[1, 0, 0], [1, 1, 1]] },
+      { id: "J", color: "#5a8dee", shape: [[0, 0, 1], [1, 1, 1]] },
+      { id: "S", color: "#65c28b", shape: [[0, 1, 1], [1, 1, 0]] },
+      { id: "Z", color: "#eb6b6b", shape: [[1, 1, 0], [0, 1, 1]] }
+    ];
+    let board = [];
+    let bag = [];
+    let piece = null;
+    let nextPiece = null;
+    let heldPiece = null;
+    let canHold = true;
+    let score = 0;
+    let lines = 0;
+    let level = 1;
+    let combo = -1;
+    let running = false;
+    let over = false;
+    let muted = false;
+    let dropTimer = null;
+    let frame = null;
+    let flashRows = [];
+    let flashUntil = 0;
+    let message = "시작을 누르거나 스페이스바를 눌러 플레이하세요.";
+    const audio = typeof window.AudioContext === "function" || typeof window.webkitAudioContext === "function"
+      ? new (window.AudioContext || window.webkitAudioContext)()
+      : null;
+
+    renderScore(surface, [
+      { label: "점수", value: "0" },
+      { label: "줄", value: "0" },
+      { label: "레벨", value: "1" },
+      { label: "콤보", value: "-" },
+      { label: "최고", value: getBest(game.id) || "-" }
+    ]);
+    const stats = surface.querySelectorAll(".mini-score b");
+    const canvas = document.createElement("canvas");
+    canvas.className = "arcade-canvas block-drop-canvas";
+    canvas.width = width;
+    canvas.height = height;
+    canvas.tabIndex = 0;
+    canvas.setAttribute("role", "application");
+    canvas.setAttribute("aria-label", "블록 드롭 클래식 게임판. 방향키로 이동과 회전, 스페이스바로 즉시 낙하, C 키로 홀드, P 키로 일시 정지합니다.");
+    surface.appendChild(canvas);
+    const ctx = canvas.getContext("2d");
+    const controls = document.createElement("div");
+    controls.className = "mini-controls block-controls";
+    const start = button("시작", "button primary");
+    const holdBtn = button("홀드", "button secondary");
+    const leftBtn = button("왼쪽", "button secondary");
+    const rotateBtn = button("회전", "button secondary");
+    const rightBtn = button("오른쪽", "button secondary");
+    const downBtn = button("내리기", "button secondary");
+    const dropBtn = button("즉시 낙하", "button secondary");
+    const sound = button("소리 켜짐", "button secondary sound-toggle");
+    sound.setAttribute("aria-pressed", "true");
+    controls.append(start, holdBtn, leftBtn, rotateBtn, rightBtn, downBtn, dropBtn, sound);
+    const guide = document.createElement("p");
+    guide.className = "mini-note block-note";
+    guide.textContent = "방향키 이동 · 위쪽 키 회전 · 스페이스바 즉시 낙하 · C 홀드 · P 일시 정지. 다음 블록과 그림자 위치를 보고 빈칸을 줄여 보세요.";
+    surface.append(controls, guide);
+
+    function tone(frequency, duration, type, volume) {
+      if (muted || !audio) return;
+      try {
+        if (audio.state === "suspended") audio.resume();
+        const oscillator = audio.createOscillator();
+        const gain = audio.createGain();
+        oscillator.type = type || "square";
+        oscillator.frequency.value = frequency;
+        gain.gain.setValueAtTime(volume || 0.026, audio.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.001, audio.currentTime + duration);
+        oscillator.connect(gain);
+        gain.connect(audio.destination);
+        oscillator.start();
+        oscillator.stop(audio.currentTime + duration);
+      } catch (error) {
+        // Sound is optional; game controls must keep working when audio is unavailable.
+      }
+    }
+
+    function announce(text) {
+      message = text;
+      setResult(text);
+    }
+
+    function sync() {
+      stats[0].textContent = String(score);
+      stats[1].textContent = String(lines);
+      stats[2].textContent = String(level);
+      stats[3].textContent = combo > 0 ? `x${combo}` : "-";
+      stats[4].textContent = getBest(game.id) || "-";
+      holdBtn.disabled = !canHold || over;
+      holdBtn.setAttribute("aria-label", canHold ? "현재 블록 홀드" : "이번 블록에서는 홀드를 이미 사용함");
+    }
+
+    function cloneShape(shape) {
+      return shape.map(function (row) { return row.slice(); });
+    }
+
+    function shuffledBag() {
+      return shuffle(pieces.slice());
+    }
+
+    function getPiece() {
+      if (!bag.length) bag = shuffledBag();
+      const base = bag.pop();
+      return { id: base.id, color: base.color, shape: cloneShape(base.shape), x: 3, y: -1 };
+    }
+
+    function resetPosition(item) {
+      item.x = Math.floor((cols - item.shape[0].length) / 2);
+      item.y = -1;
+      return item;
+    }
+
+    function rotateShape(shape) {
+      return shape[0].map(function (_, column) {
+        return shape.map(function (row) { return row[column]; }).reverse();
+      });
+    }
+
+    function collides(testPiece, dx, dy, shape) {
+      const target = shape || testPiece.shape;
+      for (let row = 0; row < target.length; row += 1) {
+        for (let col = 0; col < target[row].length; col += 1) {
+          if (!target[row][col]) continue;
+          const x = testPiece.x + col + dx;
+          const y = testPiece.y + row + dy;
+          if (x < 0 || x >= cols || y >= rows) return true;
+          if (y >= 0 && board[y][x]) return true;
+        }
+      }
+      return false;
+    }
+
+    function ghostY() {
+      if (!piece) return 0;
+      let distance = 0;
+      while (!collides(piece, 0, distance + 1)) distance += 1;
+      return piece.y + distance;
+    }
+
+    function spawn() {
+      piece = nextPiece || getPiece();
+      resetPosition(piece);
+      nextPiece = getPiece();
+      canHold = true;
+      if (collides(piece, 0, 0)) {
+        running = false;
+        over = true;
+        clearInterval(dropTimer);
+        start.textContent = "새 게임";
+        const isBest = saveBest(game.id, score, function (next, previous) { return next > previous; });
+        announce(isBest ? `새 최고 기록 ${score}점! 새 게임을 눌러 다시 도전하세요.` : `게임 종료. ${score}점을 기록했습니다.`);
+        tone(105, 0.4, "sawtooth", 0.05);
+      }
+      sync();
+    }
+
+    function clearLines() {
+      const filled = [];
+      board.forEach(function (row, index) { if (row.every(Boolean)) filled.push(index); });
+      if (!filled.length) {
+        combo = -1;
+        return;
+      }
+      flashRows = filled;
+      flashUntil = performance.now() + 140;
+      board = board.filter(function (_, index) { return !filled.includes(index); });
+      while (board.length < rows) board.unshift(Array(cols).fill(null));
+      const cleared = filled.length;
+      lines += cleared;
+      combo += 1;
+      const base = [0, 100, 300, 500, 800][cleared];
+      score += base * level + (combo > 0 ? combo * 50 : 0);
+      level = 1 + Math.floor(lines / 8);
+      announce(cleared === 4 ? `테트리스! 4줄 제거, 콤보 x${combo + 1}` : `${cleared}줄 제거${combo > 0 ? `, 콤보 x${combo + 1}` : ""}`);
+      tone(cleared === 4 ? 660 : 420 + cleared * 70, 0.13, "triangle", 0.045);
+      setTimeout(function () { tone(cleared === 4 ? 880 : 540, 0.12, "triangle", 0.035); }, 75);
+      restartDrop();
+    }
+
+    function lockPiece() {
+      piece.shape.forEach(function (row, rowIndex) {
+        row.forEach(function (value, colIndex) {
+          const y = piece.y + rowIndex;
+          if (value && y >= 0) board[y][piece.x + colIndex] = piece.color;
+        });
+      });
+      tone(155, 0.045, "square", 0.02);
+      clearLines();
+      spawn();
+    }
+
+    function move(dx, dy, quiet) {
+      if (!piece || over || !running) return false;
+      if (!collides(piece, dx, dy)) {
+        piece.x += dx;
+        piece.y += dy;
+        if (!quiet && dx) tone(205, 0.028, "square", 0.012);
+        return true;
+      }
+      if (dy > 0) lockPiece();
+      return false;
+    }
+
+    function rotate() {
+      if (!piece || over || !running) return;
+      const rotated = rotateShape(piece.shape);
+      const kicks = [0, -1, 1, -2, 2];
+      const offset = kicks.find(function (x) { return !collides(piece, x, 0, rotated); });
+      if (offset !== undefined) {
+        piece.x += offset;
+        piece.shape = rotated;
+        tone(310, 0.045, "square", 0.018);
+      } else {
+        tone(120, 0.04, "sawtooth", 0.014);
+      }
+    }
+
+    function hardDrop() {
+      if (!running || over) return;
+      let distance = 0;
+      while (move(0, 1, true)) distance += 1;
+      score += distance * 2;
+      tone(270, 0.06, "square", 0.026);
+      sync();
+    }
+
+    function hold() {
+      if (!canHold || !piece || !running || over) return;
+      const outgoing = { id: piece.id, color: piece.color, shape: cloneShape(piece.shape), x: 0, y: 0 };
+      if (heldPiece) {
+        piece = resetPosition(heldPiece);
+        heldPiece = outgoing;
+      } else {
+        heldPiece = outgoing;
+        piece = nextPiece;
+        resetPosition(piece);
+        nextPiece = getPiece();
+      }
+      canHold = false;
+      tone(500, 0.08, "sine", 0.035);
+      announce("홀드 완료. 다음 블록을 보고 현재 배치를 결정하세요.");
+      sync();
+    }
+
+    function restartDrop() {
+      clearInterval(dropTimer);
+      if (running && !over) {
+        dropTimer = setInterval(function () { move(0, 1, true); }, Math.max(90, 650 - (level - 1) * 58));
+      }
+    }
+
+    function reset() {
+      board = Array.from({ length: rows }, function () { return Array(cols).fill(null); });
+      bag = [];
+      score = 0;
+      lines = 0;
+      level = 1;
+      combo = -1;
+      over = false;
+      heldPiece = null;
+      nextPiece = getPiece();
+      spawn();
+      sync();
+    }
+
+    function toggle() {
+      if (over) reset();
+      running = !running;
+      start.textContent = running ? "일시 정지" : "계속";
+      if (running) {
+        canvas.focus({ preventScroll: true });
+        announce("플레이 시작. 그림자 위치를 보고 빈칸 없이 쌓아 보세요.");
+        tone(360, 0.08, "square", 0.025);
+      } else {
+        announce("일시 정지했습니다.");
+      }
+      restartDrop();
+    }
+
+    function drawBlock(x, y, color, alpha) {
+      if (y < 0) return;
+      ctx.globalAlpha = alpha == null ? 1 : alpha;
+      ctx.fillStyle = color;
+      ctx.fillRect(boardX + x * cell + 1, boardY + y * cell + 1, cell - 2, cell - 2);
+      ctx.fillStyle = "rgba(255,255,255,0.25)";
+      ctx.fillRect(boardX + x * cell + 4, boardY + y * cell + 4, cell - 8, 3);
+      ctx.strokeStyle = "rgba(4, 18, 34, 0.55)";
+      ctx.lineWidth = 1;
+      ctx.strokeRect(boardX + x * cell + 1, boardY + y * cell + 1, cell - 2, cell - 2);
+      ctx.globalAlpha = 1;
+    }
+
+    function drawPreview(item, x, y, label) {
+      ctx.fillStyle = "#b8d8ed";
+      ctx.font = "800 12px system-ui";
+      ctx.textAlign = "left";
+      ctx.fillText(label, x, y - 12);
+      if (!item) return;
+      const offsetX = x + (82 - item.shape[0].length * 15) / 2;
+      const offsetY = y + (54 - item.shape.length * 15) / 2;
+      item.shape.forEach(function (row, rowIndex) {
+        row.forEach(function (value, colIndex) {
+          if (!value) return;
+          ctx.fillStyle = item.color;
+          ctx.fillRect(offsetX + colIndex * 15, offsetY + rowIndex * 15, 13, 13);
+          ctx.strokeStyle = "rgba(4,18,34,0.55)";
+          ctx.strokeRect(offsetX + colIndex * 15, offsetY + rowIndex * 15, 13, 13);
+        });
+      });
+    }
+
+    function draw() {
+      const gradient = ctx.createLinearGradient(0, 0, 0, height);
+      gradient.addColorStop(0, "#102a44");
+      gradient.addColorStop(1, "#081523");
+      ctx.fillStyle = gradient;
+      ctx.fillRect(0, 0, width, height);
+      ctx.fillStyle = "#eaf8ff";
+      ctx.font = "900 15px system-ui";
+      ctx.textAlign = "left";
+      ctx.fillText("BLOCK DROP", boardX, 20);
+      ctx.fillStyle = "#091828";
+      ctx.fillRect(boardX - 3, boardY - 3, cols * cell + 6, rows * cell + 6);
+      ctx.fillStyle = "#0d2137";
+      ctx.fillRect(boardX, boardY, cols * cell, rows * cell);
+      ctx.strokeStyle = "rgba(198, 233, 255, 0.12)";
+      ctx.lineWidth = 1;
+      for (let col = 0; col <= cols; col += 1) {
+        ctx.beginPath();
+        ctx.moveTo(boardX + col * cell, boardY);
+        ctx.lineTo(boardX + col * cell, boardY + rows * cell);
+        ctx.stroke();
+      }
+      for (let row = 0; row <= rows; row += 1) {
+        ctx.beginPath();
+        ctx.moveTo(boardX, boardY + row * cell);
+        ctx.lineTo(boardX + cols * cell, boardY + row * cell);
+        ctx.stroke();
+      }
+      board.forEach(function (row, rowIndex) {
+        row.forEach(function (value, colIndex) { if (value) drawBlock(colIndex, rowIndex, value); });
+      });
+      if (piece) {
+        const landingY = ghostY();
+        piece.shape.forEach(function (row, rowIndex) {
+          row.forEach(function (value, colIndex) {
+            if (value) drawBlock(piece.x + colIndex, landingY + rowIndex, piece.color, 0.2);
+          });
+        });
+        piece.shape.forEach(function (row, rowIndex) {
+          row.forEach(function (value, colIndex) {
+            if (value) drawBlock(piece.x + colIndex, piece.y + rowIndex, piece.color);
+          });
+        });
+      }
+      if (flashUntil > performance.now()) {
+        ctx.fillStyle = "rgba(255,255,255,0.68)";
+        flashRows.forEach(function (row) { ctx.fillRect(boardX, boardY + row * cell, cols * cell, cell); });
+      }
+      ctx.fillStyle = "rgba(255,255,255,0.08)";
+      ctx.fillRect(286, 30, 122, 116);
+      ctx.fillRect(286, 170, 122, 116);
+      drawPreview(nextPiece, 298, 64, "NEXT");
+      drawPreview(heldPiece, 298, 204, "HOLD");
+      ctx.fillStyle = "#b8d8ed";
+      ctx.font = "700 12px system-ui";
+      ctx.textAlign = "left";
+      ctx.fillText("SPACE  DROP", 298, 333);
+      ctx.fillText("C  HOLD", 298, 354);
+      ctx.fillText("P  PAUSE", 298, 375);
+      if (!running) {
+        ctx.fillStyle = "rgba(3, 12, 23, 0.68)";
+        ctx.fillRect(boardX, boardY, cols * cell, rows * cell);
+        ctx.fillStyle = "#ffffff";
+        ctx.font = "900 25px system-ui";
+        ctx.textAlign = "center";
+        ctx.fillText(over ? "GAME OVER" : "BLOCK DROP", boardX + cols * cell / 2, boardY + 206);
+        ctx.fillStyle = "#d8ecff";
+        ctx.font = "600 14px system-ui";
+        ctx.fillText(over ? `최종 점수 ${score}점` : message, boardX + cols * cell / 2, boardY + 237);
+        ctx.fillStyle = "#ffdb79";
+        ctx.font = "800 13px system-ui";
+        ctx.fillText(over ? "새 게임을 눌러 다시 도전하세요" : "시작 버튼 또는 스페이스바", boardX + cols * cell / 2, boardY + 267);
+      }
+      frame = requestAnimationFrame(draw);
+    }
+
+    function onKey(event) {
+      const key = event.key.toLowerCase();
+      const handlesKey = running || document.activeElement === canvas || document.activeElement === start;
+      if (!handlesKey) return;
+      if (!["arrowleft", "arrowright", "arrowdown", "arrowup", " ", "a", "d", "s", "w", "c", "p", "enter"].includes(key)) return;
+      event.preventDefault();
+      if (event.type !== "keydown" || event.repeat) return;
+      if (key === "p") { toggle(); return; }
+      if ((key === " " || key === "enter") && !running) { toggle(); return; }
+      if (!running) return;
+      if (key === "arrowleft" || key === "a") move(-1, 0);
+      if (key === "arrowright" || key === "d") move(1, 0);
+      if (key === "arrowdown" || key === "s") { if (move(0, 1, true)) score += 1; }
+      if (key === "arrowup" || key === "w") rotate();
+      if (key === " ") hardDrop();
+      if (key === "c") hold();
+      sync();
+    }
+
+    function act(action) {
+      canvas.focus({ preventScroll: true });
+      if (!running && action !== "toggle") toggle();
+      if (action === "left") move(-1, 0);
+      if (action === "right") move(1, 0);
+      if (action === "down") move(0, 1, true);
+      if (action === "rotate") rotate();
+      if (action === "drop") hardDrop();
+      if (action === "hold") hold();
+      sync();
+    }
+
+    start.addEventListener("click", toggle);
+    holdBtn.addEventListener("click", function () { act("hold"); });
+    leftBtn.addEventListener("click", function () { act("left"); });
+    rotateBtn.addEventListener("click", function () { act("rotate"); });
+    rightBtn.addEventListener("click", function () { act("right"); });
+    downBtn.addEventListener("click", function () { act("down"); });
+    dropBtn.addEventListener("click", function () { act("drop"); });
+    sound.addEventListener("click", function () {
+      muted = !muted;
+      sound.textContent = muted ? "소리 꺼짐" : "소리 켜짐";
+      sound.setAttribute("aria-pressed", String(!muted));
+      announce(muted ? "게임 소리를 껐습니다." : "게임 소리를 켰습니다.");
+      if (!muted) tone(440, 0.08, "sine", 0.04);
+    });
+    document.addEventListener("keydown", onKey);
+    cleanup.push(function () {
+      clearInterval(dropTimer);
+      cancelAnimationFrame(frame);
+      document.removeEventListener("keydown", onKey);
+      if (audio && audio.state !== "closed") audio.close();
     });
     reset();
     draw();
@@ -4344,7 +4802,34 @@
     dry();
   }
 
+  function renderGamePageLauncher() {
+    const picker = $("[data-game-page-picker]");
+    const start = $("[data-game-page-start]");
+    if (!picker || !start) return;
+    const current = picker.dataset.currentGame;
+    publicCatalog.forEach(function (game) {
+      const option = document.createElement("option");
+      option.value = game.id;
+      option.textContent = `${game.title} · ${categoryNames[game.category]}`;
+      option.selected = game.id === current;
+      picker.appendChild(option);
+    });
+    function updateTarget() {
+      const selected = picker.value;
+      start.href = selected === current ? "#play-area" : `/games/${selected}/#play-area`;
+      start.textContent = selected === current ? "바로 시작" : "선택한 게임 시작";
+    }
+    picker.addEventListener("change", updateTarget);
+    start.addEventListener("click", function () {
+      if (picker.value !== current) return;
+      const stage = $("#play-area");
+      if (stage) stage.scrollIntoView({ behavior: "smooth", block: "start" });
+    });
+    updateTarget();
+  }
+
   window.HANPAN_CATALOG = catalog;
   renderCatalog();
   renderPlayPage();
+  renderGamePageLauncher();
 })();

@@ -5,7 +5,7 @@ const root = process.cwd();
 const publicDir = path.join(root, "public");
 const arcadePath = path.join(publicDir, "assets", "arcade.js");
 const arcade = fs.readFileSync(arcadePath, "utf8");
-const assetVersion = "20260814-arcade";
+const assetVersion = "20260814-classic";
 const siteUrl = "https://hanpangames.kr";
 const adsenseClient = "ca-pub-6918910185244897";
 const adsenseScript = `<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${adsenseClient}" crossorigin="anonymous"></script>`;
@@ -452,17 +452,17 @@ const typeGuides = {
 
 const featuredGuides = {
   "block-drop-classic": {
-    overview: "블록 드롭 클래식은 떨어지는 블록을 회전해 빈틈을 줄이고, 가로줄을 지워 버티는 퍼즐 게임입니다. 단순히 빠르게 누르는 게임이 아니라 다음 블록을 읽고 판의 높이를 관리하는 판단력이 핵심입니다.",
-    why: "짧은 한 판 안에서도 실수 복구, 줄 정리, 고득점 선택이 계속 이어져 오래 플레이할수록 실력이 드러납니다. 한판게임즈 버전은 키보드와 터치 버튼을 모두 제공해 데스크톱과 모바일에서 같은 규칙으로 즐길 수 있게 구성했습니다.",
-    snapshot: [["핵심 목표", "블록을 쌓아 가로줄을 지우고 보드가 끝까지 차오르지 않게 버팁니다."], ["추천 상황", "생각할 시간이 조금 있는 퍼즐형 게임을 찾을 때 좋습니다."], ["실력 포인트", "다음 블록 예측, 높이 관리, 긴 막대 블록을 위한 통로 확보입니다."]],
-    controls: ["좌우 방향키는 블록 이동, 위쪽 방향키는 회전, 아래쪽 방향키는 빠른 낙하에 사용합니다.", "스페이스바는 블록을 즉시 떨어뜨리는 하드 드롭입니다. 모바일에서는 화면 아래 조작 버튼을 같은 용도로 사용합니다.", "새 판을 시작하면 점수와 레벨이 초기화되고, 최고 기록은 가능한 경우 현재 브라우저에 저장됩니다."],
-    scoring: ["한 줄을 완성하면 점수가 오르고, 여러 줄을 한 번에 지우면 더 큰 보상을 받습니다.", "레벨이 올라갈수록 낙하 속도가 빨라져 같은 판단도 더 빠르게 내려야 합니다.", "패배 조건은 블록이 보드 위쪽까지 쌓여 새 블록이 들어올 공간이 없어지는 순간입니다."],
+    overview: "블록 드롭 클래식은 떨어지는 7종 블록을 회전해 빈틈을 줄이고, 가로줄을 지워 버티는 고전 퍼즐 게임입니다. 다음 블록, 홀드 칸, 고스트 블록을 함께 읽어 보드 높이를 관리하는 판단력이 핵심입니다.",
+    why: "단순 낙하 퍼즐을 넘어 7-백 랜덤, 다음 블록 미리보기, 홀드, 하드 드롭, 회전 보정, 연속 줄 삭제 콤보를 넣었습니다. 키보드·터치·효과음 토글을 모두 지원해 짧은 한 판도 손에 남는 클래식 게임으로 구성했습니다.",
+    snapshot: [["핵심 목표", "블록을 쌓아 가로줄을 지우고 보드가 끝까지 차오르지 않게 버팁니다."], ["추천 상황", "생각할 시간이 조금 있는 고전 퍼즐과 기록 도전을 원할 때 좋습니다."], ["실력 포인트", "다음 블록, 홀드, 고스트 위치, 높이 관리, 콤보 판단입니다."]],
+    controls: ["좌우 방향키 또는 A와 D 키는 이동, 위쪽 방향키 또는 W는 회전, 아래쪽 방향키 또는 S는 한 칸 빠른 낙하에 사용합니다.", "스페이스바는 즉시 낙하, C는 홀드, P는 일시 정지입니다. 모바일에서는 화면의 이동·회전·내리기·즉시 낙하·홀드 버튼을 사용할 수 있습니다.", "소리 버튼으로 이동, 회전, 줄 삭제, 게임 종료 효과음을 켜거나 끌 수 있습니다. 최고 기록은 가능한 경우 현재 브라우저에 저장됩니다."],
+    scoring: ["한 줄을 완성하면 점수가 오르고, 여러 줄을 한 번에 지우면 더 큰 보상을 받습니다. 4줄을 한 번에 지우면 가장 큰 기본 보너스를 얻습니다.", "연속으로 줄을 지우면 콤보 보너스가 더해집니다. 한 블록을 고정한 뒤 줄을 지우지 못하면 콤보는 초기화됩니다.", "레벨은 8줄마다 오르며 낙하 속도가 빨라집니다. 하드 드롭은 떨어진 칸 수에 따라 소량의 점수를 줍니다."],
     beginner: ["처음에는 가운데만 높게 쌓지 말고 전체 바닥을 낮고 평평하게 유지합니다.", "긴 막대 블록을 기다리는 상황에서는 한쪽 끝에 세로 통로를 남겨 둡니다.", "회전이 막히는 위치를 줄이려면 블록을 가장자리로 밀기 전에 모양을 먼저 맞춰 둡니다."],
     advanced: ["다음 블록을 보며 현재 블록을 안전하게 놓을지, 다음 블록을 위해 일부 공간을 열어 둘지 결정합니다.", "연속 줄 삭제를 노릴 때도 보드 중앙에 깊은 구멍이 생기면 복구가 어려우므로 위험을 제한합니다.", "높이가 올라간 뒤에는 고득점보다 생존을 우선해 한 줄씩 정리하는 선택이 더 안정적입니다."],
     mobile: ["터치 버튼은 한 번에 한 동작씩 입력하는 편이 안정적입니다.", "작은 화면에서는 하드 드롭을 남발하기보다 보드 모양을 확인한 뒤 사용합니다.", "세로 화면에서는 손가락이 보드를 가리지 않도록 조작 버튼 아래쪽을 중심으로 누릅니다."],
     mistakes: ["긴 막대만 기다리며 통로 주변을 너무 높게 쌓는 실수", "회전할 공간이 없는 벽 가까이에 블록을 먼저 붙이는 실수", "레벨이 오른 뒤에도 초반 속도처럼 늦게 판단하는 실수"],
-    faqs: [["이 게임은 테트리스와 같은 규칙인가요?", "고전 블록 낙하 퍼즐의 핵심 구조를 브라우저 미니게임으로 단순화했습니다. 줄 삭제, 회전, 낙하, 레벨 상승 흐름은 익숙하게 플레이할 수 있습니다."], ["키보드 없이도 할 수 있나요?", "네. 모바일과 태블릿에서는 화면 버튼으로 이동, 회전, 빠른 낙하를 사용할 수 있습니다."], ["초보자는 무엇부터 연습하면 좋나요?", "처음에는 고득점보다 보드 높이를 낮게 유지하는 연습이 좋습니다. 바닥을 평평하게 만드는 습관이 생기면 긴 막대 활용도 쉬워집니다."], ["기록은 어디에 남나요?", "지원되는 브라우저에서는 현재 기기의 로컬 저장소에 최고 기록이 저장됩니다. 다른 기기나 브라우저와 동기화되지는 않습니다."], ["팝업이 게임을 가리나요?", "플레이 화면에는 조작을 방해하는 팝업을 두지 않는 방향으로 운영합니다. 게임판과 버튼이 먼저 읽히도록 페이지를 구성했습니다."]],
-    update: "2026년 7월 20일 대표 페이지 심화 대상에 포함해 조작, 점수, 전략, 모바일 팁, FAQ를 확장했습니다."
+    faqs: [["이 게임은 테트리스와 같은 규칙인가요?", "고전 블록 낙하 퍼즐의 핵심 구조를 독자적인 브라우저 게임으로 구현했습니다. 줄 삭제, 회전, 낙하, 레벨 상승과 함께 홀드와 다음 블록 미리보기를 지원합니다."], ["홀드는 언제 쓸 수 있나요?", "현재 블록 하나당 한 번만 사용할 수 있습니다. 다음 블록을 본 뒤 지금 블록이 맞지 않을 때 보관하거나, 보관한 블록을 다시 꺼낼 수 있습니다."], ["키보드 없이도 할 수 있나요?", "네. 모바일과 태블릿에서는 화면 버튼으로 이동, 회전, 내리기, 즉시 낙하, 홀드를 사용할 수 있습니다."], ["소리가 나나요?", "이동, 회전, 고정, 줄 삭제, 게임 종료에 짧은 효과음이 적용됩니다. 소리 버튼에서 언제든 끌 수 있습니다."], ["기록은 어디에 남나요?", "지원되는 브라우저에서는 최고 기록이 현재 기기의 로컬 저장소에 저장됩니다. 다른 기기나 브라우저와 자동 동기화되지는 않습니다."]],
+    update: "2026년 8월 14일 대표 퍼즐 게임을 7-백 랜덤, 다음 블록·홀드·고스트 블록, 하드 드롭, 콤보, 효과음 설정과 함께 확장했습니다."
   },
   "brick-break": {
     overview: "벽돌깨기 미니는 패들로 공을 받아 내구도가 다른 벽돌을 깨고 다음 스테이지로 올라가는 고전 아케이드 게임입니다. 공의 속도만 쫓기보다 패들의 어느 위치에 맞히는지로 반사각을 설계하는 것이 핵심입니다.",
@@ -1194,19 +1194,18 @@ ${robotsMeta}    <title>${htmlEscape(game.title)} - 한판게임즈</title>
         <h1 id="playTitle">${htmlEscape(game.title)}</h1>
         <p id="playDescription">${htmlEscape(game.description)}</p>
         ${policyNoticeHtml(game)}
-        <div class="link-row">
-          <a class="button primary" href="#play-area">바로 플레이</a>
-          <a class="button secondary" href="/games/">전체 게임 보기</a>
+        <div class="game-launcher" aria-label="게임 선택">
+          <label for="gamePagePicker">
+            <span>플레이할 게임</span>
+            <select id="gamePagePicker" data-game-page-picker data-current-game="${game.id}"></select>
+          </label>
+          <a class="button primary" id="gamePageStart" data-game-page-start href="#play-area">바로 시작</a>
+          <a class="button secondary" href="/games/">전체 게임</a>
         </div>
-        <ul class="toc-list" aria-label="페이지 목차">
-          ${tocItems.map(([id, label]) => `<li><a href="#${id}">${label}</a></li>`).join("\n          ")}
-        </ul>
       </section>
 
-      <div class="game-detail-grid">
-        ${articleHtml}
-
-        <section class="inline-game-stage" id="play-area" aria-live="polite">
+      <div class="game-detail-stack">
+        <section class="inline-game-stage game-first-stage" id="play-area" aria-live="polite">
           <div class="stage-head">
             <div>
               <p class="eyebrow" id="playCategory">${htmlEscape(category)} · ${htmlEscape(game.minutes)}</p>
@@ -1220,6 +1219,15 @@ ${robotsMeta}    <title>${htmlEscape(game.title)} - 한판게임즈</title>
           <div class="play-surface" id="playSurface" data-game-id="${game.id}"></div>
           <p class="result-line" id="playResult">게임을 불러오는 중입니다.</p>
         </section>
+
+        <nav class="game-detail-nav" aria-label="게임 설명 목차">
+          <strong>게임 설명</strong>
+          <ul class="toc-list">
+            ${tocItems.map(([id, label]) => `<li><a href="#${id}">${label}</a></li>`).join("\n            ")}
+          </ul>
+        </nav>
+
+        ${articleHtml}
       </div>
     </main>
 
@@ -1257,11 +1265,11 @@ for (const game of catalog) {
 
 const staticUrls = [
   { loc: `${siteUrl}/`, priority: "1.0", changefreq: "weekly", lastmod: "2026-07-22" },
-  { loc: `${siteUrl}/games/`, priority: "0.9", changefreq: "weekly", lastmod: "2026-07-22" },
+  { loc: `${siteUrl}/games/`, priority: "0.9", changefreq: "weekly", lastmod: "2026-08-14" },
   { loc: `${siteUrl}/play/`, priority: "0.9", changefreq: "weekly" },
   { loc: `${siteUrl}/guides/`, priority: "0.8", changefreq: "monthly", lastmod: "2026-07-22" },
   { loc: `${siteUrl}/help/`, priority: "0.7", changefreq: "monthly", lastmod: "2026-07-22" },
-  { loc: `${siteUrl}/updates/`, priority: "0.6", changefreq: "monthly", lastmod: "2026-07-22" },
+  { loc: `${siteUrl}/updates/`, priority: "0.6", changefreq: "monthly", lastmod: "2026-08-14" },
   { loc: `${siteUrl}/about/`, priority: "0.6", changefreq: "monthly" },
   { loc: `${siteUrl}/privacy/`, priority: "0.5", changefreq: "yearly", lastmod: "2026-07-22" },
   { loc: `${siteUrl}/terms/`, priority: "0.5", changefreq: "yearly", lastmod: "2026-07-22" },
@@ -1270,7 +1278,7 @@ const staticUrls = [
     loc: `${siteUrl}/guides/${id}/`,
     priority: "0.7",
     changefreq: "monthly",
-    lastmod: "2026-07-22",
+    lastmod: ["brick-break-strategy", "block-drop-beginner"].includes(id) ? "2026-08-14" : "2026-07-22",
   })),
 ];
 
@@ -1280,7 +1288,7 @@ const gameUrls = catalog
     loc: `${siteUrl}/games/${game.id}/`,
     priority: "0.8",
     changefreq: "monthly",
-    lastmod: game.id === "brick-break" ? "2026-08-14" : "2026-07-22",
+    lastmod: "2026-08-14",
   }));
 
 const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
