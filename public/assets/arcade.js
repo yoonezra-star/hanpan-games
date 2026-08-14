@@ -5650,6 +5650,11 @@
     const start = $("[data-game-page-start]");
     if (!picker || !start) return;
     const current = picker.dataset.currentGame;
+
+    function gamePageUrl(id) {
+      return `/games/${encodeURIComponent(id)}/#play-area`;
+    }
+
     publicCatalog.forEach(function (game) {
       const option = document.createElement("option");
       option.value = game.id;
@@ -5659,12 +5664,28 @@
     });
     function updateTarget() {
       const selected = picker.value;
-      start.href = selected === current ? "#play-area" : `/games/${selected}/#play-area`;
+      start.href = selected === current ? "#play-area" : gamePageUrl(selected);
       start.textContent = selected === current ? "바로 시작" : "선택한 게임 시작";
     }
-    picker.addEventListener("change", updateTarget);
-    start.addEventListener("click", function () {
-      if (picker.value !== current) return;
+
+    function openSelectedGame() {
+      const selected = picker.value;
+      if (!selected || selected === current) {
+        updateTarget();
+        return;
+      }
+      start.setAttribute("aria-busy", "true");
+      start.textContent = "게임 여는 중";
+      window.location.assign(gamePageUrl(selected));
+    }
+
+    picker.addEventListener("change", openSelectedGame);
+    start.addEventListener("click", function (event) {
+      if (picker.value !== current) {
+        event.preventDefault();
+        openSelectedGame();
+        return;
+      }
       const stage = $("#play-area");
       if (stage) stage.scrollIntoView({ behavior: "smooth", block: "start" });
     });
