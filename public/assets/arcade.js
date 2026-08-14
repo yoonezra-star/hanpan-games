@@ -159,6 +159,26 @@
     return { tone, toggle, close };
   }
 
+  function createSpeedSelect() {
+    const select = document.createElement("select");
+    select.className = "game-option-select speed-select";
+    select.setAttribute("aria-label", "게임 속도");
+    [["0.78", "속도 느림"], ["1", "속도 보통"], ["1.2", "속도 빠름"]].forEach(function (item) {
+      const option = document.createElement("option");
+      option.value = item[0];
+      option.textContent = item[1];
+      if (item[0] === "1") option.selected = true;
+      select.appendChild(option);
+    });
+    return select;
+  }
+
+  function animationScale(now, previousFrame, speedSelect) {
+    const elapsed = previousFrame ? (now - previousFrame) / (1000 / 60) : 1;
+    const speed = speedSelect ? Number(speedSelect.value) || 1 : 1;
+    return Math.min(2, Math.max(0, elapsed)) * speed;
+  }
+
   function makeGrid(count, className) {
     const grid = document.createElement("div");
     grid.className = className || "mini-grid";
@@ -888,16 +908,17 @@
     controls.className = "mini-controls brick-controls";
     const start = button("시작", "button primary");
     const restart = button("새 게임", "button secondary");
+    const speedSelect = createSpeedSelect();
     const sound = button("소리 켜짐", "button secondary sound-toggle");
     const leftBtn = button("왼쪽", "button secondary");
     const rightBtn = button("오른쪽", "button secondary");
     sound.setAttribute("aria-pressed", "true");
     leftBtn.setAttribute("aria-label", "패들 왼쪽으로 이동");
     rightBtn.setAttribute("aria-label", "패들 오른쪽으로 이동");
-    controls.append(start, restart, sound, leftBtn, rightBtn);
+    controls.append(start, restart, speedSelect, sound, leftBtn, rightBtn);
     const guide = document.createElement("p");
     guide.className = "mini-note brick-note";
-    guide.textContent = "방향키 또는 A/D로 움직이고, 스페이스바로 시작과 일시 정지를 전환합니다. 떨어지는 아이템을 받으면 패들이 넓어지거나 공이 늘어납니다.";
+    guide.textContent = "방향키 또는 A/D로 움직입니다. 게임 속도는 기기 화면 주사율과 무관하며 느림·보통·빠름으로 조절할 수 있습니다.";
     surface.append(controls, guide);
 
     function playTone(frequency, duration, type, volume) {
@@ -1244,7 +1265,7 @@
     }
 
     function tick(now) {
-      const delta = Math.min(0.032, (now - lastFrame) / 1000 || 0);
+      const delta = Math.min(0.032, (now - lastFrame) / 1000 || 0) * (Number(speedSelect.value) || 1);
       lastFrame = now;
       if (running) update(delta, now);
       draw();
@@ -1295,6 +1316,9 @@
 
     start.addEventListener("click", togglePlay);
     restart.addEventListener("click", startNewGame);
+    speedSelect.addEventListener("change", function () {
+      announce(`${speedSelect.options[speedSelect.selectedIndex].text}으로 변경했습니다.`);
+    });
     sound.addEventListener("click", function () {
       muted = !muted;
       sound.textContent = muted ? "소리 꺼짐" : "소리 켜짐";
@@ -2031,6 +2055,7 @@
     let up = false;
     let down = false;
     let frame = null;
+    let lastFrame = 0;
     let serveUntil = 0;
     let serveDirection = 1;
     let trail = [];
@@ -2066,12 +2091,13 @@
     });
     const upBtn = button("위", "button secondary");
     const downBtn = button("아래", "button secondary");
+    const speedSelect = createSpeedSelect();
     const sound = button("소리 켜짐", "button secondary sound-toggle");
     sound.setAttribute("aria-pressed", "true");
-    controls.append(start, difficulty, upBtn, downBtn, sound);
+    controls.append(start, difficulty, speedSelect, upBtn, downBtn, sound);
     const guide = document.createElement("p");
     guide.className = "mini-note arcade-note";
-    guide.textContent = "위아래 방향키 또는 W·S로 움직입니다. 패들 끝에 맞히면 반사각이 커지며, 먼저 7점을 얻으면 승리합니다.";
+    guide.textContent = "위아래 방향키 또는 W·S로 움직입니다. 속도는 기기 주사율과 무관하며 느림·보통·빠름으로 조절할 수 있습니다.";
     surface.append(controls, guide);
     function sync() {
       stats[0].textContent = String(playerScore);
@@ -2105,10 +2131,10 @@
         }
       }
     }
-    function update(now) {
+    function update(now, frameScale) {
       if (running) {
-        if (up) player -= 7;
-        if (down) player += 7;
+        if (up) player -= 7 * frameScale;
+        if (down) player += 7 * frameScale;
         player = Math.max(12, Math.min(height - 92, player));
         const settings = {
           easy: { tracking: 0.045, error: 28 },
@@ -2117,15 +2143,16 @@
         }[difficulty.value];
         const enemyTarget = ball.dx > 0 ? ball.y - 40 : height / 2 - 40;
         const wobble = Math.sin(now / 520) * settings.error;
-        enemy += (enemyTarget + wobble - enemy) * settings.tracking;
+        const tracking = 1 - Math.pow(1 - settings.tracking, frameScale);
+        enemy += (enemyTarget + wobble - enemy) * tracking;
         enemy = Math.max(12, Math.min(height - 92, enemy));
         if (serveUntil > now) return;
         if (serveUntil) {
           serveUntil = 0;
           ball.dx = Math.abs(ball.dx) * serveDirection;
         }
-        ball.x += ball.dx;
-        ball.y += ball.dy;
+        ball.x += ball.dx * frameScale;
+        ball.y += ball.dy * frameScale;
         trail.unshift({ x: ball.x, y: ball.y });
         trail = trail.slice(0, 8);
         if (ball.y < ball.r || ball.y > height - ball.r) {
@@ -2165,7 +2192,9 @@
       }
     }
     function draw(now) {
-      update(now);
+      const frameScale = animationScale(now, lastFrame, speedSelect);
+      lastFrame = now;
+      update(now, frameScale);
       ctx.clearRect(0, 0, width, height);
       ctx.fillStyle = "#101827";
       ctx.fillRect(0, 0, width, height);
@@ -2292,6 +2321,7 @@
     let running = false;
     let gameOver = false;
     let frame = null;
+    let lastFrame = 0;
     let left = false;
     let right = false;
     let lastShot = 0;
@@ -2323,12 +2353,13 @@
     const leftBtn = button("왼쪽", "button secondary");
     const fireBtn = button("발사", "button secondary");
     const rightBtn = button("오른쪽", "button secondary");
+    const speedSelect = createSpeedSelect();
     const sound = button("소리 켜짐", "button secondary sound-toggle");
     sound.setAttribute("aria-pressed", "true");
-    controls.append(start, leftBtn, fireBtn, rightBtn, sound);
+    controls.append(start, speedSelect, leftBtn, fireBtn, rightBtn, sound);
     const guide = document.createElement("p");
     guide.className = "mini-note arcade-note";
-    guide.textContent = "좌우 방향키 또는 A·D로 이동하고 스페이스바로 발사합니다. 적탄을 피하며 연속 격추 배수를 이어가세요.";
+    guide.textContent = "좌우 방향키 또는 A·D로 이동하고 스페이스바로 발사합니다. 속도는 느림·보통·빠름으로 언제든 조절할 수 있습니다.";
     surface.append(controls, guide);
     function buildWave() {
       enemies = [];
@@ -2387,14 +2418,14 @@
       if (shield <= 0 || lives <= 0) finish("기체의 보호막이 소진되었습니다.");
       else setResult(`피격되었습니다. 보호막 ${shield}%가 남았습니다.`);
     }
-    function update(now) {
+    function update(now, frameScale) {
       if (!running) return;
-      if (left) ship -= 6.5;
-      if (right) ship += 6.5;
+      if (left) ship -= 6.5 * frameScale;
+      if (right) ship += 6.5 * frameScale;
       ship = Math.max(28, Math.min(width - 28, ship));
-      bullets.forEach(function (bullet) { bullet.y -= 8; });
+      bullets.forEach(function (bullet) { bullet.y -= 8 * frameScale; });
       bullets = bullets.filter(function (bullet) { return bullet.y > -20; });
-      enemyBullets.forEach(function (bullet) { bullet.y += bullet.speed; });
+      enemyBullets.forEach(function (bullet) { bullet.y += bullet.speed * frameScale; });
       enemyBullets = enemyBullets.filter(function (bullet) { return bullet.y < height + 20; });
       const formationSpeed = 0.42 + wave * 0.065;
       const edge = enemies.some(function (enemy) {
@@ -2404,8 +2435,9 @@
         formationDirection *= -1;
         enemies.forEach(function (enemy) { enemy.y += 11; });
       }
-      enemies.forEach(function (enemy) { enemy.x += formationDirection * formationSpeed; });
-      if (now - lastEnemyShot > Math.max(420, 1150 - wave * 80) && enemies.length) {
+      enemies.forEach(function (enemy) { enemy.x += formationDirection * formationSpeed * frameScale; });
+      const shotInterval = Math.max(420, 1150 - wave * 80) / (Number(speedSelect.value) || 1);
+      if (now - lastEnemyShot > shotInterval && enemies.length) {
         lastEnemyShot = now;
         const lowestByColumn = enemies.filter(function (enemy) {
           return !enemies.some(function (other) { return Math.abs(other.x - enemy.x) < 18 && other.y > enemy.y; });
@@ -2456,15 +2488,17 @@
         setResult(`${wave - 1}웨이브 방어 성공. 다음 편대가 더 빠릅니다.`);
       }
       particles.forEach(function (particle) {
-        particle.x += particle.dx;
-        particle.y += particle.dy;
-        particle.life -= 1;
+        particle.x += particle.dx * frameScale;
+        particle.y += particle.dy * frameScale;
+        particle.life -= frameScale;
       });
       particles = particles.filter(function (particle) { return particle.life > 0; });
       sync();
     }
     function draw(now) {
-      update(now);
+      const frameScale = animationScale(now, lastFrame, speedSelect);
+      lastFrame = now;
+      update(now, frameScale);
       ctx.clearRect(0, 0, width, height);
       ctx.fillStyle = "#101827";
       ctx.fillRect(0, 0, width, height);
@@ -2585,6 +2619,7 @@
     let lives = 1;
     let running = false;
     let frame = null;
+    let lastFrame = 0;
     let tick = 0;
     renderScore(surface, [
       { label: "통과", value: "0" },
@@ -2603,10 +2638,11 @@
     controls.className = "mini-controls pad-controls";
     const start = button("시작", "button primary");
     const jump = button("점프", "button secondary");
-    controls.append(start, jump);
+    const speedSelect = createSpeedSelect();
+    controls.append(start, speedSelect, jump);
     const guide = document.createElement("p");
     guide.className = "mini-note";
-    guide.textContent = "스페이스바나 점프 버튼을 짧게 눌러 높이를 조절합니다. 기둥 사이를 통과할 때마다 점수가 오릅니다.";
+    guide.textContent = "스페이스바나 점프 버튼으로 높이를 조절합니다. 느림·보통·빠름 중 편한 속도를 선택할 수 있습니다.";
     surface.append(controls, guide);
     function addPipe() {
       const gap = 118;
@@ -2633,7 +2669,7 @@
         setResult("기둥 사이를 통과하세요.");
       }
       sync("비행");
-      bird.vy = -7.2;
+      bird.vy = -430;
     }
     function finish() {
       running = false;
@@ -2643,12 +2679,12 @@
       sync("종료");
       setResult(isBest ? `충돌했습니다. 새 최고 기록 ${score}개입니다.` : `충돌했습니다. ${score}개를 통과했습니다.`);
     }
-    function update() {
+    function update(delta) {
       if (!running) return;
-      tick += 1;
-      bird.vy += 0.42;
-      bird.y += bird.vy;
-      pipes.forEach(function (pipe) { pipe.x -= 2.8; });
+      tick += delta * 60;
+      bird.vy += 1510 * delta;
+      bird.y += bird.vy * delta;
+      pipes.forEach(function (pipe) { pipe.x -= 168 * delta; });
       pipes = pipes.filter(function (pipe) { return pipe.x > -70; });
       if (!pipes.length || pipes[pipes.length - 1].x < width - 185) addPipe();
       pipes.forEach(function (pipe) {
@@ -2663,8 +2699,10 @@
       });
       if (bird.y < 0 || bird.y > height - 24) finish();
     }
-    function draw() {
-      update();
+    function draw(now) {
+      const delta = Math.min(0.034, (now - lastFrame) / 1000 || 0) * (Number(speedSelect.value) || 1);
+      lastFrame = now;
+      update(delta);
       ctx.clearRect(0, 0, width, height);
       ctx.fillStyle = "#dcecf7";
       ctx.fillRect(0, 0, width, height);
@@ -2786,7 +2824,9 @@
     let running = false;
     let finished = false;
     let frame = null;
-    let startTime = 0;
+    let lastFrame = 0;
+    let elapsedMs = 0;
+    let runStartedAt = 0;
     let snack = { x: 320, y: 210, active: true, boost: 0 };
     const keys = { left: false, right: false, boost: false };
     const goal = { x: 540, y: 46, w: 68, h: 58 };
@@ -2822,10 +2862,11 @@
     const leftBtn = button("왼쪽", "button secondary");
     const boostBtn = button("밀기", "button secondary");
     const rightBtn = button("오른쪽", "button secondary");
-    controls.append(start, leftBtn, boostBtn, rightBtn);
+    const speedSelect = createSpeedSelect();
+    controls.append(start, speedSelect, leftBtn, boostBtn, rightBtn);
     const guide = document.createElement("p");
     guide.className = "mini-note";
-    guide.textContent = "좌우로 방향을 돌리고 위쪽 키나 스페이스바로 의자를 밀어 주세요. 관성이 있어 코너 전에 미리 방향을 잡는 것이 중요합니다.";
+    guide.textContent = "좌우로 방향을 돌리고 위쪽 키나 스페이스바로 의자를 밉니다. 기기와 무관하게 느림·보통·빠름 속도를 선택할 수 있습니다.";
     surface.append(controls, guide);
     let bumps = 0;
     function hitRect(x, y, rect) {
@@ -2835,7 +2876,8 @@
       chair = { x: 74, y: 342, angle: -0.18, speed: 0 };
       running = false;
       finished = false;
-      startTime = 0;
+      elapsedMs = 0;
+      runStartedAt = 0;
       snack = { x: 320, y: 210, active: true, boost: 0 };
       bumps = 0;
       start.textContent = "시작";
@@ -2845,24 +2887,26 @@
       setResult("회의실까지 의자를 몰고 가세요.");
     }
     function finish() {
+      if (runStartedAt) elapsedMs += Date.now() - runStartedAt;
+      runStartedAt = 0;
       finished = true;
       running = false;
       start.textContent = "다시 시작";
-      const elapsed = Number(((Date.now() - startTime) / 1000).toFixed(1));
+      const elapsed = Number((elapsedMs / 1000).toFixed(1));
       const isBest = saveBest(game.id, elapsed, function (a, b) { return a < b; });
       setResult(isBest ? `${elapsed}초 도착. 새 최고 기록입니다.` : `${elapsed}초 만에 회의실에 도착했습니다.`);
     }
-    function update() {
+    function update(frameScale) {
       if (!running || finished) return;
-      if (keys.left) chair.angle -= 0.055;
-      if (keys.right) chair.angle += 0.055;
-      if (keys.boost) chair.speed += snack.boost > 0 ? 0.19 : 0.13;
-      if (snack.boost > 0) snack.boost -= 1;
-      chair.speed *= 0.982;
+      if (keys.left) chair.angle -= 0.055 * frameScale;
+      if (keys.right) chair.angle += 0.055 * frameScale;
+      if (keys.boost) chair.speed += (snack.boost > 0 ? 0.19 : 0.13) * frameScale;
+      if (snack.boost > 0) snack.boost -= frameScale;
+      chair.speed *= Math.pow(0.982, frameScale);
       chair.speed = Math.max(-1.6, Math.min(snack.boost > 0 ? 6.6 : 4.8, chair.speed));
       const prev = { x: chair.x, y: chair.y };
-      chair.x += Math.cos(chair.angle) * chair.speed;
-      chair.y += Math.sin(chair.angle) * chair.speed;
+      chair.x += Math.cos(chair.angle) * chair.speed * frameScale;
+      chair.y += Math.sin(chair.angle) * chair.speed * frameScale;
       if (walls.some(function (wall) { return hitRect(chair.x, chair.y, wall); })) {
         chair.x = prev.x;
         chair.y = prev.y;
@@ -2876,12 +2920,14 @@
         setResult("간식 버프. 잠깐 더 빠르게 밀 수 있습니다.");
       }
       if (hitRect(chair.x, chair.y, goal)) finish();
-      stats[0].textContent = ((Date.now() - startTime) / 1000).toFixed(1);
+      stats[0].textContent = ((elapsedMs + (runStartedAt ? Date.now() - runStartedAt : 0)) / 1000).toFixed(1);
       stats[1].textContent = String(Math.round(Math.abs(chair.speed) * 10));
       stats[2].textContent = String(bumps);
     }
-    function draw() {
-      update();
+    function draw(now) {
+      const frameScale = animationScale(now, lastFrame, speedSelect);
+      lastFrame = now;
+      update(frameScale);
       ctx.clearRect(0, 0, width, height);
       ctx.fillStyle = "#f3efe5";
       ctx.fillRect(0, 0, width, height);
@@ -2922,15 +2968,21 @@
         ctx.fillStyle = "#fffdf7";
         ctx.font = "700 26px sans-serif";
         ctx.textAlign = "center";
-        ctx.fillText(finished ? "도착 완료" : "시작을 눌러 질주", width / 2, height / 2);
+        ctx.fillText(finished ? "도착 완료" : elapsedMs > 0 ? "일시정지" : "시작을 눌러 질주", width / 2, height / 2);
       }
       frame = requestAnimationFrame(draw);
     }
     function toggle() {
       if (finished) reset();
-      running = !running;
-      if (running && !startTime) startTime = Date.now();
-      if (running && stats[0].textContent === "0.0") startTime = Date.now();
+      const now = Date.now();
+      if (running) {
+        elapsedMs += now - runStartedAt;
+        runStartedAt = 0;
+        running = false;
+      } else {
+        running = true;
+        runStartedAt = now;
+      }
       start.textContent = running ? "일시정지" : "계속";
       setResult(running ? "관성을 이용해 목적지까지 달려 보세요." : "일시정지했습니다.");
     }
