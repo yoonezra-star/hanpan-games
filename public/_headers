@@ -4,5 +4,17 @@
   Referrer-Policy: strict-origin-when-cross-origin
   Permissions-Policy: camera=(), microphone=(), geolocation=()
 
-/assets/*
+/assets/app.js
+  Cache-Control: public, max-age=300, must-revalidate
+
+/assets/arcade.js
+  Cache-Control: public, max-age=300, must-revalidate
+
+/assets/traditional-games.js
+  Cache-Control: public, max-age=300, must-revalidate
+
+/assets/styles.css
+  Cache-Control: public, max-age=300, must-revalidate
+
+/assets/game-art/*
   Cache-Control: public, max-age=31536000, immutable

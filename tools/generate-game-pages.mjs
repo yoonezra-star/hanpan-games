@@ -1325,7 +1325,7 @@ ${socialImageMeta}    <meta property="og:type" content="website">
         <div class="game-launcher" aria-label="게임 선택">
           <label for="gamePagePicker">
             <span>플레이할 게임</span>
-            <select id="gamePagePicker" data-game-page-picker data-current-game="${game.id}"></select>
+            <select id="gamePagePicker" data-game-page-picker data-current-game="${game.id}" onchange="if (this.value &amp;&amp; this.value !== this.dataset.currentGame) window.location.href = '/games/' + encodeURIComponent(this.value) + '/#play-area'"></select>
           </label>
           <a class="button primary" id="gamePageStart" data-game-page-start href="#play-area">바로 시작</a>
           <a class="button secondary" href="/games/">전체 게임</a>
