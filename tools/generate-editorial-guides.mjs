@@ -4,7 +4,7 @@ import path from "node:path";
 const root = process.cwd();
 const publicDir = path.join(root, "public");
 const siteUrl = "https://hanpangames.kr";
-const assetVersion = "20260720-depth";
+const assetVersion = "20260814-arcade";
 const publishedDate = "2026-07-22";
 const adsenseClient = "ca-pub-6918910185244897";
 const adsenseScript = `<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${adsenseClient}" crossorigin="anonymous"></script>`;
@@ -357,8 +357,9 @@ const guides = [
     id: "brick-break-strategy",
     category: "아케이드 공략",
     title: "벽돌깨기 초보 공략: 패들 위치와 반사각 이해하기",
-    description: "벽돌깨기에서 공을 오래 살리고 점수를 안정적으로 올리기 위한 패들 위치, 반사각, 위험 상황 대처법을 정리했습니다.",
-    summary: "벽돌깨기는 공만 따라가면 금방 바빠집니다. 공이 내려오기 전에 도착 지점을 예측하고, 패들의 어느 부분에 맞힐지 생각하면 같은 규칙에서도 훨씬 깊은 플레이가 됩니다.",
+    description: "벽돌깨기에서 공을 오래 살리고 점수를 안정적으로 올리기 위한 패들 위치, 반사각, 콤보와 드롭 아이템 운영법을 정리했습니다.",
+    summary: "벽돌깨기는 공만 따라가면 금방 바빠집니다. 공이 내려오기 전에 도착 지점을 예측하고, 패들의 어느 부분에 맞힐지 생각하면 같은 규칙에서도 훨씬 깊은 플레이가 됩니다. 아이템은 수비를 보조하는 도구로 쓰고 공의 복귀 경로는 계속 지켜야 합니다.",
+    modifiedDate: "2026-08-14",
     readingTime: "6분",
     relatedGames: [
       { title: "벽돌깨기 미니", href: "/games/brick-break/", text: "공 반사와 레벨 클리어" },
@@ -400,6 +401,14 @@ const guides = [
           "벽돌깨기는 한 판만으로 감각을 판단하기 어렵습니다. 첫 판은 공 속도와 패들 이동을 익히고, 두 번째 판은 일부러 중앙 반사를 많이 사용해 안정감을 확인하고, 세 번째 판에서 구석 벽돌을 노리는 식으로 목표를 나누면 좋습니다.",
           "세 판을 마친 뒤에는 점수보다 공을 놓친 장면을 떠올려 보세요. 공이 너무 빠르게 꺾였는지, 패들이 지나쳤는지, 마지막 벽돌에 집착해 중앙 복귀가 늦었는지 확인하면 다음 플레이의 개선점이 분명해집니다. 이런 짧은 복기가 고전 아케이드의 재미를 더 오래 살립니다.",
           "기록이 어느 정도 안정되면 일부러 다른 각도를 시도해보는 것도 좋습니다. 항상 같은 방식으로만 공을 받으면 안전하지만 남은 벽돌 처리 능력이 늘지 않습니다. 실패 위험이 낮은 초반에 여러 반사각을 경험해두면 후반에 선택지가 많아집니다."
+        ]
+      },
+      {
+        heading: "아이템은 수비 여유를 만드는 데 씁니다",
+        paragraphs: [
+          "와이드 패들은 패들 폭을 넓혀 급한 공을 받기 쉽게 만들고, 멀티볼은 벽돌을 빠르게 줄이는 대신 시선이 분산될 수 있습니다. 보호막은 공을 한 번 놓쳐도 목숨을 지켜 주므로, 다음 반사각을 과감하게 시험해 볼 여유를 만듭니다. 어떤 아이템이 나오더라도 패들의 기본 위치를 중앙 근처에 두는 원칙은 그대로입니다.",
+          "아이템을 받으려다 공을 놓치는 판단은 대체로 손해입니다. 공이 하단으로 내려오는 순간에는 수비가 먼저이고, 공이 위쪽에서 벽돌을 치는 동안에만 패들을 아이템 쪽으로 옮기는 편이 안전합니다. 멀티볼이 시작되면 모든 공을 따라가지 말고 가장 아래에 있는 공의 도착 지점부터 확인하세요.",
+          "콤보는 연속으로 벽돌을 맞힐 때 쌓이지만, 점수를 위해 무리한 각도를 만들 필요는 없습니다. 콤보가 끊겨도 공을 오래 살리면 다시 기회가 생깁니다. 기록을 올리는 플레이는 가장 높은 콤보를 한 번 만드는 것보다 실수 없이 스테이지를 넘기는 흐름에 가깝습니다."
         ]
       }
     ],
@@ -648,6 +657,7 @@ function relatedGameHtml(game) {
 
 function guidePageHtml(guide) {
   const canonical = `${siteUrl}/guides/${guide.id}/`;
+  const modifiedDate = guide.modifiedDate || publishedDate;
   const otherGuides = guides.filter((item) => item.id !== guide.id).slice(0, 3);
   const jsonLd = {
     "@context": "https://schema.org",
@@ -657,7 +667,7 @@ function guidePageHtml(guide) {
         headline: guide.title,
         description: guide.description,
         datePublished: publishedDate,
-        dateModified: publishedDate,
+        dateModified: modifiedDate,
         inLanguage: "ko-KR",
         mainEntityOfPage: canonical,
         author: {
@@ -708,7 +718,7 @@ function guidePageHtml(guide) {
         <p class="eyebrow">${escapeHtml(guide.category)} · ${guide.readingTime}</p>
         <h1>${escapeHtml(guide.title)}</h1>
         <p>${escapeHtml(guide.summary)}</p>
-        <p class="mini-note">발행 및 수정: 2026년 7월 22일</p>
+        <p class="mini-note">발행 및 수정: ${modifiedDate}</p>
         <ul class="toc-list">
           ${guide.sections.map((section, index) => `<li><a href="#section-${index + 1}">${escapeHtml(section.heading)}</a></li>`).join("\n          ")}
           <li><a href="#checklist">플레이 체크리스트</a></li>

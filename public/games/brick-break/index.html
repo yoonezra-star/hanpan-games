@@ -9,7 +9,7 @@
     <title>벽돌깨기 미니 - 한판게임즈</title>
     <meta name="description" content="벽돌깨기 미니 플레이 방법, 조작법, 점수 기준, 공략 팁, 모바일 플레이와 FAQ를 정리한 무료 아케이드 웹게임 페이지입니다.">
     <link rel="canonical" href="https://hanpangames.kr/games/brick-break/">
-    <link rel="stylesheet" href="/assets/styles.css?v=20260720-depth">
+    <link rel="stylesheet" href="/assets/styles.css?v=20260814-arcade">
   </head>
   <body>
     <header class="site-header">
@@ -53,12 +53,12 @@
       <div class="game-detail-grid">
         <article class="article featured-article">
           <h2 id="overview">이 게임의 핵심</h2>
-          <p>벽돌깨기 미니는 패들로 공을 받아 벽돌을 모두 깨는 고전 아케이드 게임입니다. 공의 속도보다 중요한 것은 패들의 어느 위치에 공을 맞혀 각도를 조절하느냐입니다.</p>
-          <p>한 판이 짧지만 벽돌 배치와 공의 궤도가 계속 변해 단순 클릭 게임보다 플레이 감각이 살아 있습니다. 화면 안에 캔버스 게임판을 직접 배치해 페이지를 읽는 중에도 바로 움직이는 게임을 확인할 수 있습니다.</p>
+          <p>벽돌깨기 미니는 패들로 공을 받아 내구도가 다른 벽돌을 깨고 다음 스테이지로 올라가는 고전 아케이드 게임입니다. 공의 속도만 쫓기보다 패들의 어느 위치에 맞히는지로 반사각을 설계하는 것이 핵심입니다.</p>
+          <p>세 가지 벽돌 배치가 순환하고, 단단한 벽돌·연속 명중 콤보·드롭 아이템이 매 판의 흐름을 바꿉니다. 와이드 패들, 멀티볼, 바닥 보호막을 상황에 맞게 쓰면 짧은 한 판에도 선택과 회복의 재미가 생깁니다.</p>
           <div class="detail-snapshot" aria-label="게임 요약">
-            <div><strong>핵심 목표</strong><span>공을 놓치지 않고 모든 벽돌을 깨 레벨을 올립니다.</span></div>
-            <div><strong>추천 상황</strong><span>손맛이 있는 고전 아케이드 게임을 바로 하고 싶을 때 좋습니다.</span></div>
-            <div><strong>실력 포인트</strong><span>공 예측, 패들 위치, 벽돌 각도 만들기입니다.</span></div>
+            <div><strong>핵심 목표</strong><span>공을 놓치지 않고 내구도 벽돌을 모두 깨 스테이지를 올립니다.</span></div>
+            <div><strong>추천 상황</strong><span>손맛이 있는 고전 아케이드와 짧은 기록 도전을 원할 때 좋습니다.</span></div>
+            <div><strong>실력 포인트</strong><span>반사각, 콤보 유지, 아이템 회수, 공 복귀 지점 예측입니다.</span></div>
           </div>
 
           <h2 id="play-notes">플레이 포인트</h2>
@@ -80,37 +80,37 @@
 
           <h2 id="controls">조작과 진행</h2>
           <ul class="detail-list">
-            <li>키보드 좌우 방향키로 패들을 움직입니다.</li>
-            <li>마우스나 터치 포인터를 캔버스 위에서 움직이면 패들이 따라옵니다.</li>
-            <li>다시 시작 버튼은 현재 판을 새로 시작하며, 게임판 안의 속도와 벽돌 배치가 초기화됩니다.</li>
+            <li>좌우 방향키 또는 A와 D 키로 패들을 움직이고, 스페이스바나 시작 버튼으로 플레이와 일시 정지를 전환합니다.</li>
+            <li>마우스나 손가락을 게임판 위에서 움직이면 패들이 따라옵니다. 모바일에서는 화면 버튼을 길게 눌러도 조작할 수 있습니다.</li>
+            <li>새 게임은 점수와 목숨, 스테이지를 처음 상태로 되돌립니다. 소리 버튼은 효과음을 켜거나 끄며 이 설정은 현재 플레이 중에 바로 반영됩니다.</li>
           </ul>
 
           <h2 id="scoring">승리와 점수 기준</h2>
           <ul class="detail-list">
-            <li>벽돌을 깰 때마다 점수가 오르고, 모든 벽돌을 깨면 다음 레벨로 넘어갑니다.</li>
-            <li>레벨이 올라가면 공이 더 빨라져 같은 각도라도 반응 시간이 짧아집니다.</li>
-            <li>공을 놓치면 목숨이 줄어들고, 남은 목숨이 없으면 판이 종료됩니다.</li>
+            <li>벽돌을 맞힐 때 점수가 오르고, 마지막 내구도를 깬 벽돌은 더 많은 점수를 줍니다. 짧은 간격으로 계속 맞히면 콤보 보너스가 쌓입니다.</li>
+            <li>모든 벽돌을 깨면 스테이지 보너스를 받고 다음 배치로 이동합니다. 스테이지가 오를수록 공의 기본 속도와 벽돌 내구도가 높아집니다.</li>
+            <li>와이드 패들은 10초 동안 패들을 넓히고, 멀티볼은 공을 세 개로 늘립니다. 보호막은 공이 한 번 떨어져도 목숨을 지켜 줍니다.</li>
           </ul>
 
           <h2 id="strategy">초보 공략</h2>
           <ul class="strategy-list">
-            <li>공을 끝까지 따라가려 하지 말고 바닥에 닿기 전 예상 지점으로 패들을 먼저 옮깁니다.</li>
-            <li>초반에는 패들 중앙에 맞혀 안정적으로 랠리를 이어갑니다.</li>
-            <li>벽돌이 적게 남았을 때는 급하게 각도를 바꾸기보다 긴 랠리를 유지합니다.</li>
+            <li>공의 현재 위치보다 바닥에 도착할 예상 지점을 보고 패들을 먼저 움직입니다.</li>
+            <li>처음에는 패들 중앙에 가까운 곳으로 공을 받아 안정적인 랠리를 만듭니다. 마지막 벽돌 하나를 노리느라 공의 복귀 경로를 잊지 않습니다.</li>
+            <li>드롭 아이템은 공을 보면서도 패들 위로 자연스럽게 받습니다. 특히 멀티볼 뒤에는 모든 공을 쫓기보다 중앙 수비 위치를 유지하는 편이 좋습니다.</li>
           </ul>
 
           <h2>한 단계 더 올리는 전략</h2>
           <ul class="strategy-list">
-            <li>패들 가장자리에 공을 맞히면 각도를 바꿔 측면 벽돌을 노릴 수 있습니다.</li>
-            <li>공이 천장과 벽 사이에 오래 머무는 궤도를 만들면 연속으로 벽돌을 깰 수 있습니다.</li>
-            <li>속도가 빨라진 레벨에서는 패들을 중앙에 돌려놓는 습관이 실수를 줄입니다.</li>
+            <li>패들 가장자리에 공을 맞히면 좌우 각도가 커집니다. 천장과 측면 벽 사이로 공이 오래 머무는 각도를 만들면 콤보와 벽돌 제거 속도를 함께 올릴 수 있습니다.</li>
+            <li>내구도가 높은 벽돌은 주변 벽돌을 먼저 정리해 각도를 열어 둡니다. 정면 반사만 반복하면 공이 같은 길을 왕복해 시간이 길어질 수 있습니다.</li>
+            <li>바닥 보호막이 있을 때는 과감한 각도를 시도할 여유가 생깁니다. 반대로 아이템이 없고 목숨이 하나라면 콤보보다 공을 받기 쉬운 중앙 반사를 우선합니다.</li>
           </ul>
 
           <h2 id="mobile">모바일 플레이 팁</h2>
           <ul class="detail-list">
-            <li>모바일에서는 캔버스 안을 드래그하듯 움직이면 패들이 자연스럽게 따라옵니다.</li>
-            <li>화면 끝에서 손가락이 벗어나면 입력이 끊길 수 있으므로 패들 근처에서 작게 움직입니다.</li>
-            <li>가로 폭이 좁을 때는 공의 높이보다 패들의 미래 위치를 먼저 봅니다.</li>
+            <li>모바일에서는 손가락을 크게 흔들기보다 패들 위에서 짧게 좌우로 움직이면 공을 보기 쉽습니다.</li>
+            <li>화면 버튼을 쓸 때는 한쪽 버튼을 계속 누르고 반대 버튼으로 즉시 전환해 패들을 짧게 보정합니다.</li>
+            <li>세로 화면에서는 게임판 폭이 줄어드니 공의 높이보다 패들이 도착할 위치를 먼저 보고, 아이템을 받으려다 공을 놓치지 않도록 합니다.</li>
           </ul>
 
           <h2>자주 나오는 실수</h2>
@@ -124,18 +124,18 @@
           <div class="faq-list">
           <h3>벽돌깨기 미니는 설치가 필요한가요?</h3>
           <p>아니요. 브라우저에서 바로 실행되며 별도 설치나 로그인 없이 플레이할 수 있습니다.</p>
+          <h3>아이템은 무엇을 하나요?</h3>
+          <p>W는 패들을 넓히고, +는 멀티볼을 만들며, S는 공이 한 번 떨어져도 막아 주는 보호막입니다.</p>
           <h3>공 각도는 어떻게 바뀌나요?</h3>
-          <p>패들의 가운데에 가까울수록 안정적인 반사가 나오고, 가장자리에 맞을수록 좌우 각도가 커집니다.</p>
+          <p>패들의 가운데에 가까울수록 안정적인 반사가 나오고, 가장자리에 맞을수록 좌우 각도가 커집니다. 패들을 움직이는 방향도 약간 반영됩니다.</p>
           <h3>모바일에서 조작이 어렵지 않나요?</h3>
-          <p>캔버스 포인터 조작을 지원하므로 손가락을 좌우로 움직이는 방식으로 플레이할 수 있습니다.</p>
-          <h3>레벨은 계속 이어지나요?</h3>
-          <p>현재 판 안에서 벽돌을 모두 깨면 다음 레벨로 이어집니다. 새로고침이나 다시 시작을 하면 새 판으로 시작합니다.</p>
-          <h3>초보자가 가장 먼저 익힐 감각은 무엇인가요?</h3>
-          <p>공을 현재 위치가 아니라 0.5초 뒤 도착할 위치로 보는 감각입니다. 이 예측이 안정되면 점수가 빠르게 오릅니다.</p>
+          <p>게임판을 따라 손가락을 움직이거나 화면의 좌우 버튼을 길게 눌러 조작할 수 있습니다.</p>
+          <h3>기록은 어디에 저장되나요?</h3>
+          <p>지원되는 브라우저에서는 최고 점수가 현재 기기의 로컬 저장소에 기록됩니다. 다른 브라우저나 기기와 자동 동기화되지는 않습니다.</p>
           </div>
 
           <h2>업데이트 노트</h2>
-          <p class="site-note">2026년 7월 20일 대표 아케이드 페이지로 지정하고 공 각도, 레벨, 모바일 조작 설명을 보강했습니다.</p>
+          <p class="site-note">2026년 8월 14일 대표 아케이드 게임을 스테이지 패턴, 내구도 벽돌, 콤보, 드롭 아이템, 멀티볼, 보호막, 사운드 설정과 함께 확장했습니다.</p>
 
           <h2 id="related-guides">관련 공략</h2>
           <p>
@@ -187,8 +187,8 @@
       </nav>
       <p class="copyright">© <span id="year"></span> Hanpan Games. All rights reserved.</p>
     </footer>
-    <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"VideoGame","name":"벽돌깨기 미니","url":"https://hanpangames.kr/games/brick-break/","description":"패들을 움직여 공을 받아내고 벽돌을 모두 깨며 레벨을 올립니다.","applicationCategory":"Game","operatingSystem":"Web Browser","inLanguage":"ko-KR","isAccessibleForFree":true,"publisher":{"@type":"Organization","name":"한판게임즈"}},{"@type":"FAQPage","mainEntity":[{"@type":"Question","name":"벽돌깨기 미니는 설치가 필요한가요?","acceptedAnswer":{"@type":"Answer","text":"아니요. 브라우저에서 바로 실행되며 별도 설치나 로그인 없이 플레이할 수 있습니다."}},{"@type":"Question","name":"공 각도는 어떻게 바뀌나요?","acceptedAnswer":{"@type":"Answer","text":"패들의 가운데에 가까울수록 안정적인 반사가 나오고, 가장자리에 맞을수록 좌우 각도가 커집니다."}},{"@type":"Question","name":"모바일에서 조작이 어렵지 않나요?","acceptedAnswer":{"@type":"Answer","text":"캔버스 포인터 조작을 지원하므로 손가락을 좌우로 움직이는 방식으로 플레이할 수 있습니다."}},{"@type":"Question","name":"레벨은 계속 이어지나요?","acceptedAnswer":{"@type":"Answer","text":"현재 판 안에서 벽돌을 모두 깨면 다음 레벨로 이어집니다. 새로고침이나 다시 시작을 하면 새 판으로 시작합니다."}},{"@type":"Question","name":"초보자가 가장 먼저 익힐 감각은 무엇인가요?","acceptedAnswer":{"@type":"Answer","text":"공을 현재 위치가 아니라 0.5초 뒤 도착할 위치로 보는 감각입니다. 이 예측이 안정되면 점수가 빠르게 오릅니다."}}]},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"홈","item":"https://hanpangames.kr/"},{"@type":"ListItem","position":2,"name":"게임","item":"https://hanpangames.kr/games/"},{"@type":"ListItem","position":3,"name":"벽돌깨기 미니","item":"https://hanpangames.kr/games/brick-break/"}]}]}</script>
-    <script src="/assets/app.js?v=20260720-depth" defer></script>
-    <script src="/assets/arcade.js?v=20260720-depth" defer></script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"VideoGame","name":"벽돌깨기 미니","url":"https://hanpangames.kr/games/brick-break/","description":"패들을 움직여 공을 받아내고 벽돌을 모두 깨며 레벨을 올립니다.","applicationCategory":"Game","operatingSystem":"Web Browser","inLanguage":"ko-KR","isAccessibleForFree":true,"publisher":{"@type":"Organization","name":"한판게임즈"}},{"@type":"FAQPage","mainEntity":[{"@type":"Question","name":"벽돌깨기 미니는 설치가 필요한가요?","acceptedAnswer":{"@type":"Answer","text":"아니요. 브라우저에서 바로 실행되며 별도 설치나 로그인 없이 플레이할 수 있습니다."}},{"@type":"Question","name":"아이템은 무엇을 하나요?","acceptedAnswer":{"@type":"Answer","text":"W는 패들을 넓히고, +는 멀티볼을 만들며, S는 공이 한 번 떨어져도 막아 주는 보호막입니다."}},{"@type":"Question","name":"공 각도는 어떻게 바뀌나요?","acceptedAnswer":{"@type":"Answer","text":"패들의 가운데에 가까울수록 안정적인 반사가 나오고, 가장자리에 맞을수록 좌우 각도가 커집니다. 패들을 움직이는 방향도 약간 반영됩니다."}},{"@type":"Question","name":"모바일에서 조작이 어렵지 않나요?","acceptedAnswer":{"@type":"Answer","text":"게임판을 따라 손가락을 움직이거나 화면의 좌우 버튼을 길게 눌러 조작할 수 있습니다."}},{"@type":"Question","name":"기록은 어디에 저장되나요?","acceptedAnswer":{"@type":"Answer","text":"지원되는 브라우저에서는 최고 점수가 현재 기기의 로컬 저장소에 기록됩니다. 다른 브라우저나 기기와 자동 동기화되지는 않습니다."}}]},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"홈","item":"https://hanpangames.kr/"},{"@type":"ListItem","position":2,"name":"게임","item":"https://hanpangames.kr/games/"},{"@type":"ListItem","position":3,"name":"벽돌깨기 미니","item":"https://hanpangames.kr/games/brick-break/"}]}]}</script>
+    <script src="/assets/app.js?v=20260814-arcade" defer></script>
+    <script src="/assets/arcade.js?v=20260814-arcade" defer></script>
   </body>
 </html>

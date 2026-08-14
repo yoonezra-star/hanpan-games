@@ -1080,6 +1080,29 @@ a:focus-visible {
   max-width: 640px;
 }
 
+.brick-break-canvas {
+  max-width: 720px;
+  background: #10273f;
+  border-color: #102138;
+  box-shadow: 10px 10px 0 rgba(16, 33, 56, 0.16);
+}
+
+.brick-controls {
+  align-items: center;
+  justify-content: center;
+}
+
+.brick-controls .sound-toggle[aria-pressed="false"] {
+  color: var(--muted);
+  background: #f3efe5;
+}
+
+.brick-note {
+  max-width: 720px;
+  margin: 2px auto 0;
+  text-align: center;
+}
+
 .signal-pad,
 .mega-button {
   display: grid;
@@ -2182,6 +2205,19 @@ a:focus-visible {
 
   .play-surface {
     padding: 12px;
+  }
+
+  .brick-controls {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .brick-controls .button:first-child {
+    grid-column: span 2;
+  }
+
+  .brick-note {
+    text-align: left;
   }
 
   .play-guidance p {
