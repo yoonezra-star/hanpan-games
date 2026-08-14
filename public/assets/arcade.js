@@ -242,6 +242,115 @@
     return "gold";
   }
 
+  function setupGameFullscreen(surface) {
+    const stage = surface.closest(".inline-game-stage, .arcade-stage");
+    const actions = stage && $(".stage-actions", stage);
+    if (!stage || !actions || $("[data-game-fullscreen]", stage)) return;
+
+    const toggle = document.createElement("button");
+    const icon = document.createElement("span");
+    const label = document.createElement("span");
+    const status = document.createElement("span");
+    let fallbackActive = false;
+
+    toggle.type = "button";
+    toggle.className = "button secondary game-fullscreen-toggle";
+    toggle.dataset.gameFullscreen = "";
+    toggle.setAttribute("aria-pressed", "false");
+    icon.className = "game-fullscreen-icon";
+    icon.setAttribute("aria-hidden", "true");
+    icon.textContent = "⛶";
+    label.textContent = "전체화면";
+    toggle.append(icon, label);
+
+    status.className = "visually-hidden";
+    status.setAttribute("aria-live", "polite");
+    actions.insertBefore(toggle, $("#restartGame", actions) || null);
+    actions.appendChild(status);
+    stage.classList.add("game-fullscreen-stage");
+
+    function fullscreenElement() {
+      return document.fullscreenElement || document.webkitFullscreenElement || null;
+    }
+
+    function isActive() {
+      return fullscreenElement() === stage || fallbackActive;
+    }
+
+    function sync() {
+      const active = isActive();
+      stage.classList.toggle("is-game-fullscreen-active", active);
+      toggle.setAttribute("aria-pressed", String(active));
+      icon.textContent = active ? "×" : "⛶";
+      label.textContent = active ? "전체화면 종료" : "전체화면";
+      toggle.title = active ? "전체화면 종료" : "전체화면으로 게임하기";
+      if (!active && screen.orientation && typeof screen.orientation.unlock === "function") {
+        try { screen.orientation.unlock(); } catch (error) { /* Orientation unlock is optional. */ }
+      }
+    }
+
+    function openFallback() {
+      fallbackActive = true;
+      stage.classList.add("is-game-fullscreen-fallback");
+      document.body.classList.add("game-fullscreen-fallback-open");
+      status.textContent = "전체화면 모드가 켜졌습니다.";
+      sync();
+    }
+
+    function closeFallback() {
+      fallbackActive = false;
+      stage.classList.remove("is-game-fullscreen-fallback");
+      document.body.classList.remove("game-fullscreen-fallback-open");
+      status.textContent = "전체화면 모드가 종료됐습니다.";
+      sync();
+    }
+
+    async function lockLandscape() {
+      if (!window.matchMedia("(pointer: coarse)").matches) return;
+      if (!screen.orientation || typeof screen.orientation.lock !== "function") return;
+      try { await screen.orientation.lock("landscape"); } catch (error) { /* Device rotation still works without a lock. */ }
+    }
+
+    async function enter() {
+      const request = stage.requestFullscreen || stage.webkitRequestFullscreen;
+      if (!request) {
+        openFallback();
+        return;
+      }
+      try {
+        await Promise.resolve(request.call(stage));
+        await lockLandscape();
+        status.textContent = "전체화면 모드가 켜졌습니다.";
+        sync();
+      } catch (error) {
+        openFallback();
+      }
+    }
+
+    async function exitFullscreen() {
+      if (fallbackActive) {
+        closeFallback();
+        return;
+      }
+      const exit = document.exitFullscreen || document.webkitExitFullscreen;
+      if (exit) {
+        try { await Promise.resolve(exit.call(document)); } catch (error) { /* Keep the game usable if exit is interrupted. */ }
+      }
+      sync();
+    }
+
+    toggle.addEventListener("click", function () {
+      if (isActive()) exitFullscreen();
+      else enter();
+    });
+    document.addEventListener("fullscreenchange", sync);
+    document.addEventListener("webkitfullscreenchange", sync);
+    document.addEventListener("keydown", function (event) {
+      if (event.key === "Escape" && fallbackActive) closeFallback();
+    });
+    sync();
+  }
+
   function renderPlayPage() {
     const surface = $("#playSurface");
     if (!surface) return;
@@ -293,6 +402,7 @@
     if (restart) restart.addEventListener("click", draw);
     if (search) search.addEventListener("input", drawPicker);
     draw();
+    setupGameFullscreen(surface);
   }
 
   function renderGame(game, surface) {
