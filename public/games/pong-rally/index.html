@@ -9,7 +9,7 @@
     <title>퐁 랠리 - 한판게임즈</title>
     <meta name="description" content="퐁 랠리 플레이 방법, 조작법, 점수 기준, 공략 팁, 모바일 플레이와 FAQ를 정리한 무료 아케이드 웹게임 페이지입니다.">
     <link rel="canonical" href="https://hanpangames.kr/games/pong-rally/">
-    <link rel="stylesheet" href="/assets/styles.css?v=20260814-classic">
+    <link rel="stylesheet" href="/assets/styles.css?v=20260814-arcade">
   </head>
   <body>
     <header class="site-header">
@@ -103,16 +103,16 @@
 
           <h2 id="controls">조작과 진행</h2>
           <ul class="detail-list">
-            <li>키보드 위아래 입력으로 패들을 움직입니다.</li>
+            <li>위아래 방향키 또는 W·S로 패들을 움직이고, 스페이스바나 P 키로 시작과 일시정지를 전환합니다.</li>
             <li>마우스나 터치 포인터를 사용하면 패들이 포인터 위치를 따라 움직입니다.</li>
-            <li>랠리가 끝나면 점수가 반영되고, 다시 시작으로 새 판을 열 수 있습니다.</li>
+            <li>경기 전 쉬움·보통·어려움 중 상대 난이도를 고를 수 있고 소리 버튼으로 효과음을 켜거나 끌 수 있습니다.</li>
           </ul>
 
           <h2 id="scoring">승리와 점수 기준</h2>
           <ul class="detail-list">
-            <li>상대가 공을 놓치면 내가 득점합니다.</li>
-            <li>내가 공을 놓치면 상대가 득점합니다.</li>
-            <li>정해진 점수에 먼저 도달하거나 판이 끝날 때 높은 점수를 가진 쪽이 우세합니다.</li>
+            <li>상대가 공을 놓치면 내가 득점하고 먼저 7점에 도달하면 경기에서 승리합니다.</li>
+            <li>패들의 가장자리에 맞히면 공의 반사각이 커지고 랠리가 이어질수록 공 속도가 올라갑니다.</li>
+            <li>한 경기에서 이어진 최고 랠리는 가능한 경우 현재 브라우저에 저장됩니다.</li>
           </ul>
 
           <h2 id="strategy">초보 공략</h2>
@@ -145,20 +145,20 @@
 
           <h2 id="faq">자주 묻는 질문</h2>
           <div class="faq-list">
-          <h3>퐁 랠리는 어떤 게임인가요?</h3>
-          <p>패들로 공을 받아치는 고전 랠리형 아케이드 게임입니다.</p>
-          <h3>마우스로 조작할 수 있나요?</h3>
-          <p>네. 캔버스 위에서 포인터를 움직이면 패들이 따라옵니다.</p>
+          <h3>퐁 랠리는 몇 점제인가요?</h3>
+          <p>상대보다 먼저 7점을 얻으면 승리하는 방식입니다.</p>
+          <h3>난이도를 바꿀 수 있나요?</h3>
+          <p>네. 경기를 시작하기 전에 쉬움, 보통, 어려움 중 하나를 선택할 수 있습니다.</p>
           <h3>공 각도를 조절할 수 있나요?</h3>
           <p>패들의 어느 위치에 공이 닿는지에 따라 반사 방향이 달라집니다.</p>
           <h3>모바일 터치도 지원하나요?</h3>
-          <p>네. 터치 포인터로 패들을 움직일 수 있습니다.</p>
-          <h3>초보자는 무엇을 먼저 익히면 좋나요?</h3>
-          <p>공이 올 위치를 예측하고 패들을 중앙으로 복귀시키는 습관을 먼저 익히는 것이 좋습니다.</p>
+          <p>네. 게임판 위에서 손가락을 움직이면 패들이 따라옵니다.</p>
+          <h3>소리를 끌 수 있나요?</h3>
+          <p>네. 화면의 소리 버튼으로 반사와 득점 효과음을 즉시 켜거나 끌 수 있습니다.</p>
           </div>
 
           <h2>업데이트 노트</h2>
-          <p class="site-note">2026년 7월 20일 퐁 랠리 대표 페이지에 랠리 전략, 반사 각도, 터치 조작 안내를 확장했습니다.</p>
+          <p class="site-note">2026년 8월 14일 7점제 경기, 3단계 AI 난이도, 서브 카운트다운, 공 궤적, 효과음과 일시정지 조작을 추가했습니다.</p>
 
           <h2 id="related-guides">관련 공략</h2>
           <p>
@@ -195,8 +195,8 @@
       </nav>
       <p class="copyright">© <span id="year"></span> Hanpan Games. All rights reserved.</p>
     </footer>
-    <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"VideoGame","name":"퐁 랠리","url":"https://hanpangames.kr/games/pong-rally/","description":"패들을 움직여 공을 받아내고 상대보다 먼저 득점하는 클래식 랠리 게임입니다.","applicationCategory":"Game","operatingSystem":"Web Browser","inLanguage":"ko-KR","isAccessibleForFree":true,"publisher":{"@type":"Organization","name":"한판게임즈"}},{"@type":"FAQPage","mainEntity":[{"@type":"Question","name":"퐁 랠리는 어떤 게임인가요?","acceptedAnswer":{"@type":"Answer","text":"패들로 공을 받아치는 고전 랠리형 아케이드 게임입니다."}},{"@type":"Question","name":"마우스로 조작할 수 있나요?","acceptedAnswer":{"@type":"Answer","text":"네. 캔버스 위에서 포인터를 움직이면 패들이 따라옵니다."}},{"@type":"Question","name":"공 각도를 조절할 수 있나요?","acceptedAnswer":{"@type":"Answer","text":"패들의 어느 위치에 공이 닿는지에 따라 반사 방향이 달라집니다."}},{"@type":"Question","name":"모바일 터치도 지원하나요?","acceptedAnswer":{"@type":"Answer","text":"네. 터치 포인터로 패들을 움직일 수 있습니다."}},{"@type":"Question","name":"초보자는 무엇을 먼저 익히면 좋나요?","acceptedAnswer":{"@type":"Answer","text":"공이 올 위치를 예측하고 패들을 중앙으로 복귀시키는 습관을 먼저 익히는 것이 좋습니다."}}]},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"홈","item":"https://hanpangames.kr/"},{"@type":"ListItem","position":2,"name":"게임","item":"https://hanpangames.kr/games/"},{"@type":"ListItem","position":3,"name":"퐁 랠리","item":"https://hanpangames.kr/games/pong-rally/"}]}]}</script>
-    <script src="/assets/app.js?v=20260814-classic" defer></script>
-    <script src="/assets/arcade.js?v=20260814-classic" defer></script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"VideoGame","name":"퐁 랠리","url":"https://hanpangames.kr/games/pong-rally/","description":"패들을 움직여 공을 받아내고 상대보다 먼저 득점하는 클래식 랠리 게임입니다.","applicationCategory":"Game","operatingSystem":"Web Browser","inLanguage":"ko-KR","isAccessibleForFree":true,"publisher":{"@type":"Organization","name":"한판게임즈"}},{"@type":"FAQPage","mainEntity":[{"@type":"Question","name":"퐁 랠리는 몇 점제인가요?","acceptedAnswer":{"@type":"Answer","text":"상대보다 먼저 7점을 얻으면 승리하는 방식입니다."}},{"@type":"Question","name":"난이도를 바꿀 수 있나요?","acceptedAnswer":{"@type":"Answer","text":"네. 경기를 시작하기 전에 쉬움, 보통, 어려움 중 하나를 선택할 수 있습니다."}},{"@type":"Question","name":"공 각도를 조절할 수 있나요?","acceptedAnswer":{"@type":"Answer","text":"패들의 어느 위치에 공이 닿는지에 따라 반사 방향이 달라집니다."}},{"@type":"Question","name":"모바일 터치도 지원하나요?","acceptedAnswer":{"@type":"Answer","text":"네. 게임판 위에서 손가락을 움직이면 패들이 따라옵니다."}},{"@type":"Question","name":"소리를 끌 수 있나요?","acceptedAnswer":{"@type":"Answer","text":"네. 화면의 소리 버튼으로 반사와 득점 효과음을 즉시 켜거나 끌 수 있습니다."}}]},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"홈","item":"https://hanpangames.kr/"},{"@type":"ListItem","position":2,"name":"게임","item":"https://hanpangames.kr/games/"},{"@type":"ListItem","position":3,"name":"퐁 랠리","item":"https://hanpangames.kr/games/pong-rally/"}]}]}</script>
+    <script src="/assets/app.js?v=20260814-arcade" defer></script>
+    <script src="/assets/arcade.js?v=20260814-arcade" defer></script>
   </body>
 </html>

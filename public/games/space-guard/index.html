@@ -9,7 +9,7 @@
     <title>우주 방어선 - 한판게임즈</title>
     <meta name="description" content="우주 방어선 플레이 방법, 조작법, 점수 기준, 공략 팁, 모바일 플레이와 FAQ를 정리한 무료 아케이드 웹게임 페이지입니다.">
     <link rel="canonical" href="https://hanpangames.kr/games/space-guard/">
-    <link rel="stylesheet" href="/assets/styles.css?v=20260814-classic">
+    <link rel="stylesheet" href="/assets/styles.css?v=20260814-arcade">
   </head>
   <body>
     <header class="site-header">
@@ -103,16 +103,16 @@
 
           <h2 id="controls">조작과 진행</h2>
           <ul class="detail-list">
-            <li>좌우 방향키나 화면 버튼으로 기체를 움직입니다.</li>
-            <li>발사 버튼 또는 지정 키로 탄을 쏩니다.</li>
-            <li>연속 발사에는 간격이 있어 위치를 맞춘 뒤 쏘는 편이 효율적입니다.</li>
+            <li>좌우 방향키 또는 A·D와 화면 버튼으로 기체를 움직입니다.</li>
+            <li>스페이스바나 발사 버튼으로 탄을 쏘고 P 키로 일시정지합니다.</li>
+            <li>적탄에 맞으면 잠시 무적 시간이 생기며, 소리 버튼으로 발사·격추·피격 효과음을 켜거나 끌 수 있습니다.</li>
           </ul>
 
           <h2 id="scoring">승리와 점수 기준</h2>
           <ul class="detail-list">
-            <li>적을 맞힐 때마다 점수가 오릅니다.</li>
-            <li>모든 적을 없애면 다음 웨이브로 넘어가며 난이도가 올라갑니다.</li>
-            <li>적이 너무 아래까지 내려오거나 기체가 위험에 닿으면 판이 종료될 수 있습니다.</li>
+            <li>적을 연속으로 격추하면 최대 5배 점수 배수가 적용되고 피격되면 연속 격추가 초기화됩니다.</li>
+            <li>모든 적을 없애면 다음 웨이브로 넘어가며 보호막 일부를 회복하고 편대 속도와 적탄 빈도가 올라갑니다.</li>
+            <li>보호막이 모두 소진되거나 적 편대가 방어선에 도달하면 판이 종료됩니다.</li>
           </ul>
 
           <h2 id="strategy">초보 공략</h2>
@@ -145,20 +145,20 @@
 
           <h2 id="faq">자주 묻는 질문</h2>
           <div class="faq-list">
-          <h3>우주 방어선은 어떤 장르인가요?</h3>
-          <p>좌우 이동과 발사를 사용하는 브라우저 슈팅 게임입니다.</p>
-          <h3>연속 발사가 제한되나요?</h3>
-          <p>네. 발사 간격이 있어 정확히 정렬한 뒤 쏘는 플레이가 유리합니다.</p>
-          <h3>웨이브가 있나요?</h3>
-          <p>모든 적을 없애면 다음 웨이브로 넘어가며 난이도가 올라갑니다.</p>
+          <h3>적도 탄을 발사하나요?</h3>
+          <p>네. 각 열의 아래쪽 적이 탄을 발사하며 웨이브가 오를수록 간격이 짧아집니다.</p>
+          <h3>연속 격추는 점수에 어떤 영향을 주나요?</h3>
+          <p>연속 격추 수에 따라 최대 5배까지 점수 배수가 올라가며 피격되면 초기화됩니다.</p>
+          <h3>보호막은 회복되나요?</h3>
+          <p>한 웨이브를 모두 막으면 다음 웨이브 시작 시 보호막 일부가 회복됩니다.</p>
           <h3>모바일에서도 할 수 있나요?</h3>
           <p>네. 화면 버튼으로 이동과 발사를 사용할 수 있습니다.</p>
-          <h3>초보자는 어떤 순서로 적을 잡으면 좋나요?</h3>
-          <p>한쪽부터 줄여 안전 공간을 만드는 방식이 안정적입니다.</p>
+          <h3>소리를 끌 수 있나요?</h3>
+          <p>네. 소리 버튼으로 발사, 격추, 피격 효과음을 켜거나 끌 수 있습니다.</p>
           </div>
 
           <h2>업데이트 노트</h2>
-          <p class="site-note">2026년 7월 20일 우주 방어선 대표 페이지에 슈팅 흐름, 웨이브 공략, 모바일 버튼 팁을 추가했습니다.</p>
+          <p class="site-note">2026년 8월 14일 적탄·보호막·피격 무적, 편대 이동, 최대 5배 연속 격추, 웨이브 회복과 효과음을 추가했습니다.</p>
 
           <h2 id="related-guides">관련 공략</h2>
           <p>
@@ -195,8 +195,8 @@
       </nav>
       <p class="copyright">© <span id="year"></span> Hanpan Games. All rights reserved.</p>
     </footer>
-    <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"VideoGame","name":"우주 방어선","url":"https://hanpangames.kr/games/space-guard/","description":"좌우로 움직이며 탄을 쏘고 내려오는 적 편대를 막아내는 슈팅 게임입니다.","applicationCategory":"Game","operatingSystem":"Web Browser","inLanguage":"ko-KR","isAccessibleForFree":true,"publisher":{"@type":"Organization","name":"한판게임즈"}},{"@type":"FAQPage","mainEntity":[{"@type":"Question","name":"우주 방어선은 어떤 장르인가요?","acceptedAnswer":{"@type":"Answer","text":"좌우 이동과 발사를 사용하는 브라우저 슈팅 게임입니다."}},{"@type":"Question","name":"연속 발사가 제한되나요?","acceptedAnswer":{"@type":"Answer","text":"네. 발사 간격이 있어 정확히 정렬한 뒤 쏘는 플레이가 유리합니다."}},{"@type":"Question","name":"웨이브가 있나요?","acceptedAnswer":{"@type":"Answer","text":"모든 적을 없애면 다음 웨이브로 넘어가며 난이도가 올라갑니다."}},{"@type":"Question","name":"모바일에서도 할 수 있나요?","acceptedAnswer":{"@type":"Answer","text":"네. 화면 버튼으로 이동과 발사를 사용할 수 있습니다."}},{"@type":"Question","name":"초보자는 어떤 순서로 적을 잡으면 좋나요?","acceptedAnswer":{"@type":"Answer","text":"한쪽부터 줄여 안전 공간을 만드는 방식이 안정적입니다."}}]},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"홈","item":"https://hanpangames.kr/"},{"@type":"ListItem","position":2,"name":"게임","item":"https://hanpangames.kr/games/"},{"@type":"ListItem","position":3,"name":"우주 방어선","item":"https://hanpangames.kr/games/space-guard/"}]}]}</script>
-    <script src="/assets/app.js?v=20260814-classic" defer></script>
-    <script src="/assets/arcade.js?v=20260814-classic" defer></script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"VideoGame","name":"우주 방어선","url":"https://hanpangames.kr/games/space-guard/","description":"좌우로 움직이며 탄을 쏘고 내려오는 적 편대를 막아내는 슈팅 게임입니다.","applicationCategory":"Game","operatingSystem":"Web Browser","inLanguage":"ko-KR","isAccessibleForFree":true,"publisher":{"@type":"Organization","name":"한판게임즈"}},{"@type":"FAQPage","mainEntity":[{"@type":"Question","name":"적도 탄을 발사하나요?","acceptedAnswer":{"@type":"Answer","text":"네. 각 열의 아래쪽 적이 탄을 발사하며 웨이브가 오를수록 간격이 짧아집니다."}},{"@type":"Question","name":"연속 격추는 점수에 어떤 영향을 주나요?","acceptedAnswer":{"@type":"Answer","text":"연속 격추 수에 따라 최대 5배까지 점수 배수가 올라가며 피격되면 초기화됩니다."}},{"@type":"Question","name":"보호막은 회복되나요?","acceptedAnswer":{"@type":"Answer","text":"한 웨이브를 모두 막으면 다음 웨이브 시작 시 보호막 일부가 회복됩니다."}},{"@type":"Question","name":"모바일에서도 할 수 있나요?","acceptedAnswer":{"@type":"Answer","text":"네. 화면 버튼으로 이동과 발사를 사용할 수 있습니다."}},{"@type":"Question","name":"소리를 끌 수 있나요?","acceptedAnswer":{"@type":"Answer","text":"네. 소리 버튼으로 발사, 격추, 피격 효과음을 켜거나 끌 수 있습니다."}}]},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"홈","item":"https://hanpangames.kr/"},{"@type":"ListItem","position":2,"name":"게임","item":"https://hanpangames.kr/games/"},{"@type":"ListItem","position":3,"name":"우주 방어선","item":"https://hanpangames.kr/games/space-guard/"}]}]}</script>
+    <script src="/assets/app.js?v=20260814-arcade" defer></script>
+    <script src="/assets/arcade.js?v=20260814-arcade" defer></script>
   </body>
 </html>
