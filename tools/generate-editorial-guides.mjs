@@ -227,7 +227,7 @@ const guides = [
         heading: "좋은 기록은 안정적인 루틴에서 나옵니다",
         paragraphs: [
           "기억력 게임은 컨디션 영향을 많이 받습니다. 피곤한 날에는 빠른 기록보다 실수 횟수를 줄이는 목표가 더 좋습니다. 같은 순서로 보드를 훑고, 같은 기준으로 위치를 묶는 루틴이 있으면 기록이 크게 흔들리지 않습니다.",
-          "한판게임즈의 기억력 게임들은 짧은 판으로 구성되어 있어 루틴을 바꾸며 연습하기 좋습니다. 한 판은 구역 기억, 다음 판은 이동 경로 기억처럼 목표를 다르게 잡아보면 자신에게 맞는 방식이 보입니다.",
+          "한판게임의 기억력 게임들은 짧은 판으로 구성되어 있어 루틴을 바꾸며 연습하기 좋습니다. 한 판은 구역 기억, 다음 판은 이동 경로 기억처럼 목표를 다르게 잡아보면 자신에게 맞는 방식이 보입니다.",
           "기록을 줄이고 싶다면 매번 새로운 방법을 쓰기보다 하나의 방식을 세 판 이상 반복해 보세요. 첫 판은 어색해도 두 번째 판부터는 구역 이름과 이동 경로가 더 빨리 떠오릅니다. 기억 방식이 몸에 붙은 뒤에야 속도를 올리는 것이 안정적입니다.",
           "같은 실수가 반복된다면 보드가 너무 넓게 느껴지는 것입니다. 이럴 때는 한 줄, 한 모서리, 한 색처럼 더 작은 기준으로 나누고, 확실히 기억한 정보만 다음 선택에 사용하세요. 불확실한 기억을 확신처럼 쓰는 순간 시도 횟수가 늘어납니다."
         ]
@@ -257,14 +257,14 @@ const guides = [
         heading: "설치 없이 시작하는 것이 가장 큰 장점입니다",
         paragraphs: [
           "브라우저 게임은 앱 설치나 회원가입 없이 주소를 열고 바로 시작할 수 있습니다. 짧은 휴식 시간에 게임을 해보고 싶을 때, 새 프로그램을 설치하기 부담스러울 때, 여러 기기에서 가볍게 접속하고 싶을 때 특히 잘 맞습니다.",
-          "한판게임즈처럼 정적 웹사이트로 제공되는 게임은 페이지가 빠르게 열리고, 기본 조작을 브라우저 안에서 처리합니다. 사용자는 게임을 고르는 시간보다 실제 플레이 시간을 더 많이 쓸 수 있습니다."
+          "한판게임처럼 정적 웹사이트로 제공되는 게임은 페이지가 빠르게 열리고, 기본 조작을 브라우저 안에서 처리합니다. 사용자는 게임을 고르는 시간보다 실제 플레이 시간을 더 많이 쓸 수 있습니다."
         ]
       },
       {
         heading: "기록 저장 방식은 사이트마다 다릅니다",
         paragraphs: [
           "무료 웹게임이라고 해서 모든 기록이 서버에 저장되는 것은 아닙니다. 어떤 사이트는 계정 기반 기록을 제공하고, 어떤 사이트는 브라우저 로컬 저장소만 사용합니다. 로컬 저장 방식은 개인정보 부담이 적은 대신, 기기를 바꾸면 기록이 이어지지 않을 수 있습니다.",
-          "기록을 중요하게 본다면 사이트가 기록을 어디에 저장하는지 먼저 확인하세요. 한판게임즈는 회원가입 없는 빠른 플레이를 우선하므로, 현재 게임 기록은 브라우저 안에 저장되는 방식을 기본으로 안내합니다."
+          "기록을 중요하게 본다면 사이트가 기록을 어디에 저장하는지 먼저 확인하세요. 한판게임은 회원가입 없는 빠른 플레이를 우선하므로, 현재 게임 기록은 브라우저 안에 저장되는 방식을 기본으로 안내합니다."
         ]
       },
       {
@@ -328,7 +328,7 @@ const guides = [
         heading: "기록은 비교보다 재도전을 부르는 방식이 좋습니다",
         paragraphs: [
           "최고 기록은 강력한 동기지만, 한 번 좋은 기록이 나온 뒤에는 오히려 부담이 될 수 있습니다. 그래서 짧은 게임에서는 최고 기록과 최근 기록, 시도 횟수처럼 여러 기준이 같이 있으면 좋습니다. 오늘 컨디션을 보는 게임인지, 장기적으로 실력을 쌓는 게임인지에 따라 기록의 의미도 달라집니다.",
-          "한판게임즈는 가능한 한 브라우저 안에서만 기록을 다루는 방향을 유지합니다. 별도 계정 없이도 내 기기에서 바로 기록을 볼 수 있고, 언제든 다시 시작할 수 있는 구조가 짧은 게임의 장점과 잘 맞기 때문입니다."
+          "한판게임은 가능한 한 브라우저 안에서만 기록을 다루는 방향을 유지합니다. 별도 계정 없이도 내 기기에서 바로 기록을 볼 수 있고, 언제든 다시 시작할 수 있는 구조가 짧은 게임의 장점과 잘 맞기 때문입니다."
         ]
       },
       {
@@ -566,7 +566,7 @@ const guides = [
         heading: "브라우저 스크롤과 게임 조작을 구분합니다",
         paragraphs: [
           "웹게임은 앱과 달리 페이지 스크롤이 함께 존재합니다. 게임판을 누르는 중 화면이 움직이면 조작이 끊긴 것처럼 느껴질 수 있습니다. 게임을 시작하기 전에 게임판이 화면 중앙에 오도록 맞추고, 주소창이 접힌 상태에서 플레이하면 불필요한 움직임을 줄일 수 있습니다.",
-          "긴 글이 있는 게임 상세 페이지에서는 설명을 읽은 뒤 실제 플레이 영역으로 이동해 시작하는 것이 좋습니다. 한판게임즈의 게임 페이지는 플레이 영역과 공략 글을 함께 두기 때문에, 먼저 규칙을 보고 바로 아래나 옆의 게임판에서 확인하는 흐름을 의도합니다."
+          "긴 글이 있는 게임 상세 페이지에서는 설명을 읽은 뒤 실제 플레이 영역으로 이동해 시작하는 것이 좋습니다. 한판게임의 게임 페이지는 플레이 영역과 공략 글을 함께 두기 때문에, 먼저 규칙을 보고 바로 아래나 옆의 게임판에서 확인하는 흐름을 의도합니다."
         ]
       },
       {
@@ -622,9 +622,9 @@ function headerHtml(current = "guides") {
   ];
 
   return `<header class="site-header">
-      <a class="brand" href="/" aria-label="한판게임즈 홈">
+      <a class="brand" href="/" aria-label="한판게임 홈">
         <span class="brand-mark" aria-hidden="true">H</span>
-        <span><strong>한판게임즈</strong><small>HANPAN GAMES</small></span>
+        <span><strong>한판게임</strong><small>HANPAN GAME</small></span>
       </a>
       <nav class="nav" aria-label="주요 메뉴">
         ${nav.map(([label, href, key]) => `<a href="${href}"${key === current ? ` aria-current="page"` : ""}>${label}</a>`).join("\n        ")}
@@ -635,7 +635,7 @@ function headerHtml(current = "guides") {
 function footerHtml() {
   return `<footer class="site-footer">
       <div>
-        <strong>한판게임즈</strong>
+        <strong>한판게임</strong>
         <p>플레이하기 쉽고 읽을거리도 있는 무료 미니게임 허브.</p>
       </div>
       <nav aria-label="푸터 메뉴">
@@ -646,7 +646,7 @@ function footerHtml() {
         <a href="/terms/">이용약관</a>
         <a href="/contact/">문의</a>
       </nav>
-      <p class="copyright">© <span id="year"></span> Hanpan Games. All rights reserved.</p>
+      <p class="copyright">© <span id="year"></span> Hanpan Game. All rights reserved.</p>
     </footer>`;
 }
 
@@ -681,11 +681,11 @@ function guidePageHtml(guide) {
         mainEntityOfPage: canonical,
         author: {
           "@type": "Organization",
-          name: "Hanpan Games"
+          name: "Hanpan Game"
         },
         publisher: {
           "@type": "Organization",
-          name: "Hanpan Games",
+          name: "Hanpan Game",
           url: siteUrl
         }
       },
@@ -708,14 +708,14 @@ function guidePageHtml(guide) {
     <link rel="icon" href="/favicon.svg" type="image/svg+xml">
     ${adsenseScript}
     ${searchConsoleVerification}
-    <title>${escapeHtml(guide.title)} - 한판게임즈</title>
+    <title>${escapeHtml(guide.title)} - 한판게임</title>
     <meta name="description" content="${escapeHtml(guide.description)}">
     <link rel="canonical" href="${canonical}">
     <meta property="og:type" content="article">
     <meta property="og:title" content="${escapeHtml(guide.title)}">
     <meta property="og:description" content="${escapeHtml(guide.description)}">
     <meta property="og:url" content="${canonical}">
-    <meta property="og:site_name" content="한판게임즈">
+    <meta property="og:site_name" content="한판게임">
     <meta name="twitter:card" content="summary">
     <link rel="stylesheet" href="/assets/styles.css?v=${assetVersion}">
   </head>
@@ -780,13 +780,13 @@ function guideIndexHtml() {
     "@graph": [
       {
         "@type": "CollectionPage",
-        name: "한판게임즈 게임 가이드",
+        name: "한판게임 게임 가이드",
         description: "무료 웹 미니게임을 더 편하게 즐기기 위한 플레이 팁과 장르별 공략 모음입니다.",
         url: `${siteUrl}/guides/`,
         inLanguage: "ko-KR",
         publisher: {
           "@type": "Organization",
-          name: "Hanpan Games",
+          name: "Hanpan Game",
           url: siteUrl
         }
       },
@@ -808,14 +808,14 @@ function guideIndexHtml() {
     <link rel="icon" href="/favicon.svg" type="image/svg+xml">
     ${adsenseScript}
     ${searchConsoleVerification}
-    <title>게임 가이드와 플레이 팁 - 한판게임즈</title>
-    <meta name="description" content="한판게임즈의 무료 웹 미니게임 가이드입니다. 2048, 스네이크, 지뢰찾기, 기억력 게임, 벽돌깨기, 블록 드롭, 틱택토, 모바일 조작 팁을 안내합니다.">
+    <title>게임 가이드와 플레이 팁 - 한판게임</title>
+    <meta name="description" content="한판게임의 무료 웹 미니게임 가이드입니다. 2048, 스네이크, 지뢰찾기, 기억력 게임, 벽돌깨기, 블록 드롭, 틱택토, 모바일 조작 팁을 안내합니다.">
     <link rel="canonical" href="${siteUrl}/guides/">
     <meta property="og:type" content="website">
-    <meta property="og:title" content="게임 가이드와 플레이 팁 - 한판게임즈">
+    <meta property="og:title" content="게임 가이드와 플레이 팁 - 한판게임">
     <meta property="og:description" content="무료 웹 미니게임을 더 편하게 즐기기 위한 플레이 팁과 장르별 공략 모음입니다.">
     <meta property="og:url" content="${siteUrl}/guides/">
-    <meta property="og:site_name" content="한판게임즈">
+    <meta property="og:site_name" content="한판게임">
     <meta name="twitter:card" content="summary">
     <link rel="stylesheet" href="/assets/styles.css?v=${assetVersion}">
   </head>
@@ -827,7 +827,7 @@ function guideIndexHtml() {
         <p class="eyebrow">Guide</p>
         <h1>게임 가이드와 플레이 팁</h1>
         <p>
-          한판게임즈의 가이드는 게임을 시작하기 전 오래 붙잡는 설명서가 아니라, 한 판을 더 잘 이해하기 위한 짧은 공략입니다.
+          한판게임의 가이드는 게임을 시작하기 전 오래 붙잡는 설명서가 아니라, 한 판을 더 잘 이해하기 위한 짧은 공략입니다.
           조작, 기록, 모바일 환경, 장르별 기본기를 실제 플레이 기준으로 정리합니다.
         </p>
       </section>
@@ -846,7 +846,7 @@ function guideIndexHtml() {
       <article class="article">
         <h2>짧은 게임은 시작이 빨라야 합니다</h2>
         <p>
-          한판게임즈의 목표는 복잡한 설치나 계정 없이도 바로 시작할 수 있는 짧은 게임 경험입니다.
+          한판게임의 목표는 복잡한 설치나 계정 없이도 바로 시작할 수 있는 짧은 게임 경험입니다.
           처음 방문한 사용자는 게임 목록에서 장르와 예상 플레이 시간을 보고 고를 수 있어야 하며, 게임 페이지에 들어갔을 때는 조작법과 시작 버튼이 쉽게 보여야 합니다.
         </p>
         <p>
@@ -870,7 +870,7 @@ function guideIndexHtml() {
           그래서 터치 게임은 버튼 간격, 게임판 위치, 짧은 탭 반응이 중요합니다. 같은 게임이라도 화면 크기에 따라 더 편한 자세와 조작 리듬이 달라질 수 있습니다.
         </p>
         <p>
-          한판게임즈는 게임판과 설명, 결과 메시지가 서로 겹치지 않도록 구성하는 것을 운영 원칙으로 삼습니다.
+          한판게임은 게임판과 설명, 결과 메시지가 서로 겹치지 않도록 구성하는 것을 운영 원칙으로 삼습니다.
           새 게임을 추가할 때도 사용자가 실수로 다른 요소를 누르지 않도록 충분한 간격을 두고, 가능한 한 키보드와 터치 입력을 함께 지원하는 방향을 유지합니다.
         </p>
 

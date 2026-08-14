@@ -269,7 +269,7 @@
     const bestEl = document.getElementById("memoryBest");
     if (!board || !result || !reset) return;
 
-    const values = ["한", "판", "게", "임", "즈", "점"];
+    const values = ["한", "판", "게", "임", "기", "록"];
     const totalCards = values.length * 2;
     let first = null;
     let locked = false;

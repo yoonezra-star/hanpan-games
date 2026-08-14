@@ -137,7 +137,7 @@ const categoryGuideIds = {
 
 const traditionalBackgrounds = {
   "jegi-kick": {
-    text: "제기차기는 제기를 발로 차 올리며 땅에 떨어뜨리지 않고 횟수를 이어 가는 놀이입니다. 한판게임즈 버전은 실제 발동작 전체를 재현하기보다 제기가 내려오는 높이와 박자를 읽는 부분에 집중했습니다.",
+    text: "제기차기는 제기를 발로 차 올리며 땅에 떨어뜨리지 않고 횟수를 이어 가는 놀이입니다. 한판게임 버전은 실제 발동작 전체를 재현하기보다 제기가 내려오는 높이와 박자를 읽는 부분에 집중했습니다.",
     sourceTitle: "국립민속박물관 어린이박물관 제기차기 자료",
     sourceUrl: "https://nfm.go.kr/kids/elecontents/view.do?topic=13"
   },
@@ -147,7 +147,7 @@ const traditionalBackgrounds = {
     sourceUrl: "https://webzine.nfm.go.kr/2026/05/11/%ED%88%AC%ED%98%B8-%EB%8D%98%EC%A7%80%EA%B8%B0-%EB%86%80%EC%9D%B4target-throwing-game%EC%9D%98-%EB%B3%80%EC%A3%BC%EC%99%80-%EB%B3%B4%ED%8E%B8%EC%84%B1/"
   },
   "ddakji-flip": {
-    text: "딱지치기는 종이를 접어 만든 딱지를 바닥에 놓고 다른 딱지로 내려쳐 뒤집는 놀이입니다. 한판게임즈에서는 들린 모서리를 읽는 방향 선택과 내려치는 힘의 타이밍을 결합해 화면 속 타격감으로 표현했습니다.",
+    text: "딱지치기는 종이를 접어 만든 딱지를 바닥에 놓고 다른 딱지로 내려쳐 뒤집는 놀이입니다. 한판게임에서는 들린 모서리를 읽는 방향 선택과 내려치는 힘의 타이밍을 결합해 화면 속 타격감으로 표현했습니다.",
     sourceTitle: "국립민속박물관 민속놀이 딱지치기 교육자료",
     sourceUrl: "https://www.nfm.go.kr/user/bbs/home/101/1566/bbsDataView/25054.do?bbsDataCategory=&column=&page=2&search=&searchEDate=&searchSDate="
   },
@@ -458,7 +458,7 @@ const typeGuides = {
   chair: {
     how: "사무실 의자를 타고 목적지까지 가는 관성 레이스입니다. 좌우로 방향을 돌리고 앞으로 밀면 의자가 미끄러지듯 움직입니다. 책상과 벽에 부딪히면 속도를 잃으므로 코너 전에 미리 방향을 잡아야 합니다.",
     tips: ["속도가 붙은 뒤에는 바로 멈추지 않으니 코너 전에 미리 꺾습니다.", "벽에 가까운 지름길보다 넓은 통로로 부드럽게 도는 편이 빠를 수 있습니다.", "간식 아이템을 먹으면 잠깐 속도가 오르므로 직선 구간에서 활용합니다."],
-    faq: ["멀티플레이인가요?", "현재 한판게임즈 버전은 혼자 기록에 도전하는 싱글 플레이입니다."],
+    faq: ["멀티플레이인가요?", "현재 한판게임 버전은 혼자 기록에 도전하는 싱글 플레이입니다."],
   },
   typing: {
     how: "화면에 표시되는 역 이름을 정확히 입력하면 열차가 다음 역으로 이동하는 타자 레이스입니다. 입력이 맞으면 자동으로 다음 역이 나오고, 틀리면 입력창이 흔들리듯 표시됩니다.",
@@ -559,7 +559,7 @@ const featuredGuides = {
     advanced: ["두 숫자가 겹쳐 보는 닫힌 칸 묶음을 비교하면 확정 칸이 나오는 경우가 많습니다.", "빈 구역이 열리면 새 경계의 숫자를 기준으로 판 전체를 다시 훑습니다.", "깃발은 확신이 있을 때만 사용해야 잘못된 전제를 오래 끌고 가지 않습니다."],
     mobile: ["모바일에서는 깃발 모드 토글 상태를 먼저 확인한 뒤 칸을 누릅니다.", "작은 칸을 연속으로 누를 때는 확대보다 천천히 한 칸씩 터치하는 편이 안전합니다.", "실수 방지를 위해 애매한 칸은 깃발보다 잠시 비워 두고 다른 곳을 풉니다."],
     mistakes: ["숫자 하나만 보고 주변 전체 맥락을 확인하지 않는 실수", "확신 없는 깃발을 세워 뒤 판단을 모두 틀리게 만드는 실수", "빈 공간이 열린 뒤 새로 생긴 숫자 경계를 놓치는 실수"],
-    faqs: [["첫 클릭에서 지뢰가 나올 수 있나요?", "한판게임즈 버전은 첫 클릭이 안전하게 시작되도록 구성했습니다."], ["깃발은 꼭 사용해야 하나요?", "필수는 아니지만 지뢰가 확실한 칸을 표시하면 남은 안전 칸을 추론하기 쉬워집니다."], ["운으로 찍어야 하는 상황도 있나요?", "작은 판에서는 정보가 부족한 상황이 생길 수 있습니다. 다만 대부분은 다른 숫자를 먼저 살피면 위험을 줄일 수 있습니다."], ["모바일에서 우클릭은 어떻게 대신하나요?", "화면의 깃발 모드 버튼을 켠 뒤 원하는 칸을 터치하면 표시할 수 있습니다."], ["초보자가 빠르게 느는 방법은 무엇인가요?", "숫자 주변의 닫힌 칸 개수와 이미 세운 깃발 수를 말로 확인하며 푸는 연습이 좋습니다."]],
+    faqs: [["첫 클릭에서 지뢰가 나올 수 있나요?", "한판게임 버전은 첫 클릭이 안전하게 시작되도록 구성했습니다."], ["깃발은 꼭 사용해야 하나요?", "필수는 아니지만 지뢰가 확실한 칸을 표시하면 남은 안전 칸을 추론하기 쉬워집니다."], ["운으로 찍어야 하는 상황도 있나요?", "작은 판에서는 정보가 부족한 상황이 생길 수 있습니다. 다만 대부분은 다른 숫자를 먼저 살피면 위험을 줄일 수 있습니다."], ["모바일에서 우클릭은 어떻게 대신하나요?", "화면의 깃발 모드 버튼을 켠 뒤 원하는 칸을 터치하면 표시할 수 있습니다."], ["초보자가 빠르게 느는 방법은 무엇인가요?", "숫자 주변의 닫힌 칸 개수와 이미 세운 깃발 수를 말로 확인하며 푸는 연습이 좋습니다."]],
     update: "2026년 7월 20일 대표 퍼즐 페이지로 확장하고 숫자 추론, 깃발 운용, 모바일 입력 설명을 추가했습니다."
   },
   "sudoku-mini": {
@@ -602,7 +602,7 @@ const featuredGuides = {
     update: "2026년 8월 14일 재시작 흐름을 수정하고 단계별 속도·장애물, 별 보너스 먹이, 효과음, 키보드·터치 조작을 확장했습니다."
   },
   "blackjack": {
-    overview: "블랙잭 21은 카드 합계를 21에 가깝게 만들되 넘기지 않는 보드·전략 게임입니다. 한판게임즈 버전은 실제 돈이나 결제 요소 없이 규칙 이해와 선택 판단에 집중합니다.",
+    overview: "블랙잭 21은 카드 합계를 21에 가깝게 만들되 넘기지 않는 보드·전략 게임입니다. 한판게임 버전은 실제 돈이나 결제 요소 없이 규칙 이해와 선택 판단에 집중합니다.",
     why: "힛, 스탠드, 더블다운 같은 선택이 매 턴 결과를 바꿉니다. 운이 섞여 있지만 딜러의 공개 카드와 내 패의 합을 함께 보면 더 나은 결정을 반복해서 연습할 수 있습니다.",
     snapshot: [["핵심 목표", "21을 넘기지 않고 딜러보다 높은 합을 만듭니다."], ["추천 상황", "짧은 카드 전략 게임을 안전하게 체험하고 싶을 때 좋습니다."], ["실력 포인트", "버스트 위험, 딜러 공개 카드, 에이스 계산입니다."]],
     controls: ["히트는 카드를 한 장 더 받는 선택입니다.", "스탠드는 현재 패로 멈추고 딜러 차례로 넘기는 선택입니다.", "더블다운은 한 번 더 공격적으로 승부하는 선택이며, 판의 흐름에 따라 버튼 상태가 달라질 수 있습니다."],
@@ -611,7 +611,7 @@ const featuredGuides = {
     advanced: ["딜러 공개 카드가 4, 5, 6처럼 약할 때는 무리하게 히트하지 않고 딜러의 버스트 가능성을 활용합니다.", "내 합이 12부터 16 사이일 때는 딜러 카드에 따라 선택이 크게 달라집니다.", "더블다운은 좋은 시작 패와 딜러 약한 카드가 겹칠 때 가치가 큽니다."],
     mobile: ["카드와 버튼이 모두 보인 뒤 선택하면 실수 입력을 줄일 수 있습니다.", "결과 메시지를 확인한 뒤 새 판을 눌러야 이전 선택 흐름을 복기하기 쉽습니다.", "작은 화면에서는 히트와 스탠드 버튼을 빠르게 연타하지 않는 편이 안전합니다."],
     mistakes: ["21에 가까워지고 싶다는 이유로 18 이상에서도 계속 히트하는 실수", "딜러 공개 카드를 보지 않고 내 패만 보는 실수", "에이스가 있는 소프트 합계를 일반 합계처럼 과도하게 조심하는 실수"],
-    faqs: [["실제 돈을 걸 수 있나요?", "아니요. 한판게임즈의 블랙잭 21은 무료 웹 미니게임이며 실제 돈, 결제, 환전 요소가 없습니다."], ["에이스는 어떻게 계산되나요?", "버스트를 피할 수 있으면 11로, 넘길 위험이 있으면 1로 계산되는 방식입니다."], ["딜러는 어떤 규칙으로 움직이나요?", "일정 합계 이하에서는 카드를 받고, 기준에 도달하면 멈추는 기본 딜러 규칙을 따릅니다."], ["초보자는 어떤 선택을 줄이면 좋나요?", "높은 합계에서 무리한 히트를 줄이면 패배가 눈에 띄게 줄어듭니다."], ["기록이나 칩은 저장되나요?", "지원되는 경우 현재 브라우저 안에서만 플레이 기록이 유지됩니다."]],
+    faqs: [["실제 돈을 걸 수 있나요?", "아니요. 한판게임의 블랙잭 21은 무료 웹 미니게임이며 실제 돈, 결제, 환전 요소가 없습니다."], ["에이스는 어떻게 계산되나요?", "버스트를 피할 수 있으면 11로, 넘길 위험이 있으면 1로 계산되는 방식입니다."], ["딜러는 어떤 규칙으로 움직이나요?", "일정 합계 이하에서는 카드를 받고, 기준에 도달하면 멈추는 기본 딜러 규칙을 따릅니다."], ["초보자는 어떤 선택을 줄이면 좋나요?", "높은 합계에서 무리한 히트를 줄이면 패배가 눈에 띄게 줄어듭니다."], ["기록이나 칩은 저장되나요?", "지원되는 경우 현재 브라우저 안에서만 플레이 기록이 유지됩니다."]],
     update: "2026년 7월 20일 블랙잭 21 대표 페이지에 안전한 무료 게임 고지, 선택 전략, FAQ를 강화했습니다."
   },
   "connect-four": {
@@ -835,7 +835,7 @@ const standardDetails = {
     scoring: ["같은 그림이 많이 맞을수록 보상이 큽니다.", "스핀에는 크레딧이 사용되고, 당첨 결과에 따라 크레딧이 늘어납니다.", "운 기반 게임이라 짧게 결과를 확인하는 용도로 즐기는 것이 좋습니다."],
     practice: ["결과가 멈추기 전 버튼을 반복해서 누르지 않습니다.", "크레딧 변화와 스핀 횟수를 함께 보며 흐름을 확인합니다.", "당첨이 이어져도 결과는 매번 새로 정해진다는 점을 기억합니다."],
     mobile: ["스핀 버튼을 한 번씩 누르고 회전이 끝난 뒤 결과를 확인합니다.", "작은 화면에서는 크레딧 표시와 결과 줄이 겹치지 않도록 세로 스크롤 위치를 조정합니다."],
-    faqs: [["실제 돈을 사용하는 게임인가요?", "아니요. 한판게임즈의 릴 매치는 무료 웹 미니게임이며 결제, 환전, 현금 보상 요소가 없습니다."], ["실력으로 결과를 바꿀 수 있나요?", "결과는 운 기반입니다. 크레딧 흐름과 짧은 연출을 즐기는 게임으로 보면 됩니다."]],
+    faqs: [["실제 돈을 사용하는 게임인가요?", "아니요. 한판게임의 릴 매치는 무료 웹 미니게임이며 결제, 환전, 현금 보상 요소가 없습니다."], ["실력으로 결과를 바꿀 수 있나요?", "결과는 운 기반입니다. 크레딧 흐름과 짧은 연출을 즐기는 게임으로 보면 됩니다."]],
     update: "2026년 7월 20일 릴 매치 페이지에 무료 게임 고지, 크레딧 흐름, 결과 확인 설명을 보강했습니다."
   },
   sliding: {
@@ -1262,7 +1262,7 @@ function pageHtml(game) {
         "operatingSystem": "Web Browser",
         "inLanguage": "ko-KR",
         "isAccessibleForFree": true,
-        "publisher": { "@type": "Organization", "name": "한판게임즈" }
+        "publisher": { "@type": "Organization", "name": "한판게임" }
       },
       {
         "@type": "BreadcrumbList",
@@ -1293,19 +1293,19 @@ function pageHtml(game) {
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 ${pageAdsenseScript}    ${searchConsoleVerification}
-${robotsMeta}    <title>${htmlEscape(game.title)} - 한판게임즈</title>
+${robotsMeta}    <title>${htmlEscape(game.title)} - 한판게임</title>
     <meta name="description" content="${htmlEscape(description)}">
     <link rel="canonical" href="${url}">
 ${socialImageMeta}    <meta property="og:type" content="website">
-    <meta property="og:title" content="${htmlEscape(game.title)} - 한판게임즈">
+    <meta property="og:title" content="${htmlEscape(game.title)} - 한판게임">
     <meta property="og:description" content="${htmlEscape(description)}">
     <link rel="stylesheet" href="/assets/styles.css?v=${assetVersion}">
   </head>
   <body>
     <header class="site-header">
-      <a class="brand" href="/" aria-label="한판게임즈 홈">
+      <a class="brand" href="/" aria-label="한판게임 홈">
         <span class="brand-mark" aria-hidden="true">H</span>
-        <span><strong>한판게임즈</strong><small>HANPAN GAMES</small></span>
+        <span><strong>한판게임</strong><small>HANPAN GAME</small></span>
       </a>
       <nav class="nav" aria-label="주요 메뉴">
         <a href="/games/" aria-current="page">게임</a>
@@ -1361,7 +1361,7 @@ ${socialImageMeta}    <meta property="og:type" content="website">
 
     <footer class="site-footer">
       <div>
-        <strong>한판게임즈</strong>
+        <strong>한판게임</strong>
         <p>${htmlEscape(withName(game.title))} 함께 즐기는 무료 웹 미니게임.</p>
       </div>
       <nav aria-label="푸터 메뉴">
@@ -1372,7 +1372,7 @@ ${socialImageMeta}    <meta property="og:type" content="website">
         <a href="/terms/">이용약관</a>
         <a href="/contact/">문의</a>
       </nav>
-      <p class="copyright">© <span id="year"></span> Hanpan Games. All rights reserved.</p>
+      <p class="copyright">© <span id="year"></span> Hanpan Game. All rights reserved.</p>
     </footer>
     <script type="application/ld+json">${JSON.stringify(jsonLd)}</script>
     <script src="/assets/app.js?v=${assetVersion}" defer></script>
