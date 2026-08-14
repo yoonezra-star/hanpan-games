@@ -401,7 +401,9 @@
 
   function renderScore(surface, items) {
     const wrap = document.createElement("div");
-    wrap.className = "mini-score";
+    wrap.className = "mini-score game-score-hud";
+    wrap.setAttribute("role", "group");
+    wrap.setAttribute("aria-label", "현재 게임 기록");
     items.forEach(function (item) {
       const box = document.createElement("span");
       box.innerHTML = `<b>${item.value}</b><small>${item.label}</small>`;

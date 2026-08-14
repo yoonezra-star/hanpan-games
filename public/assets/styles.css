@@ -954,14 +954,20 @@ a:focus-visible {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(90px, 1fr));
   gap: 8px;
+  padding: 8px;
+  background: rgba(255, 253, 247, 0.96);
+  border: 2px solid var(--ink);
+  border-radius: 8px;
+  box-shadow: 0 7px 0 rgba(29, 36, 51, 0.13);
 }
 
 .mini-score span {
-  padding: 10px;
+  min-width: 0;
+  padding: 7px 8px;
   text-align: center;
   background: #f3efe5;
   border: 1px solid var(--line);
-  border-radius: 8px;
+  border-radius: 6px;
 }
 
 .mini-score b,
@@ -978,6 +984,8 @@ a:focus-visible {
   color: var(--muted);
   font-size: 12px;
   font-weight: 900;
+  line-height: 1.25;
+  overflow-wrap: anywhere;
 }
 
 .mini-grid,
@@ -2330,6 +2338,20 @@ a:focus-visible {
 
   .play-surface {
     padding: 12px;
+  }
+
+  .mini-score {
+    grid-template-columns: repeat(auto-fit, minmax(72px, 1fr));
+    gap: 6px;
+    padding: 6px;
+  }
+
+  .mini-score span {
+    padding: 6px 4px;
+  }
+
+  .mini-score b {
+    font-size: 19px;
   }
 
   .brick-controls {
