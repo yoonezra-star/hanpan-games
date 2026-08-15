@@ -5083,9 +5083,9 @@
       if (waste.length) {
         const source = { type: "waste", pile: "waste", index: waste.length - 1 };
         const card = waste[waste.length - 1];
-        if (canPlaceFoundation(card, card.suit)) return { source, destination: `foundation-${card.suit}`, text: `${cardName(card)}을 기초 더미에 올려 보세요.` };
+        if (canPlaceFoundation(card, card.suit)) return { source, destination: `foundation-${card.suit}`, text: `${cardName(card)} 카드를 기초 더미에 올려 보세요.` };
         for (let pile = 0; pile < 7; pile += 1) {
-          if (canPlaceTableau(card, pile)) return { source, destination: `tableau-${pile}`, text: `${cardName(card)}을 ${pile + 1}열로 옮길 수 있습니다.` };
+          if (canPlaceTableau(card, pile)) return { source, destination: `tableau-${pile}`, text: `${cardName(card)} 카드를 ${pile + 1}열로 옮길 수 있습니다.` };
         }
       }
       for (let pile = 0; pile < 7; pile += 1) {
@@ -5093,7 +5093,7 @@
         if (!cards.length) continue;
         const top = cards[cards.length - 1];
         const topSource = { type: "tableau", pile, index: cards.length - 1 };
-        if (top.faceUp && canPlaceFoundation(top, top.suit)) return { source: topSource, destination: `foundation-${top.suit}`, text: `${cardName(top)}을 기초 더미에 올릴 수 있습니다.` };
+        if (top.faceUp && canPlaceFoundation(top, top.suit)) return { source: topSource, destination: `foundation-${top.suit}`, text: `${cardName(top)} 카드를 기초 더미에 올릴 수 있습니다.` };
         for (let cardIndex = 0; cardIndex < cards.length; cardIndex += 1) {
           if (!cards[cardIndex].faceUp || !canBuildSequence(cards.slice(cardIndex))) continue;
           for (let destination = 0; destination < 7; destination += 1) {
