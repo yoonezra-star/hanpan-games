@@ -6,16 +6,16 @@
     <link rel="icon" href="/favicon.svg" type="image/svg+xml">
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6918910185244897" crossorigin="anonymous"></script>
     <meta name="google-site-verification" content="qBlRPhDg3Tazy0wuTNee_wfGeDjuYz80N6R_Iinh9bs" />
-    <title>한판게임 - 설치 없이 바로 즐기는 무료 미니게임</title>
-    <meta name="description" content="한판게임은 설치 없이 브라우저에서 바로 즐기는 무료 미니게임 허브입니다. 고전 아케이드, 반응속도, 기억력, 숫자 추리, 퍼즐 게임을 가볍게 한 판씩 플레이하세요.">
+    <title>한판게임 - 설치 없이 즐기는 무료 고전게임</title>
+    <meta name="description" content="블록 드롭, 벽돌깨기, 스네이크, 2048, 지뢰찾기 등 익숙한 무료 고전게임을 설치 없이 바로 즐기세요. 모바일과 데스크톱을 모두 지원합니다.">
     <link rel="canonical" href="https://hanpangames.kr/">
     <meta property="og:type" content="website">
-    <meta property="og:title" content="한판게임 - 무료 미니게임">
-    <meta property="og:description" content="설치 없이 바로 즐기는 무료 웹 미니게임. 오늘도 한 판만 더.">
+    <meta property="og:title" content="한판게임 - 무료 고전게임">
+    <meta property="og:description" content="블록 퍼즐부터 벽돌깨기와 스네이크까지, 설치 없이 바로 즐기는 무료 웹게임.">
     <meta property="og:url" content="https://hanpangames.kr/">
     <meta property="og:site_name" content="한판게임">
     <meta name="twitter:card" content="summary">
-    <link rel="stylesheet" href="/assets/styles.css?v=20260815-launcher-fix">
+    <link rel="stylesheet" href="/assets/styles.css?v=20260815-popular-home">
   </head>
   <body>
     <header class="site-header">
@@ -38,15 +38,14 @@
     <main>
       <section class="hero">
         <div class="hero-copy">
-          <p class="eyebrow">무료 웹 미니게임 허브</p>
-          <h1>설치 없이, 로그인 없이, 오늘도 가볍게 한 판.</h1>
+          <p class="eyebrow">무료 고전게임 아케이드</p>
+          <h1>아는 게임부터, 바로 한 판.</h1>
           <p class="lead">
-            한판게임은 짧은 쉬는 시간에 바로 시작할 수 있는 브라우저 게임을 모읍니다.
-            한국 전통놀이, 고전 오락실, 퍼즐, 보드, 두뇌, 순발력까지 40개 미니게임을
-            모바일과 데스크톱에서 편하게 즐길 수 있게 정리했습니다.
+            블록 드롭, 벽돌깨기, 스네이크, 2048처럼 규칙이 익숙한 고전게임을
+            설치와 로그인 없이 바로 시작하세요. 40개 게임을 모바일과 데스크톱에서 무료로 즐길 수 있습니다.
           </p>
           <div class="hero-actions">
-            <a class="button primary" href="#play-now">바로 플레이</a>
+            <a class="button primary" href="#popular-games">추천 게임 보기</a>
             <a class="button secondary" href="/games/">40개 게임 보기</a>
           </div>
         </div>
@@ -56,8 +55,8 @@
               <span></span><span></span><span></span>
             </div>
             <div class="score-strip">
-              <b>오늘의 한판</b>
-              <span>기록 갱신 도전</span>
+              <b>한판게임 추천</b>
+              <span>익숙한 규칙, 빠른 시작</span>
             </div>
             <div class="tile-board" aria-hidden="true">
               <span class="tile hot">12</span>
@@ -92,75 +91,90 @@
         </div>
       </section>
 
-      <section id="play-now" class="section">
+      <section id="popular-games" class="section popular-games-section" aria-labelledby="popularGamesTitle">
         <div class="section-heading">
-          <p class="eyebrow">Play now</p>
-          <h2>지금 바로 할 수 있는 한 판</h2>
+          <p class="eyebrow">Hanpan picks</p>
+          <h2 id="popularGamesTitle">먼저 해볼 대표 고전게임</h2>
           <p>
-            홈에서는 대표 게임 세 가지를 바로 체험할 수 있고, 전체 목록에서는 40개 미니게임을 고를 수 있습니다.
-            모든 기록은 기기 안에만 저장되며 회원가입을 요구하지 않습니다.
+            처음 방문해도 규칙을 바로 알아볼 수 있고 반복해서 기록에 도전하기 좋은 게임을 먼저 골랐습니다.
+            카드를 누르면 선택한 게임의 전용 페이지와 플레이 화면으로 정확히 이동합니다.
           </p>
         </div>
-
-        <div class="play-grid">
-          <article class="game-box" id="reaction-game">
-            <div class="game-meta">
-              <span class="tag red">순발력·기록</span>
-              <span>평균 15초</span>
-            </div>
-            <h3>반응속도 체크</h3>
-            <p>초록 신호가 켜지는 순간 누르면 밀리초 단위 기록이 나옵니다.</p>
-            <div class="game-stats" aria-label="반응속도 기록">
-              <span><b id="reactionBest">-</b><small>최고</small></span>
-              <span><b id="reactionLast">-</b><small>최근</small></span>
-              <span><b id="reactionAverage">-</b><small>평균</small></span>
-            </div>
-            <div class="reaction-stage" data-state="idle" role="button" tabindex="0" aria-live="polite">
-              <strong id="reactionText">준비되면 시작을 누르세요</strong>
-              <span id="reactionHint">초록 신호 전에는 누르지 않는 것이 핵심입니다.</span>
-            </div>
-            <button class="button primary full" id="reactionButton" type="button">시작</button>
-            <p class="result-line" id="reactionResult">라운드를 시작하면 기록이 저장됩니다.</p>
+        <div class="featured-game-grid">
+          <article class="featured-game-card">
+            <a href="/games/block-drop-classic/" aria-label="블록 드롭 클래식 바로 시작">
+              <img src="/assets/game-art/block-drop-classic.webp" width="640" height="360" alt="블록 드롭 클래식 플레이 화면">
+              <div class="featured-game-body"><div class="game-meta"><span class="tag blue">퍼즐</span><span>4분</span></div><h3>블록 드롭 클래식</h3><p>블록을 회전해 가로줄을 지우는 대표 낙하 퍼즐입니다.</p><strong>바로 시작</strong></div>
+            </a>
           </article>
-
-          <article class="game-box" id="number-game">
-            <div class="game-meta">
-              <span class="tag blue">추리</span>
-              <span>1부터 50까지</span>
-            </div>
-            <h3>숫자 금고</h3>
-            <p>숨겨진 숫자를 맞혀 보세요. 입력할 때마다 높은지 낮은지 힌트를 줍니다.</p>
-            <div class="game-stats" aria-label="숫자 금고 진행">
-              <span><b id="numberRange">1-50</b><small>가능 범위</small></span>
-              <span><b id="numberTries">0</b><small>시도</small></span>
-              <span><b id="numberBest">-</b><small>최고</small></span>
-            </div>
-            <div class="number-row">
-              <input id="numberGuess" type="number" min="1" max="50" inputmode="numeric" placeholder="숫자 입력" aria-label="추측 숫자">
-              <button class="button secondary" id="numberButton" type="button">확인</button>
-            </div>
-            <div class="guess-history" id="guessHistory" aria-label="입력한 숫자 기록"></div>
-            <p class="result-line" id="numberResult">새 금고가 준비되었습니다.</p>
-            <button class="text-button" id="numberReset" type="button">새 숫자로 다시 시작</button>
+          <article class="featured-game-card">
+            <a href="/games/brick-break/" aria-label="벽돌깨기 미니 바로 시작">
+              <img src="/assets/game-art/brick-break.webp" width="640" height="360" alt="벽돌깨기 미니 플레이 화면">
+              <div class="featured-game-body"><div class="game-meta"><span class="tag red">고전 오락실</span><span>2분</span></div><h3>벽돌깨기 미니</h3><p>패들로 공을 받아 벽돌을 깨고 다음 레벨에 도전합니다.</p><strong>바로 시작</strong></div>
+            </a>
           </article>
-
-          <article class="game-box" id="memory-game">
-            <div class="game-meta">
-              <span class="tag green">두뇌</span>
-              <span>12장 짝맞추기</span>
-            </div>
-            <h3>기억 타일</h3>
-            <p>카드를 뒤집어 같은 글자끼리 짝을 맞춥니다. 적은 횟수로 끝내는 것이 목표입니다.</p>
-            <div class="game-stats" aria-label="기억 타일 진행">
-              <span><b id="memoryMoves">0</b><small>시도</small></span>
-              <span><b id="memoryTime">0초</b><small>시간</small></span>
-              <span><b id="memoryBest">-</b><small>최고</small></span>
-            </div>
-            <div class="memory-board" id="memoryBoard" aria-label="기억 타일 게임판"></div>
-            <p class="result-line" id="memoryResult">시도 횟수: 0</p>
-            <button class="button secondary full" id="memoryReset" type="button">섞어서 다시 하기</button>
+          <article class="featured-game-card">
+            <a href="/games/snake-garden/" aria-label="뱀의 정원 바로 시작">
+              <img src="/assets/game-art/snake-garden.webp" width="640" height="360" alt="뱀의 정원 플레이 화면">
+              <div class="featured-game-body"><div class="game-meta"><span class="tag red">고전 오락실</span><span>2분</span></div><h3>뱀의 정원</h3><p>먹이를 먹으며 몸을 늘리고 충돌 없이 오래 살아남으세요.</p><strong>바로 시작</strong></div>
+            </a>
+          </article>
+          <article class="featured-game-card">
+            <a href="/games/twenty-48/" aria-label="2048 한판 바로 시작">
+              <img src="/assets/game-art/twenty-48.webp" width="640" height="360" loading="lazy" alt="2048 한판 플레이 화면">
+              <div class="featured-game-body"><div class="game-meta"><span class="tag blue">퍼즐</span><span>3분</span></div><h3>2048 한판</h3><p>같은 숫자를 합치고 빈 공간을 관리해 큰 타일을 만드세요.</p><strong>바로 시작</strong></div>
+            </a>
+          </article>
+          <article class="featured-game-card">
+            <a href="/games/mines/" aria-label="지뢰찾기 미니 바로 시작">
+              <img src="/assets/game-art/mines.webp" width="640" height="360" loading="lazy" alt="지뢰찾기 미니 플레이 화면">
+              <div class="featured-game-body"><div class="game-meta"><span class="tag blue">퍼즐</span><span>2분</span></div><h3>지뢰찾기 미니</h3><p>숫자 힌트를 읽어 지뢰를 피하고 안전한 칸을 모두 여세요.</p><strong>바로 시작</strong></div>
+            </a>
+          </article>
+          <article class="featured-game-card">
+            <a href="/games/tic-tac-toe/" aria-label="틱택토 바로 시작">
+              <img src="/assets/game-art/tic-tac-toe.webp" width="640" height="360" loading="lazy" alt="틱택토 플레이 화면">
+              <div class="featured-game-body"><div class="game-meta"><span class="tag gold">보드·전략</span><span>2분</span></div><h3>틱택토</h3><p>난이도를 고른 AI 대전 또는 한 기기 2인 대전을 즐기세요.</p><strong>바로 시작</strong></div>
+            </a>
+          </article>
+          <article class="featured-game-card">
+            <a href="/games/match-three/" aria-label="매치3 퍼즐 바로 시작">
+              <img src="/assets/game-art/match-three.webp" width="640" height="360" loading="lazy" alt="매치3 퍼즐 플레이 화면">
+              <div class="featured-game-body"><div class="game-meta"><span class="tag blue">퍼즐</span><span>3분</span></div><h3>매치3 퍼즐</h3><p>인접한 타일을 바꿔 연쇄 매치를 만들고 목표 점수를 넘기세요.</p><strong>바로 시작</strong></div>
+            </a>
+          </article>
+          <article class="featured-game-card">
+            <a href="/games/flappy-jump/" aria-label="플래피 점프 바로 시작">
+              <img src="/assets/game-art/flappy-jump.webp" width="640" height="360" loading="lazy" alt="플래피 점프 플레이 화면">
+              <div class="featured-game-body"><div class="game-meta"><span class="tag red">고전 오락실</span><span>1분</span></div><h3>플래피 점프</h3><p>화면을 짧게 눌러 기둥 사이를 통과하는 원버튼 게임입니다.</p><strong>바로 시작</strong></div>
+            </a>
+          </article>
+          <article class="featured-game-card">
+            <a href="/games/space-guard/" aria-label="우주 방어선 바로 시작">
+              <img src="/assets/game-art/space-guard.webp" width="640" height="360" loading="lazy" alt="우주 방어선 플레이 화면">
+              <div class="featured-game-body"><div class="game-meta"><span class="tag red">고전 오락실</span><span>3분</span></div><h3>우주 방어선</h3><p>적 편대를 피하고 공격하며 스테이지 점수를 올리세요.</p><strong>바로 시작</strong></div>
+            </a>
+          </article>
+          <article class="featured-game-card">
+            <a href="/games/pong-rally/" aria-label="퐁 랠리 바로 시작">
+              <img src="/assets/game-art/pong-rally.webp" width="640" height="360" loading="lazy" alt="퐁 랠리 플레이 화면">
+              <div class="featured-game-body"><div class="game-meta"><span class="tag red">고전 오락실</span><span>2분</span></div><h3>퐁 랠리</h3><p>패들 각도를 조절해 공을 받아내고 AI보다 먼저 득점하세요.</p><strong>바로 시작</strong></div>
+            </a>
+          </article>
+          <article class="featured-game-card">
+            <a href="/games/sudoku-mini/" aria-label="스도쿠 미니 바로 시작">
+              <img src="/assets/game-art/sudoku-mini.webp" width="640" height="360" loading="lazy" alt="스도쿠 미니 플레이 화면">
+              <div class="featured-game-body"><div class="game-meta"><span class="tag blue">퍼즐</span><span>4분</span></div><h3>스도쿠 미니</h3><p>충돌 표시와 힌트를 활용해 6×6 숫자판을 완성하세요.</p><strong>바로 시작</strong></div>
+            </a>
+          </article>
+          <article class="featured-game-card">
+            <a href="/games/connect-four/" aria-label="사목 미니 바로 시작">
+              <img src="/assets/game-art/connect-four.webp" width="640" height="360" loading="lazy" alt="사목 미니 플레이 화면">
+              <div class="featured-game-body"><div class="game-meta"><span class="tag gold">보드·전략</span><span>2분</span></div><h3>사목 미니</h3><p>말을 떨어뜨려 가로·세로·대각선 네 칸을 먼저 연결하세요.</p><strong>바로 시작</strong></div>
+            </a>
           </article>
         </div>
+        <div class="section-action"><a class="button secondary" href="/games/">전체 40개 게임 보기</a></div>
       </section>
 
       <section class="section" aria-labelledby="traditionalGamesTitle">
@@ -204,40 +218,20 @@
         </div>
       </section>
 
-      <section class="section">
+      <section class="section quick-games-section" aria-labelledby="quickGamesTitle">
         <div class="section-heading">
-          <p class="eyebrow">Library</p>
-          <h2>바로 열리는 게임 컬렉션</h2>
+          <p class="eyebrow">One-minute games</p>
+          <h2 id="quickGamesTitle">잠깐 즐기는 1분 미니게임</h2>
           <p>
-            한판게임은 짧고 반복 플레이가 쉬운 게임을 우선합니다.
-            전체 게임 목록에서는 한국 전통놀이, 고전 오락실, 퍼즐, 보드·전략, 두뇌·기억, 순발력·기록 장르를 골라 플레이할 수 있습니다.
+            짧은 기록 측정과 가벼운 두뇌 게임은 별도 모음에서 찾을 수 있습니다.
+            대표 고전게임을 먼저 보여주되 기존 미니게임도 그대로 유지합니다.
           </p>
         </div>
-        <div class="cards">
-          <article class="card">
-            <span class="tag blue">퍼즐</span>
-            <h3>블록 드롭 클래식</h3>
-            <p>떨어지는 블록을 회전하고 쌓아 가로줄을 지우는 고전 퍼즐입니다.</p>
-            <a class="inline-link" href="/games/block-drop-classic/">게임 페이지</a>
-          </article>
-          <article class="card">
-            <span class="tag red">고전 오락실</span>
-            <h3>의자 질주</h3>
-            <p>바퀴 달린 의자를 타고 사무실 통로를 미끄러지듯 달립니다.</p>
-            <a class="inline-link" href="/games/chair-dash/">게임 페이지</a>
-          </article>
-          <article class="card">
-            <span class="tag red">순발력·기록</span>
-            <h3>타이핑 노선</h3>
-            <p>역 이름을 정확히 입력할수록 열차가 다음 역으로 달립니다.</p>
-            <a class="inline-link" href="/games/typing-sprint/">게임 페이지</a>
-          </article>
-          <article class="card">
-            <span class="tag gold">퍼즐</span>
-            <h3>향수 소트 공방</h3>
-            <p>뒤섞인 향 노트를 병끼리 옮겨 같은 향으로 정렬합니다.</p>
-            <a class="inline-link" href="/games/perfume-workshop/">게임 페이지</a>
-          </article>
+        <div class="quick-game-grid">
+          <a href="/games/reaction-speed/"><img src="/assets/game-art/reaction-speed.webp" width="320" height="180" loading="lazy" alt="반응속도 체크 화면"><span><strong>반응속도 체크</strong><small>15초 · 순발력</small></span></a>
+          <a href="/games/number-vault/"><img src="/assets/game-art/number-vault.webp" width="320" height="180" loading="lazy" alt="숫자 금고 화면"><span><strong>숫자 금고</strong><small>1분 · 숫자 추리</small></span></a>
+          <a href="/games/memory-tiles/"><img src="/assets/game-art/memory-tiles.webp" width="320" height="180" loading="lazy" alt="기억 타일 화면"><span><strong>기억 타일</strong><small>2분 · 짝맞추기</small></span></a>
+          <a href="/games/click-sprint/"><img src="/assets/game-art/click-sprint.webp" width="320" height="180" loading="lazy" alt="클릭 스프린트 화면"><span><strong>클릭 스프린트</strong><small>10초 · 기록 도전</small></span></a>
         </div>
       </section>
 
@@ -339,6 +333,6 @@
         }
       }
     </script>
-    <script src="/assets/app.js?v=20260815-launcher-fix" defer></script>
+    <script src="/assets/app.js?v=20260815-popular-home" defer></script>
   </body>
 </html>
