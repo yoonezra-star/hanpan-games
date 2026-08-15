@@ -38,7 +38,7 @@
     { id: "freecell-classic", title: "프리셀 클래식", category: "board", type: "freecell", minutes: "10분", description: "네 개의 임시칸을 활용해 52장 카드를 모두 정리하는 전략 카드 퍼즐입니다." },
     { id: "connect-four", title: "사목 미니", category: "board", type: "connect4", minutes: "2분", description: "말을 떨어뜨려 네 개를 먼저 잇는 전략 게임입니다." },
     { id: "rps-survival", title: "가위바위보 서바이벌", category: "board", type: "rps", minutes: "1분", description: "연승을 이어가며 살아남는 가위바위보 게임입니다." },
-    { id: "mines", title: "지뢰찾기 미니", category: "puzzle", type: "mines", minutes: "2분", description: "숫자 힌트를 보고 지뢰가 없는 칸을 모두 엽니다." },
+    { id: "mines", title: "지뢰찾기 클래식", category: "puzzle", type: "mines", minutes: "5분", description: "세 가지 난이도에서 숫자 단서를 읽고 지뢰를 피해 모든 안전 칸을 엽니다." },
     { id: "sliding-puzzle", title: "슬라이딩 퍼즐", category: "puzzle", type: "sliding", minutes: "2분", description: "빈 칸을 이용해 숫자 타일을 순서대로 맞춥니다." },
     { id: "sudoku-mini", title: "스도쿠 미니", category: "puzzle", type: "sudoku", minutes: "4분", description: "6x6 스도쿠 판을 완성하고 충돌 표시와 제한 힌트를 활용합니다." },
     { id: "twenty-48", title: "2048 한판", category: "puzzle", type: "twenty48", minutes: "3분", description: "같은 숫자 타일을 합쳐 더 큰 숫자를 만드는 퍼즐입니다." },
@@ -527,7 +527,7 @@
       slot: "돌리기 버튼은 회전이 끝난 뒤 다시 누를 수 있습니다. 실제 돈, 결제, 환전, 경품은 없습니다.",
       typing: "입력창에 제시어를 정확히 입력합니다. Enter 키로 현재 입력을 지우고 다시 시작할 수 있습니다.",
       recipe: "옮길 병을 먼저 선택하고 받을 병을 선택합니다. 빈 병은 작업 공간으로 남겨 두면 풀이가 쉬워집니다.",
-      mines: "일반 모드로 안전 칸을 열고 깃발 모드로 의심 칸을 표시합니다. 첫 클릭은 안전하게 시작됩니다.",
+      mines: "열기·깃발 모드를 바꿔 안전 칸과 지뢰를 구분합니다. 열린 숫자를 다시 누르면 주변 깃발 수가 맞을 때 나머지 칸이 함께 열립니다.",
       sudoku: "빈칸을 선택하고 숫자를 입력합니다. 충돌 표시를 보고 행, 열, 박스를 다시 확인하세요.",
       twenty48: "방향키나 스와이프로 모든 타일을 밀어 같은 숫자를 합칩니다."
       ,jegi: "스페이스바, 화면 터치 또는 제기 차기 버튼으로 발 가까이 내려온 제기를 찹니다. 너무 일찍 차면 연속 기록이 끊깁니다."
@@ -6928,127 +6928,460 @@
   }
 
   function renderMines(game, surface) {
-    const size = 6;
-    const mineTotal = 7;
+    const difficulties = {
+      beginner: { id: "beginner", label: "초급", rows: 9, cols: 9, mines: 10, width: 414 },
+      intermediate: { id: "intermediate", label: "중급", rows: 16, cols: 16, mines: 40, width: 604 },
+      expert: { id: "expert", label: "고급", rows: 16, cols: 30, mines: 99, width: 940 }
+    };
+    let difficulty = difficulties.beginner;
     let mineSet = null;
+    let states = [];
     let opened = 0;
-    let flags = new Set();
+    let flags = 0;
+    let questions = 0;
     let flagMode = false;
+    let started = false;
     let gameOver = false;
+    let seconds = 0;
+    let moves = 0;
+    let hintsUsed = 0;
+    let explodedIndex = -1;
+    let message = "첫 칸은 안전합니다. 열어 볼 칸을 선택하세요.";
+    let lastChordAt = 0;
+    const audio = createTonePlayer();
+
+    surface.classList.add("mines-game");
     renderScore(surface, [
-      { label: "안전 칸", value: `0/${size * size - mineTotal}` },
-      { label: "깃발", value: `0/${mineTotal}` },
-      { label: "최고", value: getBest(game.id) || "-" }
+      { label: "남은 지뢰", value: "10" },
+      { label: "시간", value: "00:00" },
+      { label: "진행", value: "0%" },
+      { label: "최고", value: "-" }
     ]);
     const stats = surface.querySelectorAll(".mini-score b");
+
+    const settings = document.createElement("div");
+    settings.className = "mines-settings";
+    const difficultyGroup = document.createElement("div");
+    difficultyGroup.className = "mines-difficulty";
+    difficultyGroup.setAttribute("role", "group");
+    difficultyGroup.setAttribute("aria-label", "지뢰찾기 난이도");
+    const difficultyButtons = Object.values(difficulties).map(function (item) {
+      const choice = button(`${item.label} ${item.rows}×${item.cols}`, "mines-difficulty-button");
+      choice.dataset.difficulty = item.id;
+      choice.setAttribute("aria-pressed", String(item.id === difficulty.id));
+      difficultyGroup.appendChild(choice);
+      return choice;
+    });
+    const status = document.createElement("div");
+    status.className = "mines-status";
+    status.setAttribute("aria-live", "polite");
+    settings.append(difficultyGroup, status);
+
     const controls = document.createElement("div");
-    controls.className = "mini-controls";
-    const flagToggle = button("깃발 모드 끄기", "button secondary");
+    controls.className = "mini-controls mines-actions";
+    const flagToggle = button("열기 모드", "button secondary mines-mode-toggle");
     flagToggle.setAttribute("aria-pressed", "false");
-    controls.appendChild(flagToggle);
-    surface.appendChild(controls);
-    const grid = makeGrid(size * size, "mini-grid mines-grid");
-    surface.appendChild(grid);
+    const newGame = button("새 게임", "button primary");
+    const hintButton = button("안전 힌트 3", "button secondary");
+    const sound = button("소리 켜짐", "button secondary sound-toggle");
+    sound.setAttribute("aria-pressed", "true");
+    controls.append(newGame, flagToggle, hintButton, sound);
+
+    const boardScroll = document.createElement("div");
+    boardScroll.className = "mines-board-scroll";
+    boardScroll.setAttribute("tabindex", "0");
+    boardScroll.setAttribute("aria-label", "지뢰찾기 게임판 스크롤 영역");
+    const grid = document.createElement("div");
+    grid.className = "mines-board";
+    grid.setAttribute("role", "grid");
+    grid.setAttribute("aria-label", "지뢰찾기 게임판");
+    boardScroll.appendChild(grid);
+
     const guide = document.createElement("p");
     guide.className = "mini-note";
-    guide.textContent = "첫 클릭은 안전합니다. 숫자는 주변 8칸의 지뢰 수이고, 깃발 모드로 의심 칸을 표시할 수 있습니다.";
-    surface.appendChild(guide);
+    guide.textContent = "숫자는 주변 8칸의 지뢰 수입니다. PC는 우클릭, 모바일은 깃발 모드로 표시하며 열린 숫자를 다시 누르면 주변을 한꺼번에 확인합니다.";
+    surface.append(settings, controls, boardScroll, guide);
+
+    function totalCells() {
+      return difficulty.rows * difficulty.cols;
+    }
+
+    function safeTotal() {
+      return totalCells() - difficulty.mines;
+    }
+
+    function formatTime(value) {
+      if (typeof value !== "number" || !Number.isFinite(value) || value < 0) return "-";
+      const minutes = Math.floor(value / 60);
+      const remaining = value % 60;
+      return `${String(minutes).padStart(2, "0")}:${String(remaining).padStart(2, "0")}`;
+    }
+
+    function bestId() {
+      return `${game.id}-${difficulty.id}`;
+    }
+
     function neighbors(index) {
-      const r = Math.floor(index / size);
-      const c = index % size;
+      const r = Math.floor(index / difficulty.cols);
+      const c = index % difficulty.cols;
       const items = [];
       for (let dr = -1; dr <= 1; dr += 1) for (let dc = -1; dc <= 1; dc += 1) {
         if (!dr && !dc) continue;
         const rr = r + dr;
         const cc = c + dc;
-        if (rr >= 0 && rr < size && cc >= 0 && cc < size) items.push(rr * size + cc);
+        if (rr >= 0 && rr < difficulty.rows && cc >= 0 && cc < difficulty.cols) {
+          items.push(rr * difficulty.cols + cc);
+        }
       }
       return items;
     }
+
     function buildMines(firstIndex) {
       const forbidden = new Set(neighbors(firstIndex).concat([firstIndex]));
+      const candidates = Array.from({ length: totalCells() }, function (_, index) { return index; })
+        .filter(function (index) { return !forbidden.has(index); });
       mineSet = new Set();
-      while (mineSet.size < mineTotal) {
-        const index = Math.floor(Math.random() * size * size);
-        if (!forbidden.has(index)) mineSet.add(index);
-      }
+      shuffle(candidates).slice(0, difficulty.mines).forEach(function (index) { mineSet.add(index); });
     }
+
     function count(index) {
       return neighbors(index).filter(function (pos) { return mineSet.has(pos); }).length;
     }
+
     function syncStats() {
-      stats[0].textContent = `${opened}/${size * size - mineTotal}`;
-      stats[1].textContent = `${flags.size}/${mineTotal}`;
+      stats[0].textContent = String(Math.max(0, difficulty.mines - flags));
+      stats[1].textContent = formatTime(seconds);
+      stats[2].textContent = `${Math.round((opened / safeTotal()) * 100)}%`;
+      stats[3].textContent = formatTime(getBest(bestId()));
     }
-    function revealAll() {
+
+    function cellLabel(index) {
+      const row = Math.floor(index / difficulty.cols) + 1;
+      const col = (index % difficulty.cols) + 1;
+      const state = states[index];
+      if (state === "flag") return `${row}행 ${col}열, 깃발 표시`;
+      if (state === "question") return `${row}행 ${col}열, 물음표 표시`;
+      if (state === "open") {
+        const nearby = count(index);
+        return nearby ? `${row}행 ${col}열, 주변 지뢰 ${nearby}개` : `${row}행 ${col}열, 빈 안전 칸`;
+      }
+      if (state === "mine" || state === "exploded") return `${row}행 ${col}열, 지뢰`;
+      if (state === "wrong") return `${row}행 ${col}열, 잘못 놓은 깃발`;
+      return `${row}행 ${col}열, 닫힌 칸`;
+    }
+
+    function renderBoard() {
       Array.from(grid.children).forEach(function (cell, index) {
-        cell.disabled = true;
-        if (mineSet && mineSet.has(index)) {
+        const state = states[index];
+        cell.className = "mines-cell";
+        cell.textContent = "";
+        cell.disabled = gameOver;
+        if (state === "open") {
+          const nearby = count(index);
+          cell.classList.add("is-open");
+          if (nearby) {
+            cell.textContent = String(nearby);
+            cell.classList.add(`number-${nearby}`);
+          }
+        } else if (state === "flag") {
+          cell.textContent = "⚑";
+          cell.classList.add("is-flagged");
+        } else if (state === "question") {
+          cell.textContent = "?";
+          cell.classList.add("is-question");
+        } else if (state === "mine" || state === "exploded") {
+          cell.textContent = "✹";
+          cell.classList.add("is-mine");
+          if (state === "exploded") cell.classList.add("is-exploded");
+        } else if (state === "wrong") {
           cell.textContent = "×";
-          cell.classList.add("danger");
+          cell.classList.add("is-wrong");
         }
+        cell.setAttribute("aria-label", cellLabel(index));
+      });
+      const modeName = flagMode ? "깃발 모드" : "열기 모드";
+      status.innerHTML = `<strong>${gameOver ? (explodedIndex >= 0 ? "게임 종료" : "판 완성") : modeName}</strong><span>${message}</span>`;
+      flagToggle.textContent = flagMode ? "깃발 모드" : "열기 모드";
+      flagToggle.classList.toggle("active", flagMode);
+      flagToggle.setAttribute("aria-pressed", String(flagMode));
+      hintButton.textContent = `안전 힌트 ${Math.max(0, 3 - hintsUsed)}`;
+      hintButton.disabled = gameOver || hintsUsed >= 3;
+      difficultyButtons.forEach(function (choice) {
+        const active = choice.dataset.difficulty === difficulty.id;
+        choice.classList.toggle("active", active);
+        choice.setAttribute("aria-pressed", String(active));
+      });
+      syncStats();
+    }
+
+    function revealLoss() {
+      states = states.map(function (state, index) {
+        if (index === explodedIndex) return "exploded";
+        if (mineSet.has(index)) return state === "flag" ? "flag" : "mine";
+        if (state === "flag") return "wrong";
+        return state;
       });
     }
+
+    function finishLoss(index) {
+      gameOver = true;
+      started = false;
+      explodedIndex = index;
+      revealLoss();
+      message = "지뢰가 있었습니다. 잘못 놓인 깃발과 숫자 경계를 확인해 보세요.";
+      setResult(`${difficulty.label} 게임 종료. ${formatTime(seconds)}, 진행률 ${Math.round((opened / safeTotal()) * 100)}%입니다.`);
+      audio.tone(120, 0.22, "sawtooth", 0.035);
+      renderBoard();
+    }
+
+    function finishWin() {
+      gameOver = true;
+      started = false;
+      explodedIndex = -1;
+      states = states.map(function (state, index) { return mineSet.has(index) ? "flag" : state; });
+      flags = difficulty.mines;
+      const isBest = hintsUsed === 0 && saveBest(bestId(), seconds, function (value, previous) { return value < previous; });
+      message = hintsUsed
+        ? `힌트 ${hintsUsed}회를 사용해 모든 안전 칸을 열었습니다.`
+        : `모든 안전 칸을 ${formatTime(seconds)} 만에 열었습니다${isBest ? ". 최고 기록입니다" : ""}.`;
+      setResult(`${difficulty.label} 지뢰찾기 완성. 시간 ${formatTime(seconds)}, 이동 ${moves}회${hintsUsed ? `, 힌트 ${hintsUsed}회` : ""}입니다.`);
+      audio.tone(660, 0.12, "sine", 0.035);
+      audio.tone(880, 0.18, "sine", 0.03, 0.12);
+      renderBoard();
+    }
+
+    function checkWin() {
+      if (!gameOver && opened === safeTotal()) finishWin();
+    }
+
+    function revealRegion(startIndex) {
+      const queue = [startIndex];
+      const queued = new Set(queue);
+      while (queue.length) {
+        const index = queue.shift();
+        if (states[index] === "open" || states[index] === "flag") continue;
+        if (mineSet.has(index)) {
+          finishLoss(index);
+          return false;
+        }
+        if (states[index] === "question") questions -= 1;
+        states[index] = "open";
+        opened += 1;
+        if (count(index) === 0) {
+          neighbors(index).forEach(function (neighbor) {
+            if (!queued.has(neighbor) && states[neighbor] !== "flag" && states[neighbor] !== "open") {
+              queued.add(neighbor);
+              queue.push(neighbor);
+            }
+          });
+        }
+      }
+      return true;
+    }
+
     function openCell(index) {
-      const cell = grid.children[index];
-      if (!cell || cell.disabled || flags.has(index) || gameOver) return;
-      if (!mineSet) buildMines(index);
-      if (mineSet.has(index)) {
-        gameOver = true;
-        revealAll();
-        setResult("지뢰를 밟았습니다. 깃발과 숫자 흐름을 다시 읽어 보세요.");
+      if (gameOver || states[index] === "flag") return;
+      if (states[index] === "open") {
+        chord(index);
         return;
       }
-      const n = count(index);
-      cell.disabled = true;
-      cell.classList.add("done");
-      cell.textContent = n ? String(n) : "";
-      opened += 1;
-      if (!n) neighbors(index).forEach(openCell);
-      if (opened === size * size - mineTotal) {
-        gameOver = true;
-        revealAll();
-        const isBest = saveBest(game.id, flags.size, function (a, b) { return a < b; });
-        setResult(isBest ? "모든 안전 칸을 열었습니다. 깔끔한 새 기록입니다." : "모든 안전 칸을 열었습니다.");
-      } else {
-        setResult(n ? `주변 지뢰 ${n}개. 이어서 안전 칸을 찾아보세요.` : "빈 구역이 열렸습니다.");
+      if (!mineSet) {
+        buildMines(index);
+        started = true;
       }
-      syncStats();
+      moves += 1;
+      if (mineSet.has(index)) {
+        finishLoss(index);
+        return;
+      }
+      const nearby = count(index);
+      if (!revealRegion(index)) return;
+      message = nearby ? `주변 지뢰 ${nearby}개입니다. 확실한 칸부터 이어 가세요.` : "빈 구역과 맞닿은 숫자 경계를 열었습니다.";
+      setResult(message);
+      audio.tone(nearby ? 360 + nearby * 35 : 520, 0.045, "sine", 0.014);
+      checkWin();
+      if (!gameOver) renderBoard();
     }
+
     function toggleFlag(index) {
-      if (gameOver) return;
-      const cell = grid.children[index];
-      if (cell.disabled) return;
-      if (flags.has(index)) {
-        flags.delete(index);
-        cell.textContent = "";
-        cell.classList.remove("flagged");
+      if (gameOver || states[index] === "open") return;
+      moves += 1;
+      if (states[index] === "closed") {
+        if (flags >= difficulty.mines) {
+          states[index] = "question";
+          questions += 1;
+          message = "사용 가능한 깃발을 모두 놓아 물음표로 표시했습니다.";
+        } else {
+          states[index] = "flag";
+          flags += 1;
+          message = "지뢰로 의심되는 칸에 깃발을 놓았습니다.";
+          audio.tone(430, 0.05, "square", 0.014);
+        }
+      } else if (states[index] === "flag") {
+        states[index] = "question";
+        flags -= 1;
+        questions += 1;
+        message = "확신이 없는 칸을 물음표로 바꿨습니다.";
       } else {
-        flags.add(index);
-        cell.textContent = "!";
-        cell.classList.add("flagged");
+        states[index] = "closed";
+        questions -= 1;
+        message = "표시를 지웠습니다.";
       }
-      syncStats();
+      setResult(message);
+      renderBoard();
     }
+
+    function chord(index) {
+      if (gameOver || states[index] !== "open" || !mineSet) return;
+      const nearby = count(index);
+      if (!nearby) return;
+      const around = neighbors(index);
+      const nearbyFlags = around.filter(function (neighbor) { return states[neighbor] === "flag"; }).length;
+      if (nearbyFlags !== nearby) {
+        message = `주변 깃발이 ${nearbyFlags}개입니다. 숫자 ${nearby}와 같아야 함께 열 수 있습니다.`;
+        setResult(message);
+        audio.tone(180, 0.055, "square", 0.012);
+        renderBoard();
+        return;
+      }
+      moves += 1;
+      lastChordAt = Date.now();
+      for (const neighbor of around) {
+        if (states[neighbor] === "flag" || states[neighbor] === "open") continue;
+        if (!revealRegion(neighbor)) return;
+      }
+      message = `숫자 ${nearby} 주변의 표시되지 않은 칸을 함께 열었습니다.`;
+      setResult(message);
+      audio.tone(580, 0.07, "triangle", 0.018);
+      checkWin();
+      if (!gameOver) renderBoard();
+    }
+
+    function useHint() {
+      if (gameOver || hintsUsed >= 3) return;
+      if (!mineSet) {
+        const center = Math.floor(difficulty.rows / 2) * difficulty.cols + Math.floor(difficulty.cols / 2);
+        buildMines(center);
+        started = true;
+      }
+      const safeClosed = states.map(function (state, index) {
+        return state !== "open" && state !== "flag" && !mineSet.has(index) ? index : -1;
+      }).filter(function (index) { return index >= 0; });
+      if (!safeClosed.length) return;
+      const index = sample(safeClosed);
+      hintsUsed += 1;
+      moves += 1;
+      revealRegion(index);
+      message = `안전한 칸 하나를 열었습니다. 힌트가 ${3 - hintsUsed}회 남았습니다.`;
+      setResult(message);
+      audio.tone(720, 0.08, "sine", 0.018);
+      checkWin();
+      if (!gameOver) renderBoard();
+    }
+
+    function buildGrid() {
+      grid.innerHTML = "";
+      grid.style.setProperty("--mines-cols", String(difficulty.cols));
+      grid.style.setProperty("--mines-width", `${difficulty.width}px`);
+      grid.className = `mines-board difficulty-${difficulty.id}`;
+      for (let index = 0; index < totalCells(); index += 1) {
+        const cell = button("", "mines-cell");
+        cell.dataset.index = String(index);
+        cell.tabIndex = index === 0 ? 0 : -1;
+        cell.setAttribute("role", "gridcell");
+        cell.addEventListener("focus", function () {
+          Array.from(grid.children).forEach(function (item) { item.tabIndex = -1; });
+          cell.tabIndex = 0;
+        });
+        cell.addEventListener("click", function () {
+          if (flagMode) toggleFlag(index);
+          else openCell(index);
+        });
+        cell.addEventListener("contextmenu", function (event) {
+          event.preventDefault();
+          if (Date.now() - lastChordAt < 320) return;
+          toggleFlag(index);
+        });
+        cell.addEventListener("mousedown", function (event) {
+          if (event.buttons === 3) {
+            event.preventDefault();
+            chord(index);
+          }
+        });
+        grid.appendChild(cell);
+      }
+    }
+
+    function reset(messageText) {
+      mineSet = null;
+      states = Array(totalCells()).fill("closed");
+      opened = 0;
+      flags = 0;
+      questions = 0;
+      flagMode = false;
+      started = false;
+      gameOver = false;
+      seconds = 0;
+      moves = 0;
+      hintsUsed = 0;
+      explodedIndex = -1;
+      message = messageText || `${difficulty.label} 게임입니다. 첫 칸은 안전합니다.`;
+      buildGrid();
+      setResult(`${difficulty.label} ${difficulty.rows}×${difficulty.cols}, 지뢰 ${difficulty.mines}개. 첫 칸을 열어 보세요.`);
+      renderBoard();
+    }
+
     flagToggle.addEventListener("click", function () {
       flagMode = !flagMode;
-      flagToggle.textContent = flagMode ? "깃발 모드 켜짐" : "깃발 모드 끄기";
-      flagToggle.classList.toggle("active", flagMode);
-      flagToggle.setAttribute("aria-pressed", flagMode ? "true" : "false");
-      setResult(flagMode ? "의심 칸을 눌러 깃발을 꽂으세요." : "칸을 눌러 열 수 있습니다.");
+      message = flagMode ? "칸을 누르면 깃발, 물음표, 표시 없음 순서로 바뀝니다." : "칸을 누르면 안전 여부를 확인해 엽니다.";
+      setResult(message);
+      renderBoard();
     });
-    Array.from(grid.children).forEach(function (cell, index) {
-      cell.textContent = "";
-      cell.addEventListener("click", function () {
-        if (flagMode) toggleFlag(index);
-        else openCell(index);
+
+    difficultyButtons.forEach(function (choice) {
+      choice.addEventListener("click", function () {
+        const next = difficulties[choice.dataset.difficulty];
+        if (!next || next.id === difficulty.id) return;
+        difficulty = next;
+        reset(`${difficulty.label} 난이도로 새 게임을 시작했습니다.`);
       });
-      cell.addEventListener("contextmenu", function (event) {
+    });
+
+    grid.addEventListener("keydown", function (event) {
+      const active = document.activeElement;
+      if (!active || !active.classList.contains("mines-cell")) return;
+      const index = Number(active.dataset.index);
+      let next = index;
+      if (event.key === "ArrowLeft") next = Math.max(0, index - 1);
+      else if (event.key === "ArrowRight") next = Math.min(totalCells() - 1, index + 1);
+      else if (event.key === "ArrowUp") next = Math.max(0, index - difficulty.cols);
+      else if (event.key === "ArrowDown") next = Math.min(totalCells() - 1, index + difficulty.cols);
+      else if (event.key.toLowerCase() === "f") {
         event.preventDefault();
         toggleFlag(index);
-      });
+        return;
+      } else return;
+      event.preventDefault();
+      active.tabIndex = -1;
+      grid.children[next].tabIndex = 0;
+      grid.children[next].focus();
     });
-    setResult("안전해 보이는 첫 칸을 열어 보세요.");
+
+    newGame.addEventListener("click", function () { reset("같은 난이도의 새 판을 만들었습니다."); });
+    hintButton.addEventListener("click", useHint);
+    sound.addEventListener("click", function () { audio.toggle(sound); });
+
+    const timer = window.setInterval(function () {
+      if (!started || gameOver) return;
+      seconds += 1;
+      syncStats();
+    }, 1000);
+    cleanup.push(function () {
+      window.clearInterval(timer);
+      audio.close();
+      surface.classList.remove("mines-game");
+    });
+    reset("초급 게임입니다. 첫 칸과 주변 칸은 안전하게 시작됩니다.");
   }
 
   function renderSliding(game, surface) {

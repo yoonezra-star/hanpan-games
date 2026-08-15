@@ -4,7 +4,7 @@ import path from "node:path";
 const root = process.cwd();
 const publicDir = path.join(root, "public");
 const siteUrl = "https://hanpangames.kr";
-const assetVersion = "20260815-launcher-fix";
+const assetVersion = "20260816-mines";
 const publishedDate = "2026-07-22";
 const adsenseClient = "ca-pub-6918910185244897";
 const adsenseScript = `<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${adsenseClient}" crossorigin="anonymous"></script>`;
@@ -132,7 +132,7 @@ const guides = [
     summary: "지뢰찾기는 운으로 누르는 게임이 아니라 숫자가 알려주는 조건을 차근차근 해석하는 퍼즐입니다. 확정적으로 안전한 칸과 아직 추측해야 하는 칸을 구분하면 실수가 크게 줄어듭니다.",
     readingTime: "6분",
     relatedGames: [
-      { title: "지뢰찾기 미니", href: "/games/mines/", text: "숫자 힌트 추론 퍼즐" },
+      { title: "지뢰찾기 클래식", href: "/games/mines/", text: "3단계 숫자 추론 퍼즐" },
       { title: "숫자 금고", href: "/games/number-vault/", text: "범위를 줄이는 추리 게임" },
       { title: "스도쿠 미니", href: "/games/sudoku-mini/", text: "후보를 좁히는 논리 퍼즐" }
     ],
@@ -168,7 +168,7 @@ const guides = [
       {
         heading: "초보 연습은 작은 보드에서 시작합니다",
         paragraphs: [
-          "작은 보드는 숫자 관계를 눈으로 따라가기 쉽습니다. 처음부터 큰 보드에 도전하면 숫자 조건을 놓치고 추측이 많아집니다. 지뢰찾기 미니처럼 짧은 판에서는 규칙을 익히고, 숫자 하나가 주변 칸을 어떻게 제한하는지 반복해서 볼 수 있습니다.",
+          "작은 보드는 숫자 관계를 눈으로 따라가기 쉽습니다. 처음부터 큰 보드에 도전하면 숫자 조건을 놓치고 추측이 많아집니다. 지뢰찾기 클래식의 초급 판에서는 규칙을 익히고, 숫자 하나가 주변 칸을 어떻게 제한하는지 반복해서 볼 수 있습니다.",
           "한 판이 끝난 뒤에는 터진 칸만 보지 말고 직전에 어떤 숫자를 잘못 해석했는지 확인해 보세요. 잘못된 깃발인지, 안전 칸을 열지 않은 상태에서 추측했는지 알면 다음 판의 판단이 훨씬 안정됩니다.",
           "처음에는 빠른 클리어보다 확정 규칙을 소리 없이 반복하는 연습이 좋습니다. 숫자 주변의 닫힌 칸 수와 필요한 지뢰 수가 같은지, 이미 깃발 수가 숫자와 같은지, 남은 칸이 안전한지를 매번 같은 순서로 확인하면 불필요한 추측을 줄일 수 있습니다.",
           "지뢰찾기의 재미는 큰 추측을 맞히는 순간보다 작은 확정을 이어가는 흐름에 있습니다. 안전 칸 하나를 열어 새 숫자를 얻고, 그 숫자로 또 다른 안전 칸을 찾는 과정이 이어질 때 보드가 자연스럽게 풀립니다."
@@ -495,7 +495,7 @@ const guides = [
     relatedGames: [
       { title: "틱택토", href: "/games/tic-tac-toe/", text: "3x3 보드 전략" },
       { title: "사목 미니", href: "/games/connect-four/", text: "연결 전략 확장" },
-      { title: "지뢰찾기 미니", href: "/games/mines/", text: "확률과 안전 칸 판단" }
+      { title: "지뢰찾기 클래식", href: "/games/mines/", text: "확률과 안전 칸 판단" }
     ],
     sections: [
       {

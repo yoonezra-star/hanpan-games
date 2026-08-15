@@ -112,7 +112,13 @@ try {
       }
     }
 
-    if (id === "bubble-shooter" || id === "omok" || id === "card-solitaire" || id === "freecell-classic" || id === "maze-chase") {
+    if (id === "mines") {
+      await surface.locator(".mines-cell").nth(40).click();
+      const closedCell = surface.locator(".mines-cell:not(.is-open)").first();
+      if (await closedCell.count()) await closedCell.click({ button: "right" });
+    }
+
+    if (id === "bubble-shooter" || id === "omok" || id === "card-solitaire" || id === "freecell-classic" || id === "maze-chase" || id === "mines") {
       await page.addStyleTag({
         content: `
           #playSurface {
@@ -126,6 +132,7 @@ try {
           #playSurface .solitaire-settings,
           #playSurface .solitaire-actions,
           #playSurface .freecell-settings,
+          #playSurface .mines-settings,
           #playSurface .maze-status,
           #playSurface .mini-controls,
           #playSurface .mini-note { display: none !important; }
@@ -141,6 +148,8 @@ try {
           ? surface.locator(".solitaire-board")
           : id === "freecell-classic"
             ? surface.locator(".freecell-board")
+          : id === "mines"
+            ? surface.locator(".mines-board")
           : id === "maze-chase"
             ? surface.locator(".maze-canvas")
         : surface;
