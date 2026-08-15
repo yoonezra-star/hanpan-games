@@ -33,6 +33,7 @@
     { id: "gonggi", title: "공기놀이 한판", category: "traditional", type: "gonggi", minutes: "3분", description: "공깃돌의 낙하 타이밍을 맞춰 한 알 줍기부터 꺾기까지 도전합니다." },
     { id: "tic-tac-toe", title: "틱택토 Tic-Tac-Toe", category: "board", type: "tictactoe", minutes: "2분", description: "미니맥스 AI, 2인 대전, 난이도와 선후공 선택을 갖춘 전략 보드 게임입니다." },
     { id: "omok", title: "오목 한판", category: "board", type: "omok", minutes: "5분", description: "15×15 바둑판에서 다섯 돌을 먼저 잇는 AI·2인 대전 오목 게임입니다." },
+    { id: "card-solitaire", title: "카드 솔리테어", category: "board", type: "solitaire", minutes: "8분", description: "52장 카드를 무늬별로 정리하는 정통 클론다이크 솔리테어입니다." },
     { id: "connect-four", title: "사목 미니", category: "board", type: "connect4", minutes: "2분", description: "말을 떨어뜨려 네 개를 먼저 잇는 전략 게임입니다." },
     { id: "rps-survival", title: "가위바위보 서바이벌", category: "board", type: "rps", minutes: "1분", description: "연승을 이어가며 살아남는 가위바위보 게임입니다." },
     { id: "mines", title: "지뢰찾기 미니", category: "puzzle", type: "mines", minutes: "2분", description: "숫자 힌트를 보고 지뢰가 없는 칸을 모두 엽니다." },
@@ -453,6 +454,7 @@
       gonggi: renderTraditional,
       tictactoe: renderTicTacToe,
       omok: renderOmok,
+      solitaire: renderSolitaire,
       connect4: renderConnect4,
       blackjack: renderBlackjack,
       dice: renderDice,
@@ -510,6 +512,7 @@
       chair: "좌우 방향키로 회전하고 위 방향키 또는 가속 버튼으로 밀어 줍니다. 관성 때문에 코너 전에 미리 방향을 잡는 편이 좋습니다.",
       tictactoe: "칸 클릭, 터치, 숫자키 1-9로 둘 수 있습니다. 새 판은 N 키 또는 다시 시작 버튼으로 시작합니다.",
       omok: "빈 교차점을 누르면 돌을 놓습니다. 방향키로 교차점을 이동하고 Enter 또는 스페이스바로 둘 수도 있습니다.",
+      solitaire: "카드를 선택한 뒤 목적지를 누르거나 마우스로 끌어 이동합니다. 같은 색을 번갈아 내림차순으로 쌓고 A부터 무늬별로 올리세요.",
       connect4: "원하는 열을 클릭하거나 터치하면 말이 아래 빈칸으로 떨어집니다.",
       blackjack: "히트, 스탠드, 더블 버튼을 한 번씩 눌러 진행합니다. 실제 돈, 결제, 환전, 경품은 없습니다.",
       dice: "굴리기와 멈추기 버튼으로 진행합니다. 결과 애니메이션이 끝난 뒤 다음 선택을 누르면 실수를 줄일 수 있습니다.",
@@ -4583,6 +4586,617 @@
       audio.close();
     });
     resetRound("AI 대전 보통 난이도입니다. 흑돌이 먼저입니다.");
+  }
+
+  function renderSolitaire(game, surface) {
+    const suits = ["S", "H", "D", "C"];
+    const suitSymbols = { S: "♠", H: "♥", D: "♦", C: "♣" };
+    const suitNames = { S: "스페이드", H: "하트", D: "다이아몬드", C: "클로버" };
+    const rankNames = { 1: "A", 11: "J", 12: "Q", 13: "K" };
+    const historyLimit = 30;
+    let stock = [];
+    let waste = [];
+    let tableau = Array.from({ length: 7 }, function () { return []; });
+    let foundations = { S: [], H: [], D: [], C: [] };
+    let selected = null;
+    let history = [];
+    let drawCount = 1;
+    let moves = 0;
+    let seconds = 0;
+    let started = false;
+    let gameOver = false;
+    let message = "카드 더미를 눌러 시작하세요.";
+    let hint = null;
+    let lastCardClick = { key: "", time: 0 };
+    const audio = createTonePlayer();
+
+    surface.classList.add("solitaire-game");
+    renderScore(surface, [
+      { label: "이동", value: "0" },
+      { label: "시간", value: "00:00" },
+      { label: "점수", value: "0" },
+      { label: "최고", value: formatTime(getBest(game.id)) }
+    ]);
+    const stats = surface.querySelectorAll(".mini-score b");
+
+    const settings = document.createElement("div");
+    settings.className = "solitaire-settings";
+    const drawLabel = document.createElement("span");
+    drawLabel.className = "solitaire-setting-label";
+    drawLabel.textContent = "카드 뽑기";
+    const drawChoices = document.createElement("div");
+    drawChoices.className = "solitaire-segment";
+    drawChoices.setAttribute("role", "group");
+    drawChoices.setAttribute("aria-label", "카드 뽑기 방식");
+    const drawOne = button("한 장", "solitaire-segment-button active");
+    const drawThree = button("세 장", "solitaire-segment-button");
+    drawOne.setAttribute("aria-pressed", "true");
+    drawThree.setAttribute("aria-pressed", "false");
+    drawChoices.append(drawOne, drawThree);
+    const status = document.createElement("div");
+    status.className = "solitaire-status";
+    status.setAttribute("aria-live", "polite");
+    settings.append(drawLabel, drawChoices, status);
+
+    const board = document.createElement("div");
+    board.className = "solitaire-board";
+    board.setAttribute("aria-label", "클론다이크 솔리테어 카드판");
+    const topRow = document.createElement("div");
+    topRow.className = "solitaire-top-row";
+    const stockPile = document.createElement("div");
+    stockPile.className = "solitaire-pile solitaire-stock-pile";
+    const wastePile = document.createElement("div");
+    wastePile.className = "solitaire-pile solitaire-waste-pile";
+    const topSpacer = document.createElement("div");
+    topSpacer.className = "solitaire-top-spacer";
+    const foundationPiles = suits.map(function (suit) {
+      const pile = document.createElement("div");
+      pile.className = "solitaire-pile solitaire-foundation-pile";
+      pile.dataset.destinationKey = `foundation-${suit}`;
+      bindDrop(pile, "foundation", suit);
+      return pile;
+    });
+    topRow.append(stockPile, wastePile, topSpacer, ...foundationPiles);
+
+    const tableauRow = document.createElement("div");
+    tableauRow.className = "solitaire-tableau";
+    const tableauPiles = Array.from({ length: 7 }, function (_, pileIndex) {
+      const pile = document.createElement("div");
+      pile.className = "solitaire-pile solitaire-tableau-pile";
+      pile.dataset.destinationKey = `tableau-${pileIndex}`;
+      pile.addEventListener("click", function (event) {
+        if (event.target === pile || event.target.classList.contains("solitaire-empty-slot")) {
+          attemptMove("tableau", pileIndex);
+        }
+      });
+      bindDrop(pile, "tableau", pileIndex);
+      return pile;
+    });
+    tableauRow.append(...tableauPiles);
+    board.append(topRow, tableauRow);
+
+    const actions = document.createElement("div");
+    actions.className = "mini-controls solitaire-actions";
+    const newGame = button("새 게임", "button primary");
+    const undo = button("되돌리기", "button secondary");
+    const hintButton = button("힌트", "button secondary");
+    const sound = button("소리 켜짐", "button secondary sound-toggle");
+    sound.setAttribute("aria-pressed", "true");
+    actions.append(newGame, undo, hintButton, sound);
+    const guide = document.createElement("p");
+    guide.className = "mini-note";
+    guide.textContent = "검정과 빨강을 번갈아 내림차순으로 쌓고, 빈 열에는 K만 놓을 수 있습니다. A부터 같은 무늬로 올리면 완성입니다.";
+    surface.append(settings, board, actions, guide);
+
+    function rankLabel(rank) {
+      return rankNames[rank] || String(rank);
+    }
+
+    function formatTime(value) {
+      if (!Number.isFinite(value) || value < 0) return "-";
+      const minutes = Math.floor(value / 60);
+      const remaining = value % 60;
+      return `${String(minutes).padStart(2, "0")}:${String(remaining).padStart(2, "0")}`;
+    }
+
+    function cardName(card) {
+      return `${suitNames[card.suit]} ${rankLabel(card.rank)}`;
+    }
+
+    function isRed(card) {
+      return card.suit === "H" || card.suit === "D";
+    }
+
+    function makeDeck() {
+      const deck = [];
+      suits.forEach(function (suit) {
+        for (let rank = 1; rank <= 13; rank += 1) {
+          deck.push({ id: `${suit}-${rank}`, suit, rank, faceUp: false });
+        }
+      });
+      return shuffle(deck);
+    }
+
+    function currentScore() {
+      const foundationCount = suits.reduce(function (sum, suit) { return sum + foundations[suit].length; }, 0);
+      const openTableau = tableau.reduce(function (sum, pile) {
+        return sum + pile.filter(function (card) { return card.faceUp; }).length;
+      }, 0);
+      return Math.max(0, foundationCount * 12 + openTableau * 2 - Math.max(0, moves - 20));
+    }
+
+    function updateStats() {
+      stats[0].textContent = String(moves);
+      stats[1].textContent = formatTime(seconds);
+      stats[2].textContent = String(currentScore());
+      stats[3].textContent = formatTime(getBest(game.id));
+    }
+
+    function snapshot() {
+      history.push(JSON.stringify({ stock, waste, tableau, foundations, moves, seconds, started }));
+      if (history.length > historyLimit) history.shift();
+    }
+
+    function restoreSnapshot(raw) {
+      const saved = JSON.parse(raw);
+      stock = saved.stock;
+      waste = saved.waste;
+      tableau = saved.tableau;
+      foundations = saved.foundations;
+      moves = saved.moves;
+      seconds = saved.seconds;
+      started = saved.started;
+      gameOver = false;
+      selected = null;
+      hint = null;
+    }
+
+    function beginMove() {
+      started = true;
+      moves += 1;
+      hint = null;
+    }
+
+    function selectionMatches(source) {
+      return selected && selected.type === source.type && selected.pile === source.pile && selected.index === source.index;
+    }
+
+    function sourceKey(source) {
+      if (!source) return "";
+      return source.type === "tableau" ? `tableau-${source.pile}-${source.index}` : `${source.type}-${source.pile || "top"}`;
+    }
+
+    function cardButton(card, source, offset) {
+      const item = button("", `solitaire-card ${isRed(card) ? "red" : "black"}${card.faceUp ? " face-up" : " face-down"}`);
+      item.dataset.cardId = card.id;
+      item.dataset.sourceKey = sourceKey(source);
+      item.style.setProperty("--card-offset", `${offset || 0}px`);
+      item.setAttribute("aria-label", card.faceUp ? cardName(card) : "뒤집힌 카드");
+      item.setAttribute("aria-pressed", String(selectionMatches(source)));
+      item.disabled = !card.faceUp || gameOver;
+      item.draggable = card.faceUp && !gameOver;
+      if (card.faceUp) {
+        item.innerHTML = `<span class="solitaire-card-corner"><strong>${rankLabel(card.rank)}</strong><span>${suitSymbols[card.suit]}</span></span><span class="solitaire-card-suit" aria-hidden="true">${suitSymbols[card.suit]}</span>`;
+        item.addEventListener("click", function (event) {
+          event.stopPropagation();
+          onCardClick(source);
+        });
+        item.addEventListener("dblclick", function (event) {
+          event.preventDefault();
+          event.stopPropagation();
+          autoFoundation(source);
+        });
+        item.addEventListener("dragstart", function (event) {
+          selected = source;
+          item.setAttribute("aria-pressed", "true");
+          event.dataTransfer.effectAllowed = "move";
+          event.dataTransfer.setData("text/plain", JSON.stringify(source));
+        });
+      } else {
+        item.innerHTML = "<span class=\"solitaire-card-back\" aria-hidden=\"true\">H</span>";
+      }
+      return item;
+    }
+
+    function emptySlot(label, symbol) {
+      const slot = button(symbol || "", "solitaire-empty-slot");
+      slot.setAttribute("aria-label", label);
+      slot.disabled = gameOver;
+      return slot;
+    }
+
+    function renderStock() {
+      stockPile.innerHTML = "";
+      const stockButton = emptySlot(stock.length ? `카드 더미 ${stock.length}장, 카드 뽑기` : "버린 카드 다시 섞기", stock.length ? "" : "↻");
+      stockButton.classList.add("solitaire-stock-button");
+      stockButton.dataset.destinationKey = "stock";
+      if (stock.length) {
+        stockButton.classList.add("has-cards");
+        stockButton.innerHTML = "<span class=\"solitaire-card-back\" aria-hidden=\"true\">H</span><small>남은 카드</small>";
+      }
+      stockButton.addEventListener("click", drawStock);
+      stockPile.appendChild(stockButton);
+    }
+
+    function renderWaste() {
+      wastePile.innerHTML = "";
+      if (!waste.length) {
+        wastePile.appendChild(emptySlot("버린 카드 자리", ""));
+        return;
+      }
+      const visible = waste.slice(Math.max(0, waste.length - drawCount));
+      visible.forEach(function (card, visibleIndex) {
+        const actualIndex = waste.length - visible.length + visibleIndex;
+        const source = { type: "waste", pile: "waste", index: actualIndex };
+        const item = cardButton(card, source, visibleIndex * 12);
+        item.style.zIndex = String(visibleIndex + 1);
+        if (actualIndex !== waste.length - 1) {
+          item.disabled = true;
+          item.draggable = false;
+        }
+        wastePile.appendChild(item);
+      });
+    }
+
+    function renderFoundations() {
+      foundationPiles.forEach(function (pile, pileIndex) {
+        const suit = suits[pileIndex];
+        pile.innerHTML = "";
+        const cards = foundations[suit];
+        if (!cards.length) {
+          const slot = emptySlot(`${suitNames[suit]} 기초 더미, A부터 놓기`, suitSymbols[suit]);
+          slot.dataset.destinationKey = `foundation-${suit}`;
+          slot.addEventListener("click", function () { attemptMove("foundation", suit); });
+          pile.appendChild(slot);
+        } else {
+          const source = { type: "foundation", pile: suit, index: cards.length - 1 };
+          const item = cardButton(cards[cards.length - 1], source, 0);
+          item.dataset.destinationKey = `foundation-${suit}`;
+          pile.appendChild(item);
+        }
+      });
+    }
+
+    function renderTableau() {
+      tableauPiles.forEach(function (pile, pileIndex) {
+        pile.innerHTML = "";
+        const cards = tableau[pileIndex];
+        if (!cards.length) {
+          const slot = emptySlot(`${pileIndex + 1}열 빈 자리, K를 놓을 수 있습니다.`, "K");
+          slot.dataset.destinationKey = `tableau-${pileIndex}`;
+          pile.appendChild(slot);
+          pile.style.setProperty("--pile-height", "var(--solitaire-card-height)");
+          return;
+        }
+        let offset = 0;
+        cards.forEach(function (card, cardIndex) {
+          const source = { type: "tableau", pile: pileIndex, index: cardIndex };
+          const item = cardButton(card, source, offset);
+          item.style.zIndex = String(cardIndex + 1);
+          pile.appendChild(item);
+          if (cardIndex < cards.length - 1) offset += card.faceUp ? 27 : 14;
+        });
+        pile.style.setProperty("--pile-height", `calc(var(--solitaire-card-height) + ${offset}px)`);
+      });
+    }
+
+    function applyHint() {
+      if (!hint) return;
+      const sourceElement = board.querySelector(`[data-source-key="${hint.source}"]`);
+      const destinationElement = board.querySelector(`[data-destination-key="${hint.destination}"]`);
+      if (sourceElement) sourceElement.classList.add("is-hint-source");
+      if (destinationElement) destinationElement.classList.add("is-hint-destination");
+    }
+
+    function render() {
+      renderStock();
+      renderWaste();
+      renderFoundations();
+      renderTableau();
+      status.innerHTML = `<strong>${gameOver ? "게임 완성" : selected ? "카드 선택됨" : "진행 중"}</strong><span>${message}</span>`;
+      undo.disabled = !history.length || gameOver;
+      hintButton.disabled = gameOver;
+      updateStats();
+      applyHint();
+    }
+
+    function canBuildSequence(cards) {
+      return cards.every(function (card, index) {
+        if (!card.faceUp) return false;
+        if (!index) return true;
+        const previous = cards[index - 1];
+        return previous.rank === card.rank + 1 && isRed(previous) !== isRed(card);
+      });
+    }
+
+    function sourceCards(source) {
+      if (!source) return [];
+      if (source.type === "waste") {
+        return source.index === waste.length - 1 ? [waste[waste.length - 1]] : [];
+      }
+      if (source.type === "foundation") {
+        const pile = foundations[source.pile];
+        return source.index === pile.length - 1 ? [pile[pile.length - 1]] : [];
+      }
+      if (source.type === "tableau") {
+        const cards = tableau[source.pile].slice(source.index);
+        return canBuildSequence(cards) ? cards : [];
+      }
+      return [];
+    }
+
+    function canPlaceTableau(card, pileIndex) {
+      const target = tableau[pileIndex];
+      if (!target.length) return card.rank === 13;
+      const top = target[target.length - 1];
+      return top.faceUp && top.rank === card.rank + 1 && isRed(top) !== isRed(card);
+    }
+
+    function canPlaceFoundation(card, suit) {
+      if (card.suit !== suit) return false;
+      const target = foundations[suit];
+      return card.rank === target.length + 1;
+    }
+
+    function detach(source) {
+      if (source.type === "waste") return [waste.pop()];
+      if (source.type === "foundation") return [foundations[source.pile].pop()];
+      return tableau[source.pile].splice(source.index);
+    }
+
+    function flipExposed(source) {
+      if (source.type !== "tableau") return;
+      const pile = tableau[source.pile];
+      const top = pile[pile.length - 1];
+      if (top && !top.faceUp) {
+        top.faceUp = true;
+        audio.tone(520, 0.06, "triangle", 0.018);
+      }
+    }
+
+    function moveToTableau(source, pileIndex) {
+      const cards = sourceCards(source);
+      if (!cards.length || !canPlaceTableau(cards[0], pileIndex)) return false;
+      if (source.type === "tableau" && source.pile === pileIndex) return false;
+      snapshot();
+      beginMove();
+      const moving = detach(source);
+      tableau[pileIndex].push(...moving);
+      flipExposed(source);
+      selected = null;
+      message = `${cardName(moving[0])} 카드${moving.length > 1 ? ` 포함 ${moving.length}장` : ""}를 ${pileIndex + 1}열로 옮겼습니다.`;
+      audio.tone(360, 0.055, "sine", 0.018);
+      checkWin();
+      render();
+      return true;
+    }
+
+    function moveToFoundation(source, suit) {
+      const cards = sourceCards(source);
+      if (cards.length !== 1 || !canPlaceFoundation(cards[0], suit)) return false;
+      snapshot();
+      beginMove();
+      const moving = detach(source)[0];
+      foundations[suit].push(moving);
+      flipExposed(source);
+      selected = null;
+      message = `${cardName(moving)} 카드를 기초 더미에 올렸습니다.`;
+      audio.tone(560 + moving.rank * 12, 0.07, "sine", 0.022);
+      checkWin();
+      render();
+      return true;
+    }
+
+    function attemptMove(destinationType, destinationPile) {
+      if (!selected || gameOver) return false;
+      const moved = destinationType === "foundation"
+        ? moveToFoundation(selected, destinationPile)
+        : moveToTableau(selected, Number(destinationPile));
+      if (!moved) {
+        message = destinationType === "foundation"
+          ? "기초 더미에는 같은 무늬를 A부터 순서대로 놓습니다."
+          : "테이블에는 색을 번갈아 한 단계 낮은 카드만 놓을 수 있습니다.";
+        audio.tone(170, 0.06, "square", 0.014);
+        render();
+      }
+      return moved;
+    }
+
+    function onCardClick(source) {
+      if (gameOver) return;
+      const now = Date.now();
+      const key = sourceKey(source);
+      if (lastCardClick.key === key && now - lastCardClick.time < 420) {
+        lastCardClick = { key: "", time: 0 };
+        autoFoundation(source);
+        return;
+      }
+      lastCardClick = { key, time: now };
+      if (selectionMatches(source)) {
+        selected = null;
+        message = "선택을 해제했습니다.";
+        render();
+        return;
+      }
+      if (selected && source.type === "tableau" && attemptMove("tableau", source.pile)) return;
+      if (selected && source.type === "foundation" && attemptMove("foundation", source.pile)) return;
+      const cards = sourceCards(source);
+      if (!cards.length) return;
+      selected = source;
+      hint = null;
+      message = `${cardName(cards[0])} 카드${cards.length > 1 ? `부터 ${cards.length}장` : ""}를 선택했습니다. 목적지를 누르세요.`;
+      render();
+    }
+
+    function autoFoundation(source) {
+      const cards = sourceCards(source);
+      if (cards.length !== 1) return;
+      if (!moveToFoundation(source, cards[0].suit)) {
+        message = "이 카드는 아직 기초 더미에 올릴 수 없습니다.";
+        render();
+      }
+    }
+
+    function drawStock() {
+      if (gameOver) return;
+      if (!stock.length && !waste.length) return;
+      snapshot();
+      beginMove();
+      selected = null;
+      if (!stock.length) {
+        stock = waste.reverse().map(function (card) {
+          card.faceUp = false;
+          return card;
+        });
+        waste = [];
+        message = "버린 카드를 뒤집어 다시 사용할 수 있게 했습니다.";
+        audio.tone(240, 0.09, "triangle", 0.018);
+      } else {
+        const count = Math.min(drawCount, stock.length);
+        for (let index = 0; index < count; index += 1) {
+          const card = stock.pop();
+          card.faceUp = true;
+          waste.push(card);
+        }
+        message = `${count}장의 카드를 펼쳤습니다.`;
+        audio.tone(430, 0.045, "triangle", 0.016);
+      }
+      render();
+    }
+
+    function bindDrop(element, destinationType, destinationPile) {
+      element.addEventListener("dragover", function (event) {
+        event.preventDefault();
+        event.dataTransfer.dropEffect = "move";
+        element.classList.add("is-drag-over");
+      });
+      element.addEventListener("dragleave", function () { element.classList.remove("is-drag-over"); });
+      element.addEventListener("drop", function (event) {
+        event.preventDefault();
+        element.classList.remove("is-drag-over");
+        try { selected = JSON.parse(event.dataTransfer.getData("text/plain")); } catch (error) { /* Keep current selection. */ }
+        attemptMove(destinationType, destinationPile);
+      });
+    }
+
+    function findHint() {
+      if (waste.length) {
+        const source = { type: "waste", pile: "waste", index: waste.length - 1 };
+        const card = waste[waste.length - 1];
+        if (canPlaceFoundation(card, card.suit)) return { source, destination: `foundation-${card.suit}`, text: `${cardName(card)}을 기초 더미에 올려 보세요.` };
+        for (let pile = 0; pile < 7; pile += 1) {
+          if (canPlaceTableau(card, pile)) return { source, destination: `tableau-${pile}`, text: `${cardName(card)}을 ${pile + 1}열로 옮길 수 있습니다.` };
+        }
+      }
+      for (let pile = 0; pile < 7; pile += 1) {
+        const cards = tableau[pile];
+        if (!cards.length) continue;
+        const top = cards[cards.length - 1];
+        const topSource = { type: "tableau", pile, index: cards.length - 1 };
+        if (top.faceUp && canPlaceFoundation(top, top.suit)) return { source: topSource, destination: `foundation-${top.suit}`, text: `${cardName(top)}을 기초 더미에 올릴 수 있습니다.` };
+        for (let cardIndex = 0; cardIndex < cards.length; cardIndex += 1) {
+          if (!cards[cardIndex].faceUp || !canBuildSequence(cards.slice(cardIndex))) continue;
+          for (let destination = 0; destination < 7; destination += 1) {
+            if (destination !== pile && canPlaceTableau(cards[cardIndex], destination)) {
+              return { source: { type: "tableau", pile, index: cardIndex }, destination: `tableau-${destination}`, text: `${cardName(cards[cardIndex])}부터 ${destination + 1}열로 옮겨 보세요.` };
+            }
+          }
+        }
+      }
+      if (stock.length || waste.length) return { source: null, destination: "stock", text: stock.length ? "카드 더미에서 새 카드를 펼쳐 보세요." : "버린 카드를 다시 뒤집어 보세요." };
+      return null;
+    }
+
+    function showHint() {
+      const found = findHint();
+      selected = null;
+      if (!found) {
+        hint = null;
+        message = "현재 바로 이동할 수 있는 카드를 찾지 못했습니다. 되돌리기나 새 게임을 이용하세요.";
+      } else {
+        hint = { source: sourceKey(found.source), destination: found.destination };
+        message = found.text;
+        audio.tone(620, 0.08, "sine", 0.018);
+      }
+      render();
+    }
+
+    function checkWin() {
+      const completed = suits.reduce(function (sum, suit) { return sum + foundations[suit].length; }, 0);
+      if (completed !== 52) return;
+      gameOver = true;
+      started = false;
+      const isBest = saveBest(game.id, seconds, function (value, previous) { return value < previous; });
+      message = `52장을 모두 정리했습니다. ${formatTime(seconds)} 만에 완성${isBest ? "해 최고 기록을 세웠습니다" : "했습니다"}.`;
+      setResult(`카드 솔리테어 완성. 이동 ${moves}회, 기록 ${formatTime(seconds)}, 점수 ${currentScore()}점입니다.`);
+      audio.tone(660, 0.12, "sine", 0.035);
+      audio.tone(880, 0.18, "sine", 0.03, 0.12);
+      board.classList.add("is-complete");
+    }
+
+    function deal(messageText) {
+      const deck = makeDeck();
+      tableau = Array.from({ length: 7 }, function (_, pileIndex) {
+        const pile = [];
+        for (let cardIndex = 0; cardIndex <= pileIndex; cardIndex += 1) {
+          const card = deck.pop();
+          card.faceUp = cardIndex === pileIndex;
+          pile.push(card);
+        }
+        return pile;
+      });
+      stock = deck.map(function (card) { card.faceUp = false; return card; });
+      waste = [];
+      foundations = { S: [], H: [], D: [], C: [] };
+      selected = null;
+      history = [];
+      moves = 0;
+      seconds = 0;
+      started = false;
+      gameOver = false;
+      hint = null;
+      lastCardClick = { key: "", time: 0 };
+      board.classList.remove("is-complete");
+      message = messageText || "카드 더미를 눌러 첫 카드를 펼치세요.";
+      setResult("카드를 번갈아 내림차순으로 정리하고 A부터 기초 더미에 올리세요.");
+      render();
+    }
+
+    function changeDrawMode(next) {
+      drawCount = next;
+      drawOne.classList.toggle("active", next === 1);
+      drawThree.classList.toggle("active", next === 3);
+      drawOne.setAttribute("aria-pressed", String(next === 1));
+      drawThree.setAttribute("aria-pressed", String(next === 3));
+      deal(`${next === 1 ? "한 장" : "세 장"} 뽑기 방식으로 새 게임을 시작했습니다.`);
+    }
+
+    function undoMove() {
+      if (!history.length || gameOver) return;
+      restoreSnapshot(history.pop());
+      message = "직전 이동을 되돌렸습니다.";
+      audio.tone(230, 0.08, "triangle", 0.016);
+      setResult(`되돌리기 완료. 현재 이동 수는 ${moves}회입니다.`);
+      render();
+    }
+
+    const timer = window.setInterval(function () {
+      if (!started || gameOver) return;
+      seconds += 1;
+      updateStats();
+    }, 1000);
+    drawOne.addEventListener("click", function () { if (drawCount !== 1) changeDrawMode(1); });
+    drawThree.addEventListener("click", function () { if (drawCount !== 3) changeDrawMode(3); });
+    newGame.addEventListener("click", function () { deal("카드를 다시 섞어 새 게임을 시작했습니다."); });
+    undo.addEventListener("click", undoMove);
+    hintButton.addEventListener("click", showHint);
+    sound.addEventListener("click", function () { audio.toggle(sound); });
+    cleanup.push(function () {
+      window.clearInterval(timer);
+      audio.close();
+      surface.classList.remove("solitaire-game");
+    });
+    deal("한 장 뽑기 방식입니다. 카드 더미를 눌러 시작하세요.");
   }
 
   function renderConnect4(game, surface) {

@@ -2018,6 +2018,260 @@ body.game-fullscreen-fallback-open {
   justify-content: center;
 }
 
+.solitaire-game {
+  --solitaire-card-height: 142px;
+}
+
+.solitaire-settings {
+  display: grid;
+  grid-template-columns: auto auto minmax(220px, 1fr);
+  gap: 10px;
+  align-items: center;
+}
+
+.solitaire-setting-label {
+  color: var(--muted);
+  font-size: 13px;
+  font-weight: 900;
+}
+
+.solitaire-segment {
+  display: flex;
+  gap: 6px;
+}
+
+.solitaire-segment-button {
+  min-height: 40px;
+  padding: 0 13px;
+  color: var(--muted);
+  background: #efe9db;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  font: inherit;
+  font-size: 14px;
+  font-weight: 900;
+  cursor: pointer;
+}
+
+.solitaire-segment-button:hover,
+.solitaire-segment-button.active {
+  color: #fff;
+  background: var(--ink);
+  border-color: var(--ink);
+}
+
+.solitaire-segment-button:focus-visible,
+.solitaire-card:focus-visible,
+.solitaire-empty-slot:focus-visible {
+  z-index: 80;
+  outline: 3px solid var(--gold);
+  outline-offset: 2px;
+}
+
+.solitaire-status {
+  display: grid;
+  min-height: 44px;
+  padding: 7px 12px;
+  color: #fff;
+  background: var(--ink);
+  border-radius: 8px;
+}
+
+.solitaire-status strong {
+  color: var(--gold-soft);
+  font-size: 13px;
+}
+
+.solitaire-status span {
+  overflow: hidden;
+  font-size: 13px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.solitaire-board {
+  width: min(100%, 790px);
+  min-height: 580px;
+  margin: 0 auto;
+  padding: 14px;
+  color: #fff;
+  background-color: #176447;
+  background-image: repeating-linear-gradient(135deg, rgba(255, 255, 255, 0.025) 0 1px, transparent 1px 7px);
+  border: 3px solid #123f31;
+  border-radius: 8px;
+  box-shadow: inset 0 0 0 2px rgba(255, 255, 255, 0.12), 0 8px 22px rgba(20, 53, 42, 0.24);
+}
+
+.solitaire-board.is-complete {
+  box-shadow: inset 0 0 0 4px var(--gold), 0 8px 22px rgba(20, 53, 42, 0.24);
+}
+
+.solitaire-top-row,
+.solitaire-tableau {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  gap: 7px;
+}
+
+.solitaire-top-row {
+  min-height: var(--solitaire-card-height);
+  margin-bottom: 22px;
+}
+
+.solitaire-tableau-pile {
+  min-height: max(330px, var(--pile-height));
+}
+
+.solitaire-pile {
+  position: relative;
+  min-width: 0;
+}
+
+.solitaire-card,
+.solitaire-empty-slot {
+  width: 100%;
+  aspect-ratio: 5 / 7;
+  padding: 0;
+  overflow: hidden;
+  border-radius: 6px;
+  font-family: Georgia, "Times New Roman", serif;
+  cursor: pointer;
+  touch-action: manipulation;
+}
+
+.solitaire-card {
+  position: absolute;
+  top: var(--card-offset, 0);
+  left: 0;
+  color: #19202b;
+  background: #fffdf8;
+  border: 1px solid rgba(25, 32, 43, 0.32);
+  box-shadow: 0 2px 5px rgba(7, 29, 22, 0.3);
+  transition: transform 100ms ease, box-shadow 100ms ease;
+}
+
+.solitaire-waste-pile .solitaire-card {
+  top: 0;
+  left: var(--card-offset, 0);
+}
+
+.solitaire-card.red {
+  color: #cf3131;
+}
+
+.solitaire-card:hover:not(:disabled),
+.solitaire-card[aria-pressed="true"] {
+  z-index: 70 !important;
+  transform: translateY(-5px);
+  box-shadow: 0 0 0 3px var(--gold), 0 7px 12px rgba(7, 29, 22, 0.38);
+}
+
+.solitaire-card:disabled {
+  cursor: default;
+  opacity: 1;
+}
+
+.solitaire-card-corner {
+  position: absolute;
+  top: 6px;
+  left: 7px;
+  display: grid;
+  justify-items: center;
+  line-height: 1;
+}
+
+.solitaire-card-corner strong {
+  font-size: 20px;
+}
+
+.solitaire-card-corner span {
+  margin-top: 3px;
+  font-size: 18px;
+}
+
+.solitaire-card-suit {
+  position: absolute;
+  right: 9px;
+  bottom: 7px;
+  font-size: 42px;
+  line-height: 1;
+  opacity: 0.92;
+}
+
+.solitaire-card.face-down,
+.solitaire-stock-button.has-cards {
+  color: #fff;
+  background: #163f88;
+  border: 3px solid #f7f2e8;
+  box-shadow: inset 0 0 0 2px #163f88, inset 0 0 0 4px rgba(255, 255, 255, 0.62), 0 2px 5px rgba(7, 29, 22, 0.34);
+}
+
+.solitaire-card-back {
+  position: absolute;
+  inset: 7px;
+  display: grid;
+  color: rgba(255, 255, 255, 0.86);
+  background-color: #2558ad;
+  background-image: repeating-linear-gradient(45deg, rgba(255, 255, 255, 0.15) 0 2px, transparent 2px 7px);
+  border: 1px solid rgba(255, 255, 255, 0.72);
+  border-radius: 3px;
+  place-items: center;
+  font-family: inherit;
+  font-size: 28px;
+  font-weight: 900;
+}
+
+.solitaire-empty-slot {
+  position: relative;
+  display: grid;
+  color: rgba(255, 255, 255, 0.54);
+  background: rgba(6, 44, 31, 0.24);
+  border: 2px dashed rgba(255, 255, 255, 0.42);
+  font-size: 27px;
+  font-weight: 900;
+  place-items: center;
+}
+
+.solitaire-stock-button small {
+  position: absolute;
+  right: 3px;
+  bottom: 3px;
+  left: 3px;
+  z-index: 2;
+  color: #fff;
+  font-family: "Pretendard", "Apple SD Gothic Neo", "Malgun Gothic", system-ui, sans-serif;
+  font-size: 11px;
+  font-weight: 900;
+  text-shadow: 0 1px 2px #102449;
+}
+
+.solitaire-card.is-hint-source,
+.solitaire-empty-slot.is-hint-source,
+.solitaire-pile.is-hint-source {
+  z-index: 75 !important;
+  box-shadow: 0 0 0 4px #fff, 0 0 0 8px var(--gold);
+}
+
+.solitaire-pile.is-hint-destination,
+.solitaire-empty-slot.is-hint-destination,
+.solitaire-card.is-hint-destination,
+.solitaire-pile.is-drag-over {
+  z-index: 74;
+  border-radius: 6px;
+  box-shadow: 0 0 0 4px var(--gold);
+}
+
+.solitaire-actions {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  width: min(100%, 680px);
+  margin: 0 auto;
+}
+
+.solitaire-actions > * {
+  min-width: 0;
+}
+
 .board-2048 .mini-cell {
   min-height: clamp(58px, 9vw, 96px);
   font-size: clamp(18px, 4vw, 34px);
@@ -2923,6 +3177,91 @@ body.game-fullscreen-fallback-open {
   .omok-actions {
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .solitaire-game {
+    --solitaire-card-height: 70px;
+  }
+
+  .solitaire-settings {
+    grid-template-columns: auto 1fr;
+    gap: 7px;
+  }
+
+  .solitaire-status {
+    grid-column: 1 / -1;
+  }
+
+  .solitaire-status span {
+    white-space: normal;
+  }
+
+  .solitaire-segment {
+    justify-content: flex-end;
+  }
+
+  .solitaire-board {
+    width: calc(100% + 30px);
+    min-height: 410px;
+    margin-right: -15px;
+    margin-left: -15px;
+    padding: 6px;
+    border-width: 2px;
+  }
+
+  .solitaire-top-row,
+  .solitaire-tableau {
+    gap: 3px;
+  }
+
+  .solitaire-top-row {
+    margin-bottom: 13px;
+  }
+
+  .solitaire-tableau-pile {
+    min-height: max(265px, var(--pile-height));
+  }
+
+  .solitaire-card,
+  .solitaire-empty-slot {
+    border-radius: 4px;
+  }
+
+  .solitaire-card-corner {
+    top: 4px;
+    left: 4px;
+  }
+
+  .solitaire-card-corner strong {
+    font-size: 14px;
+  }
+
+  .solitaire-card-corner span {
+    margin-top: 1px;
+    font-size: 12px;
+  }
+
+  .solitaire-card-suit {
+    right: 4px;
+    bottom: 4px;
+    font-size: 24px;
+  }
+
+  .solitaire-card-back {
+    inset: 4px;
+    font-size: 18px;
+  }
+
+  .solitaire-empty-slot {
+    font-size: 18px;
+  }
+
+  .solitaire-stock-button small {
+    display: none;
+  }
+
+  .solitaire-actions {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
   .traditional-controls {

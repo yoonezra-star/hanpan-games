@@ -106,7 +106,13 @@ try {
       }
     }
 
-    if (id === "bubble-shooter" || id === "omok") {
+    if (id === "card-solitaire") {
+      for (let draw = 0; draw < 3; draw += 1) {
+        await surface.locator(".solitaire-stock-button").click();
+      }
+    }
+
+    if (id === "bubble-shooter" || id === "omok" || id === "card-solitaire") {
       await page.addStyleTag({
         content: `
           #playSurface {
@@ -117,6 +123,8 @@ try {
           #playSurface .mini-score,
           #playSurface .omok-settings,
           #playSurface .omok-status,
+          #playSurface .solitaire-settings,
+          #playSurface .solitaire-actions,
           #playSurface .mini-controls,
           #playSurface .mini-note { display: none !important; }
         `,
@@ -127,6 +135,8 @@ try {
       ? surface.locator("canvas")
       : id === "omok"
         ? surface.locator(".omok-board")
+        : id === "card-solitaire"
+          ? surface.locator(".solitaire-board")
         : surface;
     const png = await captureTarget.screenshot({ animations: "disabled" });
     await sharp(png)
