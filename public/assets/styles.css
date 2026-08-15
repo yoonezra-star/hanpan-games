@@ -1846,6 +1846,178 @@ body.game-fullscreen-fallback-open {
   color: var(--tic-text-muted);
 }
 
+.omok-settings {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.omok-control-group {
+  display: grid;
+  gap: 6px;
+  min-width: 0;
+}
+
+.omok-control-label {
+  color: var(--muted);
+  font-size: 13px;
+  font-weight: 900;
+}
+
+.omok-segment {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.omok-segment-button {
+  min-height: 40px;
+  padding: 0 12px;
+  color: var(--muted);
+  background: #efe9db;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  font: inherit;
+  font-size: 14px;
+  font-weight: 900;
+  cursor: pointer;
+}
+
+.omok-segment-button:hover:not(:disabled),
+.omok-segment-button.active {
+  color: #fff;
+  background: var(--ink);
+  border-color: var(--ink);
+}
+
+.omok-segment-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.omok-status {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  min-height: 48px;
+  padding: 10px 14px;
+  color: #fff;
+  background: var(--ink);
+  border-radius: 8px;
+}
+
+.omok-status strong {
+  color: var(--gold-soft);
+  white-space: nowrap;
+}
+
+.omok-status span {
+  color: #ececec;
+  font-size: 14px;
+  text-align: right;
+}
+
+.omok-board {
+  display: grid;
+  width: min(100%, 690px);
+  aspect-ratio: 1;
+  margin: 0 auto;
+  padding: 12px;
+  grid-template-columns: repeat(15, minmax(0, 1fr));
+  grid-template-rows: repeat(15, minmax(0, 1fr));
+  background: #d8a851;
+  border: 3px solid #5c3d1d;
+  border-radius: 8px;
+  box-shadow: inset 0 0 0 2px rgba(255, 255, 255, 0.24), 0 8px 22px rgba(44, 29, 13, 0.2);
+}
+
+.omok-cell {
+  position: relative;
+  display: grid;
+  min-width: 0;
+  min-height: 0;
+  padding: 0;
+  place-items: center;
+  background-color: transparent;
+  background-image: linear-gradient(#67461f, #67461f), linear-gradient(#67461f, #67461f);
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: 100% 1px, 1px 100%;
+  border: 0;
+  border-radius: 0;
+  cursor: pointer;
+}
+
+.omok-cell.star-point::before {
+  position: absolute;
+  width: 5px;
+  height: 5px;
+  background: #5c3d1d;
+  border-radius: 50%;
+  content: "";
+}
+
+.omok-cell::after {
+  position: absolute;
+  z-index: 1;
+  width: 78%;
+  height: 78%;
+  border-radius: 50%;
+  content: "";
+  opacity: 0;
+  transform: scale(0.55);
+  transition: transform 150ms ease, opacity 150ms ease;
+}
+
+.omok-cell[data-stone="black"]::after {
+  background: radial-gradient(circle at 34% 28%, #58606d 0 8%, #1d2433 38%, #050608 100%);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.42);
+  opacity: 1;
+  transform: scale(1);
+}
+
+.omok-cell[data-stone="white"]::after {
+  background: radial-gradient(circle at 34% 28%, #fff 0 12%, #f4efe4 54%, #c9c2b4 100%);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3), inset 0 0 0 1px rgba(29, 36, 51, 0.28);
+  opacity: 1;
+  transform: scale(1);
+}
+
+.omok-cell[data-stone="empty"]:not(:disabled):hover::after,
+.omok-cell[data-stone="empty"]:not(:disabled):focus-visible::after {
+  background: rgba(255, 255, 255, 0.46);
+  opacity: 1;
+  transform: scale(0.48);
+}
+
+.omok-cell:focus-visible {
+  z-index: 3;
+  outline: 3px solid var(--blue);
+  outline-offset: -2px;
+}
+
+.omok-cell:disabled {
+  cursor: default;
+  opacity: 1;
+}
+
+.omok-cell.last-move::before {
+  z-index: 2;
+  width: 7px;
+  height: 7px;
+  background: var(--red);
+  border: 1px solid #fff;
+}
+
+.omok-cell.winning {
+  background-color: rgba(255, 229, 0, 0.42);
+}
+
+.omok-actions {
+  justify-content: center;
+}
+
 .board-2048 .mini-cell {
   min-height: clamp(58px, 9vw, 96px);
   font-size: clamp(18px, 4vw, 34px);
@@ -2724,6 +2896,33 @@ body.game-fullscreen-fallback-open {
 
   .bubble-shooter-controls .sound-toggle {
     grid-column: span 3;
+  }
+
+  .omok-settings {
+    grid-template-columns: 1fr;
+  }
+
+  .omok-status {
+    display: grid;
+    gap: 2px;
+  }
+
+  .omok-status span {
+    text-align: left;
+  }
+
+  .omok-board {
+    width: calc(100% + 30px);
+    max-width: none;
+    margin-right: -15px;
+    margin-left: -15px;
+    padding: 5px;
+    border-width: 2px;
+  }
+
+  .omok-actions {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 
   .traditional-controls {

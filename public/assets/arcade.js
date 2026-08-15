@@ -32,6 +32,7 @@
     { id: "ddakji-flip", title: "딱지치기 한판", category: "traditional", type: "ddakji", minutes: "2분", description: "상대 딱지의 들린 모서리와 힘 게이지를 맞춰 딱지를 뒤집습니다." },
     { id: "gonggi", title: "공기놀이 한판", category: "traditional", type: "gonggi", minutes: "3분", description: "공깃돌의 낙하 타이밍을 맞춰 한 알 줍기부터 꺾기까지 도전합니다." },
     { id: "tic-tac-toe", title: "틱택토 Tic-Tac-Toe", category: "board", type: "tictactoe", minutes: "2분", description: "미니맥스 AI, 2인 대전, 난이도와 선후공 선택을 갖춘 전략 보드 게임입니다." },
+    { id: "omok", title: "오목 한판", category: "board", type: "omok", minutes: "5분", description: "15×15 바둑판에서 다섯 돌을 먼저 잇는 AI·2인 대전 오목 게임입니다." },
     { id: "connect-four", title: "사목 미니", category: "board", type: "connect4", minutes: "2분", description: "말을 떨어뜨려 네 개를 먼저 잇는 전략 게임입니다." },
     { id: "rps-survival", title: "가위바위보 서바이벌", category: "board", type: "rps", minutes: "1분", description: "연승을 이어가며 살아남는 가위바위보 게임입니다." },
     { id: "mines", title: "지뢰찾기 미니", category: "puzzle", type: "mines", minutes: "2분", description: "숫자 힌트를 보고 지뢰가 없는 칸을 모두 엽니다." },
@@ -451,6 +452,7 @@
       ddakji: renderTraditional,
       gonggi: renderTraditional,
       tictactoe: renderTicTacToe,
+      omok: renderOmok,
       connect4: renderConnect4,
       blackjack: renderBlackjack,
       dice: renderDice,
@@ -507,6 +509,7 @@
       snake: "방향키 또는 화면 방향 버튼으로 이동합니다. 반대 방향 급회전은 제한됩니다.",
       chair: "좌우 방향키로 회전하고 위 방향키 또는 가속 버튼으로 밀어 줍니다. 관성 때문에 코너 전에 미리 방향을 잡는 편이 좋습니다.",
       tictactoe: "칸 클릭, 터치, 숫자키 1-9로 둘 수 있습니다. 새 판은 N 키 또는 다시 시작 버튼으로 시작합니다.",
+      omok: "빈 교차점을 누르면 돌을 놓습니다. 방향키로 교차점을 이동하고 Enter 또는 스페이스바로 둘 수도 있습니다.",
       connect4: "원하는 열을 클릭하거나 터치하면 말이 아래 빈칸으로 떨어집니다.",
       blackjack: "히트, 스탠드, 더블 버튼을 한 번씩 눌러 진행합니다. 실제 돈, 결제, 환전, 경품은 없습니다.",
       dice: "굴리기와 멈추기 버튼으로 진행합니다. 결과 애니메이션이 끝난 뒤 다음 선택을 누르면 실수를 줄일 수 있습니다.",
@@ -4206,6 +4209,380 @@
       surface.classList.remove("tic-game");
     });
     startRound("AI 대전 어려움 난이도로 시작합니다. X 차례입니다.");
+  }
+
+  function renderOmok(game, surface) {
+    const size = 15;
+    const black = 1;
+    const white = 2;
+    const directions = [[1, 0], [0, 1], [1, 1], [1, -1]];
+    const scoreKey = "hanpan-omok-session";
+    let board = Array(size * size).fill(0);
+    let mode = "ai";
+    let difficulty = "normal";
+    let turn = black;
+    let gameOver = false;
+    let locked = false;
+    let history = [];
+    let winning = [];
+    let undoLeft = 3;
+    let aiTimer = null;
+    let scores = loadScores();
+    const audio = createTonePlayer();
+
+    renderScore(surface, [
+      { label: "흑 승", value: String(scores.black) },
+      { label: "백 승", value: String(scores.white) },
+      { label: "무승부", value: String(scores.draw) },
+      { label: "최고 연승", value: String(getBest(game.id) || "-") }
+    ]);
+    const stats = surface.querySelectorAll(".mini-score b");
+    const settings = document.createElement("div");
+    settings.className = "omok-settings";
+    const modeControl = makeChoice("대전 모드", [["ai", "AI 대전"], ["local", "2인 대전"]], mode, function (value) {
+      mode = value;
+      difficultyControl.buttons.forEach(function (item) { item.disabled = mode === "local"; });
+      resetRound(mode === "ai" ? "AI 대전을 시작합니다. 흑돌이 먼저입니다." : "2인 대전을 시작합니다. 흑돌이 먼저입니다.");
+    });
+    const difficultyControl = makeChoice("AI 난이도", [["easy", "쉬움"], ["normal", "보통"], ["hard", "어려움"]], difficulty, function (value) {
+      difficulty = value;
+      resetRound(`${value === "easy" ? "쉬움" : value === "hard" ? "어려움" : "보통"} AI로 새 판을 시작합니다.`);
+    });
+    settings.append(modeControl.wrap, difficultyControl.wrap);
+
+    const status = document.createElement("div");
+    status.className = "omok-status";
+    status.setAttribute("aria-live", "polite");
+    const grid = document.createElement("div");
+    grid.className = "omok-board";
+    grid.setAttribute("role", "grid");
+    grid.setAttribute("aria-label", "15 곱하기 15 오목판");
+    const cells = Array.from({ length: size * size }, function (_, index) {
+      const row = Math.floor(index / size);
+      const column = index % size;
+      const cell = button("", "omok-cell");
+      cell.dataset.index = String(index);
+      cell.setAttribute("role", "gridcell");
+      cell.setAttribute("aria-label", `${row + 1}행 ${column + 1}열 빈 교차점`);
+      if ([[3, 3], [3, 11], [7, 7], [11, 3], [11, 11]].some(function (point) { return point[0] === row && point[1] === column; })) {
+        cell.classList.add("star-point");
+      }
+      cell.addEventListener("click", function () { play(index); });
+      cell.addEventListener("keydown", function (event) { moveFocus(event, index); });
+      grid.appendChild(cell);
+      return cell;
+    });
+    const actions = document.createElement("div");
+    actions.className = "mini-controls omok-actions";
+    const newRound = button("새 판", "button primary");
+    const undo = button("한 수 무르기 (3)", "button secondary");
+    const sound = button("소리 켜짐", "button secondary sound-toggle");
+    sound.setAttribute("aria-pressed", "true");
+    actions.append(newRound, undo, sound);
+    const guide = document.createElement("p");
+    guide.className = "mini-note";
+    guide.textContent = "가로·세로·대각선으로 같은 돌 다섯 개를 먼저 이으면 승리합니다. 방향키와 Enter 또는 스페이스바도 지원합니다.";
+    surface.append(settings, status, grid, actions, guide);
+
+    function makeChoice(label, options, initial, onChange) {
+      const wrap = document.createElement("div");
+      wrap.className = "omok-control-group";
+      const title = document.createElement("span");
+      title.className = "omok-control-label";
+      title.textContent = label;
+      const segment = document.createElement("div");
+      segment.className = "omok-segment";
+      segment.setAttribute("role", "group");
+      segment.setAttribute("aria-label", label);
+      const items = options.map(function (option) {
+        const item = button(option[1], "omok-segment-button");
+        item.dataset.value = option[0];
+        item.classList.toggle("active", option[0] === initial);
+        item.setAttribute("aria-pressed", String(option[0] === initial));
+        item.addEventListener("click", function () {
+          items.forEach(function (candidate) {
+            const active = candidate === item;
+            candidate.classList.toggle("active", active);
+            candidate.setAttribute("aria-pressed", String(active));
+          });
+          onChange(option[0]);
+        });
+        segment.appendChild(item);
+        return item;
+      });
+      wrap.append(title, segment);
+      return { wrap, buttons: items };
+    }
+
+    function loadScores() {
+      try {
+        const parsed = JSON.parse(localStorage.getItem(scoreKey) || "null");
+        if (parsed && Number.isFinite(parsed.black) && Number.isFinite(parsed.white) && Number.isFinite(parsed.draw)) return parsed;
+      } catch (error) {
+        // Session scores are optional.
+      }
+      return { black: 0, white: 0, draw: 0, streak: 0 };
+    }
+
+    function storeScores() {
+      try { localStorage.setItem(scoreKey, JSON.stringify(scores)); } catch (error) { /* Optional storage. */ }
+    }
+
+    function inside(row, column) {
+      return row >= 0 && row < size && column >= 0 && column < size;
+    }
+
+    function at(row, column) {
+      return inside(row, column) ? board[row * size + column] : -1;
+    }
+
+    function lineFrom(index, stone) {
+      const row = Math.floor(index / size);
+      const column = index % size;
+      for (const direction of directions) {
+        const line = [index];
+        let nextRow = row + direction[0];
+        let nextColumn = column + direction[1];
+        while (inside(nextRow, nextColumn) && at(nextRow, nextColumn) === stone) {
+          line.push(nextRow * size + nextColumn);
+          nextRow += direction[0];
+          nextColumn += direction[1];
+        }
+        nextRow = row - direction[0];
+        nextColumn = column - direction[1];
+        while (inside(nextRow, nextColumn) && at(nextRow, nextColumn) === stone) {
+          line.unshift(nextRow * size + nextColumn);
+          nextRow -= direction[0];
+          nextColumn -= direction[1];
+        }
+        if (line.length >= 5) return line;
+      }
+      return [];
+    }
+
+    function candidateMoves() {
+      if (!history.length) return [7 * size + 7];
+      const candidates = [];
+      for (let index = 0; index < board.length; index += 1) {
+        if (board[index]) continue;
+        const row = Math.floor(index / size);
+        const column = index % size;
+        let near = false;
+        for (let rowOffset = -2; rowOffset <= 2 && !near; rowOffset += 1) {
+          for (let columnOffset = -2; columnOffset <= 2; columnOffset += 1) {
+            if (at(row + rowOffset, column + columnOffset) > 0) {
+              near = true;
+              break;
+            }
+          }
+        }
+        if (near) candidates.push(index);
+      }
+      return candidates.length ? candidates : board.map(function (_, index) { return index; }).filter(function (index) { return !board[index]; });
+    }
+
+    function patternScore(index, stone) {
+      const row = Math.floor(index / size);
+      const column = index % size;
+      let total = 0;
+      directions.forEach(function (direction) {
+        let count = 1;
+        let open = 0;
+        let nextRow = row + direction[0];
+        let nextColumn = column + direction[1];
+        while (inside(nextRow, nextColumn) && at(nextRow, nextColumn) === stone) {
+          count += 1;
+          nextRow += direction[0];
+          nextColumn += direction[1];
+        }
+        if (inside(nextRow, nextColumn) && at(nextRow, nextColumn) === 0) open += 1;
+        nextRow = row - direction[0];
+        nextColumn = column - direction[1];
+        while (inside(nextRow, nextColumn) && at(nextRow, nextColumn) === stone) {
+          count += 1;
+          nextRow -= direction[0];
+          nextColumn -= direction[1];
+        }
+        if (inside(nextRow, nextColumn) && at(nextRow, nextColumn) === 0) open += 1;
+        if (count >= 5) total += 1000000;
+        else if (count === 4 && open === 2) total += 90000;
+        else if (count === 4) total += 18000;
+        else if (count === 3 && open === 2) total += 7000;
+        else if (count === 3) total += 1200;
+        else if (count === 2 && open === 2) total += 500;
+        else if (count === 2) total += 90;
+        else if (open === 2) total += 18;
+      });
+      total += Math.max(0, 12 - Math.abs(7 - row) - Math.abs(7 - column));
+      return total;
+    }
+
+    function wouldWin(index, stone) {
+      board[index] = stone;
+      const result = lineFrom(index, stone).length >= 5;
+      board[index] = 0;
+      return result;
+    }
+
+    function chooseAiMove() {
+      const candidates = candidateMoves();
+      if (difficulty === "easy") return sample(candidates);
+      const winningMove = candidates.find(function (index) { return wouldWin(index, white); });
+      if (winningMove !== undefined) return winningMove;
+      const blockingMove = candidates.find(function (index) { return wouldWin(index, black); });
+      if (blockingMove !== undefined) return blockingMove;
+      const ranked = candidates.map(function (index) {
+        const attack = patternScore(index, white);
+        const defense = patternScore(index, black);
+        const noise = difficulty === "normal" ? Math.random() * 220 : 0;
+        return { index, score: attack + defense * (difficulty === "hard" ? 1.08 : 0.88) + noise };
+      }).sort(function (a, b) { return b.score - a.score; });
+      if (difficulty === "normal") return sample(ranked.slice(0, Math.min(3, ranked.length))).index;
+      return ranked[0].index;
+    }
+
+    function updateScores() {
+      stats[0].textContent = String(scores.black);
+      stats[1].textContent = String(scores.white);
+      stats[2].textContent = String(scores.draw);
+      stats[3].textContent = String(getBest(game.id) || "-");
+    }
+
+    function sync(message) {
+      cells.forEach(function (cell, index) {
+        const stone = board[index];
+        const row = Math.floor(index / size);
+        const column = index % size;
+        cell.dataset.stone = stone === black ? "black" : stone === white ? "white" : "empty";
+        cell.classList.toggle("last-move", history.length > 0 && history[history.length - 1] === index);
+        cell.classList.toggle("winning", winning.includes(index));
+        cell.disabled = gameOver;
+        cell.setAttribute("aria-disabled", String(gameOver || locked));
+        cell.setAttribute("aria-label", `${row + 1}행 ${column + 1}열 ${stone === black ? "흑돌" : stone === white ? "백돌" : "빈 교차점"}`);
+      });
+      undo.disabled = gameOver || locked || !history.length || undoLeft <= 0;
+      undo.textContent = `한 수 무르기 (${undoLeft})`;
+      status.innerHTML = `<strong>${gameOver ? "대국 종료" : locked ? "AI 생각 중" : turn === black ? "흑 차례" : "백 차례"}</strong><span>${message}</span>`;
+      updateScores();
+    }
+
+    function finish(winner, line) {
+      gameOver = true;
+      locked = false;
+      winning = line || [];
+      if (winner === black) {
+        scores.black += 1;
+        scores.streak = mode === "ai" ? scores.streak + 1 : scores.streak;
+        if (mode === "ai") saveBest(game.id, scores.streak, function (value, previous) { return value > previous; });
+      } else if (winner === white) {
+        scores.white += 1;
+        if (mode === "ai") scores.streak = 0;
+      } else {
+        scores.draw += 1;
+      }
+      storeScores();
+      audio.tone(winner === black ? 660 : winner === white ? 420 : 300, 0.16, "sine", 0.035);
+      if (winner) audio.tone(winner === black ? 880 : 520, 0.2, "sine", 0.03, 0.13);
+      const label = winner === black ? "흑돌" : winner === white ? "백돌" : "무승부";
+      sync(winner ? `${label}이 다섯 돌을 이었습니다.` : "빈 교차점이 없어 무승부입니다.");
+      setResult(winner ? `${label} 승리. 새 판에서 다시 대국할 수 있습니다.` : "무승부입니다. 새 판에서 다시 대국해 보세요.");
+    }
+
+    function place(index, stone) {
+      board[index] = stone;
+      history.push(index);
+      audio.tone(stone === black ? 330 : 440, 0.055, "sine", 0.022);
+      const line = lineFrom(index, stone);
+      if (line.length >= 5) {
+        finish(stone, line);
+        return true;
+      }
+      if (history.length === board.length) {
+        finish(0, []);
+        return true;
+      }
+      turn = stone === black ? white : black;
+      return false;
+    }
+
+    function queueAi() {
+      locked = true;
+      sync("공격과 수비 후보를 계산하고 있습니다.");
+      clearTimeout(aiTimer);
+      aiTimer = setTimeout(function () {
+        if (gameOver || mode !== "ai") return;
+        const move = chooseAiMove();
+        locked = false;
+        if (move === undefined || place(move, white)) return;
+        turn = black;
+        sync("AI가 백돌을 놓았습니다. 다음 수를 두세요.");
+      }, difficulty === "hard" ? 360 : 240);
+    }
+
+    function play(index) {
+      if (gameOver || locked || board[index]) return;
+      const stone = mode === "ai" ? black : turn;
+      if (place(index, stone)) return;
+      sync(`${stone === black ? "흑돌" : "백돌"}을 놓았습니다.`);
+      if (mode === "ai") queueAi();
+    }
+
+    function undoMove() {
+      if (gameOver || locked || !history.length || undoLeft <= 0) return;
+      clearTimeout(aiTimer);
+      const removeCount = mode === "ai" && history.length >= 2 ? 2 : 1;
+      for (let count = 0; count < removeCount; count += 1) {
+        const index = history.pop();
+        if (index !== undefined) board[index] = 0;
+      }
+      undoLeft -= 1;
+      turn = history.length % 2 === 0 ? black : white;
+      locked = false;
+      winning = [];
+      audio.tone(240, 0.08, "triangle", 0.018);
+      sync("직전 수를 되돌렸습니다.");
+      setResult(`무르기 ${undoLeft}회 남았습니다.`);
+    }
+
+    function resetRound(message) {
+      clearTimeout(aiTimer);
+      board = Array(size * size).fill(0);
+      history = [];
+      winning = [];
+      undoLeft = 3;
+      turn = black;
+      gameOver = false;
+      locked = false;
+      sync(message || "새 판을 시작했습니다. 흑돌이 먼저입니다.");
+      setResult("빈 교차점을 골라 첫 흑돌을 놓으세요.");
+    }
+
+    function moveFocus(event, index) {
+      const moves = { ArrowLeft: -1, ArrowRight: 1, ArrowUp: -size, ArrowDown: size };
+      if (event.key === "Enter" || event.key === " ") {
+        event.preventDefault();
+        play(index);
+        return;
+      }
+      if (!(event.key in moves)) return;
+      event.preventDefault();
+      const row = Math.floor(index / size);
+      const column = index % size;
+      let target = index + moves[event.key];
+      if (event.key === "ArrowLeft" && column === 0) target = index;
+      if (event.key === "ArrowRight" && column === size - 1) target = index;
+      if (target < 0 || target >= board.length) target = index;
+      cells[target].focus();
+    }
+
+    newRound.addEventListener("click", function () { resetRound("새 판을 시작했습니다. 흑돌이 먼저입니다."); });
+    undo.addEventListener("click", undoMove);
+    sound.addEventListener("click", function () { audio.toggle(sound); });
+    cleanup.push(function () {
+      clearTimeout(aiTimer);
+      audio.close();
+    });
+    resetRound("AI 대전 보통 난이도입니다. 흑돌이 먼저입니다.");
   }
 
   function renderConnect4(game, surface) {

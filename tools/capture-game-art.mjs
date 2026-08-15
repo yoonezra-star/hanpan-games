@@ -99,7 +99,14 @@ try {
       await page.waitForTimeout(450);
     }
 
-    if (id === "bubble-shooter") {
+    if (id === "omok") {
+      await page.getByRole("button", { name: "2인 대전", exact: true }).click();
+      for (const index of [112, 97, 113, 98, 114, 99, 115]) {
+        await surface.locator(".omok-cell").nth(index).click();
+      }
+    }
+
+    if (id === "bubble-shooter" || id === "omok") {
       await page.addStyleTag({
         content: `
           #playSurface {
@@ -108,13 +115,19 @@ try {
             overflow: visible !important;
           }
           #playSurface .mini-score,
+          #playSurface .omok-settings,
+          #playSurface .omok-status,
           #playSurface .mini-controls,
           #playSurface .mini-note { display: none !important; }
         `,
       });
     }
 
-    const captureTarget = id === "bubble-shooter" ? surface.locator("canvas") : surface;
+    const captureTarget = id === "bubble-shooter"
+      ? surface.locator("canvas")
+      : id === "omok"
+        ? surface.locator(".omok-board")
+        : surface;
     const png = await captureTarget.screenshot({ animations: "disabled" });
     await sharp(png)
       .resize(640, 360, { fit: "cover", position: "north" })
