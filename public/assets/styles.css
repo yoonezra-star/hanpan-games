@@ -2272,6 +2272,80 @@ body.game-fullscreen-fallback-open {
   min-width: 0;
 }
 
+.maze-chase-game {
+  align-items: center;
+}
+
+.maze-status {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  width: min(100%, 570px);
+  min-height: 48px;
+  margin: 0 auto;
+  padding: 9px 13px;
+  color: #fff;
+  background: #102033;
+  border: 1px solid #29415b;
+  border-radius: 8px;
+}
+
+.maze-status strong {
+  color: #ffe500;
+  white-space: nowrap;
+}
+
+.maze-status span {
+  color: #e8eef6;
+  font-size: 13px;
+  text-align: right;
+}
+
+.maze-status[data-mode="frightened"] {
+  background: #27449a;
+  border-color: #8ec5ff;
+}
+
+.maze-status[data-mode="frightened"] strong {
+  color: #fff;
+}
+
+.arcade-canvas.maze-canvas {
+  width: min(100%, 570px);
+  max-width: 570px;
+  aspect-ratio: 19 / 21;
+  margin: 0 auto;
+  background: #071319;
+  border-color: #102033;
+  box-shadow: 7px 7px 0 rgba(29, 36, 51, 0.16);
+  touch-action: none;
+}
+
+.maze-controls {
+  display: grid;
+  grid-template-columns: minmax(90px, 1.2fr) minmax(110px, 1fr) repeat(4, 52px) minmax(90px, 1fr);
+  gap: 7px;
+  width: min(100%, 680px);
+  margin: 0 auto;
+}
+
+.maze-controls > * {
+  min-width: 0;
+}
+
+.maze-direction {
+  width: 52px;
+  min-height: 48px;
+  padding: 0;
+  font-size: 22px;
+  line-height: 1;
+}
+
+.game-fullscreen-stage.is-game-fullscreen-active .maze-status {
+  display: none;
+}
+
 .board-2048 .mini-cell {
   min-height: clamp(58px, 9vw, 96px);
   font-size: clamp(18px, 4vw, 34px);
@@ -3262,6 +3336,45 @@ body.game-fullscreen-fallback-open {
 
   .solitaire-actions {
     grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .maze-status {
+    display: grid;
+    gap: 2px;
+  }
+
+  .maze-status span {
+    text-align: left;
+  }
+
+  .arcade-canvas.maze-canvas {
+    width: calc(100% + 30px);
+    max-width: none;
+    margin-right: -15px;
+    margin-left: -15px;
+    border-width: 2px;
+    border-radius: 4px;
+    box-shadow: none;
+  }
+
+  .maze-controls {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    width: 100%;
+  }
+
+  .maze-controls .maze-start,
+  .maze-controls .game-option-select {
+    grid-column: span 2;
+    width: 100%;
+  }
+
+  .maze-direction {
+    width: 100%;
+    min-height: 52px;
+  }
+
+  .maze-sound {
+    grid-column: 1 / -1;
   }
 
   .traditional-controls {

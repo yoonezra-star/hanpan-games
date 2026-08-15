@@ -19,6 +19,7 @@
     { id: "block-drop-classic", title: "블록 드롭 클래식", category: "puzzle", type: "tetris", minutes: "4분", description: "떨어지는 블록을 회전하고 쌓아 가로줄을 지우는 고전 퍼즐입니다." },
     { id: "pong-rally", title: "퐁 랠리", category: "arcade", type: "pong", minutes: "2분", description: "패들을 움직여 공을 받아내고 상대보다 먼저 득점하는 클래식 랠리 게임입니다." },
     { id: "space-guard", title: "우주 방어선", category: "arcade", type: "space", minutes: "3분", description: "좌우로 움직이며 탄을 쏘고 내려오는 적 편대를 막아내는 슈팅 게임입니다." },
+    { id: "maze-chase", title: "미로 추격 클래식", category: "arcade", type: "mazeChase", minutes: "4분", description: "미로의 빛 조각을 모으며 추격 센티널을 피하고 스테이지를 돌파합니다." },
     { id: "flappy-jump", title: "플래피 점프", category: "arcade", type: "flappy", minutes: "1분", description: "짧게 점프하며 기둥 사이를 통과하는 원버튼 회피 게임입니다." },
     { id: "bubble-shooter", title: "버블 슈터 클래식", category: "puzzle", type: "bubbleShooter", minutes: "4분", description: "조준선을 맞춰 같은 색 버블을 세 개 이상 연결하고 연쇄 낙하를 만드는 클래식 퍼즐입니다." },
     { id: "bubble-pop", title: "버블팝", category: "arcade", type: "bubble", minutes: "1분", description: "반짝이는 버블을 놓치지 않고 눌러 점수를 모읍니다." },
@@ -441,6 +442,7 @@
       tetris: renderTetris,
       pong: renderPong,
       space: renderSpaceGuard,
+      mazeChase: renderMazeChase,
       flappy: renderFlappy,
       bubbleShooter: renderBubbleShooter,
       snake: renderSnake,
@@ -506,6 +508,7 @@
       tetris: "방향키로 이동과 회전, 스페이스바로 빠른 낙하를 사용할 수 있습니다. 모바일에서는 화면 버튼을 한 번씩 눌러 조작합니다.",
       pong: "위아래 방향키 또는 포인터 이동으로 패들을 움직입니다. 랠리가 빨라지면 중앙으로 돌아오는 습관이 좋습니다.",
       space: "좌우 방향키로 이동하고 스페이스바로 발사합니다. 화면 버튼도 같은 기능을 제공합니다.",
+      mazeChase: "방향키 또는 W·A·S·D로 이동합니다. 모바일에서는 방향 버튼이나 게임판 스와이프로 다음 방향을 예약할 수 있습니다.",
       flappy: "스페이스바, 클릭, 터치로 짧게 점프합니다. 길게 누르기보다 일정한 리듬으로 입력하세요.",
       bubbleShooter: "마우스나 손가락으로 조준하고 게임판을 눌러 발사합니다. 방향키로 각도를 조절하고 스페이스바로 쏠 수도 있습니다.",
       snake: "방향키 또는 화면 방향 버튼으로 이동합니다. 반대 방향 급회전은 제한됩니다.",
@@ -3223,6 +3226,636 @@
     });
     reset();
     draw();
+  }
+
+  function renderMazeChase(game, surface) {
+    const rows = 21;
+    const cols = 19;
+    const tile = 30;
+    const width = cols * tile;
+    const height = rows * tile;
+    const tunnelRow = 9;
+    const directions = {
+      up: { row: -1, col: 0, opposite: "down", angle: -Math.PI / 2 },
+      down: { row: 1, col: 0, opposite: "up", angle: Math.PI / 2 },
+      left: { row: 0, col: -1, opposite: "right", angle: Math.PI },
+      right: { row: 0, col: 1, opposite: "left", angle: 0 }
+    };
+    const directionOrder = ["up", "left", "down", "right"];
+    const sentinelColors = ["#ef476f", "#5ec8ff", "#f6c453"];
+    const sentinelHomes = [[9, 7], [9, 9], [9, 11]];
+    const scatterTargets = [[1, 17], [1, 1], [19, 17]];
+    let maze = [];
+    let pellets = new Set();
+    let powerPellets = new Set();
+    let player = null;
+    let sentinels = [];
+    let particles = [];
+    let score = 0;
+    let lives = 3;
+    let stage = 1;
+    let running = false;
+    let gameOver = false;
+    let frame = null;
+    let lastFrame = 0;
+    let gameTime = 0;
+    let frightenedUntil = 0;
+    let ghostCombo = 0;
+    let pauseUntil = 0;
+    let invulnerableUntil = 0;
+    let statusMessage = "시작을 누르거나 방향을 입력하세요.";
+    let lastMode = "scatter";
+    let swipeStart = null;
+    const audio = createTonePlayer();
+
+    surface.classList.add("maze-chase-game");
+    renderScore(surface, [
+      { label: "점수", value: "0" },
+      { label: "목숨", value: "3" },
+      { label: "단계", value: "1" },
+      { label: "남은 빛", value: "0" },
+      { label: "최고", value: String(getBest(game.id) || "-") }
+    ]);
+    const stats = surface.querySelectorAll(".mini-score b");
+    const status = document.createElement("div");
+    status.className = "maze-status";
+    status.setAttribute("aria-live", "polite");
+    const modeLabel = document.createElement("strong");
+    const statusText = document.createElement("span");
+    status.append(modeLabel, statusText);
+    const canvas = document.createElement("canvas");
+    canvas.className = "arcade-canvas maze-canvas";
+    canvas.width = width;
+    canvas.height = height;
+    canvas.tabIndex = 0;
+    canvas.setAttribute("role", "application");
+    canvas.setAttribute("aria-label", "미로 추격 클래식 게임판. 방향키 또는 W, A, S, D로 이동하며 모바일에서는 방향 버튼과 스와이프를 사용할 수 있습니다.");
+    const ctx = canvas.getContext("2d");
+    const controls = document.createElement("div");
+    controls.className = "mini-controls maze-controls";
+    const start = button("시작", "button primary maze-start");
+    const speedSelect = createSpeedSelect();
+    const upButton = directionButton("↑", "위쪽으로 이동", "up");
+    const leftButton = directionButton("←", "왼쪽으로 이동", "left");
+    const downButton = directionButton("↓", "아래쪽으로 이동", "down");
+    const rightButton = directionButton("→", "오른쪽으로 이동", "right");
+    const sound = button("소리 켜짐", "button secondary sound-toggle maze-sound");
+    sound.setAttribute("aria-pressed", "true");
+    controls.append(start, speedSelect, upButton, leftButton, downButton, rightButton, sound);
+    const guide = document.createElement("p");
+    guide.className = "mini-note arcade-note";
+    guide.textContent = "모든 빛 조각을 모으면 다음 미로로 이동합니다. 큰 파워 코어가 켜진 동안에는 센티널을 역으로 추격할 수 있습니다.";
+    surface.append(status, canvas, controls, guide);
+
+    function directionButton(symbol, title, direction) {
+      const item = button(symbol, "button secondary maze-direction");
+      item.title = title;
+      item.setAttribute("aria-label", title);
+      item.addEventListener("click", function () { queueDirection(direction); });
+      return item;
+    }
+
+    function key(row, col) {
+      return `${row},${col}`;
+    }
+
+    function buildMaze() {
+      maze = Array.from({ length: rows }, function () { return Array(cols).fill("#"); });
+      const visited = new Set([key(1, 1)]);
+      const stack = [[1, 1]];
+      maze[1][1] = ".";
+      while (stack.length) {
+        const current = stack[stack.length - 1];
+        const options = [[-2, 0], [2, 0], [0, -2], [0, 2]].map(function (offset) {
+          return [current[0] + offset[0], current[1] + offset[1]];
+        }).filter(function (cell) {
+          return cell[0] > 0 && cell[0] < rows - 1 && cell[1] > 0 && cell[1] < cols - 1 && !visited.has(key(cell[0], cell[1]));
+        });
+        if (!options.length) {
+          stack.pop();
+          continue;
+        }
+        const next = sample(options);
+        maze[(current[0] + next[0]) / 2][(current[1] + next[1]) / 2] = ".";
+        maze[next[0]][next[1]] = ".";
+        visited.add(key(next[0], next[1]));
+        stack.push(next);
+      }
+      const removable = [];
+      for (let row = 1; row < rows - 1; row += 1) {
+        for (let col = 1; col < cols - 1; col += 1) {
+          if (maze[row][col] !== "#") continue;
+          const horizontal = row % 2 === 1 && col % 2 === 0 && maze[row][col - 1] === "." && maze[row][col + 1] === ".";
+          const vertical = row % 2 === 0 && col % 2 === 1 && maze[row - 1][col] === "." && maze[row + 1][col] === ".";
+          if (horizontal || vertical) removable.push([row, col]);
+        }
+      }
+      shuffle(removable).slice(0, 17 + Math.min(stage, 6)).forEach(function (cell) { maze[cell[0]][cell[1]] = "."; });
+      maze[tunnelRow][0] = ".";
+      maze[tunnelRow][1] = ".";
+      maze[tunnelRow][cols - 2] = ".";
+      maze[tunnelRow][cols - 1] = ".";
+      pellets = new Set();
+      powerPellets = new Set();
+      const noPellet = new Set([key(19, 9), ...sentinelHomes.map(function (home) { return key(home[0], home[1]); })]);
+      for (let row = 0; row < rows; row += 1) {
+        for (let col = 0; col < cols; col += 1) {
+          if (maze[row][col] === "." && !noPellet.has(key(row, col))) pellets.add(key(row, col));
+        }
+      }
+      [[1, 1], [1, 17], [19, 1], [19, 17]].forEach(function (cell) {
+        const cellKey = key(cell[0], cell[1]);
+        if (pellets.has(cellKey)) powerPellets.add(cellKey);
+      });
+    }
+
+    function createEntity(row, col, direction) {
+      return { row, col, dir: direction || null, nextDir: direction || null, progress: 0 };
+    }
+
+    function resetEntities() {
+      player = createEntity(19, 9, "left");
+      sentinels = sentinelHomes.map(function (home, index) {
+        const entity = createEntity(home[0], home[1], index === 1 ? "left" : "right");
+        entity.index = index;
+        entity.activeAt = gameTime + index * 850;
+        return entity;
+      });
+    }
+
+    function isWalkable(row, col) {
+      if (row === tunnelRow && (col < 0 || col >= cols)) return true;
+      return row >= 0 && row < rows && col >= 0 && col < cols && maze[row][col] !== "#";
+    }
+
+    function destination(row, col, direction) {
+      const vector = directions[direction];
+      let nextRow = row + vector.row;
+      let nextCol = col + vector.col;
+      if (nextRow === tunnelRow && nextCol < 0) nextCol = cols - 1;
+      if (nextRow === tunnelRow && nextCol >= cols) nextCol = 0;
+      return { row: nextRow, col: nextCol };
+    }
+
+    function canMove(entity, direction) {
+      if (!direction) return false;
+      const vector = directions[direction];
+      return isWalkable(entity.row + vector.row, entity.col + vector.col);
+    }
+
+    function position(entity) {
+      const vector = entity.dir ? directions[entity.dir] : { row: 0, col: 0 };
+      return {
+        x: entity.col + 0.5 + vector.col * entity.progress,
+        y: entity.row + 0.5 + vector.row * entity.progress
+      };
+    }
+
+    function reverseEntity(entity) {
+      if (!entity.dir) return;
+      const reverse = directions[entity.dir].opposite;
+      if (entity.progress > 0.0001) {
+        const next = destination(entity.row, entity.col, entity.dir);
+        entity.row = next.row;
+        entity.col = next.col;
+        entity.progress = 1 - entity.progress;
+      }
+      entity.dir = reverse;
+    }
+
+    function playerDirection() {
+      if (player.nextDir && canMove(player, player.nextDir)) return player.nextDir;
+      if (player.dir && canMove(player, player.dir)) return player.dir;
+      return null;
+    }
+
+    function nearestOpen(target) {
+      let best = { row: player.row, col: player.col, distance: Infinity };
+      for (let row = 0; row < rows; row += 1) {
+        for (let col = 0; col < cols; col += 1) {
+          if (!isWalkable(row, col)) continue;
+          const distance = Math.abs(target.row - row) + Math.abs(target.col - col);
+          if (distance < best.distance) best = { row, col, distance };
+        }
+      }
+      return best;
+    }
+
+    function pathDistance(startCell, targetCell) {
+      const target = nearestOpen(targetCell);
+      const queue = [{ row: startCell.row, col: startCell.col, distance: 0 }];
+      const seen = new Set([key(startCell.row, startCell.col)]);
+      for (let index = 0; index < queue.length; index += 1) {
+        const current = queue[index];
+        if (current.row === target.row && current.col === target.col) return current.distance;
+        directionOrder.forEach(function (direction) {
+          const next = destination(current.row, current.col, direction);
+          const nextKey = key(next.row, next.col);
+          if (!seen.has(nextKey) && isWalkable(next.row, next.col)) {
+            seen.add(nextKey);
+            queue.push({ row: next.row, col: next.col, distance: current.distance + 1 });
+          }
+        });
+      }
+      return 999;
+    }
+
+    function currentMode() {
+      if (gameTime < frightenedUntil) return "frightened";
+      return gameTime % 21000 < 6500 ? "scatter" : "chase";
+    }
+
+    function chaseTarget(sentinel) {
+      const playerVector = player.dir ? directions[player.dir] : { row: 0, col: 0 };
+      if (sentinel.index === 0) return { row: player.row, col: player.col };
+      if (sentinel.index === 1) return { row: player.row + playerVector.row * 4, col: player.col + playerVector.col * 4 };
+      const distance = Math.abs(sentinel.row - player.row) + Math.abs(sentinel.col - player.col);
+      return distance > 6 ? { row: player.row, col: player.col } : { row: scatterTargets[2][0], col: scatterTargets[2][1] };
+    }
+
+    function sentinelDirection(sentinel) {
+      const choices = directionOrder.filter(function (direction) { return canMove(sentinel, direction); });
+      const forwardChoices = choices.filter(function (direction) { return direction !== directions[sentinel.dir]?.opposite; });
+      const available = forwardChoices.length ? forwardChoices : choices;
+      if (!available.length) return null;
+      if (currentMode() === "frightened") return sample(available);
+      const target = currentMode() === "scatter"
+        ? { row: scatterTargets[sentinel.index][0], col: scatterTargets[sentinel.index][1] }
+        : chaseTarget(sentinel);
+      return available.map(function (direction) {
+        const next = destination(sentinel.row, sentinel.col, direction);
+        return { direction, distance: pathDistance(next, target) + Math.random() * 0.12 };
+      }).sort(function (a, b) { return a.distance - b.distance; })[0].direction;
+    }
+
+    function advance(entity, speed, delta, chooseDirection, onArrive) {
+      let remaining = speed * delta;
+      while (remaining > 0.0001) {
+        if (entity.progress <= 0.0001) {
+          const nextDirection = chooseDirection(entity);
+          entity.dir = nextDirection;
+          if (!entity.dir || !canMove(entity, entity.dir)) {
+            entity.progress = 0;
+            return;
+          }
+        }
+        const step = Math.min(remaining, 1 - entity.progress);
+        entity.progress += step;
+        remaining -= step;
+        if (entity.progress >= 0.9999) {
+          const next = destination(entity.row, entity.col, entity.dir);
+          entity.row = next.row;
+          entity.col = next.col;
+          entity.progress = 0;
+          if (onArrive) onArrive(entity);
+        }
+      }
+    }
+
+    function burst(row, col, color, count) {
+      for (let index = 0; index < (count || 7); index += 1) {
+        particles.push({
+          x: col + 0.5,
+          y: row + 0.5,
+          dx: (Math.random() - 0.5) * 2.2,
+          dy: (Math.random() - 0.5) * 2.2,
+          life: 0.55,
+          color
+        });
+      }
+    }
+
+    function collectPellet() {
+      const playerKey = key(player.row, player.col);
+      if (!pellets.has(playerKey)) return;
+      pellets.delete(playerKey);
+      if (powerPellets.has(playerKey)) {
+        powerPellets.delete(playerKey);
+        frightenedUntil = gameTime + Math.max(4300, 7600 - stage * 280);
+        ghostCombo = 0;
+        score += 50;
+        sentinels.forEach(function (sentinel) {
+          reverseEntity(sentinel);
+        });
+        burst(player.row, player.col, "#ffe500", 14);
+        audio.tone(680, 0.1, "sine", 0.028);
+        audio.tone(920, 0.14, "sine", 0.024, 0.08);
+        statusMessage = "파워 코어 활성화. 파란 센티널을 추격하세요.";
+      } else {
+        score += 10;
+        burst(player.row, player.col, "#ffd166", 3);
+        if (score % 100 === 0) audio.tone(520, 0.035, "square", 0.012);
+      }
+      if (!pellets.size) completeStage();
+      sync();
+    }
+
+    function completeStage() {
+      stage += 1;
+      score += 500;
+      buildMaze();
+      resetEntities();
+      frightenedUntil = 0;
+      pauseUntil = gameTime + 1500;
+      statusMessage = `${stage}단계 새 미로입니다. 센티널 속도가 빨라집니다.`;
+      setResult(`${stage - 1}단계 완성. 보너스 500점을 얻었습니다.`);
+      audio.tone(560, 0.1, "sine", 0.03);
+      audio.tone(760, 0.14, "sine", 0.03, 0.1);
+      audio.tone(980, 0.18, "sine", 0.028, 0.22);
+    }
+
+    function hitPlayer() {
+      if (gameTime < invulnerableUntil || gameOver) return;
+      lives -= 1;
+      audio.tone(150, 0.3, "sawtooth", 0.035);
+      burst(player.row, player.col, "#ff765e", 18);
+      if (lives <= 0) {
+        finish();
+        return;
+      }
+      resetEntities();
+      pauseUntil = gameTime + 1200;
+      invulnerableUntil = gameTime + 2800;
+      statusMessage = `목숨이 ${lives}개 남았습니다. 잠시 뒤 다시 출발합니다.`;
+      setResult(statusMessage);
+      sync();
+    }
+
+    function checkCollisions() {
+      const playerPosition = position(player);
+      sentinels.forEach(function (sentinel) {
+        if (gameTime < sentinel.activeAt) return;
+        const sentinelPosition = position(sentinel);
+        const rawX = Math.abs(playerPosition.x - sentinelPosition.x);
+        const distanceX = Math.min(rawX, cols - rawX);
+        const distanceY = Math.abs(playerPosition.y - sentinelPosition.y);
+        if (Math.hypot(distanceX, distanceY) >= 0.62) return;
+        if (currentMode() === "frightened") {
+          ghostCombo += 1;
+          const bonus = 200 * Math.pow(2, Math.min(ghostCombo - 1, 3));
+          score += bonus;
+          burst(sentinel.row, sentinel.col, sentinelColors[sentinel.index], 15);
+          sentinel.row = sentinelHomes[sentinel.index][0];
+          sentinel.col = sentinelHomes[sentinel.index][1];
+          sentinel.progress = 0;
+          sentinel.dir = null;
+          sentinel.activeAt = gameTime + 1700;
+          statusMessage = `센티널 회피 성공. ${bonus}점 콤보입니다.`;
+          setResult(statusMessage);
+          audio.tone(740 + ghostCombo * 80, 0.1, "square", 0.028);
+          sync();
+        } else {
+          hitPlayer();
+        }
+      });
+    }
+
+    function update(delta) {
+      if (!running || gameOver) return;
+      gameTime += delta * 1000;
+      if (gameTime < pauseUntil) return;
+      const playerSpeed = 4.35 + Math.min(stage - 1, 8) * 0.06;
+      advance(player, playerSpeed, delta, playerDirection, collectPellet);
+      sentinels.forEach(function (sentinel) {
+        if (gameTime < sentinel.activeAt) return;
+        const frightened = currentMode() === "frightened";
+        const sentinelSpeed = (frightened ? 2.65 : 3.35) + Math.min(stage - 1, 8) * 0.14;
+        advance(sentinel, sentinelSpeed, delta, sentinelDirection);
+      });
+      checkCollisions();
+      particles.forEach(function (particle) {
+        particle.x += particle.dx * delta;
+        particle.y += particle.dy * delta;
+        particle.life -= delta;
+      });
+      particles = particles.filter(function (particle) { return particle.life > 0; });
+    }
+
+    function drawWall(row, col) {
+      const x = col * tile;
+      const y = row * tile;
+      ctx.fillStyle = "#15335f";
+      ctx.fillRect(x + 1, y + 1, tile - 2, tile - 2);
+      ctx.strokeStyle = "#43c6d8";
+      ctx.lineWidth = 1.4;
+      ctx.strokeRect(x + 4, y + 4, tile - 8, tile - 8);
+    }
+
+    function drawExplorer(now) {
+      const playerPosition = position(player);
+      const x = playerPosition.x * tile;
+      const y = playerPosition.y * tile;
+      const angle = directions[player.dir || "right"].angle;
+      const pulse = 1 + Math.sin(now / 85) * 0.06;
+      ctx.save();
+      ctx.translate(x, y);
+      ctx.rotate(angle);
+      ctx.globalAlpha = gameTime < invulnerableUntil && Math.floor(now / 90) % 2 ? 0.35 : 1;
+      ctx.fillStyle = "rgba(255, 209, 102, 0.28)";
+      ctx.beginPath();
+      ctx.arc(0, 0, tile * 0.47 * pulse, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.fillStyle = "#ff9f43";
+      ctx.beginPath();
+      ctx.arc(0, 0, tile * 0.34, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.fillStyle = "#fffdf7";
+      ctx.beginPath();
+      ctx.moveTo(tile * 0.2, 0);
+      ctx.lineTo(-tile * 0.07, -tile * 0.13);
+      ctx.lineTo(-tile * 0.07, tile * 0.13);
+      ctx.closePath();
+      ctx.fill();
+      ctx.fillStyle = "#1d2433";
+      ctx.beginPath();
+      ctx.arc(-tile * 0.12, 0, tile * 0.055, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.restore();
+    }
+
+    function drawSentinel(sentinel, now) {
+      if (gameTime < sentinel.activeAt) return;
+      const sentinelPosition = position(sentinel);
+      const x = sentinelPosition.x * tile;
+      const y = sentinelPosition.y * tile;
+      const frightened = currentMode() === "frightened";
+      const flashing = frightened && frightenedUntil - gameTime < 1500 && Math.floor(now / 150) % 2;
+      const color = frightened ? (flashing ? "#fffdf7" : "#3156b8") : sentinelColors[sentinel.index];
+      ctx.save();
+      ctx.translate(x, y);
+      ctx.fillStyle = "rgba(0, 0, 0, 0.24)";
+      ctx.fillRect(-tile * 0.28, tile * 0.3, tile * 0.56, tile * 0.1);
+      ctx.fillStyle = color;
+      ctx.beginPath();
+      ctx.moveTo(0, -tile * 0.38);
+      ctx.lineTo(tile * 0.34, -tile * 0.14);
+      ctx.lineTo(tile * 0.28, tile * 0.34);
+      ctx.lineTo(-tile * 0.28, tile * 0.34);
+      ctx.lineTo(-tile * 0.34, -tile * 0.14);
+      ctx.closePath();
+      ctx.fill();
+      ctx.strokeStyle = "#fffdf7";
+      ctx.lineWidth = 1.5;
+      ctx.stroke();
+      ctx.fillStyle = frightened && !flashing ? "#8ec5ff" : "#fffdf7";
+      ctx.fillRect(-tile * 0.19, -tile * 0.12, tile * 0.13, tile * 0.14);
+      ctx.fillRect(tile * 0.06, -tile * 0.12, tile * 0.13, tile * 0.14);
+      ctx.fillStyle = frightened && !flashing ? "#fffdf7" : "#1d2433";
+      ctx.fillRect(-tile * 0.14, -tile * 0.08, tile * 0.06, tile * 0.07);
+      ctx.fillRect(tile * 0.09, -tile * 0.08, tile * 0.06, tile * 0.07);
+      ctx.restore();
+    }
+
+    function draw(now) {
+      const delta = lastFrame ? Math.min(0.04, (now - lastFrame) / 1000) * (Number(speedSelect.value) || 1) : 0;
+      lastFrame = now;
+      update(delta);
+      ctx.clearRect(0, 0, width, height);
+      ctx.fillStyle = "#071319";
+      ctx.fillRect(0, 0, width, height);
+      for (let row = 0; row < rows; row += 1) {
+        for (let col = 0; col < cols; col += 1) {
+          if (maze[row][col] === "#") drawWall(row, col);
+        }
+      }
+      pellets.forEach(function (pelletKey) {
+        const parts = pelletKey.split(",").map(Number);
+        const isPower = powerPellets.has(pelletKey);
+        ctx.fillStyle = isPower ? "rgba(255, 229, 0, 0.24)" : "#ffd166";
+        if (isPower) {
+          ctx.beginPath();
+          ctx.arc((parts[1] + 0.5) * tile, (parts[0] + 0.5) * tile, tile * (0.24 + Math.sin(now / 120) * 0.035), 0, Math.PI * 2);
+          ctx.fill();
+        }
+        ctx.fillStyle = isPower ? "#ffe500" : "#ffd166";
+        ctx.beginPath();
+        ctx.arc((parts[1] + 0.5) * tile, (parts[0] + 0.5) * tile, isPower ? tile * 0.13 : tile * 0.06, 0, Math.PI * 2);
+        ctx.fill();
+      });
+      particles.forEach(function (particle) {
+        ctx.globalAlpha = Math.max(0, particle.life / 0.55);
+        ctx.fillStyle = particle.color;
+        ctx.fillRect(particle.x * tile - 2, particle.y * tile - 2, 4, 4);
+      });
+      ctx.globalAlpha = 1;
+      sentinels.forEach(function (sentinel) { drawSentinel(sentinel, now); });
+      drawExplorer(now);
+      if (!running || gameTime < pauseUntil) {
+        ctx.fillStyle = "rgba(7, 19, 25, 0.68)";
+        ctx.fillRect(0, 0, width, height);
+        ctx.fillStyle = "#fffdf7";
+        ctx.font = "800 28px sans-serif";
+        ctx.textAlign = "center";
+        const paused = !gameOver && !running && gameTime > 0;
+        ctx.fillText(gameOver ? "추격 종료" : gameTime < pauseUntil ? "준비" : paused ? "일시정지" : "시작을 눌러 출발", width / 2, height / 2 - 6);
+        ctx.fillStyle = "#ffe500";
+        ctx.font = "700 15px sans-serif";
+        ctx.fillText(gameOver ? `최종 점수 ${score}` : paused ? "P · Space로 계속" : "방향키 · WASD · 스와이프", width / 2, height / 2 + 25);
+      }
+      const mode = currentMode();
+      if (mode !== lastMode) {
+        if (lastMode === "frightened" && mode !== "frightened") statusMessage = "파워 모드 종료. 센티널이 다시 추격을 시작합니다.";
+        else if (mode === "chase") statusMessage = "추격 모드. 센티널이 플레이어 주변 경로로 모입니다.";
+        else if (mode === "scatter") statusMessage = "순찰 모드. 센티널이 각자 모서리로 흩어집니다.";
+        lastMode = mode;
+      }
+      modeLabel.textContent = mode === "frightened" ? "파워 모드" : mode === "scatter" ? "순찰 모드" : "추격 모드";
+      status.dataset.mode = mode;
+      statusText.textContent = statusMessage;
+      frame = requestAnimationFrame(draw);
+    }
+
+    function sync() {
+      stats[0].textContent = String(score);
+      stats[1].textContent = String(lives);
+      stats[2].textContent = String(stage);
+      stats[3].textContent = String(pellets.size);
+      stats[4].textContent = String(getBest(game.id) || "-");
+    }
+
+    function finish() {
+      running = false;
+      gameOver = true;
+      start.textContent = "다시 시작";
+      const isBest = saveBest(game.id, score, function (value, previous) { return value > previous; });
+      statusMessage = `모든 목숨을 사용했습니다. ${score}점으로 마쳤습니다.`;
+      setResult(isBest ? `새 최고 점수 ${score}점입니다.` : `추격 종료. ${score}점, ${stage}단계까지 도달했습니다.`);
+      sync();
+    }
+
+    function resetGame() {
+      score = 0;
+      lives = 3;
+      stage = 1;
+      gameTime = 0;
+      frightenedUntil = 0;
+      ghostCombo = 0;
+      lastMode = "scatter";
+      pauseUntil = 0;
+      invulnerableUntil = 0;
+      particles = [];
+      running = false;
+      gameOver = false;
+      start.textContent = "시작";
+      buildMaze();
+      resetEntities();
+      statusMessage = "시작을 누르거나 방향을 입력하세요.";
+      setResult("미로의 빛 조각을 모두 모으고 센티널을 피하세요.");
+      sync();
+    }
+
+    function toggle() {
+      if (gameOver) resetGame();
+      running = !running;
+      start.textContent = running ? "일시정지" : "계속";
+      statusMessage = running ? "빛 조각을 모으며 다음 교차점 방향을 미리 입력하세요." : "게임을 일시정지했습니다.";
+      setResult(statusMessage);
+      if (running) audio.tone(390, 0.08, "sine", 0.02);
+      canvas.focus({ preventScroll: true });
+    }
+
+    function queueDirection(direction) {
+      if (gameOver) resetGame();
+      if (player.dir && directions[player.dir].opposite === direction) reverseEntity(player);
+      player.nextDir = direction;
+      if (!running) toggle();
+      canvas.focus({ preventScroll: true });
+    }
+
+    function onKey(event) {
+      const map = { ArrowUp: "up", ArrowDown: "down", ArrowLeft: "left", ArrowRight: "right", w: "up", s: "down", a: "left", d: "right" };
+      const pressed = event.key.length === 1 ? event.key.toLowerCase() : event.key;
+      if (!(pressed in map) && pressed !== " " && pressed !== "p") return;
+      event.preventDefault();
+      if ((pressed === " " || pressed === "p") && !event.repeat) toggle();
+      else if (pressed in map) queueDirection(map[pressed]);
+    }
+
+    start.addEventListener("click", toggle);
+    sound.addEventListener("click", function () { audio.toggle(sound); });
+    canvas.addEventListener("pointerdown", function (event) {
+      swipeStart = { x: event.clientX, y: event.clientY, pointerId: event.pointerId };
+      canvas.setPointerCapture(event.pointerId);
+      canvas.focus({ preventScroll: true });
+    });
+    canvas.addEventListener("pointerup", function (event) {
+      if (!swipeStart) return;
+      const dx = event.clientX - swipeStart.x;
+      const dy = event.clientY - swipeStart.y;
+      swipeStart = null;
+      if (Math.max(Math.abs(dx), Math.abs(dy)) < 18) return;
+      queueDirection(Math.abs(dx) > Math.abs(dy) ? (dx > 0 ? "right" : "left") : (dy > 0 ? "down" : "up"));
+    });
+    canvas.addEventListener("pointercancel", function () { swipeStart = null; });
+    document.addEventListener("keydown", onKey);
+    cleanup.push(function () {
+      cancelAnimationFrame(frame);
+      document.removeEventListener("keydown", onKey);
+      audio.close();
+      surface.classList.remove("maze-chase-game");
+    });
+    resetGame();
+    draw(0);
   }
 
   function renderFlappy(game, surface) {

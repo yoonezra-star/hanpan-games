@@ -112,7 +112,7 @@ try {
       }
     }
 
-    if (id === "bubble-shooter" || id === "omok" || id === "card-solitaire") {
+    if (id === "bubble-shooter" || id === "omok" || id === "card-solitaire" || id === "maze-chase") {
       await page.addStyleTag({
         content: `
           #playSurface {
@@ -125,6 +125,7 @@ try {
           #playSurface .omok-status,
           #playSurface .solitaire-settings,
           #playSurface .solitaire-actions,
+          #playSurface .maze-status,
           #playSurface .mini-controls,
           #playSurface .mini-note { display: none !important; }
         `,
@@ -137,10 +138,12 @@ try {
         ? surface.locator(".omok-board")
         : id === "card-solitaire"
           ? surface.locator(".solitaire-board")
+          : id === "maze-chase"
+            ? surface.locator(".maze-canvas")
         : surface;
     const png = await captureTarget.screenshot({ animations: "disabled" });
     await sharp(png)
-      .resize(640, 360, { fit: "cover", position: "north" })
+      .resize(640, 360, { fit: "cover", position: id === "maze-chase" ? "south" : "north" })
       .webp({ quality: 84, effort: 5 })
       .toFile(path.join(artDir, `${id}.webp`));
     console.log(`Captured ${id}.webp`);
