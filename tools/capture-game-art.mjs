@@ -112,7 +112,7 @@ try {
       }
     }
 
-    if (id === "bubble-shooter" || id === "omok" || id === "card-solitaire" || id === "maze-chase") {
+    if (id === "bubble-shooter" || id === "omok" || id === "card-solitaire" || id === "freecell-classic" || id === "maze-chase") {
       await page.addStyleTag({
         content: `
           #playSurface {
@@ -125,6 +125,7 @@ try {
           #playSurface .omok-status,
           #playSurface .solitaire-settings,
           #playSurface .solitaire-actions,
+          #playSurface .freecell-settings,
           #playSurface .maze-status,
           #playSurface .mini-controls,
           #playSurface .mini-note { display: none !important; }
@@ -138,6 +139,8 @@ try {
         ? surface.locator(".omok-board")
         : id === "card-solitaire"
           ? surface.locator(".solitaire-board")
+          : id === "freecell-classic"
+            ? surface.locator(".freecell-board")
           : id === "maze-chase"
             ? surface.locator(".maze-canvas")
         : surface;

@@ -35,6 +35,7 @@
     { id: "tic-tac-toe", title: "틱택토 Tic-Tac-Toe", category: "board", type: "tictactoe", minutes: "2분", description: "미니맥스 AI, 2인 대전, 난이도와 선후공 선택을 갖춘 전략 보드 게임입니다." },
     { id: "omok", title: "오목 한판", category: "board", type: "omok", minutes: "5분", description: "15×15 바둑판에서 다섯 돌을 먼저 잇는 AI·2인 대전 오목 게임입니다." },
     { id: "card-solitaire", title: "카드 솔리테어", category: "board", type: "solitaire", minutes: "8분", description: "52장 카드를 무늬별로 정리하는 정통 클론다이크 솔리테어입니다." },
+    { id: "freecell-classic", title: "프리셀 클래식", category: "board", type: "freecell", minutes: "10분", description: "네 개의 임시칸을 활용해 52장 카드를 모두 정리하는 전략 카드 퍼즐입니다." },
     { id: "connect-four", title: "사목 미니", category: "board", type: "connect4", minutes: "2분", description: "말을 떨어뜨려 네 개를 먼저 잇는 전략 게임입니다." },
     { id: "rps-survival", title: "가위바위보 서바이벌", category: "board", type: "rps", minutes: "1분", description: "연승을 이어가며 살아남는 가위바위보 게임입니다." },
     { id: "mines", title: "지뢰찾기 미니", category: "puzzle", type: "mines", minutes: "2분", description: "숫자 힌트를 보고 지뢰가 없는 칸을 모두 엽니다." },
@@ -92,7 +93,8 @@
   function saveBest(id, value, better) {
     const key = `hanpan-arcade-${id}`;
     try {
-      const prev = Number(localStorage.getItem(key));
+      const raw = localStorage.getItem(key);
+      const prev = raw === null ? NaN : Number(raw);
       if (!Number.isFinite(prev) || better(value, prev)) {
         localStorage.setItem(key, String(value));
         return true;
@@ -105,7 +107,8 @@
 
   function getBest(id) {
     try {
-      const value = Number(localStorage.getItem(`hanpan-arcade-${id}`));
+      const raw = localStorage.getItem(`hanpan-arcade-${id}`);
+      const value = raw === null ? NaN : Number(raw);
       return Number.isFinite(value) ? value : null;
     } catch (error) {
       return null;
@@ -457,6 +460,7 @@
       tictactoe: renderTicTacToe,
       omok: renderOmok,
       solitaire: renderSolitaire,
+      freecell: renderFreeCell,
       connect4: renderConnect4,
       blackjack: renderBlackjack,
       dice: renderDice,
@@ -516,6 +520,7 @@
       tictactoe: "칸 클릭, 터치, 숫자키 1-9로 둘 수 있습니다. 새 판은 N 키 또는 다시 시작 버튼으로 시작합니다.",
       omok: "빈 교차점을 누르면 돌을 놓습니다. 방향키로 교차점을 이동하고 Enter 또는 스페이스바로 둘 수도 있습니다.",
       solitaire: "카드를 선택한 뒤 목적지를 누르거나 마우스로 끌어 이동합니다. 같은 색을 번갈아 내림차순으로 쌓고 A부터 무늬별로 올리세요.",
+      freecell: "카드나 연속 묶음을 선택한 뒤 열, 임시칸, 기초칸을 누릅니다. 빈 임시칸과 빈 열이 많을수록 더 긴 묶음을 옮길 수 있습니다.",
       connect4: "원하는 열을 클릭하거나 터치하면 말이 아래 빈칸으로 떨어집니다.",
       blackjack: "히트, 스탠드, 더블 버튼을 한 번씩 눌러 진행합니다. 실제 돈, 결제, 환전, 경품은 없습니다.",
       dice: "굴리기와 멈추기 버튼으로 진행합니다. 결과 애니메이션이 끝난 뒤 다음 선택을 누르면 실수를 줄일 수 있습니다.",
@@ -5326,7 +5331,7 @@
     }
 
     function formatTime(value) {
-      if (!Number.isFinite(value) || value < 0) return "-";
+      if (typeof value !== "number" || !Number.isFinite(value) || value < 0) return "-";
       const minutes = Math.floor(value / 60);
       const remaining = value % 60;
       return `${String(minutes).padStart(2, "0")}:${String(remaining).padStart(2, "0")}`;
@@ -5830,6 +5835,736 @@
       surface.classList.remove("solitaire-game");
     });
     deal("한 장 뽑기 방식입니다. 카드 더미를 눌러 시작하세요.");
+  }
+
+  function renderFreeCell(game, surface) {
+    const suits = ["S", "H", "D", "C"];
+    const suitSymbols = { S: "♠", H: "♥", D: "♦", C: "♣" };
+    const suitNames = { S: "스페이드", H: "하트", D: "다이아몬드", C: "클로버" };
+    const rankNames = { 1: "A", 11: "J", 12: "Q", 13: "K" };
+    const historyLimit = 50;
+    const saveKey = `hanpan-freecell-save-${game.id}`;
+    const streakKey = "hanpan-freecell-streak";
+    let columns = Array.from({ length: 8 }, function () { return []; });
+    let freeCells = Array(4).fill(null);
+    let foundations = { S: [], H: [], D: [], C: [] };
+    let selected = null;
+    let history = [];
+    let hint = null;
+    let moves = 0;
+    let seconds = 0;
+    let started = false;
+    let gameOver = false;
+    let dealNumber = 0;
+    let message = "카드를 선택해 프리셀을 시작하세요.";
+    let lastCardClick = { key: "", time: 0 };
+    const audio = createTonePlayer();
+
+    surface.classList.add("freecell-game");
+    renderScore(surface, [
+      { label: "이동", value: "0" },
+      { label: "시간", value: "00:00" },
+      { label: "정리", value: "0/52" },
+      { label: "연승", value: "0" },
+      { label: "최고", value: formatTime(getBest(game.id)) }
+    ]);
+    const stats = surface.querySelectorAll(".mini-score b");
+
+    const settings = document.createElement("div");
+    settings.className = "freecell-settings";
+    const capacity = document.createElement("div");
+    capacity.className = "freecell-capacity";
+    const status = document.createElement("div");
+    status.className = "solitaire-status freecell-status";
+    status.setAttribute("aria-live", "polite");
+    settings.append(capacity, status);
+
+    const board = document.createElement("div");
+    board.className = "freecell-board";
+    board.setAttribute("aria-label", "프리셀 카드판. 위쪽에 임시칸 네 개와 기초칸 네 개, 아래쪽에 카드 열 여덟 개가 있습니다.");
+
+    const boardLabels = document.createElement("div");
+    boardLabels.className = "freecell-board-labels";
+    boardLabels.innerHTML = "<span>임시칸</span><span>기초칸</span>";
+    const topRow = document.createElement("div");
+    topRow.className = "freecell-top-row";
+    const cellPiles = Array.from({ length: 4 }, function (_, index) {
+      const pile = document.createElement("div");
+      pile.className = "solitaire-pile freecell-pile freecell-cell-pile";
+      pile.dataset.destinationKey = `cell-${index}`;
+      bindDrop(pile, "cell", index);
+      pile.addEventListener("click", function (event) {
+        if (event.target === pile || event.target.classList.contains("solitaire-empty-slot")) attemptMove("cell", index);
+      });
+      return pile;
+    });
+    const foundationPiles = suits.map(function (suit) {
+      const pile = document.createElement("div");
+      pile.className = "solitaire-pile freecell-pile freecell-foundation-pile";
+      pile.dataset.destinationKey = `foundation-${suit}`;
+      bindDrop(pile, "foundation", suit);
+      pile.addEventListener("click", function (event) {
+        if (event.target === pile || event.target.classList.contains("solitaire-empty-slot")) attemptMove("foundation", suit);
+      });
+      return pile;
+    });
+    topRow.append(...cellPiles, ...foundationPiles);
+
+    const columnRow = document.createElement("div");
+    columnRow.className = "freecell-columns";
+    const columnPiles = Array.from({ length: 8 }, function (_, index) {
+      const pile = document.createElement("div");
+      pile.className = "solitaire-pile freecell-pile freecell-column-pile";
+      pile.dataset.destinationKey = `column-${index}`;
+      bindDrop(pile, "column", index);
+      pile.addEventListener("click", function (event) {
+        if (event.target === pile || event.target.classList.contains("solitaire-empty-slot")) attemptMove("column", index);
+      });
+      return pile;
+    });
+    columnRow.append(...columnPiles);
+    board.append(boardLabels, topRow, columnRow);
+
+    const actions = document.createElement("div");
+    actions.className = "mini-controls solitaire-actions freecell-actions";
+    const newGame = button("새 게임", "button primary");
+    const undo = button("되돌리기", "button secondary");
+    const hintButton = button("힌트", "button secondary");
+    const autoFinish = button("자동 정리", "button secondary");
+    const sound = button("소리 켜짐", "button secondary sound-toggle");
+    sound.setAttribute("aria-pressed", "true");
+    actions.append(newGame, undo, hintButton, autoFinish, sound);
+
+    const guide = document.createElement("p");
+    guide.className = "mini-note";
+    guide.textContent = "빨강과 검정을 번갈아 내림차순으로 쌓습니다. 빈 임시칸과 빈 열을 확보하면 긴 카드 묶음을 옮길 수 있습니다.";
+    surface.append(settings, board, actions, guide);
+
+    function rankLabel(rank) {
+      return rankNames[rank] || String(rank);
+    }
+
+    function formatTime(value) {
+      if (typeof value !== "number" || !Number.isFinite(value) || value < 0) return "-";
+      const minutes = Math.floor(value / 60);
+      const remaining = value % 60;
+      return `${String(minutes).padStart(2, "0")}:${String(remaining).padStart(2, "0")}`;
+    }
+
+    function cardName(card) {
+      return `${suitNames[card.suit]} ${rankLabel(card.rank)}`;
+    }
+
+    function isRed(card) {
+      return card.suit === "H" || card.suit === "D";
+    }
+
+    function foundationCount() {
+      return suits.reduce(function (sum, suit) { return sum + foundations[suit].length; }, 0);
+    }
+
+    function getStreak() {
+      try {
+        const value = Number(localStorage.getItem(streakKey));
+        return Number.isFinite(value) && value > 0 ? value : 0;
+      } catch (error) {
+        return 0;
+      }
+    }
+
+    function setStreak(value) {
+      try { localStorage.setItem(streakKey, String(Math.max(0, value))); } catch (error) { /* Local records are optional. */ }
+    }
+
+    function makeDeck(seed) {
+      const deck = [];
+      suits.forEach(function (suit) {
+        for (let rank = 1; rank <= 13; rank += 1) deck.push({ id: `${suit}-${rank}`, suit, rank });
+      });
+      let state = seed >>> 0;
+      function random() {
+        state = (Math.imul(state, 1664525) + 1013904223) >>> 0;
+        return state / 4294967296;
+      }
+      for (let index = deck.length - 1; index > 0; index -= 1) {
+        const target = Math.floor(random() * (index + 1));
+        [deck[index], deck[target]] = [deck[target], deck[index]];
+      }
+      return deck;
+    }
+
+    function updateStats() {
+      stats[0].textContent = String(moves);
+      stats[1].textContent = formatTime(seconds);
+      stats[2].textContent = `${foundationCount()}/52`;
+      stats[3].textContent = String(getStreak());
+      stats[4].textContent = formatTime(getBest(game.id));
+    }
+
+    function emptyCellCount() {
+      return freeCells.filter(function (card) { return !card; }).length;
+    }
+
+    function emptyColumnCount(excludedDestination) {
+      return columns.filter(function (pile, index) {
+        return !pile.length && index !== excludedDestination;
+      }).length;
+    }
+
+    function moveCapacity(destinationIndex) {
+      const targetIsEmpty = Number.isInteger(destinationIndex)
+        && destinationIndex >= 0
+        && destinationIndex < columns.length
+        && !columns[destinationIndex].length;
+      const emptyColumns = emptyColumnCount(targetIsEmpty ? destinationIndex : -1);
+      return (emptyCellCount() + 1) * Math.pow(2, emptyColumns);
+    }
+
+    function saveState() {
+      if (gameOver) return;
+      try {
+        localStorage.setItem(saveKey, JSON.stringify({ version: 1, columns, freeCells, foundations, moves, seconds, started, dealNumber }));
+      } catch (error) {
+        // The game remains playable when storage is unavailable.
+      }
+    }
+
+    function clearSavedState() {
+      try { localStorage.removeItem(saveKey); } catch (error) { /* Storage is optional. */ }
+    }
+
+    function snapshot() {
+      history.push(JSON.stringify({ columns, freeCells, foundations, moves, seconds, started, dealNumber }));
+      if (history.length > historyLimit) history.shift();
+    }
+
+    function restoreSnapshot(raw) {
+      const saved = JSON.parse(raw);
+      columns = saved.columns;
+      freeCells = saved.freeCells;
+      foundations = saved.foundations;
+      moves = saved.moves;
+      seconds = saved.seconds;
+      started = saved.started;
+      dealNumber = saved.dealNumber;
+      selected = null;
+      hint = null;
+      gameOver = false;
+    }
+
+    function validSavedState(saved) {
+      if (!saved || saved.version !== 1 || !Array.isArray(saved.columns) || saved.columns.length !== 8) return false;
+      if (!Array.isArray(saved.freeCells) || saved.freeCells.length !== 4 || !saved.foundations) return false;
+      const cards = saved.columns.flat()
+        .concat(saved.freeCells.filter(Boolean))
+        .concat(...suits.map(function (suit) { return saved.foundations[suit] || []; }));
+      return cards.length === 52 && new Set(cards.map(function (card) { return card && card.id; })).size === 52;
+    }
+
+    function restoreSavedGame() {
+      try {
+        const saved = JSON.parse(localStorage.getItem(saveKey));
+        if (!validSavedState(saved) || suits.reduce(function (sum, suit) { return sum + saved.foundations[suit].length; }, 0) === 52) return false;
+        columns = saved.columns;
+        freeCells = saved.freeCells;
+        foundations = saved.foundations;
+        moves = Number(saved.moves) || 0;
+        seconds = Number(saved.seconds) || 0;
+        started = Boolean(saved.started);
+        dealNumber = Number(saved.dealNumber) || 1;
+        message = `저장된 게임 #${dealNumber}을 이어서 플레이합니다.`;
+        setResult(`프리셀 게임 #${dealNumber} 이어하기. 현재 ${foundationCount()}장을 정리했습니다.`);
+        return true;
+      } catch (error) {
+        return false;
+      }
+    }
+
+    function sourceKey(source) {
+      if (!source) return "";
+      return source.type === "column" ? `column-${source.pile}-${source.index}` : `${source.type}-${source.pile}`;
+    }
+
+    function selectionMatches(source) {
+      return selected && selected.type === source.type && selected.pile === source.pile && selected.index === source.index;
+    }
+
+    function canBuildSequence(cards) {
+      return cards.every(function (card, index) {
+        if (!index) return true;
+        const previous = cards[index - 1];
+        return previous.rank === card.rank + 1 && isRed(previous) !== isRed(card);
+      });
+    }
+
+    function sourceCards(source) {
+      if (!source) return [];
+      if (source.type === "cell") {
+        return freeCells[source.pile] && source.index === 0 ? [freeCells[source.pile]] : [];
+      }
+      if (source.type === "foundation") {
+        const pile = foundations[source.pile];
+        return pile && source.index === pile.length - 1 ? [pile[pile.length - 1]] : [];
+      }
+      if (source.type === "column") {
+        const cards = columns[source.pile].slice(source.index);
+        return canBuildSequence(cards) ? cards : [];
+      }
+      return [];
+    }
+
+    function canPlaceColumn(card, destination) {
+      const target = columns[destination];
+      if (!target.length) return true;
+      const top = target[target.length - 1];
+      return top.rank === card.rank + 1 && isRed(top) !== isRed(card);
+    }
+
+    function canPlaceFoundation(card, suit) {
+      return card.suit === suit && card.rank === foundations[suit].length + 1;
+    }
+
+    function detach(source) {
+      if (source.type === "cell") {
+        const card = freeCells[source.pile];
+        freeCells[source.pile] = null;
+        return [card];
+      }
+      if (source.type === "foundation") return [foundations[source.pile].pop()];
+      return columns[source.pile].splice(source.index);
+    }
+
+    function cardButton(card, source, offset) {
+      const item = button("", `solitaire-card freecell-card ${isRed(card) ? "red" : "black"}`);
+      item.dataset.cardId = card.id;
+      item.dataset.sourceKey = sourceKey(source);
+      item.style.setProperty("--card-offset", `${offset || 0}px`);
+      item.setAttribute("aria-label", cardName(card));
+      item.setAttribute("aria-pressed", String(selectionMatches(source)));
+      item.disabled = gameOver;
+      item.draggable = !gameOver;
+      item.innerHTML = `<span class="solitaire-card-corner"><strong>${rankLabel(card.rank)}</strong><span>${suitSymbols[card.suit]}</span></span><span class="solitaire-card-suit" aria-hidden="true">${suitSymbols[card.suit]}</span>`;
+      item.addEventListener("click", function (event) {
+        event.stopPropagation();
+        onCardClick(source);
+      });
+      item.addEventListener("dblclick", function (event) {
+        event.preventDefault();
+        event.stopPropagation();
+        autoFoundation(source);
+      });
+      item.addEventListener("dragstart", function (event) {
+        selected = source;
+        item.setAttribute("aria-pressed", "true");
+        event.dataTransfer.effectAllowed = "move";
+        event.dataTransfer.setData("text/plain", JSON.stringify(source));
+      });
+      return item;
+    }
+
+    function emptySlot(label, symbol) {
+      const slot = button(symbol || "", "solitaire-empty-slot freecell-empty-slot");
+      slot.setAttribute("aria-label", label);
+      slot.disabled = gameOver;
+      return slot;
+    }
+
+    function renderCells() {
+      cellPiles.forEach(function (pile, index) {
+        pile.innerHTML = "";
+        const card = freeCells[index];
+        if (card) {
+          const source = { type: "cell", pile: index, index: 0 };
+          const item = cardButton(card, source, 0);
+          item.dataset.destinationKey = `cell-${index}`;
+          pile.appendChild(item);
+        } else {
+          const slot = emptySlot(`${index + 1}번 빈 임시칸`, "+");
+          slot.dataset.destinationKey = `cell-${index}`;
+          pile.appendChild(slot);
+        }
+      });
+    }
+
+    function renderFoundations() {
+      foundationPiles.forEach(function (pile, index) {
+        const suit = suits[index];
+        const cards = foundations[suit];
+        pile.innerHTML = "";
+        if (cards.length) {
+          const source = { type: "foundation", pile: suit, index: cards.length - 1 };
+          const item = cardButton(cards[cards.length - 1], source, 0);
+          item.dataset.destinationKey = `foundation-${suit}`;
+          pile.appendChild(item);
+        } else {
+          const slot = emptySlot(`${suitNames[suit]} 기초칸, A부터 놓기`, suitSymbols[suit]);
+          slot.dataset.destinationKey = `foundation-${suit}`;
+          pile.appendChild(slot);
+        }
+      });
+    }
+
+    function renderColumns() {
+      columnPiles.forEach(function (pile, pileIndex) {
+        pile.innerHTML = "";
+        const cards = columns[pileIndex];
+        if (!cards.length) {
+          const slot = emptySlot(`${pileIndex + 1}번 빈 열`, "빈 열");
+          slot.dataset.destinationKey = `column-${pileIndex}`;
+          pile.appendChild(slot);
+          pile.style.setProperty("--pile-height", "var(--freecell-card-height)");
+          return;
+        }
+        const availableHeight = Math.max(240, Math.min(430, window.innerHeight * 0.46));
+        const offset = Math.max(22, Math.min(38, (availableHeight - 116) / Math.max(1, cards.length - 1)));
+        cards.forEach(function (card, cardIndex) {
+          const source = { type: "column", pile: pileIndex, index: cardIndex };
+          const item = cardButton(card, source, cardIndex * offset);
+          item.style.zIndex = String(cardIndex + 1);
+          pile.appendChild(item);
+        });
+        pile.style.setProperty("--pile-height", `calc(var(--freecell-card-height) + ${(cards.length - 1) * offset}px)`);
+      });
+    }
+
+    function applyHint() {
+      if (!hint) return;
+      const sourceElement = board.querySelector(`[data-source-key="${hint.source}"]`);
+      const destinationElement = board.querySelector(`[data-destination-key="${hint.destination}"]`);
+      if (sourceElement) sourceElement.classList.add("is-hint-source");
+      if (destinationElement) destinationElement.classList.add("is-hint-destination");
+    }
+
+    function render() {
+      renderCells();
+      renderFoundations();
+      renderColumns();
+      const maxMove = moveCapacity(-1);
+      capacity.innerHTML = `<strong>최대 묶음 ${maxMove}장</strong><span>빈 임시칸 ${emptyCellCount()} · 빈 열 ${emptyColumnCount(-1)} · 게임 #${dealNumber}</span>`;
+      status.innerHTML = `<strong>${gameOver ? "게임 완성" : selected ? "카드 선택됨" : started ? "진행 중" : "플레이 준비"}</strong><span>${message}</span>`;
+      undo.disabled = !history.length || gameOver;
+      hintButton.disabled = gameOver;
+      autoFinish.disabled = gameOver || foundationCount() === 52;
+      updateStats();
+      applyHint();
+      saveState();
+    }
+
+    function beginMove() {
+      started = true;
+      moves += 1;
+      hint = null;
+    }
+
+    function moveToColumn(source, destination) {
+      const cards = sourceCards(source);
+      if (!cards.length || !canPlaceColumn(cards[0], destination)) return false;
+      if (source.type === "column" && source.pile === destination) return false;
+      const capacityForMove = moveCapacity(destination);
+      if (cards.length > capacityForMove) {
+        message = `현재 빈 공간으로는 최대 ${capacityForMove}장까지 한 번에 옮길 수 있습니다.`;
+        audio.tone(170, 0.07, "square", 0.014);
+        render();
+        return true;
+      }
+      snapshot();
+      beginMove();
+      const moving = detach(source);
+      columns[destination].push(...moving);
+      selected = null;
+      message = `${cardName(moving[0])}${moving.length > 1 ? `부터 ${moving.length}장` : ""}을 ${destination + 1}열로 옮겼습니다.`;
+      audio.tone(350, 0.055, "sine", 0.018);
+      checkWin();
+      render();
+      return true;
+    }
+
+    function moveToCell(source, destination) {
+      const cards = sourceCards(source);
+      if (cards.length !== 1 || freeCells[destination]) return false;
+      if (source.type === "cell" && source.pile === destination) return false;
+      snapshot();
+      beginMove();
+      const moving = detach(source)[0];
+      freeCells[destination] = moving;
+      selected = null;
+      message = `${cardName(moving)} 카드를 ${destination + 1}번 임시칸에 보관했습니다.`;
+      audio.tone(410, 0.055, "triangle", 0.018);
+      render();
+      return true;
+    }
+
+    function moveToFoundation(source, suit) {
+      const cards = sourceCards(source);
+      if (cards.length !== 1 || !canPlaceFoundation(cards[0], suit)) return false;
+      snapshot();
+      beginMove();
+      const moving = detach(source)[0];
+      foundations[suit].push(moving);
+      selected = null;
+      message = `${cardName(moving)} 카드를 기초칸에 올렸습니다.`;
+      audio.tone(560 + moving.rank * 12, 0.07, "sine", 0.022);
+      checkWin();
+      render();
+      return true;
+    }
+
+    function attemptMove(destinationType, destination) {
+      if (!selected || gameOver) return false;
+      let moved = false;
+      if (destinationType === "column") moved = moveToColumn(selected, Number(destination));
+      if (destinationType === "cell") moved = moveToCell(selected, Number(destination));
+      if (destinationType === "foundation") moved = moveToFoundation(selected, destination);
+      if (!moved) {
+        if (destinationType === "column") message = "열에는 반대 색의 한 단계 낮은 카드만 놓을 수 있습니다.";
+        if (destinationType === "cell") message = "임시칸에는 카드 한 장만 보관할 수 있습니다.";
+        if (destinationType === "foundation") message = "기초칸에는 같은 무늬를 A부터 순서대로 놓습니다.";
+        audio.tone(170, 0.06, "square", 0.014);
+        render();
+      }
+      return moved;
+    }
+
+    function onCardClick(source) {
+      if (gameOver) return;
+      const now = Date.now();
+      const key = sourceKey(source);
+      if (lastCardClick.key === key && now - lastCardClick.time < 420) {
+        lastCardClick = { key: "", time: 0 };
+        autoFoundation(source);
+        return;
+      }
+      lastCardClick = { key, time: now };
+      if (selectionMatches(source)) {
+        selected = null;
+        message = "선택을 해제했습니다.";
+        render();
+        return;
+      }
+      if (selected && source.type === "column" && attemptMove("column", source.pile)) return;
+      if (selected && source.type === "cell" && attemptMove("cell", source.pile)) return;
+      if (selected && source.type === "foundation" && attemptMove("foundation", source.pile)) return;
+      const cards = sourceCards(source);
+      if (!cards.length) return;
+      selected = source;
+      hint = null;
+      message = `${cardName(cards[0])}${cards.length > 1 ? `부터 ${cards.length}장` : ""}을 선택했습니다. 목적지를 누르세요.`;
+      render();
+    }
+
+    function autoFoundation(source) {
+      const cards = sourceCards(source);
+      if (cards.length !== 1) return;
+      if (!moveToFoundation(source, cards[0].suit)) {
+        message = "이 카드는 아직 기초칸에 올릴 수 없습니다.";
+        render();
+      }
+    }
+
+    function bindDrop(element, destinationType, destination) {
+      element.addEventListener("dragover", function (event) {
+        event.preventDefault();
+        event.dataTransfer.dropEffect = "move";
+        element.classList.add("is-drag-over");
+      });
+      element.addEventListener("dragleave", function () { element.classList.remove("is-drag-over"); });
+      element.addEventListener("drop", function (event) {
+        event.preventDefault();
+        element.classList.remove("is-drag-over");
+        try { selected = JSON.parse(event.dataTransfer.getData("text/plain")); } catch (error) { /* Keep current selection. */ }
+        attemptMove(destinationType, destination);
+      });
+    }
+
+    function canAutoSafely(card) {
+      if (!canPlaceFoundation(card, card.suit)) return false;
+      if (card.rank <= 2) return true;
+      const oppositeSuits = isRed(card) ? ["S", "C"] : ["H", "D"];
+      return oppositeSuits.every(function (suit) { return foundations[suit].length >= card.rank - 1; });
+    }
+
+    function findHint() {
+      for (let index = 0; index < 4; index += 1) {
+        const card = freeCells[index];
+        if (card && canPlaceFoundation(card, card.suit)) {
+          const source = { type: "cell", pile: index, index: 0 };
+          return { source, destination: `foundation-${card.suit}`, text: `${cardName(card)} 카드를 기초칸에 올릴 수 있습니다.` };
+        }
+      }
+      for (let pile = 0; pile < 8; pile += 1) {
+        const cards = columns[pile];
+        if (!cards.length) continue;
+        const topIndex = cards.length - 1;
+        const top = cards[topIndex];
+        if (canPlaceFoundation(top, top.suit)) {
+          const source = { type: "column", pile, index: topIndex };
+          return { source, destination: `foundation-${top.suit}`, text: `${cardName(top)} 카드를 기초칸에 올릴 수 있습니다.` };
+        }
+      }
+      for (let pile = 0; pile < 8; pile += 1) {
+        const cards = columns[pile];
+        for (let cardIndex = 0; cardIndex < cards.length; cardIndex += 1) {
+          const moving = cards.slice(cardIndex);
+          if (!canBuildSequence(moving)) continue;
+          for (let destination = 0; destination < 8; destination += 1) {
+            if (destination === pile || !canPlaceColumn(moving[0], destination) || moving.length > moveCapacity(destination)) continue;
+            if (!columns[destination].length && cardIndex === 0) continue;
+            return {
+              source: { type: "column", pile, index: cardIndex },
+              destination: `column-${destination}`,
+              text: `${cardName(moving[0])}${moving.length > 1 ? `부터 ${moving.length}장` : ""}을 ${destination + 1}열로 옮겨 보세요.`
+            };
+          }
+        }
+      }
+      const emptyCell = freeCells.findIndex(function (card) { return !card; });
+      if (emptyCell >= 0) {
+        for (let pile = 0; pile < 8; pile += 1) {
+          if (!columns[pile].length) continue;
+          const index = columns[pile].length - 1;
+          const card = columns[pile][index];
+          return { source: { type: "column", pile, index }, destination: `cell-${emptyCell}`, text: `${cardName(card)} 카드를 임시칸으로 옮겨 아래 카드를 열어 보세요.` };
+        }
+      }
+      return null;
+    }
+
+    function showHint() {
+      const found = findHint();
+      selected = null;
+      if (!found) {
+        hint = null;
+        message = "현재 확인되는 이동이 없습니다. 되돌리기나 새 게임으로 흐름을 바꿔 보세요.";
+      } else {
+        hint = { source: sourceKey(found.source), destination: found.destination };
+        message = found.text;
+        audio.tone(620, 0.08, "sine", 0.018);
+      }
+      render();
+    }
+
+    function autoMoveSafeCards() {
+      if (gameOver) return;
+      snapshot();
+      let moved = 0;
+      let progress = true;
+      while (progress) {
+        progress = false;
+        for (let index = 0; index < freeCells.length; index += 1) {
+          const card = freeCells[index];
+          if (!card || !canAutoSafely(card)) continue;
+          freeCells[index] = null;
+          foundations[card.suit].push(card);
+          moves += 1;
+          moved += 1;
+          progress = true;
+        }
+        for (let pile = 0; pile < columns.length; pile += 1) {
+          const card = columns[pile][columns[pile].length - 1];
+          if (!card || !canAutoSafely(card)) continue;
+          columns[pile].pop();
+          foundations[card.suit].push(card);
+          moves += 1;
+          moved += 1;
+          progress = true;
+        }
+      }
+      if (!moved) {
+        history.pop();
+        message = "지금 안전하게 자동 정리할 수 있는 카드가 없습니다.";
+        audio.tone(170, 0.06, "square", 0.014);
+      } else {
+        started = true;
+        selected = null;
+        hint = null;
+        message = `안전한 카드 ${moved}장을 기초칸으로 정리했습니다.`;
+        audio.tone(660, 0.1, "sine", 0.024);
+        checkWin();
+      }
+      render();
+    }
+
+    function checkWin() {
+      if (foundationCount() !== 52) return;
+      gameOver = true;
+      started = false;
+      const nextStreak = getStreak() + 1;
+      setStreak(nextStreak);
+      const isBest = saveBest(game.id, seconds, function (value, previous) { return value < previous; });
+      message = `52장을 모두 정리했습니다. ${formatTime(seconds)} 완성${isBest ? "으로 최고 기록을 세웠습니다" : "입니다"}.`;
+      setResult(`프리셀 완성. 이동 ${moves}회, 기록 ${formatTime(seconds)}, 연승 ${nextStreak}회입니다.`);
+      board.classList.add("is-complete");
+      clearSavedState();
+      audio.tone(660, 0.12, "sine", 0.035);
+      audio.tone(880, 0.18, "sine", 0.03, 0.12);
+    }
+
+    function deal(messageText, abandonCurrent) {
+      if (abandonCurrent && started && !gameOver && foundationCount() < 52) setStreak(0);
+      dealNumber = Math.floor(Math.random() * 999999) + 1;
+      const deck = makeDeck(dealNumber);
+      columns = Array.from({ length: 8 }, function () { return []; });
+      deck.forEach(function (card, index) { columns[index % 8].push(card); });
+      freeCells = Array(4).fill(null);
+      foundations = { S: [], H: [], D: [], C: [] };
+      selected = null;
+      history = [];
+      hint = null;
+      moves = 0;
+      seconds = 0;
+      started = false;
+      gameOver = false;
+      message = `${messageText} 게임 #${dealNumber}입니다.`;
+      board.classList.remove("is-complete");
+      clearSavedState();
+      setResult(`프리셀 게임 #${dealNumber}. 카드를 선택해 시작하세요.`);
+      render();
+    }
+
+    function undoMove() {
+      if (!history.length || gameOver) return;
+      restoreSnapshot(history.pop());
+      message = "직전 이동을 되돌렸습니다.";
+      audio.tone(230, 0.08, "triangle", 0.016);
+      setResult(`되돌리기 완료. 현재 이동 수는 ${moves}회입니다.`);
+      render();
+    }
+
+    function onKeyDown(event) {
+      if (event.target && /INPUT|SELECT|TEXTAREA/.test(event.target.tagName)) return;
+      if (event.key === "Escape" && selected) {
+        selected = null;
+        message = "선택을 해제했습니다.";
+        render();
+      }
+      if ((event.ctrlKey || event.metaKey) && event.key.toLowerCase() === "z") {
+        event.preventDefault();
+        undoMove();
+      }
+      if (!event.ctrlKey && !event.metaKey && event.key.toLowerCase() === "h") showHint();
+    }
+
+    const timer = window.setInterval(function () {
+      if (!started || gameOver) return;
+      seconds += 1;
+      updateStats();
+      if (seconds % 5 === 0) saveState();
+    }, 1000);
+    newGame.addEventListener("click", function () { deal("카드를 다시 섞어 새 게임을 시작했습니다.", true); });
+    undo.addEventListener("click", undoMove);
+    hintButton.addEventListener("click", showHint);
+    autoFinish.addEventListener("click", autoMoveSafeCards);
+    sound.addEventListener("click", function () { audio.toggle(sound); });
+    window.addEventListener("keydown", onKeyDown);
+    cleanup.push(function () {
+      window.clearInterval(timer);
+      window.removeEventListener("keydown", onKeyDown);
+      audio.close();
+      surface.classList.remove("freecell-game");
+    });
+
+    if (restoreSavedGame()) render();
+    else deal("새 카드를 펼쳤습니다.", false);
   }
 
   function renderConnect4(game, surface) {

@@ -2272,6 +2272,105 @@ body.game-fullscreen-fallback-open {
   min-width: 0;
 }
 
+.freecell-game {
+  --freecell-card-height: 130px;
+}
+
+.freecell-settings {
+  display: grid;
+  grid-template-columns: minmax(190px, 0.38fr) minmax(260px, 1fr);
+  gap: 10px;
+  align-items: stretch;
+}
+
+.freecell-capacity {
+  display: grid;
+  align-content: center;
+  min-height: 50px;
+  padding: 8px 12px;
+  color: #fff;
+  background: #2877b9;
+  border: 1px solid #1c5b8d;
+  border-radius: 8px;
+}
+
+.freecell-capacity strong {
+  color: #fff3b5;
+  font-size: 14px;
+}
+
+.freecell-capacity span {
+  font-size: 12px;
+}
+
+.freecell-board {
+  width: min(100%, 860px);
+  min-height: 590px;
+  margin: 0 auto;
+  padding: 14px;
+  color: #fff;
+  background-color: #155a50;
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.025), rgba(0, 0, 0, 0.04)),
+    repeating-linear-gradient(45deg, rgba(255, 255, 255, 0.025) 0 1px, transparent 1px 8px);
+  border: 3px solid #103f39;
+  border-radius: 8px;
+  box-shadow: inset 0 0 0 2px rgba(255, 255, 255, 0.11), 0 8px 22px rgba(16, 63, 57, 0.24);
+}
+
+.freecell-board.is-complete {
+  box-shadow: inset 0 0 0 4px var(--gold), 0 8px 22px rgba(16, 63, 57, 0.24);
+}
+
+.freecell-board-labels {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  margin-bottom: 5px;
+  color: rgba(255, 255, 255, 0.76);
+  font-size: 11px;
+  font-weight: 900;
+  text-align: center;
+}
+
+.freecell-top-row,
+.freecell-columns {
+  display: grid;
+  grid-template-columns: repeat(8, minmax(0, 1fr));
+  gap: 7px;
+}
+
+.freecell-top-row {
+  min-height: var(--freecell-card-height);
+  margin-bottom: 22px;
+}
+
+.freecell-pile {
+  min-width: 0;
+}
+
+.freecell-column-pile {
+  min-height: max(360px, var(--pile-height));
+}
+
+.freecell-empty-slot {
+  min-height: var(--freecell-card-height);
+  color: rgba(255, 255, 255, 0.58);
+  background: rgba(7, 51, 46, 0.3);
+}
+
+.freecell-card {
+  min-height: var(--freecell-card-height);
+}
+
+.freecell-actions {
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  width: min(100%, 790px);
+}
+
+.game-fullscreen-stage.is-game-fullscreen-active .freecell-board {
+  min-height: min(590px, calc(100dvh - 230px));
+}
+
 .maze-chase-game {
   align-items: center;
 }
@@ -3336,6 +3435,64 @@ body.game-fullscreen-fallback-open {
 
   .solitaire-actions {
     grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .freecell-game {
+    --freecell-card-height: 59px;
+  }
+
+  .freecell-settings {
+    grid-template-columns: 1fr;
+    gap: 7px;
+  }
+
+  .freecell-capacity {
+    min-height: 44px;
+  }
+
+  .freecell-board {
+    width: calc(100% + 30px);
+    min-height: 430px;
+    margin-right: -15px;
+    margin-left: -15px;
+    padding: 5px 4px;
+    border-width: 2px;
+  }
+
+  .freecell-board-labels {
+    margin-bottom: 3px;
+    font-size: 9px;
+  }
+
+  .freecell-top-row,
+  .freecell-columns {
+    gap: 2px;
+  }
+
+  .freecell-top-row {
+    margin-bottom: 12px;
+  }
+
+  .freecell-column-pile {
+    min-height: max(295px, var(--pile-height));
+  }
+
+  .freecell-empty-slot {
+    min-height: var(--freecell-card-height);
+    font-family: inherit;
+    font-size: 9px;
+  }
+
+  .freecell-card {
+    min-height: var(--freecell-card-height);
+  }
+
+  .freecell-actions {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .freecell-actions .sound-toggle {
+    grid-column: 1 / -1;
   }
 
   .maze-status {

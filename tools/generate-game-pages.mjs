@@ -5,7 +5,7 @@ const root = process.cwd();
 const publicDir = path.join(root, "public");
 const arcadePath = path.join(publicDir, "assets", "arcade.js");
 const arcade = fs.readFileSync(arcadePath, "utf8");
-const assetVersion = "20260816-maze";
+const assetVersion = "20260816-freecell";
 const siteUrl = "https://hanpangames.kr";
 const adsenseClient = "ca-pub-6918910185244897";
 const adsenseScript = `<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${adsenseClient}" crossorigin="anonymous"></script>`;
@@ -116,6 +116,7 @@ const gameGuideIds = {
   "tic-tac-toe": ["tic-tac-toe-strategy", "browser-game-benefits", "short-break-web-games"],
   "connect-four": ["tic-tac-toe-strategy", "browser-game-benefits", "short-break-web-games"],
   "card-solitaire": ["browser-game-benefits", "short-break-web-games", "mobile-browser-game-tips"],
+  "freecell-classic": ["browser-game-benefits", "mobile-browser-game-tips", "short-break-web-games"],
   "maze-chase": ["mobile-browser-game-tips", "short-break-web-games", "browser-game-benefits"],
   "flappy-jump": ["mobile-browser-game-tips", "short-break-web-games", "browser-game-benefits"],
   "chair-dash": ["mobile-browser-game-tips", "short-break-web-games", "browser-game-benefits"],
@@ -537,6 +538,11 @@ const typeGuides = {
     tips: ["뒤집힌 카드가 많은 열을 먼저 열어 선택지를 늘립니다.", "기초 더미로 너무 빨리 올리기 전에 테이블에서 필요한 낮은 카드인지 확인합니다.", "빈 열은 K와 그 아래 연속 묶음만 받을 수 있으므로 어떤 K를 옮길지 비교합니다."],
     faq: ["카드는 어떻게 옮기나요?", "카드를 한 번 선택한 뒤 목적지를 누르거나, 마우스로 카드를 끌어 원하는 열이나 기초 더미에 놓을 수 있습니다."],
   },
+  freecell: {
+    how: "프리셀은 52장의 모든 카드를 앞면으로 펼친 뒤 네 개의 임시칸과 빈 열을 작업 공간으로 사용해 네 기초칸을 완성하는 카드 퍼즐입니다. 열에서는 빨강과 검정을 번갈아 내림차순으로 쌓고, 기초칸에는 같은 무늬를 A부터 K까지 올립니다.",
+    tips: ["낮은 카드와 A를 막고 있는 열부터 엽니다.", "임시칸 네 개를 모두 채우기보다 최소 한 칸을 비워 둡니다.", "긴 묶음을 옮기기 전에 빈 열과 임시칸으로 이동 가능한 장수를 확인합니다."],
+    faq: ["여러 장을 한 번에 옮길 수 있나요?", "네. 반대 색 내림차순 묶음은 빈 임시칸과 빈 열의 수로 계산한 범위 안에서 한 번에 옮길 수 있습니다."],
+  },
   default: {
     how: "짧은 규칙을 읽고 바로 시작할 수 있는 브라우저 미니게임입니다. 화면의 점수판과 결과 안내를 보면서 한 판씩 기록을 갱신해 보세요.",
     tips: ["처음 한 판은 규칙을 익히는 데 사용합니다.", "결과 메시지를 보고 다음 판에서 줄일 실수를 정합니다.", "모바일에서는 화면 버튼을 천천히 눌러 조작감을 먼저 확인합니다."],
@@ -570,6 +576,19 @@ const featuredGuides = {
     mistakes: ["옮길 K가 없는데 테이블 한 열을 무리하게 비우는 실수", "테이블에서 필요한 낮은 카드를 기초 더미로 너무 빨리 올리는 실수", "새 카드를 계속 뽑으면서 현재 테이블의 가능한 이동을 놓치는 실수"],
     faqs: [["어떤 솔리테어 규칙인가요?", "가장 널리 알려진 클론다이크 규칙입니다. 테이블은 색을 번갈아 내림차순으로, 기초 더미는 같은 무늬를 A부터 오름차순으로 쌓습니다."], ["한 장과 세 장 뽑기는 무엇이 다른가요?", "한 장 뽑기는 매번 한 장을 펼쳐 입문자에게 편하고, 세 장 뽑기는 세 장씩 펼쳐 카드 순서를 더 신중하게 관리해야 합니다."], ["되돌리기는 몇 번 가능한가요?", "현재 판의 최근 30단계까지 되돌릴 수 있습니다. 새 게임을 시작하면 되돌리기 기록도 초기화됩니다."], ["모바일에서 드래그해야 하나요?", "아니요. 카드를 누른 뒤 목적지를 누르는 방식만으로 플레이할 수 있으며 마우스 환경에서는 드래그도 지원합니다."], ["실제 돈이나 보상이 있나요?", "아니요. 무료 카드 퍼즐이며 결제, 베팅, 환전, 경품 또는 현금성 보상이 없습니다."]],
     update: "2026년 8월 16일 52장 클론다이크 규칙, 한 장·세 장 뽑기, 드래그와 터치 이동, 힌트, 되돌리기, 효과음과 완주 기록을 갖춘 첫 버전을 공개했습니다."
+  },
+  "freecell-classic": {
+    overview: "프리셀 클래식은 52장의 카드를 모두 앞면으로 펼쳐 놓고 네 개의 임시칸과 빈 열을 활용해 네 무늬를 A부터 K까지 정리하는 전략 카드 퍼즐입니다. 숨은 카드나 추가 카드 더미가 없어 현재 판의 모든 정보를 보면서 이동 순서를 계획할 수 있습니다.",
+    why: "8개 카드 열, 4개 임시칸, 4개 기초칸을 사용하는 정식 프리셀 구조와 반대 색 내림차순 규칙을 구현했습니다. 빈 공간으로 실제 이동 가능한 묶음 수를 계산하고, 클릭·터치·드래그 이동, 최근 50회 되돌리기, 힌트, 안전한 카드 자동 정리, 자동 저장과 이어하기를 함께 지원합니다.",
+    snapshot: [["핵심 목표", "네 무늬의 카드를 A부터 K까지 기초칸에 모두 정리합니다."], ["추천 상황", "운보다 공개된 정보를 바탕으로 긴 수순을 계획하는 카드 퍼즐을 원할 때 좋습니다."], ["실력 포인트", "임시칸 절약, 빈 열 확보, 낮은 카드 해방, 이동 가능한 묶음 수 계산입니다."]],
+    controls: ["카드 또는 반대 색 내림차순 묶음을 선택한 뒤 이동할 열을 누릅니다. 한 장은 빈 임시칸이나 규칙에 맞는 기초칸에도 놓을 수 있고, PC에서는 선택한 카드를 목적지로 끌어 놓을 수 있습니다.", "카드를 빠르게 두 번 누르면 규칙에 맞을 때 같은 무늬의 기초칸으로 이동합니다. Tab으로 카드와 버튼 사이를 이동하고 Enter 또는 Space로 선택할 수 있으며, Escape는 선택 해제, H는 힌트, Ctrl+Z 또는 Command+Z는 되돌리기입니다.", "자동 정리는 전략에 필요한 높은 카드를 무조건 올리지 않고, 반대 색 기초칸의 진행 상태를 확인해 되돌릴 필요가 적은 카드만 옮깁니다. 새로고침하거나 다시 방문하면 현재 브라우저에 저장된 미완성 판을 이어서 불러옵니다."],
+    scoring: ["기초칸에 정리한 카드 수, 이동 횟수, 경과 시간은 카드판 위에 계속 표시됩니다. 52장을 모두 올리면 완성으로 처리되고 가장 빠른 기록은 현재 브라우저에 저장됩니다.", "완성한 다음 판도 연속으로 끝내면 연승이 올라갑니다. 진행 중인 판을 포기하고 새 게임을 시작하면 연승은 0으로 돌아가므로 현재 판을 되돌리기와 힌트로 먼저 풀어 보는 편이 좋습니다.", "프리셀의 묶음 이동 한도는 빈 임시칸과 빈 열에 따라 달라집니다. 일반 목적지는 `(빈 임시칸 + 1) × 2의 빈 열 수 제곱`만큼 옮길 수 있고, 빈 열 자체가 목적지이면 그 열은 계산에서 제외됩니다."],
+    beginner: ["A와 2처럼 낮은 카드가 어느 열 아래에 있는지 먼저 찾고 그 열의 위쪽 카드부터 치웁니다.", "임시칸은 카드를 잠시 꺼내는 공간입니다. 네 칸을 모두 채우면 한 장씩만 움직여야 하므로 가능하면 한두 칸을 항상 비워 둡니다.", "빈 열에는 어떤 카드도 놓을 수 있지만 단순한 보관 장소로 쓰기보다 긴 묶음을 재배치하거나 막힌 낮은 카드를 여는 데 사용합니다."],
+    advanced: ["빈 열 하나는 임시칸만 사용할 때보다 이동 가능한 묶음 수를 두 배로 늘립니다. 긴 묶음을 만들기 전에 빈 열을 유지하면 판 전체를 재정렬하기 쉬워집니다.", "같은 숫자의 빨강 카드 두 장 중 하나를 먼저 옮겨야 한다면, 그 아래에서 더 낮은 카드나 A가 열리는 쪽을 선택합니다. 지금 이동 가능한 카드보다 다음 두세 번의 작업 공간 변화를 함께 봅니다.", "기초칸 자동 이동은 낮은 카드부터 안전하게 사용합니다. 높은 카드를 너무 일찍 올려 반대 색 카드를 받을 발판이 사라지지 않도록 자동 정리 기준과 직접 이동을 구분합니다."],
+    mobile: ["세로 화면에서는 카드 왼쪽 위의 숫자와 무늬를 확인한 뒤 출발 카드와 목적지를 차례로 누릅니다. 드래그 없이 모든 규칙 이동을 완료할 수 있습니다.", "화면 위의 최대 묶음 표시를 먼저 보면 작은 화면에서도 현재 몇 장까지 함께 옮길 수 있는지 계산할 필요가 없습니다.", "전체화면과 가로 회전을 사용하면 여덟 열의 카드 간격이 넓어집니다. 긴 열은 세로로 스크롤할 수 있으므로 브라우저 확대보다 카드판 스크롤을 사용하는 편이 안정적입니다."],
+    mistakes: ["임시칸 네 개를 모두 채워 이동 가능한 묶음을 한 장으로 줄이는 실수", "빈 열을 아무 카드 한 장의 보관용으로 써서 긴 묶음 재배치 기회를 없애는 실수", "기초칸에 올릴 수 있다는 이유만으로 높은 카드를 먼저 올려 테이블의 반대 색 연결을 끊는 실수"],
+    faqs: [["클론다이크 솔리테어와 무엇이 다른가요?", "프리셀은 모든 카드가 처음부터 앞면으로 공개되고 추가 카드 더미가 없습니다. 네 개의 임시칸과 빈 열을 이용해 공개된 판을 계획적으로 풉니다."], ["여러 장을 한 번에 옮기는 규칙이 적용되나요?", "네. 반대 색 내림차순으로 연결된 묶음만 선택할 수 있고, 빈 임시칸과 빈 열로 실제 옮길 수 있는 장수를 계산해 제한합니다."], ["게임을 닫으면 진행 상황이 사라지나요?", "지원되는 브라우저에서는 미완성 판, 이동 수, 시간이 현재 기기의 로컬 저장소에 자동 저장되어 다음 방문에 이어집니다."], ["자동 정리가 게임을 망칠 수 있나요?", "자동 정리는 A와 2 또는 반대 색 기초칸이 충분히 올라온 안전한 카드만 대상으로 합니다. 더 공격적인 이동은 플레이어가 직접 선택합니다."], ["실제 돈이나 보상이 있나요?", "아니요. 설치, 결제, 베팅, 환전, 경품 없이 브라우저에서 즐기는 무료 카드 퍼즐입니다."]],
+    update: "2026년 8월 16일 정식 프리셀 이동 규칙, 묶음 수 계산, 드래그와 터치 선택, 힌트, 50회 되돌리기, 안전 자동 정리, 효과음, 자동 저장, 연승과 최고 기록을 갖춘 첫 버전을 공개했습니다."
   },
   "block-drop-classic": {
     overview: "블록 드롭 클래식은 떨어지는 7종 블록을 회전해 빈틈을 줄이고, 가로줄을 지워 버티는 고전 퍼즐 게임입니다. 다음 블록, 홀드 칸, 고스트 블록을 함께 읽어 보드 높이를 관리하는 판단력이 핵심입니다.",
@@ -1177,8 +1196,7 @@ function guideCardsHtml(game) {
 
 function policyNoticeHtml(game) {
   if (!sensitiveGameIds.has(game.id)) return "";
-  return `
-        <p class="site-note policy-note">
+  return `        <p class="site-note policy-note">
           ${htmlEscape(topicName(game.title))} 무료 오락용 웹게임입니다. 실제 돈, 결제, 환전, 경품, 현금성 보상은 제공하지 않습니다.
         </p>`;
 }
@@ -1310,6 +1328,7 @@ function pageHtml(game) {
   const related = relatedFor(game);
   const category = categoryNames[game.category] || "게임";
   const url = `${siteUrl}/games/${game.id}/`;
+  const policyNotice = policyNoticeHtml(game);
   const description = `${game.title} 플레이 방법, 조작법, 점수 기준, 공략 팁, 모바일 플레이와 FAQ를 정리한 무료 ${category} 웹게임 페이지입니다.`;
   const socialImageMeta = illustratedGameIds.has(game.id)
     ? `    <meta property="og:image" content="${siteUrl}/assets/game-art/${game.id}.webp">\n    <meta property="og:image:alt" content="${htmlEscape(game.title)} 플레이 장면">\n`
@@ -1389,8 +1408,7 @@ ${socialImageMeta}    <meta property="og:type" content="website">
         <p class="eyebrow">${htmlEscape(category)} · ${htmlEscape(game.minutes)}</p>
         <h1 id="playTitle">${htmlEscape(game.title)}</h1>
         <p id="playDescription">${htmlEscape(game.description)}</p>
-        ${policyNoticeHtml(game)}
-        <div class="game-launcher" aria-label="게임 선택">
+${policyNotice ? `${policyNotice}\n` : ""}        <div class="game-launcher" aria-label="게임 선택">
           <label for="gamePagePicker">
             <span>플레이할 게임</span>
             <select id="gamePagePicker" data-game-page-picker data-current-game="${game.id}" onchange="if (this.value &amp;&amp; this.value !== this.dataset.currentGame) window.location.href = '/games/' + encodeURIComponent(this.value) + '/#play-area'"></select>
@@ -1461,12 +1479,12 @@ for (const game of catalog) {
 }
 
 const staticUrls = [
-  { loc: `${siteUrl}/`, priority: "1.0", changefreq: "weekly", lastmod: "2026-07-22" },
-  { loc: `${siteUrl}/games/`, priority: "0.9", changefreq: "weekly", lastmod: "2026-08-15" },
-  { loc: `${siteUrl}/play/`, priority: "0.9", changefreq: "weekly", lastmod: "2026-08-15" },
+  { loc: `${siteUrl}/`, priority: "1.0", changefreq: "weekly", lastmod: "2026-08-16" },
+  { loc: `${siteUrl}/games/`, priority: "0.9", changefreq: "weekly", lastmod: "2026-08-16" },
+  { loc: `${siteUrl}/play/`, priority: "0.9", changefreq: "weekly", lastmod: "2026-08-16" },
   { loc: `${siteUrl}/guides/`, priority: "0.8", changefreq: "monthly", lastmod: "2026-07-22" },
   { loc: `${siteUrl}/help/`, priority: "0.7", changefreq: "monthly", lastmod: "2026-07-22" },
-  { loc: `${siteUrl}/updates/`, priority: "0.6", changefreq: "monthly", lastmod: "2026-08-15" },
+  { loc: `${siteUrl}/updates/`, priority: "0.6", changefreq: "monthly", lastmod: "2026-08-16" },
   { loc: `${siteUrl}/about/`, priority: "0.6", changefreq: "monthly" },
   { loc: `${siteUrl}/privacy/`, priority: "0.5", changefreq: "yearly", lastmod: "2026-07-22" },
   { loc: `${siteUrl}/terms/`, priority: "0.5", changefreq: "yearly", lastmod: "2026-07-22" },
@@ -1485,7 +1503,7 @@ const gameUrls = catalog
     loc: `${siteUrl}/games/${game.id}/`,
     priority: "0.8",
     changefreq: "monthly",
-    lastmod: "2026-08-15",
+    lastmod: "2026-08-16",
   }));
 
 const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
