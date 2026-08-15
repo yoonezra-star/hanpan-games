@@ -99,7 +99,23 @@ try {
       await page.waitForTimeout(450);
     }
 
-    const png = await surface.screenshot({ animations: "disabled" });
+    if (id === "bubble-shooter") {
+      await page.addStyleTag({
+        content: `
+          #playSurface {
+            min-height: 0 !important;
+            max-height: none !important;
+            overflow: visible !important;
+          }
+          #playSurface .mini-score,
+          #playSurface .mini-controls,
+          #playSurface .mini-note { display: none !important; }
+        `,
+      });
+    }
+
+    const captureTarget = id === "bubble-shooter" ? surface.locator("canvas") : surface;
+    const png = await captureTarget.screenshot({ animations: "disabled" });
     await sharp(png)
       .resize(640, 360, { fit: "cover", position: "north" })
       .webp({ quality: 84, effort: 5 })

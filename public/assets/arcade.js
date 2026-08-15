@@ -20,6 +20,7 @@
     { id: "pong-rally", title: "퐁 랠리", category: "arcade", type: "pong", minutes: "2분", description: "패들을 움직여 공을 받아내고 상대보다 먼저 득점하는 클래식 랠리 게임입니다." },
     { id: "space-guard", title: "우주 방어선", category: "arcade", type: "space", minutes: "3분", description: "좌우로 움직이며 탄을 쏘고 내려오는 적 편대를 막아내는 슈팅 게임입니다." },
     { id: "flappy-jump", title: "플래피 점프", category: "arcade", type: "flappy", minutes: "1분", description: "짧게 점프하며 기둥 사이를 통과하는 원버튼 회피 게임입니다." },
+    { id: "bubble-shooter", title: "버블 슈터 클래식", category: "puzzle", type: "bubbleShooter", minutes: "4분", description: "조준선을 맞춰 같은 색 버블을 세 개 이상 연결하고 연쇄 낙하를 만드는 클래식 퍼즐입니다." },
     { id: "bubble-pop", title: "버블팝", category: "arcade", type: "bubble", minutes: "1분", description: "반짝이는 버블을 놓치지 않고 눌러 점수를 모읍니다." },
     { id: "snake-garden", title: "뱀의 정원", category: "arcade", type: "snake", minutes: "2분", description: "정원을 돌아다니며 먹이를 먹고 몸을 늘리는 그리드 게임입니다." },
     { id: "airplane-dodge", title: "붕붕 비행기", category: "arcade", type: "lane", minutes: "1분", description: "세 개의 항로를 오가며 장애물을 피하는 비행 게임입니다." },
@@ -439,6 +440,7 @@
       pong: renderPong,
       space: renderSpaceGuard,
       flappy: renderFlappy,
+      bubbleShooter: renderBubbleShooter,
       snake: renderSnake,
       lane: renderLane,
       chair: renderChairRace,
@@ -501,6 +503,7 @@
       pong: "위아래 방향키 또는 포인터 이동으로 패들을 움직입니다. 랠리가 빨라지면 중앙으로 돌아오는 습관이 좋습니다.",
       space: "좌우 방향키로 이동하고 스페이스바로 발사합니다. 화면 버튼도 같은 기능을 제공합니다.",
       flappy: "스페이스바, 클릭, 터치로 짧게 점프합니다. 길게 누르기보다 일정한 리듬으로 입력하세요.",
+      bubbleShooter: "마우스나 손가락으로 조준하고 게임판을 눌러 발사합니다. 방향키로 각도를 조절하고 스페이스바로 쏠 수도 있습니다.",
       snake: "방향키 또는 화면 방향 버튼으로 이동합니다. 반대 방향 급회전은 제한됩니다.",
       chair: "좌우 방향키로 회전하고 위 방향키 또는 가속 버튼으로 밀어 줍니다. 관성 때문에 코너 전에 미리 방향을 잡는 편이 좋습니다.",
       tictactoe: "칸 클릭, 터치, 숫자키 1-9로 둘 수 있습니다. 새 판은 N 키 또는 다시 시작 버튼으로 시작합니다.",
@@ -1048,6 +1051,421 @@
     resetBall();
     sync();
     step();
+  }
+
+  function renderBubbleShooter(game, surface) {
+    const width = 720;
+    const height = 520;
+    const radius = 22;
+    const diameter = radius * 2;
+    const rowGap = 38;
+    const columns = 14;
+    const top = 30;
+    const shooter = { x: width / 2, y: height - 48 };
+    const colors = ["#ff6257", "#ffbf3f", "#42b883", "#4e8ff0", "#a66be5"];
+    let bubbles = [];
+    let projectile = null;
+    let nextColor = colors[1];
+    let aim = -Math.PI / 2;
+    let score = 0;
+    let level = 1;
+    let misses = 0;
+    let combo = 0;
+    let running = false;
+    let ended = false;
+    let frame = null;
+    let previousFrame = 0;
+    const audio = createTonePlayer();
+
+    renderScore(surface, [
+      { label: "점수", value: "0" },
+      { label: "레벨", value: "1" },
+      { label: "남은 버블", value: "0" },
+      { label: "천장 경고", value: "0/5" },
+      { label: "최고", value: getBest(game.id) || "-" }
+    ]);
+    const stats = surface.querySelectorAll(".mini-score b");
+    const canvas = document.createElement("canvas");
+    canvas.className = "arcade-canvas bubble-shooter-canvas";
+    canvas.width = width;
+    canvas.height = height;
+    canvas.tabIndex = 0;
+    canvas.setAttribute("role", "application");
+    canvas.setAttribute("aria-label", "버블 슈터 게임판. 마우스나 터치로 조준하고 눌러 발사합니다. 방향키와 스페이스바도 사용할 수 있습니다.");
+    const ctx = canvas.getContext("2d");
+    const controls = document.createElement("div");
+    controls.className = "mini-controls bubble-shooter-controls";
+    const start = button("시작", "button primary");
+    const restart = button("새 게임", "button secondary");
+    const speedSelect = createSpeedSelect();
+    const sound = button("소리 켜짐", "button secondary sound-toggle");
+    const left = button("왼쪽 조준", "button secondary");
+    const shootButton = button("발사", "button primary");
+    const right = button("오른쪽 조준", "button secondary");
+    sound.setAttribute("aria-pressed", "true");
+    controls.append(start, restart, speedSelect, sound, left, shootButton, right);
+    const guide = document.createElement("p");
+    guide.className = "mini-note";
+    guide.textContent = "같은 색을 3개 이상 연결하세요. 연쇄 제거로 천장과 연결이 끊긴 버블을 떨어뜨리면 더 큰 점수를 얻습니다.";
+    surface.append(canvas, controls, guide);
+
+    function activePalette() {
+      return colors.slice(0, Math.min(colors.length, 3 + Math.floor((level - 1) / 2)));
+    }
+
+    function center(row, column) {
+      return {
+        x: 40 + radius + column * diameter + (row % 2 ? radius : 0),
+        y: top + radius + row * rowGap
+      };
+    }
+
+    function key(row, column) {
+      return `${row}:${column}`;
+    }
+
+    function bubbleAt(row, column) {
+      return bubbles.find(function (bubble) {
+        return bubble.row === row && bubble.column === column;
+      });
+    }
+
+    function neighborCells(row, column) {
+      const offsets = row % 2
+        ? [[-1, 0], [-1, 1], [0, -1], [0, 1], [1, 0], [1, 1]]
+        : [[-1, -1], [-1, 0], [0, -1], [0, 1], [1, -1], [1, 0]];
+      return offsets.map(function (offset) {
+        return { row: row + offset[0], column: column + offset[1] };
+      }).filter(function (cell) {
+        return cell.row >= 0 && cell.column >= 0 && cell.column < columns;
+      });
+    }
+
+    function randomBoardColor() {
+      const available = Array.from(new Set(bubbles.map(function (bubble) { return bubble.color; })));
+      const palette = available.length ? available : activePalette();
+      return sample(palette);
+    }
+
+    function buildBoard(rowCount) {
+      bubbles = [];
+      const palette = activePalette();
+      for (let row = 0; row < rowCount; row += 1) {
+        for (let column = 0; column < columns; column += 1) {
+          if (row > 2 && Math.random() < 0.12) continue;
+          bubbles.push({ row, column, color: sample(palette) });
+        }
+      }
+      nextColor = randomBoardColor();
+    }
+
+    function updateStats() {
+      stats[0].textContent = String(score);
+      stats[1].textContent = String(level);
+      stats[2].textContent = String(bubbles.length);
+      stats[3].textContent = `${misses}/5`;
+      stats[4].textContent = String(getBest(game.id) || "-");
+    }
+
+    function matchingGroup(origin) {
+      const found = [];
+      const visited = new Set();
+      const queue = [origin];
+      while (queue.length) {
+        const current = queue.shift();
+        const id = key(current.row, current.column);
+        if (visited.has(id) || current.color !== origin.color) continue;
+        visited.add(id);
+        found.push(current);
+        neighborCells(current.row, current.column).forEach(function (cell) {
+          const neighbor = bubbleAt(cell.row, cell.column);
+          if (neighbor && !visited.has(key(neighbor.row, neighbor.column))) queue.push(neighbor);
+        });
+      }
+      return found;
+    }
+
+    function unsupportedBubbles() {
+      const anchored = new Set();
+      const queue = bubbles.filter(function (bubble) { return bubble.row === 0; });
+      while (queue.length) {
+        const current = queue.shift();
+        const id = key(current.row, current.column);
+        if (anchored.has(id)) continue;
+        anchored.add(id);
+        neighborCells(current.row, current.column).forEach(function (cell) {
+          const neighbor = bubbleAt(cell.row, cell.column);
+          if (neighbor && !anchored.has(key(neighbor.row, neighbor.column))) queue.push(neighbor);
+        });
+      }
+      return bubbles.filter(function (bubble) {
+        return !anchored.has(key(bubble.row, bubble.column));
+      });
+    }
+
+    function hasReachedShooter() {
+      return bubbles.some(function (bubble) {
+        return center(bubble.row, bubble.column).y + radius >= shooter.y - 54;
+      });
+    }
+
+    function finishGame(message) {
+      running = false;
+      ended = true;
+      start.textContent = "다시 시작";
+      const isBest = saveBest(game.id, score, function (value, previous) { return value > previous; });
+      updateStats();
+      audio.tone(150, 0.32, "sawtooth", 0.03);
+      setResult(isBest ? `${message} 새 최고 점수 ${score}점입니다.` : `${message} 최종 점수는 ${score}점입니다.`);
+    }
+
+    function addCeilingRow() {
+      bubbles.forEach(function (bubble) { bubble.row += 1; });
+      const palette = activePalette();
+      for (let column = 0; column < columns; column += 1) {
+        bubbles.push({ row: 0, column, color: sample(palette) });
+      }
+      audio.tone(175, 0.22, "sawtooth", 0.025);
+      setResult("실패 발사 5회로 천장이 한 줄 내려왔습니다.");
+      if (hasReachedShooter()) finishGame("버블이 발사선에 닿았습니다.");
+    }
+
+    function nearestEmptyCell(x, y) {
+      const maxRow = Math.max(0, ...bubbles.map(function (bubble) { return bubble.row; })) + 1;
+      const occupied = new Set(bubbles.map(function (bubble) { return key(bubble.row, bubble.column); }));
+      let best = null;
+      for (let row = 0; row <= Math.min(12, maxRow); row += 1) {
+        for (let column = 0; column < columns; column += 1) {
+          if (occupied.has(key(row, column))) continue;
+          const point = center(row, column);
+          const distance = Math.hypot(point.x - x, point.y - y);
+          if (!best || distance < best.distance) best = { row, column, distance };
+        }
+      }
+      return best;
+    }
+
+    function resolveShot() {
+      const cell = nearestEmptyCell(projectile.x, projectile.y);
+      if (!cell) {
+        projectile = null;
+        finishGame("더 놓을 공간이 없습니다.");
+        return;
+      }
+      const placed = { row: cell.row, column: cell.column, color: projectile.color };
+      bubbles.push(placed);
+      projectile = null;
+      const group = matchingGroup(placed);
+      if (group.length >= 3) {
+        const removed = new Set(group.map(function (bubble) { return key(bubble.row, bubble.column); }));
+        bubbles = bubbles.filter(function (bubble) { return !removed.has(key(bubble.row, bubble.column)); });
+        const falling = unsupportedBubbles();
+        const fallingKeys = new Set(falling.map(function (bubble) { return key(bubble.row, bubble.column); }));
+        bubbles = bubbles.filter(function (bubble) { return !fallingKeys.has(key(bubble.row, bubble.column)); });
+        combo += 1;
+        score += group.length * 12 + falling.length * 25 + Math.max(0, combo - 1) * 15;
+        misses = 0;
+        audio.tone(520 + Math.min(combo, 8) * 35, 0.09, "sine", 0.03);
+        if (falling.length) audio.tone(760, 0.14, "triangle", 0.025, 0.08);
+        setResult(`${group.length}개 제거${falling.length ? `, ${falling.length}개 연쇄 낙하` : ""}. 콤보 x${combo}!`);
+      } else {
+        combo = 0;
+        misses += 1;
+        audio.tone(240, 0.08, "square", 0.018);
+        setResult(`같은 색 3개가 이어지지 않았습니다. 천장 경고 ${misses}/5.`);
+        if (misses >= 5) {
+          misses = 0;
+          addCeilingRow();
+        }
+      }
+      if (!bubbles.length && !ended) {
+        level += 1;
+        score += 250;
+        buildBoard(Math.min(8, 5 + Math.floor(level / 2)));
+        running = false;
+        start.textContent = "다음 레벨";
+        audio.tone(660, 0.12, "sine", 0.035);
+        audio.tone(880, 0.18, "sine", 0.03, 0.11);
+        setResult(`${level - 1}레벨을 정리했습니다. 다음 레벨에는 색과 버블이 늘어납니다.`);
+      }
+      if (hasReachedShooter() && !ended) finishGame("버블이 발사선에 닿았습니다.");
+      nextColor = randomBoardColor();
+      saveBest(game.id, score, function (value, previous) { return value > previous; });
+      updateStats();
+    }
+
+    function shoot() {
+      if (!running || ended || projectile) return;
+      projectile = {
+        x: shooter.x,
+        y: shooter.y - 24,
+        dx: Math.cos(aim) * 9.5,
+        dy: Math.sin(aim) * 9.5,
+        color: nextColor
+      };
+      nextColor = randomBoardColor();
+      audio.tone(360, 0.06, "square", 0.022);
+      updateStats();
+    }
+
+    function moveAim(amount) {
+      aim = Math.max(-Math.PI + 0.2, Math.min(-0.2, aim + amount));
+    }
+
+    function aimAt(event) {
+      const rect = canvas.getBoundingClientRect();
+      const x = (event.clientX - rect.left) / rect.width * width;
+      const y = (event.clientY - rect.top) / rect.height * height;
+      if (y >= shooter.y - 8) return;
+      aim = Math.atan2(y - shooter.y, x - shooter.x);
+      aim = Math.max(-Math.PI + 0.2, Math.min(-0.2, aim));
+    }
+
+    function resetGame() {
+      score = 0;
+      level = 1;
+      misses = 0;
+      combo = 0;
+      projectile = null;
+      ended = false;
+      running = false;
+      aim = -Math.PI / 2;
+      buildBoard(6);
+      start.textContent = "시작";
+      setResult("조준선을 움직여 같은 색 버블을 세 개 이상 연결하세요.");
+      updateStats();
+    }
+
+    function toggleRunning() {
+      if (ended) {
+        resetGame();
+        running = true;
+      } else {
+        running = !running;
+      }
+      start.textContent = running ? "일시정지" : "계속";
+      setResult(running ? "게임판을 누르거나 스페이스바로 발사하세요." : "일시정지했습니다.");
+      if (running) audio.tone(440, 0.07, "sine", 0.02);
+      canvas.focus({ preventScroll: true });
+    }
+
+    function update(now) {
+      const scale = animationScale(now, previousFrame, speedSelect);
+      previousFrame = now;
+      if (!running || !projectile) return;
+      projectile.x += projectile.dx * scale;
+      projectile.y += projectile.dy * scale;
+      if (projectile.x <= radius || projectile.x >= width - radius) {
+        projectile.x = Math.max(radius, Math.min(width - radius, projectile.x));
+        projectile.dx *= -1;
+        audio.tone(290, 0.035, "square", 0.01);
+      }
+      const hitTop = projectile.y <= top + radius;
+      const hitBubble = bubbles.some(function (bubble) {
+        const point = center(bubble.row, bubble.column);
+        return Math.hypot(projectile.x - point.x, projectile.y - point.y) <= diameter - 3;
+      });
+      if (hitTop || hitBubble) resolveShot();
+    }
+
+    function drawBubble(x, y, color, scale) {
+      ctx.save();
+      ctx.translate(x, y);
+      ctx.scale(scale || 1, scale || 1);
+      const gradient = ctx.createRadialGradient(-7, -8, 2, 0, 0, radius);
+      gradient.addColorStop(0, "#ffffff");
+      gradient.addColorStop(0.18, color);
+      gradient.addColorStop(1, color);
+      ctx.beginPath();
+      ctx.arc(0, 0, radius - 1, 0, Math.PI * 2);
+      ctx.fillStyle = gradient;
+      ctx.fill();
+      ctx.strokeStyle = "rgba(29,36,51,0.7)";
+      ctx.lineWidth = 2;
+      ctx.stroke();
+      ctx.restore();
+    }
+
+    function draw(now) {
+      update(now);
+      ctx.clearRect(0, 0, width, height);
+      ctx.fillStyle = "#101827";
+      ctx.fillRect(0, 0, width, height);
+      ctx.fillStyle = "rgba(255,255,255,0.035)";
+      for (let x = 0; x < width; x += 48) ctx.fillRect(x, 0, 1, height);
+      ctx.fillStyle = "#ffcf5d";
+      ctx.fillRect(0, 0, width, 8);
+      bubbles.forEach(function (bubble) {
+        const point = center(bubble.row, bubble.column);
+        drawBubble(point.x, point.y, bubble.color, 1);
+      });
+      ctx.save();
+      ctx.setLineDash([8, 9]);
+      ctx.strokeStyle = "rgba(255,255,255,0.72)";
+      ctx.lineWidth = 3;
+      ctx.beginPath();
+      ctx.moveTo(shooter.x, shooter.y - 10);
+      ctx.lineTo(shooter.x + Math.cos(aim) * 150, shooter.y + Math.sin(aim) * 150);
+      ctx.stroke();
+      ctx.restore();
+      ctx.save();
+      ctx.translate(shooter.x, shooter.y);
+      ctx.rotate(aim + Math.PI / 2);
+      ctx.fillStyle = "#fffaf0";
+      ctx.fillRect(-12, -58, 24, 60);
+      ctx.strokeStyle = "#1d2433";
+      ctx.lineWidth = 3;
+      ctx.strokeRect(-12, -58, 24, 60);
+      ctx.restore();
+      drawBubble(shooter.x, shooter.y - 18, nextColor, 0.86);
+      ctx.fillStyle = "rgba(255,255,255,0.78)";
+      ctx.font = "700 14px sans-serif";
+      ctx.textAlign = "left";
+      ctx.fillText("다음", 24, height - 24);
+      drawBubble(82, height - 30, nextColor, 0.5);
+      if (projectile) drawBubble(projectile.x, projectile.y, projectile.color, 0.94);
+      if (!running) {
+        ctx.fillStyle = "rgba(16,24,39,0.7)";
+        ctx.fillRect(0, 0, width, height);
+        ctx.fillStyle = "#ffffff";
+        ctx.font = "800 30px sans-serif";
+        ctx.textAlign = "center";
+        ctx.fillText(ended ? "게임 종료" : "시작을 눌러 조준", width / 2, height / 2);
+      }
+      frame = requestAnimationFrame(draw);
+    }
+
+    function onKey(event) {
+      if (!["ArrowLeft", "ArrowRight", " ", "p", "P"].includes(event.key)) return;
+      event.preventDefault();
+      if (event.key === "ArrowLeft") moveAim(-0.075);
+      if (event.key === "ArrowRight") moveAim(0.075);
+      if (event.key === " ") shoot();
+      if (event.key.toLowerCase() === "p" && !event.repeat) toggleRunning();
+    }
+
+    start.addEventListener("click", toggleRunning);
+    restart.addEventListener("click", resetGame);
+    sound.addEventListener("click", function () { audio.toggle(sound); });
+    left.addEventListener("click", function () { moveAim(-0.09); canvas.focus({ preventScroll: true }); });
+    right.addEventListener("click", function () { moveAim(0.09); canvas.focus({ preventScroll: true }); });
+    shootButton.addEventListener("click", shoot);
+    canvas.addEventListener("pointermove", aimAt);
+    canvas.addEventListener("pointerdown", function (event) {
+      event.preventDefault();
+      aimAt(event);
+      if (!running && !ended) toggleRunning();
+      shoot();
+      canvas.focus({ preventScroll: true });
+    });
+    document.addEventListener("keydown", onKey);
+    cleanup.push(function () {
+      cancelAnimationFrame(frame);
+      document.removeEventListener("keydown", onKey);
+      audio.close();
+    });
+    resetGame();
+    frame = requestAnimationFrame(draw);
   }
 
   function renderBrick(game, surface) {
