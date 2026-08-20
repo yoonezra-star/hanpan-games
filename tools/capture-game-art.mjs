@@ -137,6 +137,14 @@ try {
       await surface.getByRole("button", { name: "7 입력" }).click();
     }
 
+    if (id === "block-drop-classic") {
+      const board = surface.locator(".block-drop-canvas");
+      for (const key of ["ArrowLeft", "Space", "ArrowRight", "Space", "ArrowLeft", "Space", "ArrowRight", "Space", "ArrowLeft", "Space", "ArrowRight", "Space"]) {
+        await board.press(key);
+        await page.waitForTimeout(35);
+      }
+    }
+
     if (id === "bubble-shooter" || id === "omok" || id === "card-solitaire" || id === "freecell-classic" || id === "maze-chase" || id === "mines" || id === "twenty-48" || id === "sudoku-mini") {
       await page.addStyleTag({
         content: `
@@ -177,6 +185,8 @@ try {
             ? surface.locator(".board-2048")
           : id === "sudoku-mini"
             ? surface.locator(".sudoku-board")
+          : id === "block-drop-classic"
+            ? surface.locator(".block-drop-canvas")
           : id === "maze-chase"
             ? surface.locator(".maze-canvas")
         : surface;
@@ -184,7 +194,7 @@ try {
     await sharp(png)
       .resize(640, 360, id === "twenty-48" || id === "sudoku-mini"
         ? { fit: "contain", background: "#202735" }
-        : { fit: "cover", position: id === "maze-chase" ? "south" : "north" })
+        : { fit: "cover", position: id === "maze-chase" || id === "block-drop-classic" ? "south" : "north" })
       .webp({ quality: 84, effort: 5 })
       .toFile(path.join(artDir, `${id}.webp`));
     console.log(`Captured ${id}.webp`);

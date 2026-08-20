@@ -14,7 +14,7 @@
     <meta property="og:type" content="website">
     <meta property="og:title" content="블록 드롭 클래식 - 한판게임">
     <meta property="og:description" content="블록 드롭 클래식 플레이 방법, 조작법, 점수 기준, 공략 팁, 모바일 플레이와 FAQ를 정리한 무료 퍼즐 웹게임 페이지입니다.">
-    <link rel="stylesheet" href="/assets/styles.css?v=20260820-sudoku">
+    <link rel="stylesheet" href="/assets/styles.css?v=20260820-blockdrop">
   </head>
   <body>
     <header class="site-header">
@@ -35,7 +35,7 @@
       <section class="page-title">
         <p class="eyebrow">퍼즐 · 4분</p>
         <h1 id="playTitle">블록 드롭 클래식</h1>
-        <p id="playDescription">떨어지는 블록을 회전하고 쌓아 가로줄을 지우는 고전 퍼즐입니다.</p>
+        <p id="playDescription">7종 블록을 쌓아 줄을 지우고 홀드와 다음 블록 3개로 기록에 도전합니다.</p>
         <div class="game-launcher" aria-label="게임 선택">
           <label for="gamePagePicker">
             <span>플레이할 게임</span>
@@ -80,12 +80,13 @@
 
         <article class="article featured-article">
           <h2 id="overview">이 게임의 핵심</h2>
-          <p>블록 드롭 클래식은 떨어지는 7종 블록을 회전해 빈틈을 줄이고, 가로줄을 지워 버티는 고전 퍼즐 게임입니다. 다음 블록, 홀드 칸, 고스트 블록을 함께 읽어 보드 높이를 관리하는 판단력이 핵심입니다.</p>
-          <p>단순 낙하 퍼즐을 넘어 7-백 랜덤, 다음 블록 미리보기, 홀드, 하드 드롭, 회전 보정, 연속 줄 삭제 콤보를 넣었습니다. 키보드·터치·효과음 토글을 모두 지원해 짧은 한 판도 손에 남는 클래식 게임으로 구성했습니다.</p>
+          <p>블록 드롭 클래식은 10×20 보드에 떨어지는 7종 블록을 회전해 가로줄을 지우는 낙하 퍼즐입니다. 다음 블록 3개, 홀드 칸과 고스트 위치를 함께 읽어 보드를 낮게 유지하는 판단력이 핵심입니다.</p>
+          <p>7-백 랜덤, 다음 블록 3개, 블록당 1회 홀드, 고스트 블록, 하드 드롭과 벽 회전 보정을 구현했습니다. 바닥에 닿은 뒤 잠깐 움직일 수 있는 고정 지연과 실제 경과시간 기준 낙하를 적용해 모바일과 PC에서 같은 속도와 조작 여유를 제공합니다.</p>
           <div class="detail-snapshot" aria-label="게임 요약">
-            <div><strong>핵심 목표</strong><span>블록을 쌓아 가로줄을 지우고 보드가 끝까지 차오르지 않게 버팁니다.</span></div>
-            <div><strong>추천 상황</strong><span>생각할 시간이 조금 있는 고전 퍼즐과 기록 도전을 원할 때 좋습니다.</span></div>
-            <div><strong>실력 포인트</strong><span>다음 블록, 홀드, 고스트 위치, 높이 관리, 콤보 판단입니다.</span></div>
+            <div><strong>핵심 목표</strong><span>10×20 보드에 블록을 쌓아 줄을 지우고 상단까지 차오르지 않게 버팁니다.</span></div>
+            <div><strong>미리보기</strong><span>홀드 1칸과 다음 블록 3개를 동시에 확인해 두세 수 앞을 준비합니다.</span></div>
+            <div><strong>실력 포인트</strong><span>고스트 위치, 고정 지연, 높이 관리, 콤보와 백투백 판단입니다.</span></div>
+            <div><strong>모바일</strong><span>가로폭을 채운 게임판과 길게 누르는 방향 버튼, 전체화면을 지원합니다.</span></div>
           </div>
 
           <h2 id="play-notes">플레이 포인트</h2>
@@ -107,16 +108,17 @@
 
           <h2 id="controls">조작과 진행</h2>
           <ul class="detail-list">
-            <li>좌우 방향키 또는 A와 D 키는 이동, 위쪽 방향키 또는 W는 회전, 아래쪽 방향키 또는 S는 한 칸 빠른 낙하에 사용합니다.</li>
-            <li>스페이스바는 즉시 낙하, C는 홀드, P는 일시 정지입니다. 모바일에서는 화면의 이동·회전·내리기·즉시 낙하·홀드 버튼을 사용할 수 있습니다.</li>
-            <li>소리 버튼으로 이동, 회전, 줄 삭제, 게임 종료 효과음을 켜거나 끌 수 있습니다. 최고 기록은 가능한 경우 현재 브라우저에 저장됩니다.</li>
+            <li>좌우 방향키 또는 A와 D는 이동, 위쪽 방향키 또는 W는 회전, 아래쪽 방향키 또는 S는 한 칸 내리기입니다. 이동 키를 반복해서 눌러 빠르게 자리를 맞출 수 있습니다.</li>
+            <li>스페이스바는 고스트 위치로 즉시 낙하하고 C는 현재 블록을 홀드합니다. 홀드는 한 블록당 한 번만 가능하며 새 블록이 나오면 다시 사용할 수 있습니다.</li>
+            <li>모바일에서는 좌우와 내리기 버튼을 길게 눌러 연속 이동할 수 있습니다. P는 일시 정지이며 다른 앱이나 탭으로 이동하면 게임이 자동으로 멈춥니다.</li>
+            <li>소리 버튼으로 이동, 회전, 고정, 줄 삭제와 게임 종료 효과음을 켜거나 끌 수 있습니다. 최고 점수는 가능한 경우 현재 브라우저에 저장됩니다.</li>
           </ul>
 
           <h2 id="scoring">승리와 점수 기준</h2>
           <ul class="detail-list">
-            <li>한 줄을 완성하면 점수가 오르고, 여러 줄을 한 번에 지우면 더 큰 보상을 받습니다. 4줄을 한 번에 지우면 가장 큰 기본 보너스를 얻습니다.</li>
-            <li>연속으로 줄을 지우면 콤보 보너스가 더해집니다. 한 블록을 고정한 뒤 줄을 지우지 못하면 콤보는 초기화됩니다.</li>
-            <li>레벨은 8줄마다 오르며 낙하 속도가 빨라집니다. 하드 드롭은 떨어진 칸 수에 따라 소량의 점수를 줍니다.</li>
+            <li>한 번에 1·2·3·4줄을 지우면 기본 100·300·500·800점에 현재 레벨을 곱해 얻습니다. 즉시 낙하는 이동한 칸마다 2점, 한 칸 내리기는 1점을 더합니다.</li>
+            <li>줄을 지우는 블록이 연속되면 콤보 보너스가 쌓입니다. 4줄 삭제를 다시 이어 성공하면 백투백 보너스로 해당 삭제 기본 점수의 50%를 추가합니다.</li>
+            <li>누적 10줄마다 레벨이 오르고 낙하 간격이 짧아집니다. 기기 주사율이 달라도 실제 경과시간으로 계산해 같은 레벨은 같은 속도로 진행됩니다.</li>
           </ul>
 
           <h2 id="strategy">초보 공략</h2>
@@ -128,16 +130,16 @@
 
           <h2>한 단계 더 올리는 전략</h2>
           <ul class="strategy-list">
-            <li>다음 블록을 보며 현재 블록을 안전하게 놓을지, 다음 블록을 위해 일부 공간을 열어 둘지 결정합니다.</li>
-            <li>연속 줄 삭제를 노릴 때도 보드 중앙에 깊은 구멍이 생기면 복구가 어려우므로 위험을 제한합니다.</li>
-            <li>높이가 올라간 뒤에는 고득점보다 생존을 우선해 한 줄씩 정리하는 선택이 더 안정적입니다.</li>
+            <li>다음 블록 3개를 왼쪽부터 읽고 현재 블록과 홀드를 포함한 배치 순서를 정합니다. 지금 줄을 지울 수 있어도 다음 두 블록의 평평한 자리가 사라지면 한 번 미루는 편이 좋습니다.</li>
+            <li>4줄 삭제 뒤에는 다시 긴 통로를 만들 수 있는지 확인해 백투백 보너스를 노립니다. 통로 주변이 높아졌다면 보너스보다 한두 줄 정리로 높이를 낮춥니다.</li>
+            <li>블록이 바닥에 닿은 뒤에도 약 0.48초의 고정 지연이 있습니다. 이 시간에 좌우 이동이나 회전으로 마지막 한 칸을 맞추되, 같은 블록에서 지연을 무한히 늘릴 수는 없습니다.</li>
           </ul>
 
           <h2 id="mobile">모바일 플레이 팁</h2>
           <ul class="detail-list">
-            <li>터치 버튼은 한 번에 한 동작씩 입력하는 편이 안정적입니다.</li>
-            <li>작은 화면에서는 하드 드롭을 남발하기보다 보드 모양을 확인한 뒤 사용합니다.</li>
-            <li>세로 화면에서는 손가락이 보드를 가리지 않도록 조작 버튼 아래쪽을 중심으로 누릅니다.</li>
+            <li>세로 화면에서는 10칸 게임판이 가로폭을 채우고 방향 버튼이 바로 아래에 배치됩니다. 좌우와 내리기 버튼은 길게 눌러 빠르게 이동할 수 있습니다.</li>
+            <li>고스트 위치와 다음 블록 3개를 확인한 뒤 즉시 낙하 버튼을 누르면 손가락이 게임판을 가리는 시간을 줄일 수 있습니다.</li>
+            <li>전체화면에서는 기록 HUD, 미리보기, 게임판과 조작부만 남습니다. 전화나 다른 탭으로 이동하면 자동 일시 정지되므로 돌아와 계속 버튼을 누르면 됩니다.</li>
           </ul>
 
           <h2>자주 나오는 실수</h2>
@@ -149,20 +151,20 @@
 
           <h2 id="faq">자주 묻는 질문</h2>
           <div class="faq-list">
-          <h3>이 게임은 테트리스와 같은 규칙인가요?</h3>
-          <p>고전 블록 낙하 퍼즐의 핵심 구조를 독자적인 브라우저 게임으로 구현했습니다. 줄 삭제, 회전, 낙하, 레벨 상승과 함께 홀드와 다음 블록 미리보기를 지원합니다.</p>
+          <h3>블록 순서는 완전히 무작위인가요?</h3>
+          <p>7종 블록이 한 묶음에 한 번씩 들어가는 7-백 방식입니다. 특정 블록이 지나치게 오래 나오지 않는 상황을 줄이고 다음 블록 3개를 미리 보여 줍니다.</p>
           <h3>홀드는 언제 쓸 수 있나요?</h3>
-          <p>현재 블록 하나당 한 번만 사용할 수 있습니다. 다음 블록을 본 뒤 지금 블록이 맞지 않을 때 보관하거나, 보관한 블록을 다시 꺼낼 수 있습니다.</p>
-          <h3>키보드 없이도 할 수 있나요?</h3>
-          <p>네. 모바일과 태블릿에서는 화면 버튼으로 이동, 회전, 내리기, 즉시 낙하, 홀드를 사용할 수 있습니다.</p>
-          <h3>소리가 나나요?</h3>
-          <p>이동, 회전, 고정, 줄 삭제, 게임 종료에 짧은 효과음이 적용됩니다. 소리 버튼에서 언제든 끌 수 있습니다.</p>
-          <h3>기록은 어디에 남나요?</h3>
-          <p>지원되는 브라우저에서는 최고 기록이 현재 기기의 로컬 저장소에 저장됩니다. 다른 기기나 브라우저와 자동 동기화되지는 않습니다.</p>
+          <p>현재 블록 하나당 한 번만 사용할 수 있습니다. 블록이 고정되고 새 블록이 나오면 다시 사용할 수 있습니다.</p>
+          <h3>바닥에 닿으면 바로 고정되나요?</h3>
+          <p>아니요. 약 0.48초 동안 좌우 이동이나 회전으로 위치를 보정할 수 있습니다. 같은 블록에서 고정 지연을 무한히 반복할 수는 없습니다.</p>
+          <h3>모바일에서 버튼을 길게 눌러도 되나요?</h3>
+          <p>네. 좌우 이동과 한 칸 내리기 버튼은 길게 누르면 반복 입력되며, 실제 낙하 속도는 화면 주사율과 무관하게 계산됩니다.</p>
+          <h3>다른 탭을 보면 게임이 계속 진행되나요?</h3>
+          <p>아니요. 페이지가 보이지 않게 되면 자동으로 일시 정지하고 돌아온 뒤 계속 버튼으로 재개할 수 있습니다.</p>
           </div>
 
           <h2>업데이트 노트</h2>
-          <p class="site-note">2026년 8월 14일 대표 퍼즐 게임을 7-백 랜덤, 다음 블록·홀드·고스트 블록, 하드 드롭, 콤보, 효과음 설정과 함께 확장했습니다.</p>
+          <p class="site-note">2026년 8월 20일 10×20 게임판을 모바일 가로폭에 맞게 확대하고 다음 블록 3개, 고정 지연, 백투백 보너스, 시간 기반 낙하, 길게 누르는 터치 조작과 자동 일시 정지를 추가했습니다.</p>
 
           <h2 id="related-guides">관련 공략</h2>
           <p>
@@ -199,9 +201,9 @@
       </nav>
       <p class="copyright">© <span id="year"></span> Hanpan Game. All rights reserved.</p>
     </footer>
-    <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"VideoGame","name":"블록 드롭 클래식","url":"https://hanpangames.kr/games/block-drop-classic/","description":"떨어지는 블록을 회전하고 쌓아 가로줄을 지우는 고전 퍼즐입니다.","applicationCategory":"Game","operatingSystem":"Web Browser","inLanguage":"ko-KR","isAccessibleForFree":true,"publisher":{"@type":"Organization","name":"한판게임"}},{"@type":"FAQPage","mainEntity":[{"@type":"Question","name":"이 게임은 테트리스와 같은 규칙인가요?","acceptedAnswer":{"@type":"Answer","text":"고전 블록 낙하 퍼즐의 핵심 구조를 독자적인 브라우저 게임으로 구현했습니다. 줄 삭제, 회전, 낙하, 레벨 상승과 함께 홀드와 다음 블록 미리보기를 지원합니다."}},{"@type":"Question","name":"홀드는 언제 쓸 수 있나요?","acceptedAnswer":{"@type":"Answer","text":"현재 블록 하나당 한 번만 사용할 수 있습니다. 다음 블록을 본 뒤 지금 블록이 맞지 않을 때 보관하거나, 보관한 블록을 다시 꺼낼 수 있습니다."}},{"@type":"Question","name":"키보드 없이도 할 수 있나요?","acceptedAnswer":{"@type":"Answer","text":"네. 모바일과 태블릿에서는 화면 버튼으로 이동, 회전, 내리기, 즉시 낙하, 홀드를 사용할 수 있습니다."}},{"@type":"Question","name":"소리가 나나요?","acceptedAnswer":{"@type":"Answer","text":"이동, 회전, 고정, 줄 삭제, 게임 종료에 짧은 효과음이 적용됩니다. 소리 버튼에서 언제든 끌 수 있습니다."}},{"@type":"Question","name":"기록은 어디에 남나요?","acceptedAnswer":{"@type":"Answer","text":"지원되는 브라우저에서는 최고 기록이 현재 기기의 로컬 저장소에 저장됩니다. 다른 기기나 브라우저와 자동 동기화되지는 않습니다."}}]},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"홈","item":"https://hanpangames.kr/"},{"@type":"ListItem","position":2,"name":"게임","item":"https://hanpangames.kr/games/"},{"@type":"ListItem","position":3,"name":"블록 드롭 클래식","item":"https://hanpangames.kr/games/block-drop-classic/"}]}]}</script>
-    <script src="/assets/app.js?v=20260820-sudoku" defer></script>
-    <script src="/assets/traditional-games.js?v=20260820-sudoku" defer></script>
-    <script src="/assets/arcade.js?v=20260820-sudoku" defer></script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"VideoGame","name":"블록 드롭 클래식","url":"https://hanpangames.kr/games/block-drop-classic/","description":"7종 블록을 쌓아 줄을 지우고 홀드와 다음 블록 3개로 기록에 도전합니다.","applicationCategory":"Game","operatingSystem":"Web Browser","inLanguage":"ko-KR","isAccessibleForFree":true,"publisher":{"@type":"Organization","name":"한판게임"}},{"@type":"FAQPage","mainEntity":[{"@type":"Question","name":"블록 순서는 완전히 무작위인가요?","acceptedAnswer":{"@type":"Answer","text":"7종 블록이 한 묶음에 한 번씩 들어가는 7-백 방식입니다. 특정 블록이 지나치게 오래 나오지 않는 상황을 줄이고 다음 블록 3개를 미리 보여 줍니다."}},{"@type":"Question","name":"홀드는 언제 쓸 수 있나요?","acceptedAnswer":{"@type":"Answer","text":"현재 블록 하나당 한 번만 사용할 수 있습니다. 블록이 고정되고 새 블록이 나오면 다시 사용할 수 있습니다."}},{"@type":"Question","name":"바닥에 닿으면 바로 고정되나요?","acceptedAnswer":{"@type":"Answer","text":"아니요. 약 0.48초 동안 좌우 이동이나 회전으로 위치를 보정할 수 있습니다. 같은 블록에서 고정 지연을 무한히 반복할 수는 없습니다."}},{"@type":"Question","name":"모바일에서 버튼을 길게 눌러도 되나요?","acceptedAnswer":{"@type":"Answer","text":"네. 좌우 이동과 한 칸 내리기 버튼은 길게 누르면 반복 입력되며, 실제 낙하 속도는 화면 주사율과 무관하게 계산됩니다."}},{"@type":"Question","name":"다른 탭을 보면 게임이 계속 진행되나요?","acceptedAnswer":{"@type":"Answer","text":"아니요. 페이지가 보이지 않게 되면 자동으로 일시 정지하고 돌아온 뒤 계속 버튼으로 재개할 수 있습니다."}}]},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"홈","item":"https://hanpangames.kr/"},{"@type":"ListItem","position":2,"name":"게임","item":"https://hanpangames.kr/games/"},{"@type":"ListItem","position":3,"name":"블록 드롭 클래식","item":"https://hanpangames.kr/games/block-drop-classic/"}]}]}</script>
+    <script src="/assets/app.js?v=20260820-blockdrop" defer></script>
+    <script src="/assets/traditional-games.js?v=20260820-blockdrop" defer></script>
+    <script src="/assets/arcade.js?v=20260820-blockdrop" defer></script>
   </body>
 </html>

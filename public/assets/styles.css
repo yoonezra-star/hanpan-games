@@ -1614,10 +1614,56 @@ body.game-fullscreen-fallback-open {
 }
 
 .block-drop-canvas {
-  max-width: 430px;
+  width: min(100%, 360px);
+  max-width: 360px;
+  aspect-ratio: 1 / 2;
   background: #102a44;
   border-color: #102138;
   box-shadow: 10px 10px 0 rgba(16, 33, 56, 0.16);
+}
+
+.block-drop-game {
+  justify-items: center;
+}
+
+.block-drop-game > .mini-score,
+.block-drop-game > .play-guidance {
+  width: 100%;
+}
+
+.block-preview-strip {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 6px;
+  width: min(100%, 430px);
+  padding: 8px;
+  color: #eaf8ff;
+  background: #102a44;
+  border: 2px solid #102138;
+  border-radius: 8px;
+}
+
+.block-preview-slot {
+  display: grid;
+  justify-items: center;
+  gap: 2px;
+  min-width: 0;
+  padding: 4px 2px;
+  background: rgba(255, 255, 255, 0.07);
+  border: 1px solid rgba(198, 233, 255, 0.18);
+  border-radius: 6px;
+}
+
+.block-preview-slot span {
+  font-size: 11px;
+  font-weight: 900;
+  line-height: 1.2;
+}
+
+.block-preview-slot canvas {
+  display: block;
+  width: min(100%, 76px);
+  height: auto;
 }
 
 .brick-controls {
@@ -1626,8 +1672,36 @@ body.game-fullscreen-fallback-open {
 }
 
 .block-controls {
-  align-items: center;
-  justify-content: center;
+  display: grid;
+  grid-template-areas:
+    "start start hold sound"
+    "left rotate right down"
+    "drop drop drop drop";
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 8px;
+  width: min(100%, 520px);
+}
+
+.block-controls .button {
+  min-width: 0;
+  min-height: 48px;
+  padding: 8px;
+  touch-action: none;
+  user-select: none;
+}
+
+.block-controls .button:nth-child(1) { grid-area: start; }
+.block-controls .button:nth-child(2) { grid-area: hold; }
+.block-controls .button:nth-child(3) { grid-area: left; }
+.block-controls .button:nth-child(4) { grid-area: rotate; }
+.block-controls .button:nth-child(5) { grid-area: right; }
+.block-controls .button:nth-child(6) { grid-area: down; }
+.block-controls .button:nth-child(7) { grid-area: drop; }
+.block-controls .button:nth-child(8) { grid-area: sound; }
+
+.block-controls .button:nth-child(n+3):nth-child(-n+7) {
+  font-size: 22px;
+  line-height: 1;
 }
 
 .game-option-select {
@@ -1663,7 +1737,7 @@ body.game-fullscreen-fallback-open {
 }
 
 .block-note {
-  max-width: 430px;
+  max-width: 520px;
   margin: 2px auto 0;
   text-align: center;
 }
@@ -4152,12 +4226,24 @@ body.game-fullscreen-fallback-open {
 
   .block-controls {
     display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-areas:
+      "start start hold sound"
+      "left rotate right down"
+      "drop drop drop drop";
+    grid-template-columns: repeat(4, minmax(0, 1fr));
   }
 
-  .block-controls .button:first-child,
-  .block-controls .button:nth-child(7) {
-    grid-column: span 2;
+  .block-preview-strip {
+    gap: 4px;
+    padding: 5px;
+  }
+
+  .block-preview-slot {
+    padding: 3px 1px;
+  }
+
+  .block-preview-slot span {
+    font-size: 10px;
   }
 
   .block-note {
@@ -4481,6 +4567,18 @@ body.game-fullscreen-fallback-open {
   }
 }
 
+@media (max-width: 340px) {
+  .block-controls {
+    grid-template-areas:
+      "start start"
+      "left rotate"
+      "right down"
+      "hold drop"
+      "sound sound";
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
 @media (max-width: 900px) {
   .game-fullscreen-stage.is-game-fullscreen-active {
     position: relative;
@@ -4623,6 +4721,63 @@ body.game-fullscreen-fallback-open {
   .game-fullscreen-stage.is-game-fullscreen-active .play-surface:has(> .arcade-canvas) > .block-controls {
     display: flex;
     grid-template-columns: none;
+  }
+
+  .game-fullscreen-stage.is-game-fullscreen-active .play-surface.block-drop-game {
+    grid-template-rows: auto minmax(0, 1fr) auto;
+    align-items: center;
+    justify-items: center;
+    gap: 5px;
+  }
+
+  .game-fullscreen-stage.is-game-fullscreen-active .block-drop-game > .block-preview-strip {
+    grid-row: 1;
+    width: min(100%, 360px);
+    margin-top: 58px;
+  }
+
+  .game-fullscreen-stage.is-game-fullscreen-active .block-drop-game > .block-drop-canvas {
+    grid-row: 2;
+    width: auto;
+    max-width: 100%;
+    max-height: 100%;
+    margin: 0;
+    box-shadow: none;
+  }
+
+  .game-fullscreen-stage.is-game-fullscreen-active .block-drop-game > .block-controls {
+    display: grid;
+    grid-row: 3;
+    grid-template-areas:
+      "start left rotate right down hold drop sound";
+    grid-template-columns: repeat(8, minmax(44px, 1fr));
+    width: 100%;
+    padding-bottom: env(safe-area-inset-bottom);
+    overflow: visible;
+  }
+
+  .game-fullscreen-stage.is-game-fullscreen-active .block-drop-game > .block-controls .button {
+    width: 100%;
+    min-width: 0;
+    padding: 6px;
+  }
+
+  .game-fullscreen-stage.is-game-fullscreen-active .block-drop-game > .block-note,
+  .game-fullscreen-stage.is-game-fullscreen-active .block-drop-game > .play-guidance {
+    display: none;
+  }
+}
+
+@media (max-width: 620px) and (orientation: portrait) {
+  .game-fullscreen-stage.is-game-fullscreen-active .block-drop-game > .block-controls {
+    grid-template-areas:
+      "left rotate right down"
+      "start hold drop sound";
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+
+  .game-fullscreen-stage.is-game-fullscreen-active .block-drop-game > .block-controls .button {
+    min-height: 46px;
   }
 }
 

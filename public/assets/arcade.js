@@ -16,7 +16,7 @@
     { id: "aim-trainer", title: "에임 트레이너", category: "skill", type: "target", minutes: "1분", description: "무작위 위치에 뜨는 표적을 빠르게 눌러 정확도를 올립니다." },
     { id: "mole-finder", title: "두더지 찾기", category: "arcade", type: "mole", minutes: "1분", description: "여러 구멍 중 튀어나온 두더지를 찾아 누르는 순발력 게임입니다." },
     { id: "brick-break", title: "벽돌깨기 미니", category: "arcade", type: "brick", minutes: "2분", description: "패들을 움직여 공을 받아내고 벽돌을 모두 깨며 레벨을 올립니다." },
-    { id: "block-drop-classic", title: "블록 드롭 클래식", category: "puzzle", type: "tetris", minutes: "4분", description: "떨어지는 블록을 회전하고 쌓아 가로줄을 지우는 고전 퍼즐입니다." },
+    { id: "block-drop-classic", title: "블록 드롭 클래식", category: "puzzle", type: "tetris", minutes: "4분", description: "7종 블록을 쌓아 줄을 지우고 홀드와 다음 블록 3개로 기록에 도전합니다." },
     { id: "pong-rally", title: "퐁 랠리", category: "arcade", type: "pong", minutes: "2분", description: "패들을 움직여 공을 받아내고 상대보다 먼저 득점하는 클래식 랠리 게임입니다." },
     { id: "space-guard", title: "우주 방어선", category: "arcade", type: "space", minutes: "3분", description: "좌우로 움직이며 탄을 쏘고 내려오는 적 편대를 막아내는 슈팅 게임입니다." },
     { id: "maze-chase", title: "미로 추격 클래식", category: "arcade", type: "mazeChase", minutes: "4분", description: "미로의 빛 조각을 모으며 추격 센티널을 피하고 스테이지를 돌파합니다." },
@@ -513,7 +513,7 @@
     if (surface.querySelector(".play-guidance")) return;
     const hints = {
       brick: "마우스, 터치, 좌우 방향키로 패들을 움직입니다. 공과 조작 영역 주변에는 다른 클릭 요소를 두지 않는 구성이 안전합니다.",
-      tetris: "방향키로 이동과 회전, 스페이스바로 빠른 낙하를 사용할 수 있습니다. 모바일에서는 화면 버튼을 한 번씩 눌러 조작합니다.",
+      tetris: "방향키로 이동과 회전, 스페이스바로 즉시 낙하합니다. 모바일에서는 좌우와 내리기 버튼을 길게 눌러 연속 조작할 수 있습니다.",
       pong: "위아래 방향키 또는 포인터 이동으로 패들을 움직입니다. 랠리가 빨라지면 중앙으로 돌아오는 습관이 좋습니다.",
       space: "좌우 방향키로 이동하고 스페이스바로 발사합니다. 화면 버튼도 같은 기능을 제공합니다.",
       mazeChase: "방향키 또는 W·A·S·D로 이동합니다. 모바일에서는 방향 버튼이나 게임판 스와이프로 다음 방향을 예약할 수 있습니다.",
@@ -2212,11 +2212,10 @@
   function renderTetris(game, surface) {
     const cols = 10;
     const rows = 20;
-    const cell = 24;
-    const boardX = 22;
-    const boardY = 30;
-    const width = 430;
-    const height = 540;
+    const cell = 32;
+    const width = cols * cell;
+    const height = rows * cell;
+    const lockDelay = 480;
     const pieces = [
       { id: "I", color: "#55c8e6", shape: [[1, 1, 1, 1]] },
       { id: "O", color: "#f6c85f", shape: [[1, 1], [1, 1]] },
@@ -2229,20 +2228,26 @@
     let board = [];
     let bag = [];
     let piece = null;
-    let nextPiece = null;
+    let queue = [];
     let heldPiece = null;
     let canHold = true;
     let score = 0;
     let lines = 0;
     let level = 1;
-    let combo = -1;
+    let combo = 0;
+    let backToBack = false;
     let running = false;
     let over = false;
     let muted = false;
-    let dropTimer = null;
     let frame = null;
+    let previousFrame = 0;
+    let fallElapsed = 0;
+    let lockElapsed = 0;
+    let lockResets = 0;
     let flashRows = [];
     let flashUntil = 0;
+    let repeatTimeout = null;
+    let repeatInterval = null;
     let message = "시작을 누르거나 스페이스바를 눌러 플레이하세요.";
     const audio = typeof window.AudioContext === "function" || typeof window.webkitAudioContext === "function"
       ? new (window.AudioContext || window.webkitAudioContext)()
@@ -2256,6 +2261,25 @@
       { label: "최고", value: getBest(game.id) || "-" }
     ]);
     const stats = surface.querySelectorAll(".mini-score b");
+    surface.classList.add("block-drop-game");
+    const previewStrip = document.createElement("div");
+    previewStrip.className = "block-preview-strip";
+    const previewSlots = [];
+    ["홀드", "다음 1", "다음 2", "다음 3"].forEach(function (label) {
+      const slot = document.createElement("div");
+      slot.className = "block-preview-slot";
+      const title = document.createElement("span");
+      title.textContent = label;
+      const preview = document.createElement("canvas");
+      preview.width = 76;
+      preview.height = 58;
+      preview.setAttribute("aria-hidden", "true");
+      slot.append(title, preview);
+      previewStrip.appendChild(slot);
+      previewSlots.push(preview);
+    });
+    surface.appendChild(previewStrip);
+
     const canvas = document.createElement("canvas");
     canvas.className = "arcade-canvas block-drop-canvas";
     canvas.width = width;
@@ -2269,17 +2293,27 @@
     controls.className = "mini-controls block-controls";
     const start = button("시작", "button primary");
     const holdBtn = button("홀드", "button secondary");
-    const leftBtn = button("왼쪽", "button secondary");
-    const rotateBtn = button("회전", "button secondary");
-    const rightBtn = button("오른쪽", "button secondary");
-    const downBtn = button("내리기", "button secondary");
-    const dropBtn = button("즉시 낙하", "button secondary");
-    const sound = button("소리 켜짐", "button secondary sound-toggle");
+    const leftBtn = button("←", "button secondary");
+    leftBtn.setAttribute("aria-label", "왼쪽으로 이동");
+    leftBtn.title = "왼쪽으로 이동";
+    const rotateBtn = button("↻", "button secondary");
+    rotateBtn.setAttribute("aria-label", "시계 방향으로 회전");
+    rotateBtn.title = "회전";
+    const rightBtn = button("→", "button secondary");
+    rightBtn.setAttribute("aria-label", "오른쪽으로 이동");
+    rightBtn.title = "오른쪽으로 이동";
+    const downBtn = button("↓", "button secondary");
+    downBtn.setAttribute("aria-label", "한 칸 내리기");
+    downBtn.title = "한 칸 내리기";
+    const dropBtn = button("⇊", "button secondary");
+    dropBtn.setAttribute("aria-label", "즉시 낙하");
+    dropBtn.title = "즉시 낙하";
+    const sound = button("소리 켬", "button secondary sound-toggle");
     sound.setAttribute("aria-pressed", "true");
     controls.append(start, holdBtn, leftBtn, rotateBtn, rightBtn, downBtn, dropBtn, sound);
     const guide = document.createElement("p");
     guide.className = "mini-note block-note";
-    guide.textContent = "방향키 이동 · 위쪽 키 회전 · 스페이스바 즉시 낙하 · C 홀드 · P 일시 정지. 다음 블록과 그림자 위치를 보고 빈칸을 줄여 보세요.";
+    guide.textContent = "방향키 이동 · 위쪽 키 회전 · 스페이스바 즉시 낙하 · C 홀드 · P 일시 정지. 모바일에서는 좌우·내리기 버튼을 길게 누를 수 있습니다.";
     surface.append(controls, guide);
 
     function tone(frequency, duration, type, volume) {
@@ -2314,6 +2348,10 @@
       stats[4].textContent = getBest(game.id) || "-";
       holdBtn.disabled = !canHold || over;
       holdBtn.setAttribute("aria-label", canHold ? "현재 블록 홀드" : "이번 블록에서는 홀드를 이미 사용함");
+      canvas.dataset.activePiece = piece ? piece.id : "";
+      previewStrip.dataset.heldPiece = heldPiece ? heldPiece.id : "";
+      previewStrip.dataset.nextPieces = queue.slice(0, 3).map(function (item) { return item.id; }).join(",");
+      drawPreviews();
     }
 
     function cloneShape(shape) {
@@ -2324,15 +2362,26 @@
       return shuffle(pieces.slice());
     }
 
-    function getPiece() {
+    function makePiece() {
       if (!bag.length) bag = shuffledBag();
       const base = bag.pop();
-      return { id: base.id, color: base.color, shape: cloneShape(base.shape), x: 3, y: -1 };
+      return { id: base.id, color: base.color, shape: cloneShape(base.shape), x: 3, y: -2 };
+    }
+
+    function fillQueue() {
+      while (queue.length < 5) queue.push(makePiece());
+    }
+
+    function takeNextPiece() {
+      fillQueue();
+      const next = queue.shift();
+      fillQueue();
+      return next;
     }
 
     function resetPosition(item) {
       item.x = Math.floor((cols - item.shape[0].length) / 2);
-      item.y = -1;
+      item.y = item.id === "I" ? -1 : -2;
       return item;
     }
 
@@ -2363,19 +2412,26 @@
       return piece.y + distance;
     }
 
+    function endGame() {
+      running = false;
+      over = true;
+      start.textContent = "새 게임";
+      const isBest = saveBest(game.id, score, function (next, previous) { return next > previous; });
+      announce(isBest ? `새 최고 기록 ${score}점! 새 게임을 눌러 다시 도전하세요.` : `게임 종료. ${score}점을 기록했습니다.`);
+      tone(105, 0.4, "sawtooth", 0.05);
+      sync();
+    }
+
     function spawn() {
-      piece = nextPiece || getPiece();
+      piece = takeNextPiece();
       resetPosition(piece);
-      nextPiece = getPiece();
       canHold = true;
+      fallElapsed = 0;
+      lockElapsed = 0;
+      lockResets = 0;
       if (collides(piece, 0, 0)) {
-        running = false;
-        over = true;
-        clearInterval(dropTimer);
-        start.textContent = "새 게임";
-        const isBest = saveBest(game.id, score, function (next, previous) { return next > previous; });
-        announce(isBest ? `새 최고 기록 ${score}점! 새 게임을 눌러 다시 도전하세요.` : `게임 종료. ${score}점을 기록했습니다.`);
-        tone(105, 0.4, "sawtooth", 0.05);
+        endGame();
+        return;
       }
       sync();
     }
@@ -2384,7 +2440,7 @@
       const filled = [];
       board.forEach(function (row, index) { if (row.every(Boolean)) filled.push(index); });
       if (!filled.length) {
-        combo = -1;
+        combo = 0;
         return;
       }
       flashRows = filled;
@@ -2395,24 +2451,45 @@
       lines += cleared;
       combo += 1;
       const base = [0, 100, 300, 500, 800][cleared];
-      score += base * level + (combo > 0 ? combo * 50 : 0);
-      level = 1 + Math.floor(lines / 8);
-      announce(cleared === 4 ? `테트리스! 4줄 제거, 콤보 x${combo + 1}` : `${cleared}줄 제거${combo > 0 ? `, 콤보 x${combo + 1}` : ""}`);
+      const backToBackBonus = cleared === 4 && backToBack ? Math.round(base * level * 0.5) : 0;
+      const comboBonus = combo > 1 ? (combo - 1) * 50 * level : 0;
+      score += base * level + backToBackBonus + comboBonus;
+      level = 1 + Math.floor(lines / 10);
+      if (cleared === 4) {
+        announce(`${backToBackBonus ? "백투백 " : ""}4줄 제거 · 콤보 x${combo}`);
+        backToBack = true;
+      } else {
+        announce(`${cleared}줄 제거${combo > 1 ? ` · 콤보 x${combo}` : ""}`);
+        backToBack = false;
+      }
       tone(cleared === 4 ? 660 : 420 + cleared * 70, 0.13, "triangle", 0.045);
       setTimeout(function () { tone(cleared === 4 ? 880 : 540, 0.12, "triangle", 0.035); }, 75);
-      restartDrop();
     }
 
     function lockPiece() {
+      let toppedOut = false;
       piece.shape.forEach(function (row, rowIndex) {
         row.forEach(function (value, colIndex) {
           const y = piece.y + rowIndex;
-          if (value && y >= 0) board[y][piece.x + colIndex] = piece.color;
+          if (!value) return;
+          if (y < 0) toppedOut = true;
+          else board[y][piece.x + colIndex] = piece.color;
         });
       });
+      if (toppedOut) {
+        endGame();
+        return;
+      }
       tone(155, 0.045, "square", 0.02);
       clearLines();
       spawn();
+    }
+
+    function resetLockAfterMove() {
+      if (collides(piece, 0, 1) && lockResets < 15) {
+        lockElapsed = 0;
+        lockResets += 1;
+      }
     }
 
     function move(dx, dy, quiet) {
@@ -2420,10 +2497,11 @@
       if (!collides(piece, dx, dy)) {
         piece.x += dx;
         piece.y += dy;
+        if (dx) resetLockAfterMove();
+        if (dy) lockElapsed = 0;
         if (!quiet && dx) tone(205, 0.028, "square", 0.012);
         return true;
       }
-      if (dy > 0) lockPiece();
       return false;
     }
 
@@ -2435,6 +2513,7 @@
       if (offset !== undefined) {
         piece.x += offset;
         piece.shape = rotated;
+        resetLockAfterMove();
         tone(310, 0.045, "square", 0.018);
       } else {
         tone(120, 0.04, "sawtooth", 0.014);
@@ -2444,9 +2523,13 @@
     function hardDrop() {
       if (!running || over) return;
       let distance = 0;
-      while (move(0, 1, true)) distance += 1;
+      while (!collides(piece, 0, 1)) {
+        piece.y += 1;
+        distance += 1;
+      }
       score += distance * 2;
       tone(270, 0.06, "square", 0.026);
+      lockPiece();
       sync();
     }
 
@@ -2458,33 +2541,37 @@
         heldPiece = outgoing;
       } else {
         heldPiece = outgoing;
-        piece = nextPiece;
-        resetPosition(piece);
-        nextPiece = getPiece();
+        piece = resetPosition(takeNextPiece());
       }
       canHold = false;
+      fallElapsed = 0;
+      lockElapsed = 0;
+      lockResets = 0;
+      if (collides(piece, 0, 0)) {
+        endGame();
+        return;
+      }
       tone(500, 0.08, "sine", 0.035);
       announce("홀드 완료. 다음 블록을 보고 현재 배치를 결정하세요.");
       sync();
     }
 
-    function restartDrop() {
-      clearInterval(dropTimer);
-      if (running && !over) {
-        dropTimer = setInterval(function () { move(0, 1, true); }, Math.max(90, 650 - (level - 1) * 58));
-      }
+    function dropInterval() {
+      return Math.max(70, 720 * Math.pow(0.82, level - 1));
     }
 
     function reset() {
       board = Array.from({ length: rows }, function () { return Array(cols).fill(null); });
       bag = [];
+      queue = [];
       score = 0;
       lines = 0;
       level = 1;
-      combo = -1;
+      combo = 0;
+      backToBack = false;
       over = false;
       heldPiece = null;
-      nextPiece = getPiece();
+      fillQueue();
       spawn();
       sync();
     }
@@ -2500,67 +2587,86 @@
       } else {
         announce("일시 정지했습니다.");
       }
-      restartDrop();
     }
 
     function drawBlock(x, y, color, alpha) {
       if (y < 0) return;
       ctx.globalAlpha = alpha == null ? 1 : alpha;
       ctx.fillStyle = color;
-      ctx.fillRect(boardX + x * cell + 1, boardY + y * cell + 1, cell - 2, cell - 2);
+      ctx.fillRect(x * cell + 1, y * cell + 1, cell - 2, cell - 2);
       ctx.fillStyle = "rgba(255,255,255,0.25)";
-      ctx.fillRect(boardX + x * cell + 4, boardY + y * cell + 4, cell - 8, 3);
+      ctx.fillRect(x * cell + 4, y * cell + 4, cell - 8, 4);
       ctx.strokeStyle = "rgba(4, 18, 34, 0.55)";
       ctx.lineWidth = 1;
-      ctx.strokeRect(boardX + x * cell + 1, boardY + y * cell + 1, cell - 2, cell - 2);
+      ctx.strokeRect(x * cell + 1, y * cell + 1, cell - 2, cell - 2);
       ctx.globalAlpha = 1;
     }
 
-    function drawPreview(item, x, y, label) {
-      ctx.fillStyle = "#b8d8ed";
-      ctx.font = "800 12px system-ui";
-      ctx.textAlign = "left";
-      ctx.fillText(label, x, y - 12);
+    function drawPreview(canvasElement, item) {
+      const previewContext = canvasElement.getContext("2d");
+      previewContext.clearRect(0, 0, canvasElement.width, canvasElement.height);
       if (!item) return;
-      const offsetX = x + (82 - item.shape[0].length * 15) / 2;
-      const offsetY = y + (54 - item.shape.length * 15) / 2;
+      const previewCell = 13;
+      const offsetX = (canvasElement.width - item.shape[0].length * previewCell) / 2;
+      const offsetY = (canvasElement.height - item.shape.length * previewCell) / 2;
       item.shape.forEach(function (row, rowIndex) {
         row.forEach(function (value, colIndex) {
           if (!value) return;
-          ctx.fillStyle = item.color;
-          ctx.fillRect(offsetX + colIndex * 15, offsetY + rowIndex * 15, 13, 13);
-          ctx.strokeStyle = "rgba(4,18,34,0.55)";
-          ctx.strokeRect(offsetX + colIndex * 15, offsetY + rowIndex * 15, 13, 13);
+          previewContext.fillStyle = item.color;
+          previewContext.fillRect(offsetX + colIndex * previewCell, offsetY + rowIndex * previewCell, previewCell - 1, previewCell - 1);
+          previewContext.strokeStyle = "rgba(4,18,34,0.55)";
+          previewContext.strokeRect(offsetX + colIndex * previewCell, offsetY + rowIndex * previewCell, previewCell - 1, previewCell - 1);
         });
       });
     }
 
-    function draw() {
+    function drawPreviews() {
+      drawPreview(previewSlots[0], heldPiece);
+      previewSlots.slice(1).forEach(function (slot, index) { drawPreview(slot, queue[index]); });
+    }
+
+    function update(now) {
+      if (!previousFrame) previousFrame = now;
+      const delta = Math.min(50, now - previousFrame);
+      previousFrame = now;
+      if (!running || over || !piece) return;
+      fallElapsed += delta;
+      if (collides(piece, 0, 1)) {
+        lockElapsed += delta;
+        if (lockElapsed >= lockDelay) lockPiece();
+        return;
+      }
+      lockElapsed = 0;
+      const interval = dropInterval();
+      if (fallElapsed >= interval) {
+        piece.y += 1;
+        fallElapsed %= interval;
+      }
+    }
+
+    function draw(now) {
+      update(now || performance.now());
       const gradient = ctx.createLinearGradient(0, 0, 0, height);
       gradient.addColorStop(0, "#102a44");
       gradient.addColorStop(1, "#081523");
       ctx.fillStyle = gradient;
       ctx.fillRect(0, 0, width, height);
-      ctx.fillStyle = "#eaf8ff";
-      ctx.font = "900 15px system-ui";
-      ctx.textAlign = "left";
-      ctx.fillText("BLOCK DROP", boardX, 20);
       ctx.fillStyle = "#091828";
-      ctx.fillRect(boardX - 3, boardY - 3, cols * cell + 6, rows * cell + 6);
+      ctx.fillRect(0, 0, width, height);
       ctx.fillStyle = "#0d2137";
-      ctx.fillRect(boardX, boardY, cols * cell, rows * cell);
+      ctx.fillRect(2, 2, width - 4, height - 4);
       ctx.strokeStyle = "rgba(198, 233, 255, 0.12)";
       ctx.lineWidth = 1;
       for (let col = 0; col <= cols; col += 1) {
         ctx.beginPath();
-        ctx.moveTo(boardX + col * cell, boardY);
-        ctx.lineTo(boardX + col * cell, boardY + rows * cell);
+        ctx.moveTo(col * cell, 0);
+        ctx.lineTo(col * cell, height);
         ctx.stroke();
       }
       for (let row = 0; row <= rows; row += 1) {
         ctx.beginPath();
-        ctx.moveTo(boardX, boardY + row * cell);
-        ctx.lineTo(boardX + cols * cell, boardY + row * cell);
+        ctx.moveTo(0, row * cell);
+        ctx.lineTo(width, row * cell);
         ctx.stroke();
       }
       board.forEach(function (row, rowIndex) {
@@ -2581,32 +2687,21 @@
       }
       if (flashUntil > performance.now()) {
         ctx.fillStyle = "rgba(255,255,255,0.68)";
-        flashRows.forEach(function (row) { ctx.fillRect(boardX, boardY + row * cell, cols * cell, cell); });
+        flashRows.forEach(function (row) { ctx.fillRect(0, row * cell, width, cell); });
       }
-      ctx.fillStyle = "rgba(255,255,255,0.08)";
-      ctx.fillRect(286, 30, 122, 116);
-      ctx.fillRect(286, 170, 122, 116);
-      drawPreview(nextPiece, 298, 64, "NEXT");
-      drawPreview(heldPiece, 298, 204, "HOLD");
-      ctx.fillStyle = "#b8d8ed";
-      ctx.font = "700 12px system-ui";
-      ctx.textAlign = "left";
-      ctx.fillText("SPACE  DROP", 298, 333);
-      ctx.fillText("C  HOLD", 298, 354);
-      ctx.fillText("P  PAUSE", 298, 375);
       if (!running) {
         ctx.fillStyle = "rgba(3, 12, 23, 0.68)";
-        ctx.fillRect(boardX, boardY, cols * cell, rows * cell);
+        ctx.fillRect(0, 0, width, height);
         ctx.fillStyle = "#ffffff";
         ctx.font = "900 25px system-ui";
         ctx.textAlign = "center";
-        ctx.fillText(over ? "GAME OVER" : "BLOCK DROP", boardX + cols * cell / 2, boardY + 206);
+        ctx.fillText(over ? "GAME OVER" : "BLOCK DROP", width / 2, height / 2 - 28);
         ctx.fillStyle = "#d8ecff";
         ctx.font = "600 14px system-ui";
-        ctx.fillText(over ? `최종 점수 ${score}점` : message, boardX + cols * cell / 2, boardY + 237);
+        ctx.fillText(over ? `최종 점수 ${score}점` : "7종 블록 · 홀드 · 다음 블록 3개", width / 2, height / 2 + 5);
         ctx.fillStyle = "#ffdb79";
         ctx.font = "800 13px system-ui";
-        ctx.fillText(over ? "새 게임을 눌러 다시 도전하세요" : "시작 버튼 또는 스페이스바", boardX + cols * cell / 2, boardY + 267);
+        ctx.fillText(over ? "새 게임을 눌러 다시 도전하세요" : "시작 버튼 또는 스페이스바", width / 2, height / 2 + 37);
       }
       frame = requestAnimationFrame(draw);
     }
@@ -2617,7 +2712,9 @@
       if (!handlesKey) return;
       if (!["arrowleft", "arrowright", "arrowdown", "arrowup", " ", "a", "d", "s", "w", "c", "p", "enter"].includes(key)) return;
       event.preventDefault();
-      if (event.type !== "keydown" || event.repeat) return;
+      if (event.type !== "keydown") return;
+      const repeatable = ["arrowleft", "arrowright", "arrowdown", "a", "d", "s"].includes(key);
+      if (event.repeat && !repeatable) return;
       if (key === "p") { toggle(); return; }
       if ((key === " " || key === "enter") && !running) { toggle(); return; }
       if (!running) return;
@@ -2635,32 +2732,64 @@
       if (!running && action !== "toggle") toggle();
       if (action === "left") move(-1, 0);
       if (action === "right") move(1, 0);
-      if (action === "down") move(0, 1, true);
+      if (action === "down" && move(0, 1, true)) score += 1;
       if (action === "rotate") rotate();
       if (action === "drop") hardDrop();
       if (action === "hold") hold();
       sync();
     }
 
+    function stopRepeat() {
+      clearTimeout(repeatTimeout);
+      clearInterval(repeatInterval);
+      repeatTimeout = null;
+      repeatInterval = null;
+    }
+
+    function bindRepeat(control, action) {
+      control.addEventListener("pointerdown", function (event) {
+        event.preventDefault();
+        stopRepeat();
+        act(action);
+        control.setPointerCapture(event.pointerId);
+        repeatTimeout = setTimeout(function () {
+          repeatInterval = setInterval(function () { act(action); }, action === "down" ? 55 : 75);
+        }, 190);
+      });
+      ["pointerup", "pointercancel", "lostpointercapture"].forEach(function (eventName) {
+        control.addEventListener(eventName, stopRepeat);
+      });
+    }
+
+    function onVisibilityChange() {
+      if (!document.hidden || !running || over) return;
+      running = false;
+      start.textContent = "계속";
+      announce("다른 화면으로 이동해 게임을 자동으로 멈췄습니다.");
+    }
+
     start.addEventListener("click", toggle);
     holdBtn.addEventListener("click", function () { act("hold"); });
-    leftBtn.addEventListener("click", function () { act("left"); });
     rotateBtn.addEventListener("click", function () { act("rotate"); });
-    rightBtn.addEventListener("click", function () { act("right"); });
-    downBtn.addEventListener("click", function () { act("down"); });
     dropBtn.addEventListener("click", function () { act("drop"); });
+    bindRepeat(leftBtn, "left");
+    bindRepeat(rightBtn, "right");
+    bindRepeat(downBtn, "down");
     sound.addEventListener("click", function () {
       muted = !muted;
-      sound.textContent = muted ? "소리 꺼짐" : "소리 켜짐";
+      sound.textContent = muted ? "소리 끔" : "소리 켬";
       sound.setAttribute("aria-pressed", String(!muted));
       announce(muted ? "게임 소리를 껐습니다." : "게임 소리를 켰습니다.");
       if (!muted) tone(440, 0.08, "sine", 0.04);
     });
     document.addEventListener("keydown", onKey);
+    document.addEventListener("visibilitychange", onVisibilityChange);
     cleanup.push(function () {
-      clearInterval(dropTimer);
+      stopRepeat();
       cancelAnimationFrame(frame);
+      surface.classList.remove("block-drop-game");
       document.removeEventListener("keydown", onKey);
+      document.removeEventListener("visibilitychange", onVisibilityChange);
       if (audio && audio.state !== "closed") audio.close();
     });
     reset();
