@@ -41,7 +41,7 @@
     { id: "mines", title: "지뢰찾기 클래식", category: "puzzle", type: "mines", minutes: "5분", description: "세 가지 난이도에서 숫자 단서를 읽고 지뢰를 피해 모든 안전 칸을 엽니다." },
     { id: "sliding-puzzle", title: "슬라이딩 퍼즐", category: "puzzle", type: "sliding", minutes: "2분", description: "빈 칸을 이용해 숫자 타일을 순서대로 맞춥니다." },
     { id: "sudoku-mini", title: "스도쿠 미니", category: "puzzle", type: "sudoku", minutes: "4분", description: "6x6 스도쿠 판을 완성하고 충돌 표시와 제한 힌트를 활용합니다." },
-    { id: "twenty-48", title: "2048 한판", category: "puzzle", type: "twenty48", minutes: "3분", description: "같은 숫자 타일을 합쳐 더 큰 숫자를 만드는 퍼즐입니다." },
+    { id: "twenty-48", title: "2048 한판", category: "puzzle", type: "twenty48", minutes: "3분", description: "같은 숫자 타일을 합치고 기록을 이어 저장하며 2048 이상에 도전하는 클래식 퍼즐입니다." },
     { id: "match-three", title: "매치3 퍼즐", category: "puzzle", type: "match3", minutes: "3분", description: "인접한 타일을 바꿔 연쇄 매치를 만들고 제한 이동 안에 목표 점수를 넘깁니다." },
     { id: "block-fill", title: "블록 채우기", category: "puzzle", type: "blockfill", minutes: "2분", description: "빈 칸을 모두 채우되 폭탄 칸은 피하는 블록 퍼즐입니다." },
     { id: "simon", title: "사이먼 게임", category: "brain", type: "sequence", minutes: "2분", description: "빛나는 순서를 기억했다가 그대로 따라 누릅니다." },
@@ -426,7 +426,11 @@
       renderGame(current, surface);
     }
 
-    if (restart) restart.addEventListener("click", draw);
+    if (restart) restart.addEventListener("click", function () {
+      if (current.type === "twenty48") surface.dataset.restartRequested = "true";
+      else delete surface.dataset.restartRequested;
+      draw();
+    });
     if (search) search.addEventListener("input", drawPicker);
     draw();
     setupGameFullscreen(surface);
@@ -529,7 +533,7 @@
       recipe: "옮길 병을 먼저 선택하고 받을 병을 선택합니다. 빈 병은 작업 공간으로 남겨 두면 풀이가 쉬워집니다.",
       mines: "열기·깃발 모드를 바꿔 안전 칸과 지뢰를 구분합니다. 열린 숫자를 다시 누르면 주변 깃발 수가 맞을 때 나머지 칸이 함께 열립니다.",
       sudoku: "빈칸을 선택하고 숫자를 입력합니다. 충돌 표시를 보고 행, 열, 박스를 다시 확인하세요.",
-      twenty48: "방향키나 스와이프로 모든 타일을 밀어 같은 숫자를 합칩니다."
+      twenty48: "방향키·화면 버튼·스와이프로 타일을 밀어 같은 숫자를 합칩니다. 직전 한 수는 실행 취소할 수 있습니다."
       ,jegi: "스페이스바, 화면 터치 또는 제기 차기 버튼으로 발 가까이 내려온 제기를 찹니다. 너무 일찍 차면 연속 기록이 끊깁니다."
       ,tuho: "각도와 힘 슬라이더를 조절하고 화살 던지기를 누릅니다. 바람 방향과 이전 궤적을 보고 다음 발을 보정하세요."
       ,ddakji: "들린 모서리를 방향 버튼으로 고르고 힘 게이지가 노란 구간에 들어올 때 내려치기 버튼이나 스페이스바를 누릅니다."
@@ -7578,70 +7582,203 @@
     let score = 0;
     let moves = 0;
     let finished = false;
+    let won = false;
+    let keepPlaying = false;
+    let history = null;
+    let spawnedIndex = -1;
+    let mergedIndexes = [];
+    let pointerStart = null;
+    const saveKey = "hanpan-2048-state-v2";
+    const maxTileKey = "hanpan-2048-max-tile";
+    const audio = createTonePlayer();
+    const restartRequested = surface.dataset.restartRequested === "true";
+    delete surface.dataset.restartRequested;
     renderScore(surface, [
       { label: "점수", value: "0" },
+      { label: "최고 점수", value: getBest(game.id) || "-" },
       { label: "최대 타일", value: "2" },
-      { label: "최고", value: getBest(game.id) || "-" }
+      { label: "이동", value: "0" }
     ]);
     const stats = surface.querySelectorAll(".mini-score b");
-    const grid = makeGrid(16, "mini-grid board-2048");
+    const gameWrap = document.createElement("div");
+    gameWrap.className = "game-2048";
+    const status = document.createElement("div");
+    status.className = "status-2048";
+    status.setAttribute("role", "status");
+    status.setAttribute("aria-live", "polite");
+    const statusText = document.createElement("strong");
+    const statusDetail = document.createElement("span");
+    status.append(statusText, statusDetail);
+    const grid = document.createElement("div");
+    grid.className = "board-2048";
+    grid.setAttribute("role", "grid");
     grid.setAttribute("tabindex", "0");
-    grid.setAttribute("aria-label", "2048 보드. 방향키로 이동할 수 있습니다.");
-    surface.appendChild(grid);
+    grid.setAttribute("aria-label", "2048 게임판. 방향키나 스와이프로 타일을 이동할 수 있습니다.");
+    for (let i = 0; i < 16; i += 1) {
+      const cell = document.createElement("span");
+      cell.className = "tile-2048";
+      cell.setAttribute("role", "gridcell");
+      grid.appendChild(cell);
+    }
+    gameWrap.append(status, grid);
+    surface.appendChild(gameWrap);
     const controls = document.createElement("div");
-    controls.className = "mini-controls pad-controls";
-    ["위", "왼쪽", "오른쪽", "아래"].forEach(function (label) {
-      const item = button(label, "button secondary");
-      item.dataset.dir = label;
+    controls.className = "controls-2048";
+    [
+      ["위", "↑", "move-up", "위로 이동"],
+      ["왼쪽", "←", "move-left", "왼쪽으로 이동"],
+      ["아래", "↓", "move-down", "아래로 이동"],
+      ["오른쪽", "→", "move-right", "오른쪽으로 이동"]
+    ].forEach(function (itemData) {
+      const item = button(itemData[1], `button secondary direction-2048 ${itemData[2]}`);
+      item.dataset.dir = itemData[0];
+      item.setAttribute("aria-label", itemData[3]);
       controls.appendChild(item);
     });
+    const actions = document.createElement("div");
+    actions.className = "actions-2048";
+    const newGame = button("새 게임", "button primary");
+    const undo = button("실행 취소", "button secondary");
+    const continueGame = button("계속하기", "button primary continue-2048");
+    const sound = button("소리 켜짐", "button secondary");
+    sound.classList.add("sound-2048");
+    sound.setAttribute("aria-pressed", "true");
+    continueGame.hidden = true;
+    undo.disabled = true;
+    actions.append(newGame, undo, continueGame, sound);
     const guide = document.createElement("p");
     guide.className = "mini-note";
-    guide.textContent = "같은 숫자는 한 번만 합쳐집니다. 방향키나 버튼으로 움직이고, 더 이상 움직일 수 없으면 종료됩니다.";
-    surface.append(controls, guide);
+    guide.textContent = "방향키·화면 버튼·스와이프로 이동합니다. 한 수에 같은 타일은 한 번만 합쳐지며, 실행 취소는 직전 한 수까지 가능합니다.";
+    surface.append(controls, actions, guide);
+
+    function readMaxTile() {
+      try {
+        const value = Number(localStorage.getItem(maxTileKey));
+        return Number.isFinite(value) && value >= 2 ? value : 2;
+      } catch (error) {
+        return 2;
+      }
+    }
+
+    function saveMaxTile(value) {
+      try { localStorage.setItem(maxTileKey, String(Math.max(readMaxTile(), value))); } catch (error) { /* Optional storage. */ }
+    }
+
+    function persist() {
+      try {
+        localStorage.setItem(saveKey, JSON.stringify({
+          version: 2,
+          board,
+          score,
+          moves,
+          finished,
+          won,
+          keepPlaying,
+          history
+        }));
+      } catch (error) {
+        // Local game recovery is optional.
+      }
+    }
+
+    function restore() {
+      try {
+        const saved = JSON.parse(localStorage.getItem(saveKey) || "null");
+        if (!saved || saved.version !== 2 || !Array.isArray(saved.board) || saved.board.length !== 16) return false;
+        if (!saved.board.every(function (value) { return Number.isInteger(value) && value >= 0; })) return false;
+        board = saved.board.slice();
+        score = Number(saved.score) || 0;
+        moves = Number(saved.moves) || 0;
+        finished = Boolean(saved.finished);
+        won = Boolean(saved.won);
+        keepPlaying = Boolean(saved.keepPlaying);
+        history = saved.history && Array.isArray(saved.history.board) && saved.history.board.length === 16
+          ? saved.history
+          : null;
+        return board.some(Boolean);
+      } catch (error) {
+        return false;
+      }
+    }
+
     function add() {
       const empty = board.map(function (value, index) { return value ? null : index; }).filter(function (value) { return value !== null; });
-      if (empty.length) board[sample(empty)] = Math.random() < 0.88 ? 2 : 4;
+      if (!empty.length) return -1;
+      const index = sample(empty);
+      board[index] = Math.random() < 0.9 ? 2 : 4;
+      return index;
     }
+
     function draw() {
       const max = Math.max.apply(null, board);
+      const best = Math.max(getBest(game.id) || 0, score);
       stats[0].textContent = String(score);
-      stats[1].textContent = String(max || 2);
+      stats[1].textContent = best ? String(best) : "-";
+      stats[2].textContent = String(max || 2);
+      stats[3].textContent = String(moves);
+      undo.disabled = !history;
+      continueGame.hidden = !(won && !keepPlaying);
+      statusText.textContent = won && !keepPlaying ? "2048 완성" : finished ? "게임 종료" : "플레이 중";
+      statusDetail.textContent = finished && !won
+        ? "더 이상 움직일 수 없습니다. 새 게임으로 다시 도전하세요."
+        : won && !keepPlaying
+          ? "계속하기를 누르면 더 높은 타일에 도전할 수 있습니다."
+          : `빈칸 ${board.filter(function (value) { return value === 0; }).length}개 · 최대 ${max || 2}`;
       Array.from(grid.children).forEach(function (cell, index) {
         const value = board[index];
         cell.textContent = value || "";
         cell.dataset.value = value ? String(value) : "0";
-        cell.setAttribute("aria-label", value ? `${value} 타일` : `빈 칸 ${index + 1}`);
+        cell.classList.toggle("is-new", index === spawnedIndex);
+        cell.classList.toggle("is-merged", mergedIndexes.includes(index));
+        const row = Math.floor(index / 4) + 1;
+        const column = index % 4 + 1;
+        cell.setAttribute("aria-label", value ? `${row}행 ${column}열, ${value} 타일` : `${row}행 ${column}열, 빈 칸`);
       });
+      grid.setAttribute("aria-label", `2048 게임판. 점수 ${score}, 최대 타일 ${max || 2}, 빈칸 ${board.filter(function (value) { return value === 0; }).length}개.`);
     }
+
     function merge(line) {
       const items = line.filter(Boolean);
+      const merged = [];
+      let gained = 0;
       for (let i = 0; i < items.length - 1; i += 1) {
         if (items[i] === items[i + 1]) {
           items[i] *= 2;
-          score += items[i];
+          gained += items[i];
+          merged.push(i);
           items.splice(i + 1, 1);
         }
       }
       while (items.length < 4) items.push(0);
-      return items;
+      return { values: items, gained, merged };
     }
+
     function buildMove(dir, source) {
       const next = source.slice();
+      const merged = [];
+      let gained = 0;
       for (let i = 0; i < 4; i += 1) {
         let line;
         if (dir === "왼쪽" || dir === "오른쪽") line = [0,1,2,3].map(function (c) { return source[i * 4 + c]; });
         else line = [0,1,2,3].map(function (r) { return source[r * 4 + i]; });
-        if (dir === "오른쪽" || dir === "아래") line.reverse();
-        line = merge(line);
-        if (dir === "오른쪽" || dir === "아래") line.reverse();
+        const reverse = dir === "오른쪽" || dir === "아래";
+        if (reverse) line.reverse();
+        const result = merge(line);
+        line = result.values;
+        gained += result.gained;
+        const lineMerged = result.merged.map(function (position) { return reverse ? 3 - position : position; });
+        if (reverse) line.reverse();
         for (let j = 0; j < 4; j += 1) {
           if (dir === "왼쪽" || dir === "오른쪽") next[i * 4 + j] = line[j];
           else next[j * 4 + i] = line[j];
         }
+        lineMerged.forEach(function (position) {
+          merged.push(dir === "왼쪽" || dir === "오른쪽" ? i * 4 + position : position * 4 + i);
+        });
       }
-      return next;
+      return { board: next, gained, merged };
     }
+
     function hasMove() {
       if (board.some(function (value) { return value === 0; })) return true;
       for (let r = 0; r < 4; r += 1) {
@@ -7653,47 +7790,160 @@
       }
       return false;
     }
+
+    function snapshot() {
+      return { board: board.slice(), score, moves, finished, won, keepPlaying };
+    }
+
+    function finish(message) {
+      finished = true;
+      const isBest = saveBest(game.id, score, function (a, b) { return a > b; });
+      saveMaxTile(Math.max.apply(null, board));
+      audio.tone(180, 0.18, "sawtooth", 0.03);
+      setResult(isBest ? `${message} 새 최고 점수 ${score}점입니다.` : `${message} ${score}점으로 마무리했습니다.`);
+      persist();
+      draw();
+    }
+
     function move(dir) {
       if (finished) return;
       const before = board.join(",");
-      const scoreBefore = score;
-      const next = buildMove(dir, board);
-      if (next.join(",") === before) {
-        score = scoreBefore;
+      const result = buildMove(dir, board);
+      if (result.board.join(",") === before) {
+        audio.tone(120, 0.05, "square", 0.012);
         setResult("그 방향으로는 움직일 수 없습니다.");
         return;
       }
-      board = next;
-      add();
+      history = snapshot();
+      board = result.board;
+      score += result.gained;
+      mergedIndexes = result.merged;
+      spawnedIndex = add();
       moves += 1;
-      draw();
-      if (Math.max.apply(null, board) >= 2048) {
-        const isBest = saveBest(game.id, score, function (a, b) { return a > b; });
-        setResult(isBest ? `2048 달성. 새 최고 점수 ${score}점입니다.` : `2048 달성. ${moves}수 만에 성공했습니다.`);
-        return;
+      const max = Math.max.apply(null, board);
+      saveBest(game.id, score, function (a, b) { return a > b; });
+      saveMaxTile(max);
+      if (result.gained) {
+        audio.tone(Math.min(880, 260 + Math.log2(result.gained) * 55), 0.08, "sine", 0.025);
+      } else {
+        audio.tone(180, 0.035, "triangle", 0.012);
       }
-      if (!hasMove()) {
+      if (max >= 2048 && !won) {
+        won = true;
         finished = true;
-        const isBest = saveBest(game.id, score, function (a, b) { return a > b; });
-        setResult(isBest ? `게임 종료. 새 최고 점수 ${score}점입니다.` : `게임 종료. ${score}점으로 마무리했습니다.`);
+        audio.tone(520, 0.12, "sine", 0.025);
+        audio.tone(660, 0.15, "sine", 0.025, 0.1);
+        audio.tone(820, 0.2, "sine", 0.025, 0.22);
+        setResult(`2048 타일을 ${moves}수 만에 완성했습니다. 계속하기를 누르면 더 높은 타일에 도전할 수 있습니다.`);
+        persist();
+        draw();
         return;
       }
-      setResult(`${moves}수 진행. 빈 칸을 유지하며 큰 타일을 만들어 보세요.`);
+      draw();
+      if (!hasMove()) {
+        finish("더 이상 움직일 수 없습니다.");
+        return;
+      }
+      persist();
+      setResult(result.gained ? `${result.gained}점을 합쳤습니다. 빈칸을 유지하며 다음 수를 살펴보세요.` : `${moves}수 진행했습니다.`);
+      window.setTimeout(function () {
+        spawnedIndex = -1;
+        mergedIndexes = [];
+        draw();
+      }, 190);
     }
+
+    function resetGame() {
+      board = Array(16).fill(0);
+      score = 0;
+      moves = 0;
+      finished = false;
+      won = false;
+      keepPlaying = false;
+      history = null;
+      mergedIndexes = [];
+      spawnedIndex = add();
+      add();
+      persist();
+      draw();
+      setResult("새 게임입니다. 큰 타일을 한쪽 모서리에 유지해 보세요.");
+      grid.focus({ preventScroll: true });
+    }
+
+    function undoMove() {
+      if (!history) return;
+      board = history.board.slice();
+      score = history.score;
+      moves = history.moves;
+      finished = history.finished;
+      won = history.won;
+      keepPlaying = history.keepPlaying;
+      history = null;
+      spawnedIndex = -1;
+      mergedIndexes = [];
+      persist();
+      draw();
+      audio.tone(240, 0.07, "triangle", 0.02);
+      setResult("직전 한 수를 되돌렸습니다.");
+      grid.focus({ preventScroll: true });
+    }
+
     controls.addEventListener("click", function (event) {
       const target = event.target.closest("button");
-      if (target) move(target.dataset.dir);
+      if (target) {
+        move(target.dataset.dir);
+        grid.focus({ preventScroll: true });
+      }
+    });
+    newGame.addEventListener("click", resetGame);
+    undo.addEventListener("click", undoMove);
+    sound.addEventListener("click", function () { audio.toggle(sound); });
+    continueGame.addEventListener("click", function () {
+      keepPlaying = true;
+      finished = false;
+      persist();
+      draw();
+      setResult("계속 플레이합니다. 4096 타일에 도전해 보세요.");
+      grid.focus({ preventScroll: true });
     });
     function onKey(event) {
       const map = { ArrowUp: "위", ArrowLeft: "왼쪽", ArrowRight: "오른쪽", ArrowDown: "아래" };
       if (!map[event.key]) return;
+      if (/^(INPUT|TEXTAREA|SELECT)$/.test(event.target.tagName)) return;
       event.preventDefault();
       move(map[event.key]);
     }
+    function onPointerDown(event) {
+      if (event.pointerType === "mouse" && event.button !== 0) return;
+      pointerStart = { id: event.pointerId, x: event.clientX, y: event.clientY };
+      grid.setPointerCapture?.(event.pointerId);
+    }
+    function onPointerUp(event) {
+      if (!pointerStart || pointerStart.id !== event.pointerId) return;
+      const dx = event.clientX - pointerStart.x;
+      const dy = event.clientY - pointerStart.y;
+      pointerStart = null;
+      if (Math.max(Math.abs(dx), Math.abs(dy)) < 28) return;
+      event.preventDefault();
+      move(Math.abs(dx) > Math.abs(dy) ? (dx > 0 ? "오른쪽" : "왼쪽") : (dy > 0 ? "아래" : "위"));
+    }
+    function onPointerCancel() { pointerStart = null; }
     document.addEventListener("keydown", onKey);
-    cleanup.push(function () { document.removeEventListener("keydown", onKey); });
-    add();
-    add();
+    grid.addEventListener("pointerdown", onPointerDown);
+    grid.addEventListener("pointerup", onPointerUp);
+    grid.addEventListener("pointercancel", onPointerCancel);
+    cleanup.push(function () {
+      document.removeEventListener("keydown", onKey);
+      audio.close();
+    });
+    if (restartRequested || !restore()) {
+      spawnedIndex = add();
+      add();
+      persist();
+      setResult("두 타일로 시작합니다. 방향키나 스와이프로 움직여 보세요.");
+    } else {
+      setResult(finished ? "저장된 게임을 불러왔습니다. 새 게임으로 다시 시작할 수 있습니다." : "저장된 게임을 이어서 시작합니다.");
+    }
     draw();
   }
 

@@ -5,7 +5,7 @@ const root = process.cwd();
 const publicDir = path.join(root, "public");
 const arcadePath = path.join(publicDir, "assets", "arcade.js");
 const arcade = fs.readFileSync(arcadePath, "utf8");
-const assetVersion = "20260816-mines";
+const assetVersion = "20260820-2048";
 const siteUrl = "https://hanpangames.kr";
 const adsenseClient = "ca-pub-6918910185244897";
 const adsenseScript = `<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${adsenseClient}" crossorigin="anonymous"></script>`;
@@ -644,16 +644,16 @@ const featuredGuides = {
   },
   "twenty-48": {
     overview: "2048 한판은 같은 숫자 타일을 밀어 합치고 더 큰 숫자를 만드는 퍼즐입니다. 한 번 이동하면 보드 전체가 함께 움직이므로 한 수가 다음 여러 수의 공간을 결정합니다.",
-    why: "룰은 단순하지만 공간 관리가 깊습니다. 모서리 운영, 큰 타일 고정, 작은 타일 정리 같은 전략을 알면 짧은 판에서도 점수가 눈에 띄게 좋아집니다.",
-    snapshot: [["핵심 목표", "같은 숫자를 합쳐 2048 또는 더 높은 타일에 도전합니다."], ["추천 상황", "한 손으로 천천히 즐기는 숫자 퍼즐이 필요할 때 좋습니다."], ["실력 포인트", "큰 타일 위치 고정, 빈칸 확보, 이동 방향 절제입니다."]],
-    controls: ["방향키나 스와이프 입력으로 모든 타일을 한 방향으로 움직입니다.", "같은 숫자 두 개가 부딪히면 하나로 합쳐지고 점수가 오릅니다.", "새 타일은 이동 뒤 빈칸에 나타나므로 이동 전 빈칸 위치를 생각해야 합니다."],
-    scoring: ["타일이 합쳐질 때 합쳐진 값만큼 점수가 오릅니다.", "보드가 가득 찼고 더 이상 합칠 수 없으면 게임이 종료됩니다.", "큰 타일을 만들수록 점수는 빠르게 올라가지만, 작은 타일이 흩어지면 다음 합치기가 어려워집니다."],
+    why: "클래식 4x4 규칙에 한 수 실행 취소, 자동 저장과 이어하기, 2048 이후 계속하기를 더했습니다. 짧게 시작해도 판을 잃지 않고 돌아올 수 있고, 모서리 운영과 빈칸 관리의 깊이는 그대로 유지됩니다.",
+    snapshot: [["핵심 목표", "같은 숫자를 합쳐 2048 또는 더 높은 타일에 도전합니다."], ["추천 상황", "한 손으로 천천히 즐기는 숫자 퍼즐이 필요할 때 좋습니다."], ["실력 포인트", "큰 타일 위치 고정, 빈칸 확보, 이동 방향 절제입니다."], ["편의 기능", "직전 한 수 취소, 자동 저장, 최고 점수와 최대 타일 기록을 지원합니다."]],
+    controls: ["방향키, 화면 방향 버튼 또는 게임판 스와이프로 모든 타일을 한 방향으로 움직입니다.", "같은 숫자 두 개가 부딪히면 하나로 합쳐지고 점수가 오르며, 한 번 합쳐진 타일은 같은 수에서 다시 합쳐지지 않습니다.", "실행 취소는 직전 한 수를 되돌리고, 새 게임은 빈 보드에 두 타일을 놓아 다시 시작합니다.", "2048을 완성하면 결과를 확인한 뒤 계속하기로 4096 이상에 도전할 수 있습니다."],
+    scoring: ["타일이 합쳐질 때 완성된 타일 값만큼 점수가 오르고 최고 점수는 브라우저에 저장됩니다.", "보드가 가득 찼고 상하좌우 어디로도 합칠 수 없으면 게임이 종료됩니다.", "2048 완성은 한 번 안내되며 계속하기를 선택하면 같은 판과 점수로 더 높은 타일을 만들 수 있습니다."],
     beginner: ["가장 큰 타일을 한 모서리에 고정하고 가능한 한 움직이지 않습니다.", "네 방향을 모두 쓰기보다 두세 방향 위주로 플레이하면 보드가 덜 흐트러집니다.", "빈칸이 3개 이하로 줄면 큰 합치기보다 공간 확보를 먼저 봅니다."],
     advanced: ["큰 타일 주변에 바로 다음 숫자를 계단처럼 배치하면 연쇄 합치기가 쉬워집니다.", "불필요한 위아래 이동은 큰 타일을 모서리에서 빼낼 수 있으므로 조심합니다.", "막히기 직전에는 낮은 숫자 두 개를 먼저 합쳐 새 타일이 들어올 공간을 만듭니다."],
-    mobile: ["스와이프는 짧고 분명하게 입력하면 의도하지 않은 방향 이동을 줄일 수 있습니다.", "한 손 플레이에서는 같은 방향을 반복하기 쉬우므로 보드 오른쪽과 아래쪽 빈칸을 함께 확인합니다.", "화면을 빠르게 문지르기보다 한 번 이동 후 타일 배치를 보고 다음 수를 정합니다."],
+    mobile: ["게임판 위에서 28px 이상 짧고 분명하게 스와이프하면 페이지 스크롤과 구분해 방향 입력으로 처리됩니다.", "화면 방향 버튼도 같은 규칙으로 동작하므로 작은 움직임이 불편할 때 사용할 수 있습니다.", "한 번 이동 후 등장·합치기 효과와 빈칸 수를 확인하고 다음 수를 정하면 연속 오입력을 줄일 수 있습니다."],
     mistakes: ["큰 타일을 중앙에 두고 사방에서 작은 타일이 막히는 실수", "합칠 수 있다는 이유만으로 매번 즉시 합치는 실수", "빈칸 수를 확인하지 않고 새 타일 위치를 운에 맡기는 실수"],
-    faqs: [["2048을 꼭 만들어야 성공인가요?", "2048은 대표 목표지만 더 높은 점수와 큰 타일에 계속 도전할 수 있습니다."], ["무작위 요소가 큰가요?", "새 타일 위치에는 무작위성이 있지만, 큰 타일을 고정하고 빈칸을 관리하면 결과를 크게 개선할 수 있습니다."], ["초보 전략 하나만 고른다면 무엇인가요?", "가장 큰 타일을 한 모서리에 두고 그 주변으로 숫자를 키우는 방식이 가장 안정적입니다."], ["모바일에서도 스와이프가 되나요?", "네. 터치 환경에서도 방향 입력으로 플레이할 수 있게 구성했습니다."], ["판이 자주 막히는 이유는 무엇인가요?", "작은 숫자가 여기저기 흩어져 큰 타일 주변을 막을 때가 많습니다. 이동 방향을 줄이면 이 문제가 줄어듭니다."]],
-    update: "2026년 7월 20일 2048 대표 페이지에 모서리 운영, 점수 구조, 모바일 스와이프 팁을 추가했습니다."
+    faqs: [["2048을 만들면 게임이 끝나나요?", "완성 안내 뒤 계속하기를 누르면 같은 판에서 4096 이상의 타일에 도전할 수 있습니다."], ["새로고침하면 진행 중인 판이 사라지나요?", "아니요. 보드, 점수, 이동 수와 직전 실행 취소 상태를 현재 브라우저에 저장해 다시 불러옵니다."], ["실행 취소는 몇 번 가능한가요?", "직전 한 수만 되돌릴 수 있습니다. 한 번 사용하면 다음 이동 전까지 다시 사용할 수 없습니다."], ["모바일에서도 스와이프가 되나요?", "네. 게임판을 상하좌우로 스와이프하거나 화면 방향 버튼을 눌러 플레이할 수 있습니다."], ["판이 자주 막히는 이유는 무엇인가요?", "작은 숫자가 여기저기 흩어져 큰 타일 주변을 막을 때가 많습니다. 이동 방향을 줄이면 이 문제가 줄어듭니다."]],
+    update: "2026년 8월 20일 클래식 4x4 규칙을 재정비하고 스와이프, 한 수 실행 취소, 자동 저장·복원, 효과음, 최고 점수·최대 타일 기록과 2048 이후 계속하기를 추가했습니다."
   },
   "snake-garden": {
     overview: "뱀의 정원은 먹이를 먹어 몸을 늘리며 오래 버티는 그리드 아케이드 게임입니다. 몸이 길어질수록 점수는 오르지만 이동할 공간은 줄어듭니다.",
@@ -1479,12 +1479,12 @@ for (const game of catalog) {
 }
 
 const staticUrls = [
-  { loc: `${siteUrl}/`, priority: "1.0", changefreq: "weekly", lastmod: "2026-08-16" },
-  { loc: `${siteUrl}/games/`, priority: "0.9", changefreq: "weekly", lastmod: "2026-08-16" },
-  { loc: `${siteUrl}/play/`, priority: "0.9", changefreq: "weekly", lastmod: "2026-08-16" },
+  { loc: `${siteUrl}/`, priority: "1.0", changefreq: "weekly", lastmod: "2026-08-20" },
+  { loc: `${siteUrl}/games/`, priority: "0.9", changefreq: "weekly", lastmod: "2026-08-20" },
+  { loc: `${siteUrl}/play/`, priority: "0.9", changefreq: "weekly", lastmod: "2026-08-20" },
   { loc: `${siteUrl}/guides/`, priority: "0.8", changefreq: "monthly", lastmod: "2026-07-22" },
   { loc: `${siteUrl}/help/`, priority: "0.7", changefreq: "monthly", lastmod: "2026-07-22" },
-  { loc: `${siteUrl}/updates/`, priority: "0.6", changefreq: "monthly", lastmod: "2026-08-16" },
+  { loc: `${siteUrl}/updates/`, priority: "0.6", changefreq: "monthly", lastmod: "2026-08-20" },
   { loc: `${siteUrl}/about/`, priority: "0.6", changefreq: "monthly" },
   { loc: `${siteUrl}/privacy/`, priority: "0.5", changefreq: "yearly", lastmod: "2026-07-22" },
   { loc: `${siteUrl}/terms/`, priority: "0.5", changefreq: "yearly", lastmod: "2026-07-22" },
@@ -1493,7 +1493,7 @@ const staticUrls = [
     loc: `${siteUrl}/guides/${id}/`,
     priority: "0.7",
     changefreq: "monthly",
-    lastmod: ["brick-break-strategy", "block-drop-beginner"].includes(id) ? "2026-08-14" : "2026-07-22",
+    lastmod: id === "twenty-48-strategy" ? "2026-08-20" : ["brick-break-strategy", "block-drop-beginner"].includes(id) ? "2026-08-14" : "2026-07-22",
   })),
 ];
 
@@ -1503,7 +1503,7 @@ const gameUrls = catalog
     loc: `${siteUrl}/games/${game.id}/`,
     priority: "0.8",
     changefreq: "monthly",
-    lastmod: "2026-08-16",
+    lastmod: game.id === "twenty-48" ? "2026-08-20" : "2026-08-16",
   }));
 
 const sitemap = `<?xml version="1.0" encoding="UTF-8"?>

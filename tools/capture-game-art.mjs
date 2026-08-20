@@ -118,7 +118,15 @@ try {
       if (await closedCell.count()) await closedCell.click({ button: "right" });
     }
 
-    if (id === "bubble-shooter" || id === "omok" || id === "card-solitaire" || id === "freecell-classic" || id === "maze-chase" || id === "mines") {
+    if (id === "twenty-48") {
+      const board = surface.locator(".board-2048");
+      for (const key of ["ArrowLeft", "ArrowDown", "ArrowLeft", "ArrowDown", "ArrowRight", "ArrowDown", "ArrowLeft", "ArrowDown", "ArrowLeft", "ArrowUp", "ArrowLeft", "ArrowDown"]) {
+        await board.press(key);
+      }
+      await page.waitForTimeout(220);
+    }
+
+    if (id === "bubble-shooter" || id === "omok" || id === "card-solitaire" || id === "freecell-classic" || id === "maze-chase" || id === "mines" || id === "twenty-48") {
       await page.addStyleTag({
         content: `
           #playSurface {
@@ -133,6 +141,7 @@ try {
           #playSurface .solitaire-actions,
           #playSurface .freecell-settings,
           #playSurface .mines-settings,
+          #playSurface .status-2048,
           #playSurface .maze-status,
           #playSurface .mini-controls,
           #playSurface .mini-note { display: none !important; }
@@ -150,12 +159,16 @@ try {
             ? surface.locator(".freecell-board")
           : id === "mines"
             ? surface.locator(".mines-board")
+          : id === "twenty-48"
+            ? surface.locator(".board-2048")
           : id === "maze-chase"
             ? surface.locator(".maze-canvas")
         : surface;
     const png = await captureTarget.screenshot({ animations: "disabled" });
     await sharp(png)
-      .resize(640, 360, { fit: "cover", position: id === "maze-chase" ? "south" : "north" })
+      .resize(640, 360, id === "twenty-48"
+        ? { fit: "contain", background: "#202735" }
+        : { fit: "cover", position: id === "maze-chase" ? "south" : "north" })
       .webp({ quality: 84, effort: 5 })
       .toFile(path.join(artDir, `${id}.webp`));
     console.log(`Captured ${id}.webp`);

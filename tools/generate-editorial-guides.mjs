@@ -4,7 +4,7 @@ import path from "node:path";
 const root = process.cwd();
 const publicDir = path.join(root, "public");
 const siteUrl = "https://hanpangames.kr";
-const assetVersion = "20260816-mines";
+const assetVersion = "20260820-2048";
 const publishedDate = "2026-07-22";
 const adsenseClient = "ca-pub-6918910185244897";
 const adsenseScript = `<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${adsenseClient}" crossorigin="anonymous"></script>`;
@@ -13,11 +13,12 @@ const searchConsoleVerification = `<meta name="google-site-verification" content
 const guides = [
   {
     id: "twenty-48-strategy",
+    modifiedDate: "2026-08-20",
     category: "퍼즐 공략",
     title: "2048 초보 전략: 큰 타일을 만드는 모서리 운영법",
     description: "2048에서 큰 타일을 안정적으로 만들기 위한 모서리 고정, 이동 방향 제한, 막힌 보드 복구법을 초보자 기준으로 정리했습니다.",
     summary: "2048은 숫자를 합치는 게임이지만, 실제 핵심은 큰 타일을 한쪽 모서리에 고정하고 보드 흐름을 무너뜨리지 않는 것입니다. 같은 숫자를 급하게 합치기보다 다음 합칠 자리를 남겨두면 오래 버틸 수 있습니다.",
-    readingTime: "6분",
+    readingTime: "7분",
     relatedGames: [
       { title: "2048 한판", href: "/games/twenty-48/", text: "숫자 타일 합치기 퍼즐" },
       { title: "블록 채우기", href: "/games/block-fill/", text: "공간 배치 판단 연습" },
@@ -58,13 +59,21 @@ const guides = [
           "처음부터 2048 타일을 목표로 하면 실패할 때 이유를 찾기 어렵습니다. 초보 단계에서는 512 타일을 안정적으로 만들고, 그 타일을 모서리에 유지한 채 보드를 계속 정리하는 것이 더 좋은 연습입니다. 512를 여러 번 만들 수 있으면 1024와 2048은 같은 원리의 확장입니다.",
           "한 판이 끝난 뒤에는 가장 큰 타일이 언제 모서리에서 빠졌는지 떠올려 보세요. 그 순간이 보통 패배의 시작입니다. 점수보다 구조가 무너진 시점을 찾으면 다음 판에서 같은 실수를 훨씬 빨리 알아차릴 수 있습니다."
         ]
+      },
+      {
+        heading: "실행 취소는 정답 버튼보다 복기 도구로 씁니다",
+        paragraphs: [
+          "직전 한 수 실행 취소는 위험한 방향을 시험하고 결과를 비교하는 연습에 유용합니다. 큰 타일이 모서리에서 빠졌거나 새 타일 때문에 줄 순서가 무너졌다면 되돌리기 전에 왜 그 수가 위험했는지 먼저 확인해 보세요.",
+          "매번 불리한 새 타일을 지우는 용도로만 쓰면 보드 판단은 늘기 어렵습니다. 한 판에 사용할 횟수를 스스로 제한하고, 구조를 잘못 읽은 결정적인 수를 복기할 때 쓰는 편이 안정적인 실력 향상에 도움이 됩니다."
+        ]
       }
     ],
     checklist: [
       "가장 큰 타일을 한쪽 모서리에 고정합니다.",
       "큰 타일이 있는 줄은 숫자가 큰 순서로 흐르게 만듭니다.",
       "같은 숫자가 붙어 있어도 합친 뒤 구조를 먼저 확인합니다.",
-      "빈칸이 부족하면 점수보다 공간 회복을 우선합니다."
+      "빈칸이 부족하면 점수보다 공간 회복을 우선합니다.",
+      "실행 취소 전에는 방금 수가 구조를 어떻게 바꿨는지 확인합니다."
     ]
   },
   {
