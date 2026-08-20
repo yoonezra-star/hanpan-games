@@ -40,7 +40,7 @@
     { id: "rps-survival", title: "가위바위보 서바이벌", category: "board", type: "rps", minutes: "1분", description: "연승을 이어가며 살아남는 가위바위보 게임입니다." },
     { id: "mines", title: "지뢰찾기 클래식", category: "puzzle", type: "mines", minutes: "5분", description: "세 가지 난이도에서 숫자 단서를 읽고 지뢰를 피해 모든 안전 칸을 엽니다." },
     { id: "sliding-puzzle", title: "슬라이딩 퍼즐", category: "puzzle", type: "sliding", minutes: "2분", description: "빈 칸을 이용해 숫자 타일을 순서대로 맞춥니다." },
-    { id: "sudoku-mini", title: "스도쿠 미니", category: "puzzle", type: "sudoku", minutes: "4분", description: "6x6 스도쿠 판을 완성하고 충돌 표시와 제한 힌트를 활용합니다." },
+    { id: "sudoku-mini", title: "스도쿠 클래식", category: "puzzle", type: "sudoku", minutes: "8분", description: "세 가지 난이도의 9x9 퍼즐을 메모와 힌트로 풀고 자동 저장된 기록에 도전합니다." },
     { id: "twenty-48", title: "2048 한판", category: "puzzle", type: "twenty48", minutes: "3분", description: "같은 숫자 타일을 합치고 기록을 이어 저장하며 2048 이상에 도전하는 클래식 퍼즐입니다." },
     { id: "match-three", title: "매치3 퍼즐", category: "puzzle", type: "match3", minutes: "3분", description: "인접한 타일을 바꿔 연쇄 매치를 만들고 제한 이동 안에 목표 점수를 넘깁니다." },
     { id: "block-fill", title: "블록 채우기", category: "puzzle", type: "blockfill", minutes: "2분", description: "빈 칸을 모두 채우되 폭탄 칸은 피하는 블록 퍼즐입니다." },
@@ -427,7 +427,7 @@
     }
 
     if (restart) restart.addEventListener("click", function () {
-      if (current.type === "twenty48") surface.dataset.restartRequested = "true";
+      if (current.type === "twenty48" || current.type === "sudoku") surface.dataset.restartRequested = "true";
       else delete surface.dataset.restartRequested;
       draw();
     });
@@ -532,7 +532,7 @@
       typing: "입력창에 제시어를 정확히 입력합니다. Enter 키로 현재 입력을 지우고 다시 시작할 수 있습니다.",
       recipe: "옮길 병을 먼저 선택하고 받을 병을 선택합니다. 빈 병은 작업 공간으로 남겨 두면 풀이가 쉬워집니다.",
       mines: "열기·깃발 모드를 바꿔 안전 칸과 지뢰를 구분합니다. 열린 숫자를 다시 누르면 주변 깃발 수가 맞을 때 나머지 칸이 함께 열립니다.",
-      sudoku: "빈칸을 선택하고 숫자를 입력합니다. 충돌 표시를 보고 행, 열, 박스를 다시 확인하세요.",
+      sudoku: "칸을 선택한 뒤 숫자 패드나 키보드로 입력합니다. 메모 모드에서는 후보 숫자를 여러 개 남길 수 있습니다.",
       twenty48: "방향키·화면 버튼·스와이프로 타일을 밀어 같은 숫자를 합칩니다. 직전 한 수는 실행 취소할 수 있습니다."
       ,jegi: "스페이스바, 화면 터치 또는 제기 차기 버튼으로 발 가까이 내려온 제기를 찹니다. 너무 일찍 차면 연속 기록이 끊깁니다."
       ,tuho: "각도와 힘 슬라이더를 조절하고 화살 던지기를 누릅니다. 바람 방향과 이전 궤적을 보고 다음 발을 보정하세요."
@@ -7449,132 +7449,569 @@
   }
 
   function renderSudoku(game, surface) {
-    const size = 6;
-    const puzzle = [
-      1,0,0,4,0,6,
-      0,5,6,0,2,0,
-      2,0,0,5,0,1,
-      0,6,1,0,3,0,
-      3,0,5,0,0,2,
-      0,1,0,3,4,0
-    ];
-    const answer = [
-      1,2,3,4,5,6,
-      4,5,6,1,2,3,
-      2,3,4,5,6,1,
-      5,6,1,2,3,4,
-      3,4,5,6,1,2,
-      6,1,2,3,4,5
-    ];
+    const difficulties = {
+      easy: {
+        label: "쉬움",
+        puzzle: "530070000600195000098000060800060003400803001700020006060000280000419005000080079",
+        solution: "534678912672195348198342567859761423426853791713924856961537284287419635345286179"
+      },
+      normal: {
+        label: "보통",
+        puzzle: "000260701680070090190004500820100040004602900050003028009300074040050036703018000",
+        solution: "435269781682571493197834562826195347374682915951743628519326874248957136763418259"
+      },
+      hard: {
+        label: "어려움",
+        puzzle: "800000000003600000070090200050007000000045700000100030001000068008500010090000400",
+        solution: "812753649943682175675491283154237896369845721287169534521974368438526917796318452"
+      }
+    };
+    const saveKey = "hanpan-sudoku-state-v3";
+    const restartRequested = surface.dataset.restartRequested === "true";
+    delete surface.dataset.restartRequested;
+    let difficulty = "easy";
+    let puzzle = [];
+    let answer = [];
+    let values = [];
+    let notes = Array.from({ length: 81 }, function () { return []; });
+    let hinted = Array(81).fill(false);
+    let selected = 0;
     let mistakes = 0;
     let hints = 0;
+    let seconds = 0;
+    let started = false;
+    let completed = false;
+    let noteMode = false;
+    let autoErrors = true;
+    let forceErrors = false;
+    let history = [];
+    const audio = createTonePlayer();
+
     renderScore(surface, [
-      { label: "완성", value: "0/20" },
+      { label: "입력", value: "0/0" },
+      { label: "시간", value: "00:00" },
       { label: "실수", value: "0" },
-      { label: "힌트", value: "3" }
+      { label: "최고", value: "-" }
     ]);
     const stats = surface.querySelectorAll(".mini-score b");
+    const gameWrap = document.createElement("div");
+    gameWrap.className = "sudoku-classic";
+    const settings = document.createElement("div");
+    settings.className = "sudoku-settings";
+    const difficultyGroup = document.createElement("div");
+    difficultyGroup.className = "sudoku-difficulty";
+    difficultyGroup.setAttribute("role", "group");
+    difficultyGroup.setAttribute("aria-label", "스도쿠 난이도");
+    Object.keys(difficulties).forEach(function (id) {
+      const option = button(difficulties[id].label, "button secondary");
+      option.dataset.difficulty = id;
+      difficultyGroup.appendChild(option);
+    });
+    const status = document.createElement("div");
+    status.className = "sudoku-status";
+    status.setAttribute("role", "status");
+    status.setAttribute("aria-live", "polite");
+    const statusTitle = document.createElement("strong");
+    const statusDetail = document.createElement("span");
+    status.append(statusTitle, statusDetail);
+    settings.append(difficultyGroup, status);
     const grid = document.createElement("div");
-    grid.className = "mini-grid sudoku-grid size-6";
-    surface.appendChild(grid);
-    function filledCount() {
-      return Array.from(grid.querySelectorAll("input")).filter(function (input) { return input.value; }).length;
+    grid.className = "sudoku-board";
+    grid.setAttribute("role", "grid");
+    grid.setAttribute("aria-label", "9x9 스도쿠 게임판");
+    gameWrap.append(settings, grid);
+    surface.appendChild(gameWrap);
+
+    const numberPad = document.createElement("div");
+    numberPad.className = "sudoku-number-pad";
+    numberPad.setAttribute("role", "group");
+    numberPad.setAttribute("aria-label", "숫자 입력");
+    for (let number = 1; number <= 9; number += 1) {
+      const item = button(String(number), "sudoku-number");
+      item.dataset.number = String(number);
+      item.setAttribute("aria-label", `${number} 입력`);
+      numberPad.appendChild(item);
     }
+
+    const controls = document.createElement("div");
+    controls.className = "sudoku-controls";
+    const newGame = button("새 게임", "button primary");
+    const undo = button("되돌리기", "button secondary");
+    const erase = button("지우기", "button secondary");
+    const noteToggle = button("메모 꺼짐", "button secondary");
+    const check = button("검사", "button secondary");
+    const hint = button("힌트 3", "button secondary");
+    const errorToggle = button("오류 표시 켜짐", "button secondary");
+    const sound = button("소리 켜짐", "button secondary");
+    noteToggle.setAttribute("aria-pressed", "false");
+    errorToggle.setAttribute("aria-pressed", "true");
+    sound.setAttribute("aria-pressed", "true");
+    controls.append(newGame, undo, erase, noteToggle, check, hint, errorToggle, sound);
+    const guide = document.createElement("p");
+    guide.className = "mini-note";
+    guide.textContent = "각 행, 열, 3x3 박스에는 1부터 9가 한 번씩 들어갑니다. 메모 모드에서는 빈칸에 후보 숫자를 여러 개 남길 수 있습니다.";
+    surface.append(numberPad, controls, guide);
+
+    function shuffled(items) {
+      return shuffle(items.slice());
+    }
+
+    function transformedBoard(config) {
+      const bands = shuffled([0, 1, 2]);
+      const stacks = shuffled([0, 1, 2]);
+      const rows = bands.flatMap(function (band) {
+        return shuffled([0, 1, 2]).map(function (offset) { return band * 3 + offset; });
+      });
+      const columns = stacks.flatMap(function (stack) {
+        return shuffled([0, 1, 2]).map(function (offset) { return stack * 3 + offset; });
+      });
+      const digitOrder = shuffled([1, 2, 3, 4, 5, 6, 7, 8, 9]);
+      const transpose = Math.random() < 0.5;
+      function transform(source) {
+        const sourceValues = source.split("").map(Number);
+        const result = [];
+        for (let row = 0; row < 9; row += 1) {
+          for (let column = 0; column < 9; column += 1) {
+            const sourceRow = transpose ? columns[column] : rows[row];
+            const sourceColumn = transpose ? rows[row] : columns[column];
+            const value = sourceValues[sourceRow * 9 + sourceColumn];
+            result.push(value ? digitOrder[value - 1] : 0);
+          }
+        }
+        return result;
+      }
+      return { puzzle: transform(config.puzzle), answer: transform(config.solution) };
+    }
+
     function peers(index) {
-      const row = Math.floor(index / size);
-      const col = index % size;
-      const boxRow = Math.floor(row / 2) * 2;
-      const boxCol = Math.floor(col / 3) * 3;
+      const row = Math.floor(index / 9);
+      const column = index % 9;
+      const boxRow = Math.floor(row / 3) * 3;
+      const boxColumn = Math.floor(column / 3) * 3;
       const items = new Set();
-      for (let c = 0; c < size; c += 1) items.add(row * size + c);
-      for (let r = 0; r < size; r += 1) items.add(r * size + col);
-      for (let r = boxRow; r < boxRow + 2; r += 1) for (let c = boxCol; c < boxCol + 3; c += 1) items.add(r * size + c);
+      for (let col = 0; col < 9; col += 1) items.add(row * 9 + col);
+      for (let nextRow = 0; nextRow < 9; nextRow += 1) items.add(nextRow * 9 + column);
+      for (let nextRow = boxRow; nextRow < boxRow + 3; nextRow += 1) {
+        for (let col = boxColumn; col < boxColumn + 3; col += 1) items.add(nextRow * 9 + col);
+      }
       items.delete(index);
       return Array.from(items);
     }
-    function valueAt(index) {
-      const fixed = puzzle[index];
-      if (fixed) return String(fixed);
-      const input = grid.querySelector(`input[data-index="${index}"]`);
-      return input ? input.value : "";
+
+    function formatTime(value) {
+      const minutes = Math.floor(value / 60);
+      const remaining = value % 60;
+      return `${String(minutes).padStart(2, "0")}:${String(remaining).padStart(2, "0")}`;
     }
-    function sync() {
-      const inputs = Array.from(grid.querySelectorAll("input"));
-      inputs.forEach(function (input) {
-        const index = Number(input.dataset.index);
-        const value = input.value;
-        const conflict = value && peers(index).some(function (peer) { return valueAt(peer) === value; });
-        input.classList.toggle("error", Boolean(conflict));
-        input.setAttribute("aria-invalid", conflict ? "true" : "false");
-      });
-      stats[0].textContent = `${filledCount()}/${inputs.length}`;
-      stats[1].textContent = String(mistakes);
-      stats[2].textContent = String(3 - hints);
+
+    function bestKey() {
+      return `hanpan-sudoku-best-${difficulty}`;
     }
-    puzzle.forEach(function (value, index) {
-      if (value) {
-        const fixed = document.createElement("span");
-        fixed.className = "mini-cell done";
-        fixed.textContent = String(value);
-        fixed.setAttribute("aria-label", `고정 숫자 ${value}`);
-        grid.appendChild(fixed);
-      } else {
-        const input = document.createElement("input");
-        input.className = "sudoku-input";
-        input.type = "number";
-        input.min = "1";
-        input.max = "6";
-        input.inputMode = "numeric";
-        input.placeholder = "·";
-        input.dataset.index = String(index);
-        input.setAttribute("aria-label", `빈 칸 ${index + 1}`);
-        input.addEventListener("input", function () {
-          input.value = input.value.replace(/[^1-6]/g, "").slice(0, 1);
-          sync();
+
+    function readBest() {
+      try {
+        const value = Number(localStorage.getItem(bestKey()));
+        return Number.isFinite(value) && value > 0 ? value : null;
+      } catch (error) {
+        return null;
+      }
+    }
+
+    function saveBestTime() {
+      if (hints > 0) return false;
+      const previous = readBest();
+      if (previous !== null && previous <= seconds) return false;
+      try {
+        localStorage.setItem(bestKey(), String(seconds));
+        return true;
+      } catch (error) {
+        return false;
+      }
+    }
+
+    function editableIndexes() {
+      return puzzle.map(function (value, index) { return value ? null : index; }).filter(function (index) { return index !== null; });
+    }
+
+    function filledCount() {
+      return editableIndexes().filter(function (index) { return values[index] !== 0; }).length;
+    }
+
+    function syncStats() {
+      const editable = editableIndexes();
+      stats[0].textContent = `${filledCount()}/${editable.length}`;
+      stats[1].textContent = formatTime(seconds);
+      stats[2].textContent = String(mistakes);
+      const best = readBest();
+      stats[3].textContent = best ? formatTime(best) : "-";
+    }
+
+    function hasConflict(index) {
+      const value = values[index];
+      return Boolean(value && peers(index).some(function (peer) { return values[peer] === value; }));
+    }
+
+    function renderBoard(focusSelected) {
+      grid.innerHTML = "";
+      const selectedValue = values[selected];
+      values.forEach(function (value, index) {
+        const cell = button("", "sudoku-cell");
+        const row = Math.floor(index / 9) + 1;
+        const column = index % 9 + 1;
+        const isGiven = puzzle[index] !== 0;
+        const isError = !isGiven && value && (value !== answer[index] || hasConflict(index));
+        const isRelated = index !== selected && peers(selected).includes(index);
+        cell.dataset.index = String(index);
+        cell.tabIndex = index === selected ? 0 : -1;
+        cell.classList.toggle("is-given", isGiven);
+        cell.classList.toggle("is-selected", index === selected);
+        cell.classList.toggle("is-related", isRelated);
+        cell.classList.toggle("is-same", Boolean(selectedValue && value === selectedValue && index !== selected));
+        cell.classList.toggle("is-error", Boolean(isError && (autoErrors || forceErrors)));
+        cell.classList.toggle("is-hinted", hinted[index]);
+        cell.setAttribute("role", "gridcell");
+        cell.setAttribute("aria-selected", String(index === selected));
+        cell.setAttribute("aria-invalid", String(Boolean(isError && (autoErrors || forceErrors))));
+        if (value) {
+          cell.textContent = String(value);
+          cell.setAttribute("aria-label", `${row}행 ${column}열, ${isGiven ? "고정 숫자" : "입력 숫자"} ${value}`);
+        } else if (notes[index].length) {
+          const noteGrid = document.createElement("span");
+          noteGrid.className = "sudoku-notes";
+          for (let number = 1; number <= 9; number += 1) {
+            const mark = document.createElement("i");
+            mark.textContent = notes[index].includes(number) ? String(number) : "";
+            noteGrid.appendChild(mark);
+          }
+          cell.appendChild(noteGrid);
+          cell.setAttribute("aria-label", `${row}행 ${column}열, 메모 ${notes[index].join(", ")}`);
+        } else {
+          cell.setAttribute("aria-label", `${row}행 ${column}열, 빈 칸`);
+        }
+        cell.addEventListener("click", function () {
+          selected = index;
+          render();
+          grid.querySelector(`[data-index="${index}"]`)?.focus({ preventScroll: true });
         });
-        grid.appendChild(input);
-      }
-    });
-    const controls = document.createElement("div");
-    controls.className = "mini-controls";
-    const check = button("정답 확인", "button primary");
-    const hint = button("힌트", "button secondary");
-    controls.append(check, hint);
-    const guide = document.createElement("p");
-    guide.className = "mini-note";
-    guide.textContent = "각 행, 열, 2x3 박스에는 1부터 6까지 한 번씩 들어갑니다. 충돌하는 숫자는 바로 표시됩니다.";
-    surface.append(controls, guide);
-    check.addEventListener("click", function () {
-      const ok = Array.from(grid.querySelectorAll("input")).every(function (input) {
-        return Number(input.value) === answer[Number(input.dataset.index)];
+        grid.appendChild(cell);
       });
-      if (ok) {
-        const score = Math.max(0, 100 - mistakes * 8 - hints * 10);
-        const isBest = saveBest(game.id, score, function (a, b) { return a > b; });
-        setResult(isBest ? `스도쿠 완성. 새 최고 점수 ${score}점입니다.` : `스도쿠 완성. 점수 ${score}점입니다.`);
-        Array.from(grid.querySelectorAll("input")).forEach(function (input) { input.disabled = true; input.classList.add("solved"); });
-      } else {
-        mistakes += 1;
-        setResult("아직 맞지 않는 칸이 있습니다. 충돌 표시를 먼저 확인해 보세요.");
-        sync();
+      grid.setAttribute("aria-label", `${difficulties[difficulty].label} 난이도 9x9 스도쿠. 입력 ${filledCount()}/${editableIndexes().length}, 실수 ${mistakes}.`);
+      if (focusSelected) grid.querySelector(`[data-index="${selected}"]`)?.focus({ preventScroll: true });
+    }
+
+    function render(focusSelected) {
+      syncStats();
+      Array.from(difficultyGroup.children).forEach(function (item) {
+        const active = item.dataset.difficulty === difficulty;
+        item.classList.toggle("primary", active);
+        item.classList.toggle("secondary", !active);
+        item.setAttribute("aria-pressed", String(active));
+      });
+      undo.disabled = history.length === 0 || completed;
+      erase.disabled = completed || puzzle[selected] !== 0 || (!values[selected] && !notes[selected].length);
+      hint.disabled = completed || hints >= 3;
+      hint.textContent = `힌트 ${3 - hints}`;
+      noteToggle.textContent = noteMode ? "메모 켜짐" : "메모 꺼짐";
+      noteToggle.setAttribute("aria-pressed", String(noteMode));
+      errorToggle.textContent = autoErrors ? "오류 표시 켜짐" : "오류 표시 꺼짐";
+      errorToggle.setAttribute("aria-pressed", String(autoErrors));
+      statusTitle.textContent = completed ? "퍼즐 완성" : started ? "풀이 중" : "준비";
+      statusDetail.textContent = completed
+        ? `${formatTime(seconds)} · 실수 ${mistakes} · 힌트 ${hints}`
+        : `${difficulties[difficulty].label} · 빈칸 ${editableIndexes().length - filledCount()}개 · 메모 ${noteMode ? "켜짐" : "꺼짐"}`;
+      Array.from(numberPad.children).forEach(function (item) { item.disabled = completed; });
+      renderBoard(focusSelected);
+    }
+
+    function snapshot() {
+      return {
+        values: values.slice(),
+        notes: notes.map(function (items) { return items.slice(); }),
+        hinted: hinted.slice(),
+        mistakes,
+        hints,
+        forceErrors
+      };
+    }
+
+    function pushHistory() {
+      history.push(snapshot());
+      if (history.length > 50) history.shift();
+    }
+
+    function persist() {
+      try {
+        localStorage.setItem(saveKey, JSON.stringify({
+          version: 3,
+          difficulty,
+          puzzle,
+          answer,
+          values,
+          notes,
+          hinted,
+          selected,
+          mistakes,
+          hints,
+          seconds,
+          started,
+          completed,
+          noteMode,
+          autoErrors,
+          forceErrors,
+          history
+        }));
+      } catch (error) {
+        // Local puzzle recovery is optional.
       }
+    }
+
+    function restore() {
+      try {
+        const saved = JSON.parse(localStorage.getItem(saveKey) || "null");
+        if (!saved || saved.version !== 3 || !difficulties[saved.difficulty]) return false;
+        const arrays = [saved.puzzle, saved.answer, saved.values, saved.notes, saved.hinted];
+        if (arrays.some(function (items) { return !Array.isArray(items) || items.length !== 81; })) return false;
+        if (!saved.puzzle.every(function (value) { return Number.isInteger(value) && value >= 0 && value <= 9; })) return false;
+        if (!saved.answer.every(function (value) { return Number.isInteger(value) && value >= 1 && value <= 9; })) return false;
+        if (!saved.values.every(function (value) { return Number.isInteger(value) && value >= 0 && value <= 9; })) return false;
+        difficulty = saved.difficulty;
+        puzzle = saved.puzzle.slice();
+        answer = saved.answer.slice();
+        values = saved.values.slice();
+        notes = saved.notes.map(function (items) { return Array.isArray(items) ? items.filter(function (value) { return value >= 1 && value <= 9; }) : []; });
+        hinted = saved.hinted.map(Boolean);
+        selected = Math.max(0, Math.min(80, Number(saved.selected) || 0));
+        mistakes = Math.max(0, Number(saved.mistakes) || 0);
+        hints = Math.max(0, Math.min(3, Number(saved.hints) || 0));
+        seconds = Math.max(0, Number(saved.seconds) || 0);
+        started = Boolean(saved.started);
+        completed = Boolean(saved.completed);
+        noteMode = Boolean(saved.noteMode);
+        autoErrors = saved.autoErrors !== false;
+        forceErrors = Boolean(saved.forceErrors);
+        history = Array.isArray(saved.history) ? saved.history.slice(-50) : [];
+        return true;
+      } catch (error) {
+        return false;
+      }
+    }
+
+    function startTimer() {
+      if (!started) started = true;
+    }
+
+    function clearPeerNotes(index, number) {
+      peers(index).forEach(function (peer) {
+        notes[peer] = notes[peer].filter(function (value) { return value !== number; });
+      });
+    }
+
+    function finishIfComplete() {
+      if (!values.every(function (value, index) { return value === answer[index]; })) return false;
+      completed = true;
+      const isBest = saveBestTime();
+      audio.tone(523, 0.12, "sine", 0.025);
+      audio.tone(659, 0.16, "sine", 0.025, 0.12);
+      audio.tone(784, 0.22, "sine", 0.025, 0.26);
+      if (hints > 0) setResult(`스도쿠 완성. ${formatTime(seconds)}에 풀었습니다. 힌트를 사용한 판은 최고 기록에서 제외됩니다.`);
+      else setResult(isBest ? `스도쿠 완성. 새 최고 기록 ${formatTime(seconds)}입니다.` : `스도쿠 완성. ${formatTime(seconds)}에 풀었습니다.`);
+      return true;
+    }
+
+    function enterNumber(number) {
+      if (completed || puzzle[selected]) return;
+      pushHistory();
+      startTimer();
+      forceErrors = false;
+      if (noteMode) {
+        if (values[selected]) values[selected] = 0;
+        const current = notes[selected];
+        notes[selected] = current.includes(number)
+          ? current.filter(function (value) { return value !== number; })
+          : current.concat(number).sort();
+        audio.tone(250 + number * 22, 0.035, "triangle", 0.012);
+        setResult(`${number} 후보 메모를 ${notes[selected].includes(number) ? "추가" : "삭제"}했습니다.`);
+      } else {
+        values[selected] = number;
+        notes[selected] = [];
+        if (number !== answer[selected] && autoErrors) {
+          mistakes += 1;
+          audio.tone(150, 0.09, "sawtooth", 0.02);
+          setResult("해당 숫자는 이 칸의 정답이 아닙니다. 행, 열과 박스를 다시 확인하세요.");
+        } else {
+          if (number === answer[selected]) clearPeerNotes(selected, number);
+          audio.tone(330 + number * 24, 0.045, "sine", 0.018);
+          setResult(`${number}을 입력했습니다.`);
+        }
+      }
+      finishIfComplete();
+      persist();
+      render(true);
+    }
+
+    function eraseSelected() {
+      if (completed || puzzle[selected] || (!values[selected] && !notes[selected].length)) return;
+      pushHistory();
+      values[selected] = 0;
+      notes[selected] = [];
+      hinted[selected] = false;
+      forceErrors = false;
+      persist();
+      render(true);
+      setResult("선택한 칸을 지웠습니다.");
+    }
+
+    function undoMove() {
+      const previous = history.pop();
+      if (!previous || completed) return;
+      values = previous.values.slice();
+      notes = previous.notes.map(function (items) { return items.slice(); });
+      hinted = previous.hinted.slice();
+      mistakes = previous.mistakes;
+      hints = previous.hints;
+      forceErrors = previous.forceErrors;
+      persist();
+      render(true);
+      audio.tone(240, 0.06, "triangle", 0.016);
+      setResult("직전 입력을 되돌렸습니다.");
+    }
+
+    function useHint() {
+      if (completed || hints >= 3) return;
+      const candidates = editableIndexes().filter(function (index) { return values[index] !== answer[index]; });
+      if (!candidates.length) return;
+      const index = candidates.includes(selected) ? selected : sample(candidates);
+      pushHistory();
+      startTimer();
+      selected = index;
+      values[index] = answer[index];
+      notes[index] = [];
+      hinted[index] = true;
+      hints += 1;
+      clearPeerNotes(index, answer[index]);
+      audio.tone(520, 0.1, "sine", 0.02);
+      finishIfComplete();
+      persist();
+      render(true);
+      if (!completed) setResult(`힌트로 ${answer[index]}을 채웠습니다. ${3 - hints}번 남았습니다.`);
+    }
+
+    function inspectBoard() {
+      if (completed) return;
+      const wrong = editableIndexes().filter(function (index) { return values[index] && values[index] !== answer[index]; });
+      if (wrong.length) {
+        mistakes += 1;
+        forceErrors = true;
+        selected = wrong[0];
+        audio.tone(150, 0.09, "sawtooth", 0.02);
+        setResult(`잘못된 숫자 ${wrong.length}개를 표시했습니다.`);
+      } else if (filledCount() === editableIndexes().length) {
+        finishIfComplete();
+      } else {
+        setResult("현재까지 입력한 숫자에는 오류가 없습니다.");
+      }
+      persist();
+      render(true);
+    }
+
+    function newPuzzle(nextDifficulty, message) {
+      difficulty = nextDifficulty || difficulty;
+      const generated = transformedBoard(difficulties[difficulty]);
+      puzzle = generated.puzzle;
+      answer = generated.answer;
+      values = puzzle.slice();
+      notes = Array.from({ length: 81 }, function () { return []; });
+      hinted = Array(81).fill(false);
+      selected = puzzle.findIndex(function (value) { return value === 0; });
+      mistakes = 0;
+      hints = 0;
+      seconds = 0;
+      started = false;
+      completed = false;
+      noteMode = false;
+      forceErrors = false;
+      history = [];
+      persist();
+      render();
+      setResult(message || `${difficulties[difficulty].label} 난이도 새 퍼즐입니다.`);
+    }
+
+    difficultyGroup.addEventListener("click", function (event) {
+      const target = event.target.closest("button[data-difficulty]");
+      if (!target || target.dataset.difficulty === difficulty) return;
+      newPuzzle(target.dataset.difficulty, `${difficulties[target.dataset.difficulty].label} 난이도로 새 퍼즐을 시작합니다.`);
     });
-    hint.addEventListener("click", function () {
-      if (hints >= 3) {
-        setResult("힌트는 한 판에 3번까지 사용할 수 있습니다.");
+    numberPad.addEventListener("click", function (event) {
+      const target = event.target.closest("button[data-number]");
+      if (target) enterNumber(Number(target.dataset.number));
+    });
+    newGame.addEventListener("click", function () { newPuzzle(difficulty); });
+    undo.addEventListener("click", undoMove);
+    erase.addEventListener("click", eraseSelected);
+    noteToggle.addEventListener("click", function () {
+      noteMode = !noteMode;
+      render(true);
+      persist();
+      setResult(noteMode ? "메모 모드를 켰습니다." : "숫자 입력 모드로 돌아왔습니다.");
+    });
+    check.addEventListener("click", inspectBoard);
+    hint.addEventListener("click", useHint);
+    errorToggle.addEventListener("click", function () {
+      autoErrors = !autoErrors;
+      forceErrors = false;
+      render(true);
+      persist();
+      setResult(autoErrors ? "틀린 숫자를 바로 표시합니다." : "오류 자동 표시를 껐습니다. 검사 버튼으로 확인할 수 있습니다.");
+    });
+    sound.addEventListener("click", function () { audio.toggle(sound); });
+
+    function onKey(event) {
+      if (/^(INPUT|TEXTAREA|SELECT)$/.test(event.target.tagName)) return;
+      if (["ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight"].includes(event.key)) {
+        event.preventDefault();
+        const row = Math.floor(selected / 9);
+        const column = selected % 9;
+        if (event.key === "ArrowUp") selected = Math.max(0, row - 1) * 9 + column;
+        if (event.key === "ArrowDown") selected = Math.min(8, row + 1) * 9 + column;
+        if (event.key === "ArrowLeft") selected = row * 9 + Math.max(0, column - 1);
+        if (event.key === "ArrowRight") selected = row * 9 + Math.min(8, column + 1);
+        render(true);
         return;
       }
-      const empty = Array.from(grid.querySelectorAll("input")).filter(function (input) { return !input.value; });
-      if (!empty.length) return;
-      const input = sample(empty);
-      const index = Number(input.dataset.index);
-      input.value = String(answer[index]);
-      input.classList.add("hinted");
-      hints += 1;
-      setResult(`힌트를 사용했습니다. ${3 - hints}번 남았습니다.`);
-      sync();
+      if (/^[1-9]$/.test(event.key)) {
+        event.preventDefault();
+        enterNumber(Number(event.key));
+      } else if (["Backspace", "Delete", "0"].includes(event.key)) {
+        event.preventDefault();
+        eraseSelected();
+      } else if (event.key.toLowerCase() === "n") {
+        event.preventDefault();
+        noteToggle.click();
+      }
+    }
+
+    document.addEventListener("keydown", onKey);
+    const timer = window.setInterval(function () {
+      if (!started || completed) return;
+      seconds += 1;
+      syncStats();
+      if (seconds % 5 === 0) persist();
+    }, 1000);
+    cleanup.push(function () {
+      document.removeEventListener("keydown", onKey);
+      window.clearInterval(timer);
+      audio.close();
     });
-    sync();
+
+    if (restartRequested) {
+      restore();
+      newPuzzle(difficulty, `${difficulties[difficulty].label} 난이도 새 퍼즐입니다.`);
+    } else if (!restore()) {
+      newPuzzle("easy", "쉬움 난이도 새 퍼즐입니다. 빈칸을 선택해 시작하세요.");
+    } else {
+      render();
+      setResult(completed ? "완성한 스도쿠 기록을 불러왔습니다. 새 게임으로 다시 도전할 수 있습니다." : "저장된 스도쿠를 이어서 시작합니다.");
+    }
   }
 
   function render2048(game, surface) {

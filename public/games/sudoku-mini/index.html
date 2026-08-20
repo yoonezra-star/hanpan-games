@@ -6,15 +6,15 @@
     <link rel="icon" href="/favicon.svg" type="image/svg+xml">
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6918910185244897" crossorigin="anonymous"></script>
     <meta name="google-site-verification" content="qBlRPhDg3Tazy0wuTNee_wfGeDjuYz80N6R_Iinh9bs" />
-    <title>스도쿠 미니 - 한판게임</title>
-    <meta name="description" content="스도쿠 미니 플레이 방법, 조작법, 점수 기준, 공략 팁, 모바일 플레이와 FAQ를 정리한 무료 퍼즐 웹게임 페이지입니다.">
+    <title>스도쿠 클래식 - 한판게임</title>
+    <meta name="description" content="스도쿠 클래식 플레이 방법, 조작법, 점수 기준, 공략 팁, 모바일 플레이와 FAQ를 정리한 무료 퍼즐 웹게임 페이지입니다.">
     <link rel="canonical" href="https://hanpangames.kr/games/sudoku-mini/">
     <meta property="og:image" content="https://hanpangames.kr/assets/game-art/sudoku-mini.webp">
-    <meta property="og:image:alt" content="스도쿠 미니 플레이 장면">
+    <meta property="og:image:alt" content="스도쿠 클래식 플레이 장면">
     <meta property="og:type" content="website">
-    <meta property="og:title" content="스도쿠 미니 - 한판게임">
-    <meta property="og:description" content="스도쿠 미니 플레이 방법, 조작법, 점수 기준, 공략 팁, 모바일 플레이와 FAQ를 정리한 무료 퍼즐 웹게임 페이지입니다.">
-    <link rel="stylesheet" href="/assets/styles.css?v=20260820-2048">
+    <meta property="og:title" content="스도쿠 클래식 - 한판게임">
+    <meta property="og:description" content="스도쿠 클래식 플레이 방법, 조작법, 점수 기준, 공략 팁, 모바일 플레이와 FAQ를 정리한 무료 퍼즐 웹게임 페이지입니다.">
+    <link rel="stylesheet" href="/assets/styles.css?v=20260820-sudoku">
   </head>
   <body>
     <header class="site-header">
@@ -33,9 +33,9 @@
 
     <main class="subpage game-detail-page">
       <section class="page-title">
-        <p class="eyebrow">퍼즐 · 4분</p>
-        <h1 id="playTitle">스도쿠 미니</h1>
-        <p id="playDescription">6x6 스도쿠 판을 완성하고 충돌 표시와 제한 힌트를 활용합니다.</p>
+        <p class="eyebrow">퍼즐 · 8분</p>
+        <h1 id="playTitle">스도쿠 클래식</h1>
+        <p id="playDescription">세 가지 난이도의 9x9 퍼즐을 메모와 힌트로 풀고 자동 저장된 기록에 도전합니다.</p>
         <div class="game-launcher" aria-label="게임 선택">
           <label for="gamePagePicker">
             <span>플레이할 게임</span>
@@ -50,8 +50,8 @@
         <section class="inline-game-stage game-first-stage" id="play-area" aria-live="polite">
           <div class="stage-head">
             <div>
-              <p class="eyebrow" id="playCategory">퍼즐 · 4분</p>
-              <h2 id="stageTitle">스도쿠 미니</h2>
+              <p class="eyebrow" id="playCategory">퍼즐 · 8분</p>
+              <h2 id="stageTitle">스도쿠 클래식</h2>
             </div>
             <div class="stage-actions">
               <a class="button secondary" href="/play/?game=sudoku-mini">큰 화면</a>
@@ -80,97 +80,99 @@
 
         <article class="article featured-article">
           <h2 id="overview">이 게임의 핵심</h2>
-          <p>스도쿠 미니는 6x6 보드에서 행, 열, 2x3 박스의 숫자가 겹치지 않도록 빈칸을 채우는 논리 퍼즐입니다. 일반 9x9보다 빠르게 끝나지만 기본 추론 구조는 그대로 살아 있습니다.</p>
-          <p>짧은 쉬는 시간에도 논리 퍼즐을 완성하는 느낌을 주기 위해 판 크기를 줄이고, 충돌 표시와 제한된 힌트를 넣었습니다. 숫자를 찍기보다 후보를 줄이는 방식으로 플레이할 때 가장 재미있습니다.</p>
+          <p>스도쿠 클래식은 9x9 보드의 각 행, 열, 3x3 박스에 1부터 9를 한 번씩 배치하는 논리 퍼즐입니다. 쉬움·보통·어려움의 고유 해답 퍼즐을 매 판 안전하게 변형해 반복 플레이할 수 있습니다.</p>
+          <p>정식 규칙을 유지하면서도 브라우저에서 편하게 풀 수 있도록 숫자 패드, 후보 메모, 선택 구역 강조, 오류 표시 선택, 되돌리기와 자동 저장을 한 화면에 모았습니다. 힌트 없이 완성한 시간은 난이도별 최고 기록으로 남습니다.</p>
           <div class="detail-snapshot" aria-label="게임 요약">
-            <div><strong>핵심 목표</strong><span>모든 빈칸에 1부터 6까지의 숫자를 규칙에 맞게 채웁니다.</span></div>
-            <div><strong>추천 상황</strong><span>차분한 두뇌 게임이나 짧은 논리 퍼즐이 필요할 때 좋습니다.</span></div>
-            <div><strong>실력 포인트</strong><span>후보 줄이기, 박스 확인, 힌트 절약입니다.</span></div>
+            <div><strong>핵심 목표</strong><span>모든 빈칸을 채워 각 행·열·3x3 박스에 1부터 9를 완성합니다.</span></div>
+            <div><strong>난이도</strong><span>쉬움·보통·어려움의 세 단계에서 서로 다른 단서 구조를 풉니다.</span></div>
+            <div><strong>실력 포인트</strong><span>후보 줄이기, 숨은 싱글 찾기, 박스와 행·열 교차 확인입니다.</span></div>
+            <div><strong>편의 기능</strong><span>후보 메모, 50회 되돌리기, 자동 저장, 오류 검사와 힌트 3회를 지원합니다.</span></div>
           </div>
 
           <h2 id="play-notes">플레이 포인트</h2>
-          <p>스도쿠 미니는 6x6이라 짧지만 행, 열, 박스 조건을 모두 봐야 합니다. 후보가 하나뿐인 칸을 먼저 채우면 추측 없이도 대부분의 판을 안정적으로 풀 수 있습니다.</p>
+          <p>스도쿠 클래식은 9x9 보드의 행, 열, 3x3 박스를 함께 읽는 논리 퍼즐입니다. 후보 메모를 남기고 숫자가 들어갈 수 있는 위치를 교차해 보면 추측 없이도 확정 칸을 찾을 수 있습니다.</p>
           <div class="detail-snapshot" aria-label="게임 요약">
-            <div><strong>추천 상황</strong><span>짧은 논리 퍼즐과 숫자 배치 연습을 원할 때</span></div>
-            <div><strong>좋은 기록</strong><span>힌트를 최소로 쓰고 충돌 없이 완성</span></div>
-            <div><strong>주의할 점</strong><span>행만 보고 박스 조건을 놓치는 실수</span></div>
+            <div><strong>추천 상황</strong><span>정식 9x9 규칙과 단계별 난이도로 차분하게 추론하고 싶을 때</span></div>
+            <div><strong>좋은 기록</strong><span>힌트 없이 빠르고 정확하게 9x9 보드 완성</span></div>
+            <div><strong>주의할 점</strong><span>한 행만 보고 같은 3x3 박스와 열의 후보를 놓치는 실수</span></div>
           </div>
           <ul class="detail-list">
-            <li>각 행에서 빠진 숫자를 먼저 적어 봅니다.</li>
-            <li>2x3 박스 안의 남은 후보를 확인합니다.</li>
-            <li>후보가 둘 이상이면 다른 칸부터 해결합니다.</li>
+            <li>빈칸이 적은 행과 3x3 박스부터 확인합니다.</li>
+            <li>후보가 둘 이상이면 메모 모드로 남겨 둡니다.</li>
+            <li>같은 숫자가 들어갈 수 있는 위치가 하나뿐인 구역을 찾습니다.</li>
           </ul>
 
           <h2 id="how">게임 방법</h2>
-          <p>6x6 보드의 빈칸을 채워 각 행, 열, 2x3 박스에 같은 숫자가 겹치지 않게 만드는 논리 퍼즐입니다. 충돌하는 숫자는 화면에 표시됩니다.</p>
-          <p>스도쿠 미니는 별도 앱 설치나 로그인이 필요 없는 무료 웹게임입니다. 페이지 오른쪽 또는 아래쪽 플레이 영역에서 바로 실행할 수 있고, 결과와 최고 기록은 가능한 경우 현재 브라우저 안에만 저장됩니다.</p>
+          <p>9x9 보드의 빈칸을 채워 각 행, 열, 3x3 박스에 1부터 9가 한 번씩 들어가게 만드는 클래식 논리 퍼즐입니다. 세 난이도와 후보 메모를 지원합니다.</p>
+          <p>스도쿠 클래식은 별도 앱 설치나 로그인이 필요 없는 무료 웹게임입니다. 페이지 오른쪽 또는 아래쪽 플레이 영역에서 바로 실행할 수 있고, 결과와 최고 기록은 가능한 경우 현재 브라우저 안에만 저장됩니다.</p>
 
           <h2 id="controls">조작과 진행</h2>
           <ul class="detail-list">
-            <li>빈칸을 선택하고 숫자를 입력하면 즉시 보드에 반영됩니다.</li>
-            <li>충돌하는 값은 화면에서 오류 상태로 표시되어 규칙 위반을 빠르게 확인할 수 있습니다.</li>
-            <li>힌트 버튼은 한 판에 제한된 횟수만 사용할 수 있어 막힌 지점에서 신중하게 쓰는 편이 좋습니다.</li>
+            <li>칸을 누른 뒤 숫자 패드 또는 키보드 1~9로 값을 입력합니다.</li>
+            <li>메모 모드를 켜면 한 칸에 여러 후보 숫자를 표시할 수 있고 같은 후보를 다시 입력하면 삭제됩니다.</li>
+            <li>방향키는 선택 칸을 이동하며 Backspace·Delete·0은 사용자 입력과 메모를 지웁니다.</li>
+            <li>검사 버튼은 오류 자동 표시를 꺼 둔 경우에도 현재 잘못된 숫자를 찾아 표시합니다.</li>
           </ul>
 
           <h2 id="scoring">승리와 점수 기준</h2>
           <ul class="detail-list">
-            <li>모든 칸이 규칙에 맞게 채워지면 성공입니다.</li>
-            <li>오류 표시가 남아 있으면 아직 완성된 판으로 인정되지 않습니다.</li>
-            <li>힌트를 적게 쓰고 스스로 후보를 좁힐수록 다음 판에서 더 안정적으로 풀이할 수 있습니다.</li>
+            <li>모든 칸이 고유 해답과 일치하면 자동으로 완성 처리됩니다.</li>
+            <li>힌트를 사용하지 않은 완성 시간만 현재 브라우저의 난이도별 최고 기록으로 저장됩니다.</li>
+            <li>입력과 메모, 힌트, 시간은 자동 저장되어 같은 브라우저에서 페이지를 다시 열어 이어갈 수 있습니다.</li>
           </ul>
 
           <h2 id="strategy">초보 공략</h2>
           <ul class="strategy-list">
-            <li>가장 빈칸이 적은 행이나 열부터 살펴봅니다.</li>
-            <li>행과 열만 보지 말고 2x3 박스 안에 빠진 숫자를 함께 체크합니다.</li>
-            <li>후보가 하나만 남는 칸을 먼저 채우면 다음 단서가 자연스럽게 열립니다.</li>
+            <li>빈칸이 적은 행, 열 또는 3x3 박스부터 빠진 숫자를 확인합니다.</li>
+            <li>후보가 하나뿐인 칸은 바로 채우고 둘 이상이면 메모로 남겨 둡니다.</li>
+            <li>숫자 하나를 채운 뒤 같은 행·열·박스의 메모가 줄어드는지 다시 살펴봅니다.</li>
           </ul>
 
           <h2>한 단계 더 올리는 전략</h2>
           <ul class="strategy-list">
-            <li>특정 숫자가 한 박스 안에서 들어갈 수 있는 위치가 하나뿐인지 확인합니다.</li>
-            <li>행 후보와 열 후보의 교차점을 비교하면 직접 보이지 않는 확정 칸을 찾을 수 있습니다.</li>
-            <li>힌트는 단순 확인보다 새 흐름을 여는 지점에서 사용하는 편이 효율적입니다.</li>
+            <li>한 박스에서 특정 숫자가 들어갈 수 있는 위치가 한 칸뿐인 숨은 싱글을 찾습니다.</li>
+            <li>같은 두 후보만 공유하는 두 칸이 보이면 해당 구역의 다른 칸에서 그 후보를 제외할 수 있습니다.</li>
+            <li>박스 안 후보가 특정 행이나 열에만 모이면 같은 행·열의 다른 박스 후보를 줄일 수 있습니다.</li>
           </ul>
 
           <h2 id="mobile">모바일 플레이 팁</h2>
           <ul class="detail-list">
-            <li>숫자를 입력한 뒤 보드가 밀리지 않도록 화면을 세로로 두고 천천히 진행합니다.</li>
-            <li>작은 칸에서 오입력이 나면 바로 지우고 같은 행, 열, 박스를 다시 확인합니다.</li>
-            <li>힌트 버튼은 실수로 누르지 않도록 풀이가 완전히 막혔을 때만 사용합니다.</li>
+            <li>9x9 보드는 세로 화면 폭을 채우고 숫자 패드는 바로 아래 한 줄에 고정되어 손가락 이동을 줄입니다.</li>
+            <li>작은 칸을 오래 누르기보다 칸을 한 번 선택한 뒤 큰 숫자 패드를 사용하면 오입력이 줄어듭니다.</li>
+            <li>가로 화면이나 전체화면에서는 게임판 크기가 화면 높이에 맞춰져 설명 영역 없이 풀이에 집중할 수 있습니다.</li>
           </ul>
 
           <h2>자주 나오는 실수</h2>
           <ul class="mistake-list">
-            <li>행만 보고 박스 규칙을 빼먹는 실수</li>
-            <li>후보를 확인하지 않고 빈칸 순서대로 숫자를 넣는 실수</li>
-            <li>오류 표시를 방치한 채 뒤쪽 칸을 계속 채우는 실수</li>
+            <li>행의 빠진 숫자만 보고 같은 3x3 박스에서 이미 사용된 값을 놓치는 실수</li>
+            <li>후보를 확정 숫자처럼 입력해 이후 여러 칸의 판단을 함께 어긋나게 만드는 실수</li>
+            <li>힌트로 채운 숫자의 근거를 확인하지 않고 다음 칸으로 넘어가는 실수</li>
           </ul>
 
           <h2 id="faq">자주 묻는 질문</h2>
           <div class="faq-list">
-          <h3>일반 스도쿠보다 쉬운가요?</h3>
-          <p>판은 작지만 행, 열, 박스 중복 금지라는 기본 규칙은 같습니다. 입문용으로 빠르게 익히기 좋습니다.</p>
-          <h3>힌트는 몇 번 사용할 수 있나요?</h3>
-          <p>한 판에 제한된 횟수만 사용할 수 있습니다. 너무 빨리 쓰면 뒤쪽에서 막힐 때 선택지가 줄어듭니다.</p>
-          <h3>오답을 넣으면 바로 끝나나요?</h3>
-          <p>바로 실패하지 않고 오류 상태로 알려 줍니다. 표시를 보고 값을 고쳐 이어서 풀 수 있습니다.</p>
-          <h3>모바일에서도 숫자 입력이 편한가요?</h3>
-          <p>숫자 입력 칸이 모바일에 맞게 반응하도록 구성되어 있습니다.</p>
-          <h3>스도쿠를 처음 하면 어디부터 보면 좋나요?</h3>
-          <p>빈칸이 적은 행, 열, 박스부터 확인하면 후보가 빠르게 줄어듭니다.</p>
+          <h3>퍼즐마다 해답이 하나인가요?</h3>
+          <p>네. 각 난이도는 고유 해답이 검증된 퍼즐을 사용하고 행·열·숫자 치환으로 규칙과 난이도를 유지하며 변형합니다.</p>
+          <h3>메모는 어떻게 입력하나요?</h3>
+          <p>메모 모드를 켠 뒤 숫자 패드나 키보드로 후보를 입력합니다. 같은 숫자를 다시 누르면 해당 후보가 삭제됩니다.</p>
+          <h3>오류 표시를 끌 수 있나요?</h3>
+          <p>네. 오류 표시를 끄면 입력 중 정답 여부를 숨길 수 있고 필요할 때 검사 버튼으로 확인할 수 있습니다.</p>
+          <h3>새로고침하면 풀이가 사라지나요?</h3>
+          <p>아니요. 보드, 메모, 시간, 실수와 힌트 상태를 현재 브라우저에 자동 저장합니다.</p>
+          <h3>힌트를 써도 최고 기록이 되나요?</h3>
+          <p>힌트로 완성할 수는 있지만 공정한 비교를 위해 해당 판은 난이도별 최고 시간에서 제외됩니다.</p>
           </div>
 
           <h2>업데이트 노트</h2>
-          <p class="site-note">2026년 7월 20일 스도쿠 미니 대표 페이지에 풀이 흐름, 후보 전략, 오류 처리 안내를 보강했습니다.</p>
+          <p class="site-note">2026년 8월 20일 정식 9x9 규칙, 세 난이도, 후보 메모, 선택 구역 강조, 키보드와 모바일 숫자 패드, 오류 검사, 50회 되돌리기, 자동 저장, 효과음과 난이도별 최고 기록을 갖춘 완성형으로 확장했습니다.</p>
 
           <h2 id="related-guides">관련 공략</h2>
           <p>
-            스도쿠 미니는 더 편하게 즐기고 싶다면 아래 가이드를 함께 읽어 보세요.
+            스도쿠 클래식은 더 편하게 즐기고 싶다면 아래 가이드를 함께 읽어 보세요.
             조작, 기록, 모바일 환경, 장르별 기본기를 실제 플레이 기준으로 정리했습니다.
           </p>
           <div class="featured-link-grid compact-guide-grid">
-            <a class="featured-link" href="/guides/mines-beginner-guide/"><strong>지뢰찾기 기본 규칙</strong><span>숫자 힌트와 깃발로 안전한 칸을 찾는 법</span></a>
+            <a class="featured-link" href="/guides/sudoku-classic-guide/"><strong>스도쿠 입문 공략</strong><span>후보 메모와 행·열·박스 교차로 확정 숫자를 찾는 법</span></a>
             <a class="featured-link" href="/guides/twenty-48-strategy/"><strong>2048 초보 전략</strong><span>큰 타일을 모서리에 고정하고 보드 흐름을 지키는 방법</span></a>
             <a class="featured-link" href="/guides/browser-game-benefits/"><strong>무료 브라우저 게임의 장점</strong><span>설치 없는 웹게임을 안전하게 고르는 기준</span></a>
           </div>
@@ -187,7 +189,7 @@
     <footer class="site-footer">
       <div>
         <strong>한판게임</strong>
-        <p>스도쿠 미니와 함께 즐기는 무료 웹 미니게임.</p>
+        <p>스도쿠 클래식과 함께 즐기는 무료 웹 미니게임.</p>
       </div>
       <nav aria-label="푸터 메뉴">
         <a href="/about/">소개</a>
@@ -199,9 +201,9 @@
       </nav>
       <p class="copyright">© <span id="year"></span> Hanpan Game. All rights reserved.</p>
     </footer>
-    <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"VideoGame","name":"스도쿠 미니","url":"https://hanpangames.kr/games/sudoku-mini/","description":"6x6 스도쿠 판을 완성하고 충돌 표시와 제한 힌트를 활용합니다.","applicationCategory":"Game","operatingSystem":"Web Browser","inLanguage":"ko-KR","isAccessibleForFree":true,"publisher":{"@type":"Organization","name":"한판게임"}},{"@type":"FAQPage","mainEntity":[{"@type":"Question","name":"일반 스도쿠보다 쉬운가요?","acceptedAnswer":{"@type":"Answer","text":"판은 작지만 행, 열, 박스 중복 금지라는 기본 규칙은 같습니다. 입문용으로 빠르게 익히기 좋습니다."}},{"@type":"Question","name":"힌트는 몇 번 사용할 수 있나요?","acceptedAnswer":{"@type":"Answer","text":"한 판에 제한된 횟수만 사용할 수 있습니다. 너무 빨리 쓰면 뒤쪽에서 막힐 때 선택지가 줄어듭니다."}},{"@type":"Question","name":"오답을 넣으면 바로 끝나나요?","acceptedAnswer":{"@type":"Answer","text":"바로 실패하지 않고 오류 상태로 알려 줍니다. 표시를 보고 값을 고쳐 이어서 풀 수 있습니다."}},{"@type":"Question","name":"모바일에서도 숫자 입력이 편한가요?","acceptedAnswer":{"@type":"Answer","text":"숫자 입력 칸이 모바일에 맞게 반응하도록 구성되어 있습니다."}},{"@type":"Question","name":"스도쿠를 처음 하면 어디부터 보면 좋나요?","acceptedAnswer":{"@type":"Answer","text":"빈칸이 적은 행, 열, 박스부터 확인하면 후보가 빠르게 줄어듭니다."}}]},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"홈","item":"https://hanpangames.kr/"},{"@type":"ListItem","position":2,"name":"게임","item":"https://hanpangames.kr/games/"},{"@type":"ListItem","position":3,"name":"스도쿠 미니","item":"https://hanpangames.kr/games/sudoku-mini/"}]}]}</script>
-    <script src="/assets/app.js?v=20260820-2048" defer></script>
-    <script src="/assets/traditional-games.js?v=20260820-2048" defer></script>
-    <script src="/assets/arcade.js?v=20260820-2048" defer></script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"VideoGame","name":"스도쿠 클래식","url":"https://hanpangames.kr/games/sudoku-mini/","description":"세 가지 난이도의 9x9 퍼즐을 메모와 힌트로 풀고 자동 저장된 기록에 도전합니다.","applicationCategory":"Game","operatingSystem":"Web Browser","inLanguage":"ko-KR","isAccessibleForFree":true,"publisher":{"@type":"Organization","name":"한판게임"}},{"@type":"FAQPage","mainEntity":[{"@type":"Question","name":"퍼즐마다 해답이 하나인가요?","acceptedAnswer":{"@type":"Answer","text":"네. 각 난이도는 고유 해답이 검증된 퍼즐을 사용하고 행·열·숫자 치환으로 규칙과 난이도를 유지하며 변형합니다."}},{"@type":"Question","name":"메모는 어떻게 입력하나요?","acceptedAnswer":{"@type":"Answer","text":"메모 모드를 켠 뒤 숫자 패드나 키보드로 후보를 입력합니다. 같은 숫자를 다시 누르면 해당 후보가 삭제됩니다."}},{"@type":"Question","name":"오류 표시를 끌 수 있나요?","acceptedAnswer":{"@type":"Answer","text":"네. 오류 표시를 끄면 입력 중 정답 여부를 숨길 수 있고 필요할 때 검사 버튼으로 확인할 수 있습니다."}},{"@type":"Question","name":"새로고침하면 풀이가 사라지나요?","acceptedAnswer":{"@type":"Answer","text":"아니요. 보드, 메모, 시간, 실수와 힌트 상태를 현재 브라우저에 자동 저장합니다."}},{"@type":"Question","name":"힌트를 써도 최고 기록이 되나요?","acceptedAnswer":{"@type":"Answer","text":"힌트로 완성할 수는 있지만 공정한 비교를 위해 해당 판은 난이도별 최고 시간에서 제외됩니다."}}]},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"홈","item":"https://hanpangames.kr/"},{"@type":"ListItem","position":2,"name":"게임","item":"https://hanpangames.kr/games/"},{"@type":"ListItem","position":3,"name":"스도쿠 클래식","item":"https://hanpangames.kr/games/sudoku-mini/"}]}]}</script>
+    <script src="/assets/app.js?v=20260820-sudoku" defer></script>
+    <script src="/assets/traditional-games.js?v=20260820-sudoku" defer></script>
+    <script src="/assets/arcade.js?v=20260820-sudoku" defer></script>
   </body>
 </html>

@@ -4,7 +4,7 @@ import path from "node:path";
 const root = process.cwd();
 const publicDir = path.join(root, "public");
 const siteUrl = "https://hanpangames.kr";
-const assetVersion = "20260820-2048";
+const assetVersion = "20260820-sudoku";
 const publishedDate = "2026-07-22";
 const adsenseClient = "ca-pub-6918910185244897";
 const adsenseScript = `<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${adsenseClient}" crossorigin="anonymous"></script>`;
@@ -22,7 +22,7 @@ const guides = [
     relatedGames: [
       { title: "2048 한판", href: "/games/twenty-48/", text: "숫자 타일 합치기 퍼즐" },
       { title: "블록 채우기", href: "/games/block-fill/", text: "공간 배치 판단 연습" },
-      { title: "스도쿠 미니", href: "/games/sudoku-mini/", text: "차분한 논리 퍼즐" }
+      { title: "스도쿠 클래식", href: "/games/sudoku-mini/", text: "차분한 9x9 논리 퍼즐" }
     ],
     sections: [
       {
@@ -74,6 +74,72 @@ const guides = [
       "같은 숫자가 붙어 있어도 합친 뒤 구조를 먼저 확인합니다.",
       "빈칸이 부족하면 점수보다 공간 회복을 우선합니다.",
       "실행 취소 전에는 방금 수가 구조를 어떻게 바꿨는지 확인합니다."
+    ]
+  },
+  {
+    id: "sudoku-classic-guide",
+    publishedDate: "2026-08-20",
+    modifiedDate: "2026-08-20",
+    category: "퍼즐 공략",
+    title: "스도쿠 입문 공략: 후보 메모로 확정 숫자 찾는 법",
+    description: "9x9 스도쿠에서 행, 열, 3x3 박스의 빠진 숫자를 찾고 후보 메모, 싱글, 교차 제거로 퍼즐을 푸는 순서를 설명합니다.",
+    summary: "스도쿠는 계산 게임이 아니라 이미 놓인 숫자로 후보를 지우는 논리 퍼즐입니다. 빈칸이 적은 구역부터 후보를 적고, 들어갈 자리가 하나뿐인 숫자를 찾으면 추측 없이 풀이를 이어 갈 수 있습니다.",
+    readingTime: "7분",
+    relatedGames: [
+      { title: "스도쿠 클래식", href: "/games/sudoku-mini/", text: "세 난이도의 9x9 퍼즐" },
+      { title: "지뢰찾기 클래식", href: "/games/mines/", text: "숫자 단서 추론 퍼즐" },
+      { title: "2048 한판", href: "/games/twenty-48/", text: "다음 수를 계획하는 숫자 퍼즐" }
+    ],
+    sections: [
+      {
+        heading: "행, 열, 박스를 같은 순서로 확인합니다",
+        paragraphs: [
+          "한 칸의 후보를 찾을 때는 먼저 같은 행에 이미 있는 숫자를 지우고, 같은 열의 숫자를 지운 뒤, 마지막으로 같은 3x3 박스를 확인합니다. 세 조건을 늘 같은 순서로 보면 숫자를 빠뜨리거나 중복해서 세는 실수가 줄어듭니다.",
+          "처음부터 보드 전체를 보려고 하면 정보가 너무 많습니다. 빈칸이 두세 개뿐인 행이나 열, 이미 숫자가 많이 채워진 박스를 골라 작은 구역부터 해결하면 새 단서가 연쇄적으로 생깁니다."
+        ]
+      },
+      {
+        heading: "후보가 하나인 칸부터 확정합니다",
+        paragraphs: [
+          "행·열·박스에 이미 사용된 숫자를 제외했을 때 후보가 하나만 남는 칸을 네이키드 싱글이라고 합니다. 가장 직접적인 확정 수이므로 메모가 하나로 줄어든 칸은 바로 채우고 주변 후보를 다시 정리합니다.",
+          "숫자를 넣은 직후에는 같은 행과 열만 보지 말고 해당 3x3 박스도 다시 확인하세요. 한 칸의 확정이 다른 두세 칸의 후보를 동시에 하나로 줄이는 경우가 많습니다."
+        ]
+      },
+      {
+        heading: "숫자가 들어갈 자리가 하나뿐인지 찾습니다",
+        paragraphs: [
+          "어떤 칸에 후보가 여러 개 있어도 한 구역 전체에서 특정 숫자가 들어갈 수 있는 위치가 그 칸뿐이라면 확정할 수 있습니다. 이를 숨은 싱글이라고 하며, 칸별 후보보다 숫자별 위치를 살필 때 발견됩니다.",
+          "예를 들어 한 3x3 박스에서 숫자 7을 놓을 수 있는 칸이 한 곳뿐이라면 다른 후보가 함께 적혀 있어도 그 칸은 7입니다. 막혔을 때는 1부터 9까지 한 숫자씩 구역을 훑는 방식이 효과적입니다."
+        ]
+      },
+      {
+        heading: "후보 쌍은 다른 칸의 후보를 줄입니다",
+        paragraphs: [
+          "같은 행, 열 또는 박스에서 두 칸이 똑같은 후보 두 개만 가진다면 그 두 숫자는 두 칸에 나뉘어 들어갑니다. 따라서 같은 구역의 다른 칸에서는 해당 후보 두 개를 지울 수 있습니다.",
+          "후보 쌍은 바로 숫자를 확정하지 않지만 복잡한 보드를 단순하게 만듭니다. 다만 두 칸 모두 후보가 정확히 두 개이고 같은 구역을 공유하는지 확인해야 잘못된 제거를 피할 수 있습니다."
+        ]
+      },
+      {
+        heading: "오류 검사와 힌트는 복기 도구로 씁니다",
+        paragraphs: [
+          "오류 표시를 켜면 잘못된 입력을 바로 고칠 수 있지만, 풀이 연습에서는 잠시 끄고 한 구역을 완성한 뒤 검사하는 방법도 좋습니다. 틀린 칸이 나오면 정답만 바꾸기보다 그 후보를 남긴 근거가 어디서 어긋났는지 확인합니다.",
+          "힌트는 숫자 하나를 채우는 기능이지만 가장 큰 효과는 새 단서를 여는 데 있습니다. 힌트로 채운 숫자와 같은 행·열·박스의 메모가 어떻게 줄어드는지 살펴보면 다음에는 같은 유형을 스스로 찾기 쉬워집니다."
+        ]
+      },
+      {
+        heading: "난이도보다 풀이 습관을 기록합니다",
+        paragraphs: [
+          "처음에는 쉬움에서 힌트 없이 완성하는 것을 목표로 잡고, 익숙해지면 보통으로 넘어가는 편이 좋습니다. 시간만 줄이려 하면 후보를 성급하게 확정하기 쉬우므로 실수 수와 되돌리기를 함께 돌아보세요.",
+          "한 판이 끝난 뒤 막혔던 구역을 떠올리고 싱글을 놓쳤는지, 후보 쌍을 보지 못했는지 한 가지만 확인하면 충분합니다. 같은 기준으로 여러 판을 복기하면 어려움에서도 추측하는 횟수가 줄어듭니다."
+        ]
+      }
+    ],
+    checklist: [
+      "빈칸이 적은 행, 열 또는 3x3 박스부터 시작합니다.",
+      "한 칸의 후보는 행, 열, 박스 순서로 지웁니다.",
+      "후보가 하나인 칸과 숫자가 들어갈 자리가 하나인 구역을 찾습니다.",
+      "같은 후보 두 개만 가진 두 칸이 있는지 확인합니다.",
+      "오류나 힌트를 본 뒤에는 숫자의 근거를 다시 확인합니다."
     ]
   },
   {
@@ -143,7 +209,7 @@ const guides = [
     relatedGames: [
       { title: "지뢰찾기 클래식", href: "/games/mines/", text: "3단계 숫자 추론 퍼즐" },
       { title: "숫자 금고", href: "/games/number-vault/", text: "범위를 줄이는 추리 게임" },
-      { title: "스도쿠 미니", href: "/games/sudoku-mini/", text: "후보를 좁히는 논리 퍼즐" }
+      { title: "스도쿠 클래식", href: "/games/sudoku-mini/", text: "후보를 좁히는 9x9 논리 퍼즐" }
     ],
     sections: [
       {
@@ -343,7 +409,7 @@ const guides = [
       {
         heading: "게임 선택은 컨디션에 맞추면 오래 갑니다",
         paragraphs: [
-          "눈이 피곤한 날에는 빠른 표적 게임보다 보드나 숫자 추리 게임이 편할 수 있습니다. 손이 굳은 날에는 벽돌깨기나 퐁처럼 리듬을 타는 게임이 좋고, 머리를 잠깐 깨우고 싶을 때는 스도쿠 미니나 2048처럼 다음 수를 보는 게임이 어울립니다.",
+          "눈이 피곤한 날에는 빠른 표적 게임보다 보드나 숫자 추리 게임이 편할 수 있습니다. 손이 굳은 날에는 벽돌깨기나 퐁처럼 리듬을 타는 게임이 좋고, 머리를 잠깐 깨우고 싶을 때는 스도쿠 클래식이나 2048처럼 다음 수를 보는 게임이 어울립니다.",
           "하루에 여러 게임을 오래 붙잡기보다 하나를 짧게 고르고, 결과를 확인한 뒤 멈출 수 있어야 좋은 휴식이 됩니다. 재미있는 게임일수록 다시 시작 버튼이 가까운 만큼, 그만둘 타이밍도 스스로 정해두면 더 편하게 즐길 수 있습니다."
         ]
       },
@@ -675,6 +741,7 @@ function relatedGameHtml(game) {
 
 function guidePageHtml(guide) {
   const canonical = `${siteUrl}/guides/${guide.id}/`;
+  const guidePublishedDate = guide.publishedDate || publishedDate;
   const modifiedDate = guide.modifiedDate || publishedDate;
   const otherGuides = guides.filter((item) => item.id !== guide.id).slice(0, 3);
   const jsonLd = {
@@ -684,7 +751,7 @@ function guidePageHtml(guide) {
         "@type": "Article",
         headline: guide.title,
         description: guide.description,
-        datePublished: publishedDate,
+        datePublished: guidePublishedDate,
         dateModified: modifiedDate,
         inLanguage: "ko-KR",
         mainEntityOfPage: canonical,
@@ -736,7 +803,7 @@ function guidePageHtml(guide) {
         <p class="eyebrow">${escapeHtml(guide.category)} · ${guide.readingTime}</p>
         <h1>${escapeHtml(guide.title)}</h1>
         <p>${escapeHtml(guide.summary)}</p>
-        <p class="mini-note">발행 및 수정: ${modifiedDate}</p>
+        <p class="mini-note">발행: ${guidePublishedDate} · 수정: ${modifiedDate}</p>
         <ul class="toc-list">
           ${guide.sections.map((section, index) => `<li><a href="#section-${index + 1}">${escapeHtml(section.heading)}</a></li>`).join("\n          ")}
           <li><a href="#checklist">플레이 체크리스트</a></li>

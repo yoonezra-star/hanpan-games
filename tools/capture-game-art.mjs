@@ -126,7 +126,18 @@ try {
       await page.waitForTimeout(220);
     }
 
-    if (id === "bubble-shooter" || id === "omok" || id === "card-solitaire" || id === "freecell-classic" || id === "maze-chase" || id === "mines" || id === "twenty-48") {
+    if (id === "sudoku-mini") {
+      const hintButton = surface.getByRole("button", { name: /힌트 3/ });
+      await hintButton.click();
+      await surface.getByRole("button", { name: /힌트 2/ }).click();
+      const emptyCell = surface.locator(".sudoku-cell:not(.is-given):not(.is-hinted)").first();
+      await emptyCell.click();
+      await surface.getByRole("button", { name: "메모 꺼짐" }).click();
+      await surface.getByRole("button", { name: "3 입력" }).click();
+      await surface.getByRole("button", { name: "7 입력" }).click();
+    }
+
+    if (id === "bubble-shooter" || id === "omok" || id === "card-solitaire" || id === "freecell-classic" || id === "maze-chase" || id === "mines" || id === "twenty-48" || id === "sudoku-mini") {
       await page.addStyleTag({
         content: `
           #playSurface {
@@ -142,6 +153,9 @@ try {
           #playSurface .freecell-settings,
           #playSurface .mines-settings,
           #playSurface .status-2048,
+          #playSurface .sudoku-settings,
+          #playSurface .sudoku-number-pad,
+          #playSurface .sudoku-controls,
           #playSurface .maze-status,
           #playSurface .mini-controls,
           #playSurface .mini-note { display: none !important; }
@@ -161,12 +175,14 @@ try {
             ? surface.locator(".mines-board")
           : id === "twenty-48"
             ? surface.locator(".board-2048")
+          : id === "sudoku-mini"
+            ? surface.locator(".sudoku-board")
           : id === "maze-chase"
             ? surface.locator(".maze-canvas")
         : surface;
     const png = await captureTarget.screenshot({ animations: "disabled" });
     await sharp(png)
-      .resize(640, 360, id === "twenty-48"
+      .resize(640, 360, id === "twenty-48" || id === "sudoku-mini"
         ? { fit: "contain", background: "#202735" }
         : { fit: "cover", position: id === "maze-chase" ? "south" : "north" })
       .webp({ quality: 84, effort: 5 })
