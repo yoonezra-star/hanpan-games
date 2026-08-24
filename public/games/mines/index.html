@@ -81,7 +81,7 @@
         <article class="article featured-article">
           <h2 id="overview">이 게임의 핵심</h2>
           <p>지뢰찾기 클래식은 초급 9×9, 중급 16×16, 고급 16×30 보드에서 숫자 단서로 지뢰 위치를 추론하고 모든 안전 칸을 여는 퍼즐입니다. 숫자는 주변 여덟 칸에 숨어 있는 지뢰 수를 뜻하며, 확실한 지뢰를 표시할수록 다음 안전 칸이 드러납니다.</p>
-          <p>클래식 규격의 세 난이도, 첫 클릭 주변 안전 배치, 빈 구역 연쇄 개방, 깃발과 물음표, 열린 숫자 주변 동시 열기, 난이도별 최고 시간과 효과음을 구현했습니다. 마우스 우클릭, 양쪽 버튼, 키보드, 모바일 열기·깃발 모드를 모두 지원하고 큰 판은 고정된 셀 크기로 가로 스크롤해 오입력을 줄였습니다.</p>
+          <p>클래식 규격의 세 난이도, 첫 클릭 주변 안전 배치, 빈 구역 연쇄 개방, 깃발과 물음표, 열린 숫자 주변 동시 열기, 난이도별 최고 시간과 효과음을 구현했습니다. 마우스 우클릭, 양쪽 버튼, 키보드, 모바일 열기·깃발 모드에 더해 모바일 길게 눌러 깃발 표시, 실제 타이머가 멈추는 일시정지, 전체화면 집중 모드와 세 난이도 최고 기록 요약을 지원합니다.</p>
           <div class="detail-snapshot" aria-label="게임 요약">
             <div><strong>핵심 목표</strong><span>지뢰를 건드리지 않고 모든 안전 칸을 열어 난이도별 최고 시간을 갱신합니다.</span></div>
             <div><strong>추천 상황</strong><span>짧은 입문 판부터 큰 논리 퍼즐까지 단계적으로 도전하고 싶을 때 좋습니다.</span></div>
@@ -110,12 +110,13 @@
             <li>초급은 9×9에 지뢰 10개, 중급은 16×16에 40개, 고급은 16×30에 99개입니다. 난이도 버튼을 누르면 해당 규격의 새 판이 즉시 시작됩니다.</li>
             <li>열기 모드에서는 닫힌 칸을 열고, 깃발 모드에서는 누를 때마다 깃발·물음표·표시 없음 순서로 바뀝니다. PC에서는 우클릭으로 같은 표시 순환을 빠르게 사용할 수 있습니다.</li>
             <li>열린 숫자를 다시 누르면 주변 깃발 수가 숫자와 같을 때 표시되지 않은 주변 칸을 함께 엽니다. PC의 양쪽 마우스 버튼도 같은 동작이며, 키보드는 방향키로 칸 이동, F키로 표시를 바꿀 수 있습니다.</li>
+            <li>모바일에서는 닫힌 칸을 약 0.4초 길게 누르면 열기 모드에서도 바로 깃발 표시를 바꿀 수 있습니다. 일시정지 중에는 보드 입력과 게임 타이머가 함께 멈추며, 브라우저 탭을 벗어나도 자동으로 정지됩니다.</li>
           </ul>
 
           <h2 id="scoring">승리와 점수 기준</h2>
           <ul class="detail-list">
             <li>첫 칸과 인접한 여덟 칸에는 지뢰를 배치하지 않아 첫 입력에서 안전한 숫자 경계가 열립니다. 시간은 첫 칸을 연 순간부터 흐르고 새 게임이나 난이도 전환 시 초기화됩니다.</li>
-            <li>모든 안전 칸을 열면 현재 난이도의 완주 시간이 기록됩니다. 난이도별 가장 빠른 시간은 가능한 경우 현재 브라우저에 따로 저장됩니다.</li>
+            <li>모든 안전 칸을 열면 현재 난이도의 완주 시간이 기록됩니다. 난이도별 가장 빠른 시간은 가능한 경우 현재 브라우저에 따로 저장되며 게임 아래에서 초급·중급·고급 기록을 한 번에 비교할 수 있습니다.</li>
             <li>안전 힌트는 한 판에 세 번 제공하지만 힌트를 사용한 판은 최고 시간으로 저장하지 않습니다. 기록 도전과 규칙 연습을 분리하기 위한 기준입니다.</li>
           </ul>
 
@@ -135,9 +136,9 @@
 
           <h2 id="mobile">모바일 플레이 팁</h2>
           <ul class="detail-list">
-            <li>초급 보드는 세로 화면 폭을 채워 별도 확대 없이 플레이할 수 있습니다. 열기·깃발 모드 문구와 버튼 색을 확인한 뒤 칸을 누릅니다.</li>
+            <li>초급 보드는 세로 화면 폭을 채워 별도 확대 없이 플레이할 수 있습니다. 기본 탭은 칸 열기, 약 0.4초 길게 누르기는 깃발 표시로 사용할 수 있어 모드 전환 횟수를 줄일 수 있습니다.</li>
             <li>중급과 고급 보드는 셀을 지나치게 줄이지 않고 가로 스크롤을 제공합니다. 한 구역의 숫자 경계를 해결한 뒤 옆 구역으로 이동하면 현재 판단 근거를 놓치지 않습니다.</li>
-            <li>전체화면에서는 점수와 모드 버튼을 위에 두고 보드를 스크롤할 수 있습니다. 안전 힌트는 오입력 복구가 아니라 풀이 흐름이 완전히 막혔을 때 사용하는 편이 좋습니다.</li>
+            <li>전체화면에서는 점수와 모드 버튼을 위에 두고 보드를 스크롤할 수 있습니다. 잠시 자리를 비울 때는 일시정지를 사용하면 기록 타이머도 함께 멈춥니다.</li>
           </ul>
 
           <h2>자주 나오는 실수</h2>
@@ -156,13 +157,15 @@
           <h3>열린 숫자를 다시 누르면 무엇이 달라지나요?</h3>
           <p>주변 깃발 수가 숫자와 같으면 표시되지 않은 주변 칸을 동시에 엽니다. 잘못된 깃발이 있으면 지뢰가 열릴 수 있어 근거 확인이 필요합니다.</p>
           <h3>모바일에서 우클릭은 어떻게 대신하나요?</h3>
-          <p>깃발 모드 버튼을 켠 뒤 칸을 누르면 깃발, 물음표, 표시 없음 순서로 전환됩니다.</p>
+          <p>깃발 모드 버튼을 켜고 칸을 누르거나, 열기 모드 상태에서 닫힌 칸을 약 0.4초 길게 눌러 깃발 표시를 바꿀 수 있습니다.</p>
+          <h3>일시정지하면 기록 시간도 계속 흐르나요?</h3>
+          <p>아니요. 일시정지 버튼을 누르거나 플레이 중 브라우저 탭이 숨겨지면 지뢰찾기 타이머도 함께 멈춥니다.</p>
           <h3>힌트를 써도 최고 기록이 저장되나요?</h3>
           <p>아니요. 힌트를 사용한 판은 완주할 수 있지만 난이도별 최고 시간 기록에서는 제외됩니다.</p>
           </div>
 
           <h2>업데이트 노트</h2>
-          <p class="site-note">2026년 8월 16일 초급·중급·고급 클래식 규격, 첫 클릭 주변 안전, 깃발·물음표, 숫자 연쇄 열기, 키보드와 모바일 모드, 효과음, 안전 힌트와 난이도별 최고 시간을 갖춘 완성형으로 확장했습니다.</p>
+          <p class="site-note">2026년 8월 24일 모바일 길게 눌러 깃발 표시, 실제 타이머 일시정지와 탭 이탈 자동 정지, 전체화면 집중 모드, 초급·중급·고급 최고 기록 요약을 추가했습니다. 기존 클래식 규격과 첫 클릭 안전, 숫자 연쇄 열기, 키보드·마우스 조작은 그대로 유지합니다.</p>
 
           <h2 id="related-guides">관련 공략</h2>
           <p>
@@ -199,9 +202,10 @@
       </nav>
       <p class="copyright">© <span id="year"></span> Hanpan Game. All rights reserved.</p>
     </footer>
-    <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"VideoGame","name":"지뢰찾기 클래식","url":"https://hanpangames.kr/games/mines/","description":"세 가지 난이도에서 숫자 단서를 읽고 지뢰를 피해 모든 안전 칸을 엽니다.","applicationCategory":"Game","operatingSystem":"Web Browser","inLanguage":"ko-KR","isAccessibleForFree":true,"publisher":{"@type":"Organization","name":"한판게임"}},{"@type":"FAQPage","mainEntity":[{"@type":"Question","name":"첫 클릭에서 지뢰가 나올 수 있나요?","acceptedAnswer":{"@type":"Answer","text":"아니요. 처음 선택한 칸과 인접한 여덟 칸을 제외한 위치에 지뢰를 배치해 안전하게 시작합니다."}},{"@type":"Question","name":"세 난이도는 클래식 규격인가요?","acceptedAnswer":{"@type":"Answer","text":"네. 초급 9×9·10개, 중급 16×16·40개, 고급 16×30·99개 지뢰 규격을 사용합니다."}},{"@type":"Question","name":"열린 숫자를 다시 누르면 무엇이 달라지나요?","acceptedAnswer":{"@type":"Answer","text":"주변 깃발 수가 숫자와 같으면 표시되지 않은 주변 칸을 동시에 엽니다. 잘못된 깃발이 있으면 지뢰가 열릴 수 있어 근거 확인이 필요합니다."}},{"@type":"Question","name":"모바일에서 우클릭은 어떻게 대신하나요?","acceptedAnswer":{"@type":"Answer","text":"깃발 모드 버튼을 켠 뒤 칸을 누르면 깃발, 물음표, 표시 없음 순서로 전환됩니다."}},{"@type":"Question","name":"힌트를 써도 최고 기록이 저장되나요?","acceptedAnswer":{"@type":"Answer","text":"아니요. 힌트를 사용한 판은 완주할 수 있지만 난이도별 최고 시간 기록에서는 제외됩니다."}}]},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"홈","item":"https://hanpangames.kr/"},{"@type":"ListItem","position":2,"name":"게임","item":"https://hanpangames.kr/games/"},{"@type":"ListItem","position":3,"name":"지뢰찾기 클래식","item":"https://hanpangames.kr/games/mines/"}]}]}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"VideoGame","name":"지뢰찾기 클래식","url":"https://hanpangames.kr/games/mines/","description":"세 가지 난이도에서 숫자 단서를 읽고 지뢰를 피해 모든 안전 칸을 엽니다.","applicationCategory":"Game","operatingSystem":"Web Browser","inLanguage":"ko-KR","isAccessibleForFree":true,"publisher":{"@type":"Organization","name":"한판게임"}},{"@type":"FAQPage","mainEntity":[{"@type":"Question","name":"첫 클릭에서 지뢰가 나올 수 있나요?","acceptedAnswer":{"@type":"Answer","text":"아니요. 처음 선택한 칸과 인접한 여덟 칸을 제외한 위치에 지뢰를 배치해 안전하게 시작합니다."}},{"@type":"Question","name":"세 난이도는 클래식 규격인가요?","acceptedAnswer":{"@type":"Answer","text":"네. 초급 9×9·10개, 중급 16×16·40개, 고급 16×30·99개 지뢰 규격을 사용합니다."}},{"@type":"Question","name":"열린 숫자를 다시 누르면 무엇이 달라지나요?","acceptedAnswer":{"@type":"Answer","text":"주변 깃발 수가 숫자와 같으면 표시되지 않은 주변 칸을 동시에 엽니다. 잘못된 깃발이 있으면 지뢰가 열릴 수 있어 근거 확인이 필요합니다."}},{"@type":"Question","name":"모바일에서 우클릭은 어떻게 대신하나요?","acceptedAnswer":{"@type":"Answer","text":"깃발 모드 버튼을 켜거나 닫힌 칸을 길게 눌러 깃발 표시를 바꿀 수 있습니다."}},{"@type":"Question","name":"일시정지하면 기록 시간도 계속 흐르나요?","acceptedAnswer":{"@type":"Answer","text":"아니요. 일시정지 버튼을 누르거나 플레이 중 브라우저 탭이 숨겨지면 지뢰찾기 타이머도 함께 멈춥니다."}},{"@type":"Question","name":"힌트를 써도 최고 기록이 저장되나요?","acceptedAnswer":{"@type":"Answer","text":"아니요. 힌트를 사용한 판은 완주할 수 있지만 난이도별 최고 시간 기록에서는 제외됩니다."}}]},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"홈","item":"https://hanpangames.kr/"},{"@type":"ListItem","position":2,"name":"게임","item":"https://hanpangames.kr/games/"},{"@type":"ListItem","position":3,"name":"지뢰찾기 클래식","item":"https://hanpangames.kr/games/mines/"}]}]}</script>
     <script src="/assets/app.js?v=20260820-blockdrop" defer></script>
     <script src="/assets/traditional-games.js?v=20260820-blockdrop" defer></script>
+    <script src="/assets/mines-runtime.js?v=20260824-mines2" defer></script>
     <script src="/assets/arcade.js?v=20260820-blockdrop" defer></script>
   </body>
 </html>
