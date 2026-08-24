@@ -1,203 +1,83 @@
 <!doctype html>
 <html lang="ko">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="icon" href="/favicon.svg" type="image/svg+xml">
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6918910185244897" crossorigin="anonymous"></script>
-    <meta name="google-site-verification" content="qBlRPhDg3Tazy0wuTNee_wfGeDjuYz80N6R_Iinh9bs" />
-    <title>매치3 퍼즐 - 한판게임</title>
-    <meta name="description" content="매치3 퍼즐 플레이 방법, 조작법, 점수 기준, 공략 팁, 모바일 플레이와 FAQ를 정리한 무료 퍼즐 웹게임 페이지입니다.">
-    <link rel="canonical" href="https://hanpangames.kr/games/match-three/">
-    <meta property="og:image" content="https://hanpangames.kr/assets/game-art/match-three.webp">
-    <meta property="og:image:alt" content="매치3 퍼즐 플레이 장면">
-    <meta property="og:type" content="website">
-    <meta property="og:title" content="매치3 퍼즐 - 한판게임">
-    <meta property="og:description" content="매치3 퍼즐 플레이 방법, 조작법, 점수 기준, 공략 팁, 모바일 플레이와 FAQ를 정리한 무료 퍼즐 웹게임 페이지입니다.">
-    <link rel="stylesheet" href="/assets/styles.css?v=20260820-blockdrop">
-  </head>
-  <body>
-    <header class="site-header">
-      <a class="brand" href="/" aria-label="한판게임 홈">
-        <span class="brand-mark" aria-hidden="true">H</span>
-        <span><strong>한판게임</strong><small>HANPAN GAME</small></span>
-      </a>
-      <nav class="nav" aria-label="주요 메뉴">
-        <a href="/games/" aria-current="page">게임</a>
-        <a href="/guides/">가이드</a>
-        <a href="/about/">소개</a>
-        <a href="/help/">도움말</a>
-        <a href="/contact/">문의</a>
-      </nav>
-    </header>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6918910185244897" crossorigin="anonymous"></script>
+  <meta name="google-site-verification" content="qBlRPhDg3Tazy0wuTNee_wfGeDjuYz80N6R_Iinh9bs" />
+  <title>매치3 퍼즐 - 특수 타일과 연쇄 스테이지 | 한판게임</title>
+  <meta name="description" content="7x7 보드에서 4매치 줄폭탄과 5매치 컬러폭탄, 연쇄 콤보, 스테이지 목표, 자동 저장과 힌트를 활용하는 무료 매치3 웹게임입니다.">
+  <link rel="canonical" href="https://hanpangames.kr/games/match-three/">
+  <meta property="og:image" content="https://hanpangames.kr/assets/game-art/match-three.webp">
+  <meta property="og:image:alt" content="매치3 퍼즐 플레이 장면">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="매치3 퍼즐 - 특수 타일과 연쇄 스테이지 | 한판게임">
+  <meta property="og:description" content="유효 수가 보장되는 7x7 매치3에서 특수 타일과 연쇄 콤보로 스테이지 목표에 도전합니다.">
+  <link rel="stylesheet" href="/assets/styles.css?v=20260820-blockdrop">
+</head>
+<body>
+<header class="site-header"><a class="brand" href="/" aria-label="한판게임 홈"><span class="brand-mark" aria-hidden="true">H</span><span><strong>한판게임</strong><small>HANPAN GAME</small></span></a><nav class="nav" aria-label="주요 메뉴"><a href="/games/" aria-current="page">게임</a><a href="/guides/">가이드</a><a href="/about/">소개</a><a href="/help/">도움말</a><a href="/contact/">문의</a></nav></header>
+<main class="subpage game-detail-page">
+  <section class="page-title">
+    <p class="eyebrow">퍼즐 · 3분</p><h1 id="playTitle">매치3 퍼즐</h1>
+    <p id="playDescription">7×7 보드에서 연쇄 매치와 특수 타일을 만들고 제한 이동 안에 점수·색상 목표를 함께 달성합니다.</p>
+    <div class="game-launcher" aria-label="게임 선택"><label for="gamePagePicker"><span>플레이할 게임</span><select id="gamePagePicker" data-game-page-picker data-current-game="match-three" onchange="if (this.value && this.value !== this.dataset.currentGame) window.location.href='/games/'+encodeURIComponent(this.value)+'/#play-area'"></select></label><a class="button primary" id="gamePageStart" data-game-page-start href="#play-area">바로 시작</a><a class="button secondary" href="/games/">전체 게임</a></div>
+  </section>
+  <div class="game-detail-stack">
+    <section class="inline-game-stage game-first-stage" id="play-area" aria-live="polite">
+      <div class="stage-head"><div><p class="eyebrow" id="playCategory">퍼즐 · 3분</p><h2 id="stageTitle">매치3 퍼즐</h2></div><div class="stage-actions"><a class="button secondary" href="/play/?game=match-three">큰 화면</a><button class="button primary" id="restartGame" type="button">다시 시작</button></div></div>
+      <div class="play-surface" id="playSurface" data-game-id="match-three"></div><p class="result-line" id="playResult">게임을 불러오는 중입니다.</p>
+    </section>
+    <nav class="game-detail-nav" aria-label="게임 설명 목차"><strong>게임 설명</strong><ul class="toc-list"><li><a href="#overview">핵심 요약</a></li><li><a href="#specials">특수 타일</a></li><li><a href="#stages">스테이지 목표</a></li><li><a href="#controls">조작</a></li><li><a href="#strategy">공략</a></li><li><a href="#records">저장·기록</a></li><li><a href="#faq">FAQ</a></li><li><a href="#related-guides">관련 공략</a></li></ul></nav>
+    <article class="article featured-article">
+      <h2 id="overview">이 게임의 핵심</h2>
+      <p>매치3 퍼즐은 인접한 두 타일을 바꿔 같은 모양을 가로 또는 세로로 3개 이상 연결하는 게임입니다. 새 버전은 7×7 보드에서 연쇄 콤보, 특수 타일, 스테이지별 점수·색상 목표를 함께 관리합니다.</p>
+      <p>새 판은 시작부터 3개가 이미 맞아 있는 배열을 피하고 최소 한 개 이상의 유효 교환이 있도록 생성합니다. 연쇄 뒤 가능한 수가 사라지면 보드를 자동으로 다시 섞습니다.</p>
+      <div class="detail-snapshot"><div><strong>보드</strong><span>7×7 · 6종 타일</span></div><div><strong>목표</strong><span>점수 + 지정 색상 제거를 동시에 달성</span></div><div><strong>핵심</strong><span>아래쪽 매치, 4·5개 연결, 연쇄 콤보</span></div></div>
 
-    <main class="subpage game-detail-page">
-      <section class="page-title">
-        <p class="eyebrow">퍼즐 · 3분</p>
-        <h1 id="playTitle">매치3 퍼즐</h1>
-        <p id="playDescription">인접한 타일을 바꿔 연쇄 매치를 만들고 제한 이동 안에 목표 점수를 넘깁니다.</p>
-        <div class="game-launcher" aria-label="게임 선택">
-          <label for="gamePagePicker">
-            <span>플레이할 게임</span>
-            <select id="gamePagePicker" data-game-page-picker data-current-game="match-three" onchange="if (this.value &amp;&amp; this.value !== this.dataset.currentGame) window.location.href = '/games/' + encodeURIComponent(this.value) + '/#play-area'"></select>
-          </label>
-          <a class="button primary" id="gamePageStart" data-game-page-start href="#play-area">바로 시작</a>
-          <a class="button secondary" href="/games/">전체 게임</a>
-        </div>
-      </section>
+      <h2 id="specials">4매치와 5매치 특수 타일</h2>
+      <ul class="detail-list">
+        <li><strong>가로 4매치</strong>는 가로 줄폭탄을 만들며 발동하면 같은 행을 지웁니다.</li>
+        <li><strong>세로 4매치</strong>는 세로 줄폭탄을 만들며 발동하면 같은 열을 지웁니다.</li>
+        <li><strong>5개 이상 매치</strong>는 컬러폭탄을 만듭니다. 컬러폭탄과 일반 타일을 바꾸면 그 타일과 같은 색을 보드에서 제거합니다.</li>
+        <li>줄폭탄이 다른 폭탄 제거 범위에 들어가면 해당 줄폭탄도 연쇄 발동할 수 있습니다.</li>
+      </ul>
 
-      <div class="game-detail-stack">
-        <section class="inline-game-stage game-first-stage" id="play-area" aria-live="polite">
-          <div class="stage-head">
-            <div>
-              <p class="eyebrow" id="playCategory">퍼즐 · 3분</p>
-              <h2 id="stageTitle">매치3 퍼즐</h2>
-            </div>
-            <div class="stage-actions">
-              <a class="button secondary" href="/play/?game=match-three">큰 화면</a>
-              <button class="button primary" id="restartGame" type="button">다시 시작</button>
-            </div>
-          </div>
-          <div class="play-surface" id="playSurface" data-game-id="match-three"></div>
-          <p class="result-line" id="playResult">게임을 불러오는 중입니다.</p>
-        </section>
+      <h2 id="stages">스테이지 목표와 연쇄 점수</h2>
+      <p>각 스테이지에는 이동 수와 목표 점수, 지정 색상 제거 수가 있습니다. 두 목표를 모두 달성하면 다음 스테이지로 넘어가며 보너스 점수를 얻습니다.</p>
+      <ul class="detail-list"><li>첫 매치는 기본 배율로 계산됩니다.</li><li>떨어진 타일이 다시 매치를 만들면 연쇄 x2, x3처럼 배율이 올라갑니다.</li><li>단순히 많은 타일을 지우는 것보다 지정 색상 목표를 함께 줄이는 수가 중요합니다.</li><li>이동 수가 0이 되기 전에 두 목표를 모두 달성하지 못하면 도전이 종료됩니다.</li></ul>
 
-        <nav class="game-detail-nav" aria-label="게임 설명 목차">
-          <strong>게임 설명</strong>
-          <ul class="toc-list">
-            <li><a href="#overview">핵심 요약</a></li>
-            <li><a href="#play-notes">플레이 포인트</a></li>
-            <li><a href="#how">게임 방법</a></li>
-            <li><a href="#controls">조작</a></li>
-            <li><a href="#scoring">점수 기준</a></li>
-            <li><a href="#strategy">공략</a></li>
-            <li><a href="#mobile">모바일 팁</a></li>
-            <li><a href="#faq">FAQ</a></li>
-            <li><a href="#related-guides">관련 공략</a></li>
-            <li><a href="#related">관련 게임</a></li>
-          </ul>
-        </nav>
+      <h2 id="controls">조작과 진행</h2>
+      <ul class="detail-list"><li>PC에서는 타일 하나를 누르고 인접한 타일을 다시 눌러 교환합니다.</li><li>모바일에서는 타일을 상하좌우로 스와이프해 바로 교환할 수 있습니다.</li><li>매치가 생기지 않는 교환은 원래 자리로 돌아오며 이동 수를 사용하지 않습니다.</li><li><strong>H</strong> 키는 가능한 교환 한 쌍을 보여 주고, <strong>N</strong> 키는 새 도전을 시작합니다.</li><li>재셔플 버튼은 현재 판을 새 배열로 섞으며 이동 수는 줄지 않습니다.</li></ul>
 
-        <article class="article featured-article">
-          <h2 id="overview">이 게임의 핵심</h2>
-          <p>인접한 타일을 바꿔 연쇄 매치를 만들고 제한 이동 안에 목표 점수를 넘깁니다.</p>
-          <p>매치3 퍼즐은 인접한 타일을 바꿔 같은 타일 세 개 이상을 이어 점수를 얻는 퍼즐입니다. 눈에 보이는 첫 매치보다 다음에 떨어질 타일과 연쇄 가능성을 함께 보는 것이 좋습니다.</p>
-          <div class="detail-snapshot" aria-label="게임 요약">
-            <div><strong>장르</strong><span>퍼즐 · 3분</span></div>
-            <div><strong>핵심 포인트</strong><span>교환 한 수로 만드는 연쇄 매치</span></div>
-            <div><strong>플레이 방식</strong><span>설치 없이 페이지 안에서 바로 시작</span></div>
-          </div>
+      <h2 id="strategy">연쇄와 특수 타일 공략</h2>
+      <ul class="strategy-list"><li>위쪽보다 아래쪽 매치를 먼저 확인합니다. 낙하량이 커져 추가 연쇄가 생길 가능성이 높습니다.</li><li>3개 매치가 여러 개 보여도 4개 또는 5개를 만들 수 있는 교환을 먼저 찾습니다.</li><li>줄폭탄을 지정 색상이 많은 행·열 근처에서 발동하면 점수와 색상 목표를 동시에 줄이기 좋습니다.</li><li>컬러폭탄은 현재 스테이지의 지정 색상과 교환할 때 목표 진행을 크게 당길 수 있습니다.</li><li>남은 이동이 적으면 연쇄 기대값보다 확실한 지정 색상 제거를 우선합니다.</li></ul>
 
-          <h2 id="play-notes">플레이 포인트</h2>
-          <p>매치3 퍼즐은 보이는 3개를 지우는 것보다 연쇄가 날 자리를 만드는 게임입니다. 아래쪽 매치를 우선하면 위 타일이 내려오면서 추가 조합이 생길 가능성이 큽니다.</p>
-          <div class="detail-snapshot" aria-label="게임 요약">
-            <div><strong>추천 상황</strong><span>짧은 퍼즐 판에서 연쇄와 목표 점수를 노릴 때</span></div>
-            <div><strong>좋은 기록</strong><span>제한 이동 안에 목표 점수 넘기기</span></div>
-            <div><strong>주의할 점</strong><span>윗줄 매치만 반복해 새 조합이 적어지는 상황</span></div>
-          </div>
-          <ul class="detail-list">
-            <li>아래쪽에서 가능한 매치를 먼저 찾습니다.</li>
-            <li>4개 이상 연결 가능성이 있는 교환을 우선합니다.</li>
-            <li>남은 이동 수에 맞춰 점수보다 목표 달성을 봅니다.</li>
-          </ul>
+      <h2 id="records">자동 저장과 기록</h2>
+      <p>현재 스테이지, 보드 배열, 점수, 남은 이동, 지정 색상 진행, 최고 연쇄가 브라우저 로컬 저장소에 자동 저장됩니다. 새로고침 후에도 안정된 보드 상태라면 이어서 플레이할 수 있습니다.</p>
+      <p>별도로 최고 점수, 최고 스테이지, 누적 클리어 수, 최고 연쇄 기록을 저장합니다. 브라우저 데이터를 지우거나 다른 기기를 사용하면 기록은 이어지지 않습니다.</p>
 
-          <h2 id="how">게임 방법</h2>
-          <p>짧은 규칙을 읽고 바로 시작할 수 있는 브라우저 미니게임입니다. 화면의 점수판과 결과 안내를 보면서 한 판씩 기록을 갱신해 보세요.</p>
-          <p>매치3 퍼즐은 별도 앱 설치나 로그인이 필요 없는 무료 웹게임입니다. 페이지 오른쪽 또는 아래쪽 플레이 영역에서 바로 시작할 수 있고, 한 판이 짧아 규칙을 익힌 뒤 곧바로 다시 도전하기 좋습니다.</p>
-
-
-
-          <h2 id="controls">조작과 진행</h2>
-          <ul class="detail-list">
-            <li>인접한 두 타일을 선택해 위치를 바꿉니다.</li>
-            <li>같은 타일이 세 개 이상 이어지면 사라지고 새 타일이 내려옵니다.</li>
-            <li>제한 이동 안에 목표 점수를 달성하는 것이 핵심입니다.</li>
-          </ul>
-
-          <h2 id="scoring">점수와 성공 기준</h2>
-          <ul class="detail-list">
-            <li>세 개 이상 매치하면 점수가 오릅니다.</li>
-            <li>한 번의 이동으로 여러 매치가 이어지면 더 좋은 결과를 기대할 수 있습니다.</li>
-            <li>이동 수가 제한되어 있어 무의미한 교환은 피해야 합니다.</li>
-          </ul>
-
-          <h2 id="strategy">공략 팁</h2>
-          <ul class="strategy-list">
-            <li>처음 한 판은 규칙을 익히는 데 사용합니다.</li>
-            <li>결과 메시지를 보고 다음 판에서 줄일 실수를 정합니다.</li>
-            <li>모바일에서는 화면 버튼을 천천히 눌러 조작감을 먼저 확인합니다.</li>
-            <li>아래쪽 매치를 먼저 만들면 위쪽 타일이 내려오며 연쇄가 생길 가능성이 큽니다.</li>
-            <li>네 개 이상을 만들 수 있는 자리부터 우선 확인합니다.</li>
-            <li>목표 점수에 가까우면 안정적인 매치를 선택하고, 초반에는 큰 연쇄를 노립니다.</li>
-          </ul>
-
-          <h2 id="mobile">모바일 플레이 팁</h2>
-          <ul class="detail-list">
-            <li>타일을 누를 때 인접한 방향을 정확히 선택합니다.</li>
-            <li>작은 화면에서는 같은 색이 모인 구역을 먼저 훑고 한 수를 고릅니다.</li>
-          </ul>
-
-          <h2>플레이 흐름</h2>
-          <p>
-            한 판을 시작하면 상단 점수판에서 현재 진행 상태를 확인할 수 있습니다.
-            결과 메시지는 실수, 성공, 최고 기록 여부를 알려 주므로 다음 판에서 무엇을 바꿀지 바로 판단할 수 있습니다.
-          </p>
-
-          <h2 id="faq">자주 묻는 질문</h2>
-          <div class="faq-list">
-          <h3>기록은 어디에 저장되나요?</h3>
-          <p>최고 기록은 가능한 경우 현재 브라우저 안에만 저장됩니다.</p>
-          <h3>세 개만 맞추면 되나요?</h3>
-          <p>기본은 세 개지만 네 개 이상 또는 연쇄 매치가 더 좋은 점수를 만듭니다.</p>
-          <h3>아무 교환이나 가능한가요?</h3>
-          <p>대체로 매치가 만들어지는 교환이 의미 있습니다. 목표 점수와 남은 이동 수를 함께 봐야 합니다.</p>
-          <h3>모바일에서도 플레이할 수 있나요?</h3>
-          <p>네. 화면 버튼과 터치 입력을 함께 고려해 작은 화면에서도 게임판과 결과 영역이 겹치지 않도록 구성했습니다.</p>
-          <h3>기록이 사라질 수 있나요?</h3>
-          <p>기록은 가능한 경우 현재 브라우저의 로컬 저장소에 저장됩니다. 브라우저 데이터를 삭제하거나 다른 기기에서 접속하면 이어지지 않을 수 있습니다.</p>
-          </div>
-
-          <h2>업데이트 노트</h2>
-          <p class="site-note">2026년 7월 20일 매치3 퍼즐 페이지에 연쇄 매치와 이동 수 전략을 보강했습니다.</p>
-
-          <h2 id="related-guides">관련 공략</h2>
-          <p>
-            매치3 퍼즐은 더 편하게 즐기고 싶다면 아래 가이드를 함께 읽어 보세요.
-            조작, 기록, 모바일 환경, 장르별 기본기를 실제 플레이 기준으로 정리했습니다.
-          </p>
-          <div class="featured-link-grid compact-guide-grid">
-            <a class="featured-link" href="/guides/block-drop-beginner/"><strong>블록 드롭 초보 가이드</strong><span>빈칸을 줄이고 보드를 낮게 유지하는 배치법</span></a>
-            <a class="featured-link" href="/guides/twenty-48-strategy/"><strong>2048 초보 전략</strong><span>큰 타일을 모서리에 고정하고 보드 흐름을 지키는 방법</span></a>
-            <a class="featured-link" href="/guides/browser-game-benefits/"><strong>무료 브라우저 게임의 장점</strong><span>설치 없는 웹게임을 안전하게 고르는 기준</span></a>
-          </div>
-
-          <h2 id="related">관련 게임</h2>
-          <p>
-            <a href="/games/number-vault/">숫자 금고</a>, <a href="/games/block-drop-classic/">블록 드롭 클래식</a>, <a href="/games/bubble-shooter/">버블 슈터 클래식</a>도 함께 플레이해 보세요.
-            전체 게임은 <a href="/games/">게임 목록</a>에서 장르별로 확인할 수 있습니다.
-          </p>
-        </article>
+      <h2 id="faq">자주 묻는 질문</h2>
+      <div class="faq-list">
+        <h3>처음부터 매치가 만들어진 보드가 나오나요?</h3><p>아니요. 새 보드는 처음부터 3개가 연결된 상태를 피하도록 생성합니다.</p>
+        <h3>아무 수가 없는 보드가 나올 수 있나요?</h3><p>새 판에는 최소 하나의 유효 교환이 있도록 검사하며, 플레이 중 가능한 수가 사라지면 자동 재셔플합니다.</p>
+        <h3>매치가 안 되는 교환도 이동 수가 줄어드나요?</h3><p>아니요. 매치를 만들지 못하는 일반 교환은 취소되고 이동 수를 쓰지 않습니다.</p>
+        <h3>컬러폭탄은 어떻게 쓰나요?</h3><p>컬러폭탄과 인접한 일반 타일을 교환하면 그 일반 타일과 같은 색이 보드에서 제거됩니다.</p>
+        <h3>진행 중 판은 저장되나요?</h3><p>네. 연쇄 처리가 끝난 안정된 보드 상태를 자동 저장해 다음 방문에서 이어갈 수 있습니다.</p>
       </div>
-    </main>
 
-    <footer class="site-footer">
-      <div>
-        <strong>한판게임</strong>
-        <p>매치3 퍼즐과 함께 즐기는 무료 웹 미니게임.</p>
-      </div>
-      <nav aria-label="푸터 메뉴">
-        <a href="/about/">소개</a>
-        <a href="/help/">도움말</a>
-        <a href="/updates/">업데이트</a>
-        <a href="/privacy/">개인정보처리방침</a>
-        <a href="/terms/">이용약관</a>
-        <a href="/contact/">문의</a>
-      </nav>
-      <p class="copyright">© <span id="year"></span> Hanpan Game. All rights reserved.</p>
-    </footer>
-    <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"VideoGame","name":"매치3 퍼즐","url":"https://hanpangames.kr/games/match-three/","description":"인접한 타일을 바꿔 연쇄 매치를 만들고 제한 이동 안에 목표 점수를 넘깁니다.","applicationCategory":"Game","operatingSystem":"Web Browser","inLanguage":"ko-KR","isAccessibleForFree":true,"publisher":{"@type":"Organization","name":"한판게임"}},{"@type":"FAQPage","mainEntity":[{"@type":"Question","name":"기록은 어디에 저장되나요?","acceptedAnswer":{"@type":"Answer","text":"최고 기록은 가능한 경우 현재 브라우저 안에만 저장됩니다."}},{"@type":"Question","name":"세 개만 맞추면 되나요?","acceptedAnswer":{"@type":"Answer","text":"기본은 세 개지만 네 개 이상 또는 연쇄 매치가 더 좋은 점수를 만듭니다."}},{"@type":"Question","name":"아무 교환이나 가능한가요?","acceptedAnswer":{"@type":"Answer","text":"대체로 매치가 만들어지는 교환이 의미 있습니다. 목표 점수와 남은 이동 수를 함께 봐야 합니다."}},{"@type":"Question","name":"모바일에서도 플레이할 수 있나요?","acceptedAnswer":{"@type":"Answer","text":"네. 화면 버튼과 터치 입력을 함께 고려해 작은 화면에서도 게임판과 결과 영역이 겹치지 않도록 구성했습니다."}},{"@type":"Question","name":"기록이 사라질 수 있나요?","acceptedAnswer":{"@type":"Answer","text":"기록은 가능한 경우 현재 브라우저의 로컬 저장소에 저장됩니다. 브라우저 데이터를 삭제하거나 다른 기기에서 접속하면 이어지지 않을 수 있습니다."}}]},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"홈","item":"https://hanpangames.kr/"},{"@type":"ListItem","position":2,"name":"게임","item":"https://hanpangames.kr/games/"},{"@type":"ListItem","position":3,"name":"매치3 퍼즐","item":"https://hanpangames.kr/games/match-three/"}]}]}</script>
-    <script src="/assets/app.js?v=20260820-blockdrop" defer></script>
-    <script src="/assets/traditional-games.js?v=20260820-blockdrop" defer></script>
-    <script src="/assets/arcade.js?v=20260820-blockdrop" defer></script>
-  </body>
+      <h2>업데이트 노트</h2><p class="site-note">2026년 8월 25일 기본 6×6 매치3를 7×7 스테이지형 게임으로 확장하고, 유효 수 보장, 연쇄 콤보, 줄폭탄·컬러폭탄, 점수·색상 목표, 자동 저장, 힌트와 모바일 스와이프를 추가했습니다.</p>
+      <h2 id="related-guides">관련 공략</h2><div class="featured-link-grid compact-guide-grid"><a class="featured-link" href="/guides/match-three-strategy/"><strong>매치3 퍼즐 공략</strong><span>아래쪽 매치, 4·5개 특수 타일과 이동 수 운영법</span></a><a class="featured-link" href="/guides/twenty-48-strategy/"><strong>2048 초보 전략</strong><span>한 수 뒤 공간 변화를 읽는 퍼즐 운영</span></a><a class="featured-link" href="/guides/block-drop-beginner/"><strong>블록 드롭 초보 가이드</strong><span>보드 공간과 다음 수를 준비하는 방법</span></a></div>
+      <h2 id="related">관련 게임</h2><p><a href="/games/twenty-48/">2048 한판</a>, <a href="/games/sliding-puzzle/">슬라이딩 퍼즐</a>, <a href="/games/block-fill/">블록 채우기</a>도 함께 플레이해 보세요.</p>
+    </article>
+  </div>
+</main>
+<footer class="site-footer"><div><strong>한판게임</strong><p>매치3 퍼즐과 함께 즐기는 무료 웹 미니게임.</p></div><nav aria-label="푸터 메뉴"><a href="/about/">소개</a><a href="/help/">도움말</a><a href="/updates/">업데이트</a><a href="/privacy/">개인정보처리방침</a><a href="/terms/">이용약관</a><a href="/contact/">문의</a></nav><p class="copyright">© <span id="year"></span> Hanpan Game. All rights reserved.</p></footer>
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"VideoGame","name":"매치3 퍼즐","url":"https://hanpangames.kr/games/match-three/","description":"7x7 보드에서 연쇄 콤보와 특수 타일을 만들고 점수와 색상 목표를 달성하는 매치3 퍼즐입니다.","applicationCategory":"Game","operatingSystem":"Web Browser","inLanguage":"ko-KR","isAccessibleForFree":true,"publisher":{"@type":"Organization","name":"한판게임"}},{"@type":"FAQPage","mainEntity":[{"@type":"Question","name":"처음부터 매치가 만들어진 보드가 나오나요?","acceptedAnswer":{"@type":"Answer","text":"아니요. 새 보드는 처음부터 3개가 연결된 상태를 피하도록 생성합니다."}},{"@type":"Question","name":"아무 수가 없는 보드가 나올 수 있나요?","acceptedAnswer":{"@type":"Answer","text":"새 판에는 최소 하나의 유효 교환을 보장하고 플레이 중 가능한 수가 사라지면 자동 재셔플합니다."}},{"@type":"Question","name":"매치가 안 되는 교환도 이동 수가 줄어드나요?","acceptedAnswer":{"@type":"Answer","text":"아니요. 매치를 만들지 못하는 일반 교환은 취소되고 이동 수를 사용하지 않습니다."}},{"@type":"Question","name":"컬러폭탄은 어떻게 쓰나요?","acceptedAnswer":{"@type":"Answer","text":"컬러폭탄과 인접한 일반 타일을 교환하면 그 타일과 같은 색을 보드에서 제거합니다."}},{"@type":"Question","name":"진행 중 판은 저장되나요?","acceptedAnswer":{"@type":"Answer","text":"네. 연쇄 처리가 끝난 안정된 보드 상태를 브라우저에 자동 저장합니다."}}]},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"홈","item":"https://hanpangames.kr/"},{"@type":"ListItem","position":2,"name":"게임","item":"https://hanpangames.kr/games/"},{"@type":"ListItem","position":3,"name":"매치3 퍼즐","item":"https://hanpangames.kr/games/match-three/"}]}]}</script>
+<script src="/assets/app.js?v=20260820-blockdrop" defer></script>
+<script src="/assets/traditional-games.js?v=20260820-blockdrop" defer></script>
+<script src="/assets/arcade.js?v=20260820-blockdrop" defer></script>
+<script src="/assets/match3-runtime.js?v=20260825-match3" defer></script>
+</body>
 </html>
