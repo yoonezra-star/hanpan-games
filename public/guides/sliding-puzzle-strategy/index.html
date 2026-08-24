@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6918910185244897" crossorigin="anonymous"></script>
+    <meta name="google-site-verification" content="qBlRPhDg3Tazy0wuTNee_wfGeDjuYz80N6R_Iinh9bs" />
+    <title>슬라이딩 퍼즐 공략: 8퍼즐·15퍼즐을 줄 단위로 푸는 순서 | 한판게임</title>
+    <meta name="description" content="3×3 8퍼즐과 4×4 15퍼즐에서 윗줄 고정, 마지막 두 타일 배치, 빈칸 순환, 마지막 2×2 마무리를 이해하는 슬라이딩 퍼즐 공략입니다.">
+    <link rel="canonical" href="https://hanpangames.kr/guides/sliding-puzzle-strategy/">
+    <meta property="og:type" content="article"><meta property="og:title" content="슬라이딩 퍼즐 공략: 8퍼즐·15퍼즐을 줄 단위로 푸는 순서"><meta property="og:description" content="윗줄 고정, 마지막 두 타일, 빈칸 순환과 3×3·4×4 마무리 전략을 정리합니다."><meta property="og:url" content="https://hanpangames.kr/guides/sliding-puzzle-strategy/"><meta property="og:site_name" content="한판게임">
+    <link rel="stylesheet" href="/assets/styles.css?v=20260820-blockdrop">
+  </head>
+  <body>
+    <header class="site-header"><a class="brand" href="/" aria-label="한판게임 홈"><span class="brand-mark" aria-hidden="true">H</span><span><strong>한판게임</strong><small>HANPAN GAME</small></span></a><nav class="nav" aria-label="주요 메뉴"><a href="/games/">게임</a><a href="/guides/" aria-current="page">가이드</a><a href="/about/">소개</a><a href="/help/">도움말</a><a href="/contact/">문의</a></nav></header>
+
+    <main class="subpage article-page">
+      <section class="page-title">
+        <p class="eyebrow">퍼즐 공략 · 7분</p>
+        <h1>슬라이딩 퍼즐 공략: 8퍼즐·15퍼즐을 줄 단위로 푸는 순서</h1>
+        <p>슬라이딩 퍼즐은 숫자 하나를 제자리로 보내는 게임이 아니라, 빈칸을 순환시켜 여러 타일의 상대적인 순서를 보존하는 퍼즐입니다. 3×3과 4×4에서 공통으로 쓰이는 풀이 흐름을 정리합니다.</p>
+        <p class="mini-note">발행: 2026-08-25 · 수정: 2026-08-25</p>
+        <ul class="toc-list"><li><a href="#solvable">풀 수 있는 배열부터 확인</a></li><li><a href="#blank">빈칸을 목적지보다 먼저 보기</a></li><li><a href="#row">윗줄부터 고정</a></li><li><a href="#pair">마지막 두 타일을 한 쌍으로 배치</a></li><li><a href="#finish">마지막 2×2와 두 줄</a></li><li><a href="#hint">거리 힌트 사용법</a></li><li><a href="#practice">3×3에서 4×4로 연습</a></li></ul>
+      </section>
+
+      <article class="article featured-article">
+        <h2 id="solvable">풀 수 있는 배열인지 걱정할 필요가 없는 이유</h2>
+        <p>일반적인 슬라이딩 퍼즐은 숫자를 임의로 섞으면 절반가량의 배열이 완성 상태로 갈 수 없습니다. 그래서 퍼즐을 만들 때는 역전수 조건을 검사하거나, 완성된 판에서 실제 합법 이동만 반복해 섞어야 합니다.</p>
+        <p>한판게임의 현재 슬라이딩 퍼즐은 두 번째 방식을 사용합니다. 완성 상태에서 빈칸 주변 타일을 실제로 움직여 섞으므로 3×3과 4×4 모두 생성 시점부터 완성 가능한 판입니다. 사용자는 배열의 유효성보다 풀이 순서에 집중하면 됩니다.</p>
+
+        <h2 id="blank">목표 타일보다 빈칸의 다음 위치를 먼저 봅니다</h2>
+        <p>초보자는 1번 타일을 1번 자리에 보내는 식으로 목표 숫자만 따라가기 쉽습니다. 하지만 타일은 빈칸과 맞닿았을 때만 움직이므로 실제로는 빈칸을 목표 타일의 어느 쪽으로 보낼지가 먼저입니다.</p>
+        <p>한 수를 둘 때마다 빈칸이 다음에 어디로 빠져나갈 수 있는지 확인하세요. 목표 타일을 제자리에 넣고도 빈칸이 막혀 있으면 결국 맞춘 타일을 다시 빼야 합니다. 작은 사각형을 돌 듯 빈칸을 순환시키는 습관이 이동 수를 줄이는 핵심입니다.</p>
+
+        <h2 id="row">윗줄부터 고정하고 완성 영역을 줄입니다</h2>
+        <p>3×3에서는 먼저 1·2·3을 윗줄에 맞춘 뒤 아래 2줄 안에서 나머지를 정리하는 흐름이 이해하기 쉽습니다. 4×4도 1~4가 있는 첫 줄을 만든 뒤 5~8이 있는 둘째 줄로 내려가면 보드가 점점 작은 퍼즐로 바뀝니다.</p>
+        <p>이미 맞춘 줄을 다시 열지 않는 것이 원칙이지만, 억지로 한 타일을 고정해 다음 타일을 넣을 공간이 사라진다면 잠깐 풀어야 합니다. 중요한 것은 숫자 하나의 고정이 아니라 그 줄 전체를 완성 가능한 순서로 배치하는 것입니다.</p>
+
+        <h2 id="pair">한 줄의 마지막 두 타일은 따로 고정하지 않습니다</h2>
+        <p>4×4 15퍼즐에서 가장 자주 막히는 지점은 한 줄의 마지막 두 칸입니다. 예를 들어 첫 줄의 3과 4를 각각 목표 자리에 바로 넣어 버리면 4를 넣기 위한 회전 공간이 사라질 수 있습니다.</p>
+        <p>마지막 두 타일은 목표 열 근처에서 세로 또는 꺾인 형태로 준비한 뒤, 빈칸을 작은 고리처럼 돌려 두 타일을 함께 제자리로 넣는 방식이 안정적입니다. 숫자 하나를 완성했다고 바로 잠그는 대신 다음 숫자가 들어올 통로를 남겨 두세요.</p>
+
+        <h2 id="finish">3×3 마지막 2×2, 4×4 마지막 두 줄은 순환으로 마무리합니다</h2>
+        <p>3×3에서 윗줄이 완성되면 남은 2×3 영역을 움직이다가 마지막 2×2를 시계 또는 반시계 방향으로 돌려 정리할 수 있습니다. 작은 왕복만 반복하기보다 네 칸을 한 묶음으로 보는 편이 쉽습니다.</p>
+        <p>4×4도 위쪽 두 줄이 안정되면 아래쪽 두 줄 안에서 빈칸을 크게 순환시키는 흐름이 중요합니다. 이미 맞춘 위쪽 영역을 건드리지 않고 남은 타일들의 상대적인 순서를 맞춰 가면 마지막 단계가 훨씬 단순해집니다.</p>
+
+        <h2 id="hint">맨해튼 거리 힌트는 방향표이지 정답 솔버가 아닙니다</h2>
+        <p>게임의 거리 힌트는 현재 움직일 수 있는 후보를 각각 한 번 움직였을 때 숫자들이 목표 위치에서 얼마나 떨어져 있는지 계산합니다. 그중 맨해튼 거리 합이 작은 후보를 강조하므로 초반에 어떤 타일부터 접근할지 판단하는 데 유용합니다.</p>
+        <p>하지만 최적 풀이에서는 잠시 거리를 늘려 빈칸을 뒤로 돌려야 하는 경우가 있습니다. 특히 마지막 두 타일과 마지막 두 줄에서는 거리만 줄이는 수가 오히려 구조를 막을 수 있습니다. 힌트는 한 수 참고용으로 쓰고, 줄 단위 배치 원칙을 우선하세요.</p>
+
+        <h2 id="practice">3×3에서 4×4로 넘어가는 연습 순서</h2>
+        <ul class="detail-list">
+          <li>3×3에서 윗줄을 되도록 다시 건드리지 않고 완성해 봅니다.</li>
+          <li>빈칸을 2×2 사각형으로 한 바퀴 돌려 원하는 타일을 한 칸 이동시키는 감각을 익힙니다.</li>
+          <li>3×3 최소 이동보다 먼저 힌트 없이 안정적으로 완주하는 것을 목표로 합니다.</li>
+          <li>4×4에서는 첫 줄 마지막 두 타일을 한 쌍으로 배치하는 연습을 따로 반복합니다.</li>
+          <li>완주가 안정되면 이동 수와 시간을 함께 줄입니다.</li>
+        </ul>
+
+        <h2 id="checklist">플레이 체크리스트</h2>
+        <ul class="detail-list"><li>목표 숫자보다 빈칸의 다음 위치를 먼저 봅니다.</li><li>윗줄부터 완성해 남은 공간을 줄입니다.</li><li>한 줄의 마지막 두 타일은 한 쌍으로 처리합니다.</li><li>마지막 구간은 작은 왕복보다 순환 이동을 사용합니다.</li><li>거리 힌트는 최적해가 아니라 한 수 참고용으로 봅니다.</li></ul>
+      </article>
+
+      <section class="featured-games"><div class="section-heading"><p class="eyebrow">Play next</p><h2>공략을 바로 적용해 보기</h2></div><div class="featured-link-grid"><a class="featured-link" href="/games/sliding-puzzle/#play-area"><strong>슬라이딩 퍼즐</strong><span>3×3·4×4에서 자동 저장과 이동·시간 기록에 도전</span></a><a class="featured-link" href="/guides/twenty-48-strategy/"><strong>2048 초보 전략</strong><span>빈칸과 보드 흐름을 유지하는 공간 퍼즐 전략</span></a><a class="featured-link" href="/guides/sudoku-classic-guide/"><strong>스도쿠 입문 공략</strong><span>후보를 줄여 확정 수를 찾는 논리 퍼즐 풀이</span></a></div></section>
+    </main>
+
+    <footer class="site-footer"><div><strong>한판게임</strong><p>플레이하기 쉽고 읽을거리도 있는 무료 미니게임 허브.</p></div><nav aria-label="푸터 메뉴"><a href="/about/">소개</a><a href="/help/">도움말</a><a href="/updates/">업데이트</a><a href="/privacy/">개인정보처리방침</a><a href="/terms/">이용약관</a><a href="/contact/">문의</a></nav><p class="copyright">© <span id="year"></span> Hanpan Game. All rights reserved.</p></footer>
+    <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Article","headline":"슬라이딩 퍼즐 공략: 8퍼즐·15퍼즐을 줄 단위로 푸는 순서","datePublished":"2026-08-25","dateModified":"2026-08-25","inLanguage":"ko-KR","mainEntityOfPage":"https://hanpangames.kr/guides/sliding-puzzle-strategy/","publisher":{"@type":"Organization","name":"한판게임","url":"https://hanpangames.kr/"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"홈","item":"https://hanpangames.kr/"},{"@type":"ListItem","position":2,"name":"가이드","item":"https://hanpangames.kr/guides/"},{"@type":"ListItem","position":3,"name":"슬라이딩 퍼즐 공략","item":"https://hanpangames.kr/guides/sliding-puzzle-strategy/"}]}]}</script>
+    <script src="/assets/app.js?v=20260820-blockdrop" defer></script>
+  </body>
+</html>
