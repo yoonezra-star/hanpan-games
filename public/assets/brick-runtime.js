@@ -1,6 +1,6 @@
 (function () {
   const bestStageKey = "hanpan-brick-best-stage";
-  const enhancedSurfaces = new WeakSet();
+  const enhancedCanvases = new WeakSet();
 
   function readBestStage() {
     try {
@@ -20,18 +20,18 @@
   }
 
   function setupSurface(surface) {
-    if (!surface || enhancedSurfaces.has(surface)) return false;
+    if (!surface) return false;
     const canvas = surface.querySelector(".brick-break-canvas");
     const controls = surface.querySelector(".brick-controls");
     const hud = surface.querySelector(".mini-score.game-score-hud, .mini-score");
-    if (!canvas || !controls || !hud) return false;
+    if (!canvas || !controls || !hud || enhancedCanvases.has(canvas)) return false;
 
     const hudItems = Array.from(hud.children);
     if (hudItems.length < 3) return false;
     const stageValue = hudItems[2].querySelector("b");
     if (!stageValue) return false;
 
-    enhancedSurfaces.add(surface);
+    enhancedCanvases.add(canvas);
     surface.classList.add("brick-break-enhanced");
     canvas.style.touchAction = "none";
     canvas.style.webkitUserSelect = "none";
@@ -72,7 +72,7 @@
 
     const startButton = controls.querySelector(".button.primary");
     function pauseWhenHidden() {
-      if (!document.hidden || !startButton || !surface.isConnected) return;
+      if (!document.hidden || !startButton || !surface.isConnected || !canvas.isConnected) return;
       const label = (startButton.textContent || "").replace(/\s+/g, "");
       if (label === "일시정지") {
         startButton.click();
@@ -83,7 +83,7 @@
     }
 
     function noteReturn() {
-      if (document.hidden || surface.dataset.autoPaused !== "true") return;
+      if (document.hidden || surface.dataset.autoPaused !== "true" || !canvas.isConnected) return;
       delete surface.dataset.autoPaused;
       const result = document.getElementById("playResult");
       if (result) result.textContent = "자동 일시 정지 상태입니다. 계속 버튼을 눌러 이어서 플레이하세요.";
