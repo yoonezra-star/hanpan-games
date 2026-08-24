@@ -6,14 +6,14 @@
     <link rel="icon" href="/favicon.svg" type="image/svg+xml">
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6918910185244897" crossorigin="anonymous"></script>
     <meta name="google-site-verification" content="qBlRPhDg3Tazy0wuTNee_wfGeDjuYz80N6R_Iinh9bs" />
-    <title>뱀의 정원 - 한판게임</title>
-    <meta name="description" content="뱀의 정원 플레이 방법, 조작법, 점수 기준, 공략 팁, 모바일 플레이와 FAQ를 정리한 무료 고전 오락실 웹게임 페이지입니다.">
+    <title>뱀의 정원 - 난이도·맵·콤보 스네이크 게임 | 한판게임</title>
+    <meta name="description" content="16x16 보드에서 쉬움·보통·어려움 난이도와 3개 정원 맵, 먹이 콤보, 별 보너스, 스와이프 조작과 난이도·맵별 기록을 지원하는 무료 스네이크 웹게임입니다.">
     <link rel="canonical" href="https://hanpangames.kr/games/snake-garden/">
     <meta property="og:image" content="https://hanpangames.kr/assets/game-art/snake-garden.webp">
     <meta property="og:image:alt" content="뱀의 정원 플레이 장면">
     <meta property="og:type" content="website">
     <meta property="og:title" content="뱀의 정원 - 한판게임">
-    <meta property="og:description" content="뱀의 정원 플레이 방법, 조작법, 점수 기준, 공략 팁, 모바일 플레이와 FAQ를 정리한 무료 고전 오락실 웹게임 페이지입니다.">
+    <meta property="og:description" content="난이도와 정원 맵을 고르고 먹이 콤보와 별 보너스로 기록에 도전하는 16x16 스네이크 게임입니다.">
     <link rel="stylesheet" href="/assets/styles.css?v=20260820-blockdrop">
   </head>
   <body>
@@ -35,12 +35,9 @@
       <section class="page-title">
         <p class="eyebrow">고전 오락실 · 2분</p>
         <h1 id="playTitle">뱀의 정원</h1>
-        <p id="playDescription">정원을 돌아다니며 먹이를 먹고 몸을 늘리는 그리드 게임입니다.</p>
+        <p id="playDescription">정원을 돌아다니며 먹이를 연속으로 먹고 몸을 늘리는 16x16 스네이크 게임입니다.</p>
         <div class="game-launcher" aria-label="게임 선택">
-          <label for="gamePagePicker">
-            <span>플레이할 게임</span>
-            <select id="gamePagePicker" data-game-page-picker data-current-game="snake-garden" onchange="if (this.value &amp;&amp; this.value !== this.dataset.currentGame) window.location.href = '/games/' + encodeURIComponent(this.value) + '/#play-area'"></select>
-          </label>
+          <label for="gamePagePicker"><span>플레이할 게임</span><select id="gamePagePicker" data-game-page-picker data-current-game="snake-garden" onchange="if (this.value &amp;&amp; this.value !== this.dataset.currentGame) window.location.href = '/games/' + encodeURIComponent(this.value) + '/#play-area'"></select></label>
           <a class="button primary" id="gamePageStart" data-game-page-start href="#play-area">바로 시작</a>
           <a class="button secondary" href="/games/">전체 게임</a>
         </div>
@@ -49,14 +46,8 @@
       <div class="game-detail-stack">
         <section class="inline-game-stage game-first-stage" id="play-area" aria-live="polite">
           <div class="stage-head">
-            <div>
-              <p class="eyebrow" id="playCategory">고전 오락실 · 2분</p>
-              <h2 id="stageTitle">뱀의 정원</h2>
-            </div>
-            <div class="stage-actions">
-              <a class="button secondary" href="/play/?game=snake-garden">큰 화면</a>
-              <button class="button primary" id="restartGame" type="button">다시 시작</button>
-            </div>
+            <div><p class="eyebrow" id="playCategory">고전 오락실 · 2분</p><h2 id="stageTitle">뱀의 정원</h2></div>
+            <div class="stage-actions"><a class="button secondary" href="/play/?game=snake-garden">큰 화면</a><button class="button primary" id="restartGame" type="button">다시 시작</button></div>
           </div>
           <div class="play-surface" id="playSurface" data-game-id="snake-garden"></div>
           <p class="result-line" id="playResult">게임을 불러오는 중입니다.</p>
@@ -66,142 +57,126 @@
           <strong>게임 설명</strong>
           <ul class="toc-list">
             <li><a href="#overview">핵심 요약</a></li>
-            <li><a href="#play-notes">플레이 포인트</a></li>
-            <li><a href="#how">게임 방법</a></li>
+            <li><a href="#modes">난이도와 맵</a></li>
             <li><a href="#controls">조작</a></li>
-            <li><a href="#scoring">점수 기준</a></li>
+            <li><a href="#scoring">점수와 콤보</a></li>
             <li><a href="#strategy">공략</a></li>
             <li><a href="#mobile">모바일 팁</a></li>
+            <li><a href="#records">기록</a></li>
             <li><a href="#faq">FAQ</a></li>
             <li><a href="#related-guides">관련 공략</a></li>
-            <li><a href="#related">관련 게임</a></li>
           </ul>
         </nav>
 
         <article class="article featured-article">
           <h2 id="overview">이 게임의 핵심</h2>
-          <p>뱀의 정원은 먹이를 먹어 몸을 늘리며 오래 버티는 그리드 아케이드 게임입니다. 몸이 길어질수록 점수는 오르지만 이동할 공간은 줄어듭니다.</p>
-          <p>짧은 조작과 빠른 결과가 매력인 고전 게임을 정원 테마로 다듬었습니다. 단순히 먹이를 향해 달리는 것보다 다음 회전 공간을 남기는 판단이 중요합니다.</p>
+          <p>뱀의 정원은 먹이를 먹을수록 몸이 길어지고 이동 공간이 줄어드는 고전 스네이크 규칙을 16x16 정원 보드로 확장한 게임입니다. 벽, 자기 몸, 정원 장애물에 닿지 않으면서 점수와 길이 기록을 높이는 것이 목표입니다.</p>
+          <p>기존의 일반 먹이, 별 보너스, 단계별 속도 상승에 더해 쉬움·보통·어려움 난이도, 클래식·울타리·연못 정원 맵, 시간 기반 먹이 콤보, 스와이프 조작, 탭 이탈 자동 일시정지와 난이도·맵별 기록을 지원합니다.</p>
           <div class="detail-snapshot" aria-label="게임 요약">
-            <div><strong>핵심 목표</strong><span>먹이를 먹고 몸을 늘리며 벽, 몸, 장애물을 피합니다.</span></div>
-            <div><strong>추천 상황</strong><span>빠른 집중력과 경로 판단을 동시에 쓰고 싶을 때 좋습니다.</span></div>
-            <div><strong>실력 포인트</strong><span>회전 공간 확보, 속도 적응, 위험한 먹이 포기입니다.</span></div>
+            <div><strong>보드</strong><span>16x16 정원에서 벽과 몸, 장애물을 피합니다.</span></div>
+            <div><strong>기록</strong><span>난이도와 맵 조합별 최고 점수·길이·단계·콤보를 저장합니다.</span></div>
+            <div><strong>실력 포인트</strong><span>먹이보다 탈출로를 먼저 보고 콤보와 생존 사이의 위험을 조절합니다.</span></div>
           </div>
 
-          <h2 id="play-notes">플레이 포인트</h2>
-          <p>뱀의 정원은 먹이를 향해 직선으로 달리는 것보다 돌아 나올 공간을 남기는 판단이 중요합니다. 몸이 길어질수록 다음 회전 경로를 미리 확보해야 오래 버틸 수 있습니다.</p>
-          <div class="detail-snapshot" aria-label="게임 요약">
-            <div><strong>추천 상황</strong><span>고전 스네이크 규칙을 모바일에서도 간단히 즐기고 싶을 때</span></div>
-            <div><strong>좋은 기록</strong><span>자기 몸에 닿지 않고 길이 15 이상 만들기</span></div>
-            <div><strong>주의할 점</strong><span>먹이만 보고 막다른 길로 들어가는 선택</span></div>
-          </div>
+          <h2 id="modes">난이도와 정원 맵</h2>
           <ul class="detail-list">
-            <li>가장자리에 붙기보다 중앙 회전 공간을 남깁니다.</li>
-            <li>먹이까지 가는 최단 경로보다 탈출 경로를 먼저 봅니다.</li>
-            <li>몸이 길어지면 큰 사각형으로 도는 패턴을 만듭니다.</li>
+            <li><strong>쉬움</strong>은 이동 간격이 넉넉하고 단계가 올라가도 추가 돌이 생기지 않아 경로 연습에 적합합니다.</li>
+            <li><strong>보통</strong>은 표준 속도로 진행되며 단계가 오를 때 정원 돌이 하나씩 추가됩니다.</li>
+            <li><strong>어려움</strong>은 시작 속도가 빠르고 콤보 제한 시간이 짧으며 단계마다 돌이 두 개씩 늘어납니다.</li>
+            <li><strong>클래식 정원</strong>은 넓은 빈 보드, <strong>울타리 정원</strong>은 분할된 통로, <strong>연못 정원</strong>은 네 모서리 쪽 장애물 구역을 사용합니다.</li>
           </ul>
 
-          <h2 id="how">게임 방법</h2>
-          <p>먹이를 먹으며 몸을 늘리는 그리드 게임입니다. 벽, 자신의 몸, 장애물에 닿으면 종료됩니다. 먹이를 먹을수록 속도가 오르고 장애물이 추가됩니다.</p>
-          <p>뱀의 정원은 별도 앱 설치나 로그인이 필요 없는 무료 웹게임입니다. 페이지 오른쪽 또는 아래쪽 플레이 영역에서 바로 실행할 수 있고, 결과와 최고 기록은 가능한 경우 현재 브라우저 안에만 저장됩니다.</p>
-
-          <h2 id="controls">조작과 진행</h2>
+          <h2 id="controls">조작과 일시정지</h2>
           <ul class="detail-list">
-            <li>방향키, W·A·S·D 또는 화면 방향 버튼으로 이동 방향을 바꿉니다.</li>
-            <li>반대 방향으로 즉시 꺾거나 한 칸 안에 방향을 두 번 바꾸는 입력은 실수를 막기 위해 제한됩니다.</li>
-            <li>스페이스바나 P 키는 일시정지에 사용하며, 종료 뒤 다시 시작 버튼으로 바로 재도전할 수 있습니다.</li>
+            <li>방향키 또는 W·A·S·D로 이동합니다. 현재 진행 방향의 정반대 방향은 즉시 입력할 수 없습니다.</li>
+            <li>PC와 모바일 모두 화면 방향 버튼을 사용할 수 있고, 모바일에서는 게임판을 원하는 방향으로 <strong>스와이프</strong>해 이동할 수 있습니다.</li>
+            <li><strong>P</strong> 또는 <strong>Space</strong>로 일시정지·계속을 전환합니다. 다른 브라우저 탭이나 앱으로 이동하면 게임이 자동으로 멈춥니다.</li>
+            <li>한 이동 틱 안에서는 한 번의 회전만 받아들여 빠른 연타로 자기 몸 쪽으로 즉시 꺾이는 실수를 줄였습니다.</li>
           </ul>
 
-          <h2 id="scoring">승리와 점수 기준</h2>
+          <h2 id="scoring">점수와 먹이 콤보</h2>
           <ul class="detail-list">
-            <li>일반 먹이는 10점, 제한 시간 동안 나타나는 별 먹이는 30점입니다.</li>
-            <li>일반 먹이 5개마다 단계가 오르며 이동 속도와 장애물이 늘어납니다.</li>
-            <li>벽이나 자신의 몸, 장애물에 닿으면 종료되고 최고 점수는 가능한 경우 현재 브라우저에 저장됩니다.</li>
+            <li>일반 먹이의 기본 점수는 10점입니다. 다음 먹이를 제한 시간 안에 연속으로 먹으면 콤보가 올라가 최대 <strong>x4</strong> 배율이 적용됩니다.</li>
+            <li>일반 먹이 세 개마다 제한 시간 별 먹이가 나타나며 기본 30점에 현재 콤보 배율이 적용됩니다.</li>
+            <li>일반 먹이 다섯 개마다 단계가 오르고 이동 속도가 빨라집니다. 보통과 어려움에서는 단계 상승 때 정원 돌도 추가됩니다.</li>
+            <li>콤보를 유지하려고 막다른 길의 먹이를 무리하게 먹으면 장기 기록이 끊길 수 있으므로 점수와 생존을 함께 판단해야 합니다.</li>
           </ul>
 
-          <h2 id="strategy">초보 공략</h2>
+          <h2 id="strategy">오래 버티는 공략</h2>
           <ul class="strategy-list">
-            <li>먹이를 향해 최단거리로만 움직이지 말고 돌아 나올 길을 먼저 생각합니다.</li>
-            <li>가장자리만 따라 돌면 탈출 공간이 줄어들 수 있어 중앙 회전 공간을 남깁니다.</li>
-            <li>속도가 빨라지면 작은 방향 전환을 미리 입력해 급한 꺾기를 줄입니다.</li>
-          </ul>
-
-          <h2>한 단계 더 올리는 전략</h2>
-          <ul class="strategy-list">
-            <li>몸이 길어지면 바깥쪽을 크게 순환하고 내부 공간을 천천히 쓰는 방식이 안정적입니다.</li>
-            <li>장애물 근처 먹이는 점수보다 위험이 크면 과감히 포기합니다.</li>
-            <li>긴 몸이 꼬인 상황에서는 꼬리가 빠질 위치를 보고 뒤따라가는 경로를 만들 수 있습니다.</li>
+            <li>먹이 위치보다 먹은 다음 두 번의 회전이 가능한지를 먼저 확인합니다.</li>
+            <li>몸이 길어지면 보드 바깥쪽을 큰 사각형으로 순환하고 내부 공간을 필요할 때만 사용합니다.</li>
+            <li>울타리와 연못 맵에서는 좁은 통로에 머리를 먼저 넣기 전에 꼬리가 빠져나올 시간을 계산합니다.</li>
+            <li>보통·어려움에서 새 돌이 생기면 기존 순환 경로를 고집하지 말고 즉시 새로운 큰 루프를 만듭니다.</li>
+            <li>높은 콤보를 노릴 때도 탈출로가 없는 별 먹이는 포기하는 편이 최고 점수에 더 유리할 수 있습니다.</li>
           </ul>
 
           <h2 id="mobile">모바일 플레이 팁</h2>
           <ul class="detail-list">
-            <li>방향 버튼을 빠르게 여러 번 누르면 의도와 다른 방향이 들어갈 수 있으므로 한 박자씩 입력합니다.</li>
-            <li>손가락이 게임판을 가리지 않게 아래쪽 버튼 영역을 중심으로 조작합니다.</li>
-            <li>작은 화면에서는 먹이보다 몸 전체의 모양을 먼저 보는 습관이 좋습니다.</li>
+            <li>게임판은 스와이프 영역으로 동작하므로 손가락을 짧고 분명하게 한 방향으로 밀어 주세요.</li>
+            <li>짧은 스와이프는 오입력을 줄이기 위해 무시합니다. 정확한 입력이 필요하면 아래 방향 버튼을 함께 사용할 수 있습니다.</li>
+            <li>작은 화면에서는 먹이 하나보다 몸 전체의 모양과 빈 통로를 먼저 보는 것이 좋습니다.</li>
+            <li>탭을 벗어나거나 화면이 가려졌을 때 자동으로 정지하므로 돌아온 뒤 <strong>계속</strong>을 눌러 안전하게 재개할 수 있습니다.</li>
           </ul>
+
+          <h2 id="records">기록은 어떻게 저장되나요?</h2>
+          <p>기록은 난이도와 맵 조합별로 분리됩니다. 예를 들어 보통·클래식 정원의 최고 점수와 어려움·연못 정원의 최고 점수는 서로 다른 기록으로 저장됩니다.</p>
+          <ul class="detail-list">
+            <li>도전 횟수</li>
+            <li>최고 점수</li>
+            <li>최고 길이</li>
+            <li>최고 단계</li>
+            <li>최고 콤보</li>
+          </ul>
+          <p>기록과 마지막 난이도·맵 설정은 현재 브라우저의 로컬 저장소에만 보관됩니다. 계정 동기화는 제공하지 않습니다.</p>
 
           <h2>자주 나오는 실수</h2>
           <ul class="mistake-list">
-            <li>먹이만 보고 탈출 경로를 확인하지 않는 실수</li>
-            <li>속도가 오른 뒤에도 벽 가까이에서 급회전하는 실수</li>
-            <li>몸이 길어진 뒤 중앙을 무리하게 가로지르는 실수</li>
+            <li>콤보 시간을 보고 탈출로 없는 먹이에 직선으로 들어가는 실수</li>
+            <li>장애물 맵에서 좁은 통로 안쪽에 긴 몸 전체를 넣는 실수</li>
+            <li>단계가 올라 새 돌이 생겼는데 이전 순환 경로를 그대로 사용하는 실수</li>
+            <li>모바일에서 방향을 한 틱 안에 여러 번 연타해 원하는 회전 타이밍을 놓치는 실수</li>
           </ul>
 
           <h2 id="faq">자주 묻는 질문</h2>
           <div class="faq-list">
-          <h3>방향키를 계속 누르고 있어야 하나요?</h3>
-          <p>아니요. 한 번 방향을 바꾸면 다음 입력 전까지 계속 이동합니다.</p>
-          <h3>별 먹이는 몇 점인가요?</h3>
-          <p>별 먹이는 잠깐만 나타나며 획득하면 30점을 얻습니다.</p>
-          <h3>장애물은 언제 늘어나나요?</h3>
-          <p>일반 먹이 5개를 먹어 다음 단계로 넘어갈 때 장애물이 하나씩 추가됩니다.</p>
-          <h3>모바일 조작이 가능한가요?</h3>
-          <p>네. 화면 방향 버튼으로 플레이할 수 있습니다.</p>
-          <h3>게임 종료 후 바로 다시 할 수 있나요?</h3>
-          <p>네. 다시 시작 버튼을 누르면 보드와 점수가 초기화되고 새 판이 시작됩니다.</p>
+            <h3>세 난이도의 차이는 무엇인가요?</h3>
+            <p>쉬움은 느리고 추가 돌이 없으며, 보통과 어려움은 더 빠르고 단계가 오를 때 각각 1개와 2개의 돌이 추가됩니다. 어려움은 콤보 제한 시간도 더 짧습니다.</p>
+            <h3>맵별 기록은 따로 저장되나요?</h3>
+            <p>네. 난이도와 맵 조합별로 최고 점수, 길이, 단계, 콤보와 도전 횟수를 따로 기록합니다.</p>
+            <h3>모바일에서 스와이프할 수 있나요?</h3>
+            <p>네. 게임판을 상하좌우로 스와이프하거나 화면 방향 버튼을 사용할 수 있습니다.</p>
+            <h3>다른 탭으로 이동하면 계속 움직이나요?</h3>
+            <p>아니요. 진행 중 다른 탭이나 앱으로 이동하면 자동 일시정지되며 돌아와 직접 계속할 수 있습니다.</p>
+            <h3>별 먹이는 몇 점인가요?</h3>
+            <p>기본 30점이며 현재 먹이 콤보 배율이 적용됩니다.</p>
           </div>
 
           <h2>업데이트 노트</h2>
-          <p class="site-note">2026년 8월 14일 재시작 흐름을 수정하고 단계별 속도·장애물, 별 보너스 먹이, 효과음, 키보드·터치 조작을 확장했습니다.</p>
+          <p class="site-note">2026년 8월 25일 뱀의 정원을 16x16 보드로 확장하고 난이도 3단계, 정원 맵 3종, 먹이 콤보, 난이도·맵별 기록, 스와이프, 탭 이탈 자동 일시정지 기능을 추가했습니다.</p>
 
           <h2 id="related-guides">관련 공략</h2>
-          <p>
-            뱀의 정원은 더 편하게 즐기고 싶다면 아래 가이드를 함께 읽어 보세요.
-            조작, 기록, 모바일 환경, 장르별 기본기를 실제 플레이 기준으로 정리했습니다.
-          </p>
           <div class="featured-link-grid compact-guide-grid">
-            <a class="featured-link" href="/guides/snake-garden-guide/"><strong>스네이크 오래 버티는 법</strong><span>먹이보다 탈출 공간을 먼저 보는 경로 판단</span></a>
-            <a class="featured-link" href="/guides/mobile-browser-game-tips/"><strong>모바일 브라우저 조작 팁</strong><span>터치 실수와 화면 가림을 줄이는 휴대폰 플레이 기준</span></a>
-            <a class="featured-link" href="/guides/browser-game-benefits/"><strong>무료 브라우저 게임의 장점</strong><span>설치 없는 웹게임을 안전하게 고르는 기준</span></a>
+            <a class="featured-link" href="/guides/snake-garden-guide/"><strong>스네이크 오래 버티는 법</strong><span>먹이보다 탈출 공간을 먼저 보는 경로 판단과 맵별 운영법</span></a>
+            <a class="featured-link" href="/guides/mobile-browser-game-tips/"><strong>모바일 브라우저 조작 팁</strong><span>터치 실수와 화면 가림을 줄이는 방법</span></a>
+            <a class="featured-link" href="/guides/brick-break-strategy/"><strong>벽돌깨기 공략</strong><span>빠른 아케이드 게임에서 반사각과 위험 관리를 익히는 방법</span></a>
           </div>
 
           <h2 id="related">관련 게임</h2>
-          <p>
-            <a href="/games/mole-finder/">두더지 찾기</a>, <a href="/games/brick-break/">벽돌깨기 미니</a>, <a href="/games/pong-rally/">퐁 랠리</a>도 함께 플레이해 보세요.
-            전체 게임은 <a href="/games/">게임 목록</a>에서 장르별로 확인할 수 있습니다.
-          </p>
+          <p><a href="/games/maze-chase/">미로 추격 클래식</a>, <a href="/games/brick-break/">벽돌깨기 미니</a>, <a href="/games/flappy-jump/">플래피 점프</a>도 함께 플레이해 보세요. 전체 게임은 <a href="/games/">게임 목록</a>에서 확인할 수 있습니다.</p>
         </article>
       </div>
     </main>
 
     <footer class="site-footer">
-      <div>
-        <strong>한판게임</strong>
-        <p>뱀의 정원과 함께 즐기는 무료 웹 미니게임.</p>
-      </div>
-      <nav aria-label="푸터 메뉴">
-        <a href="/about/">소개</a>
-        <a href="/help/">도움말</a>
-        <a href="/updates/">업데이트</a>
-        <a href="/privacy/">개인정보처리방침</a>
-        <a href="/terms/">이용약관</a>
-        <a href="/contact/">문의</a>
-      </nav>
+      <div><strong>한판게임</strong><p>뱀의 정원과 함께 즐기는 무료 웹 미니게임.</p></div>
+      <nav aria-label="푸터 메뉴"><a href="/about/">소개</a><a href="/help/">도움말</a><a href="/updates/">업데이트</a><a href="/privacy/">개인정보처리방침</a><a href="/terms/">이용약관</a><a href="/contact/">문의</a></nav>
       <p class="copyright">© <span id="year"></span> Hanpan Game. All rights reserved.</p>
     </footer>
-    <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"VideoGame","name":"뱀의 정원","url":"https://hanpangames.kr/games/snake-garden/","description":"정원을 돌아다니며 먹이를 먹고 몸을 늘리는 그리드 게임입니다.","applicationCategory":"Game","operatingSystem":"Web Browser","inLanguage":"ko-KR","isAccessibleForFree":true,"publisher":{"@type":"Organization","name":"한판게임"}},{"@type":"FAQPage","mainEntity":[{"@type":"Question","name":"방향키를 계속 누르고 있어야 하나요?","acceptedAnswer":{"@type":"Answer","text":"아니요. 한 번 방향을 바꾸면 다음 입력 전까지 계속 이동합니다."}},{"@type":"Question","name":"별 먹이는 몇 점인가요?","acceptedAnswer":{"@type":"Answer","text":"별 먹이는 잠깐만 나타나며 획득하면 30점을 얻습니다."}},{"@type":"Question","name":"장애물은 언제 늘어나나요?","acceptedAnswer":{"@type":"Answer","text":"일반 먹이 5개를 먹어 다음 단계로 넘어갈 때 장애물이 하나씩 추가됩니다."}},{"@type":"Question","name":"모바일 조작이 가능한가요?","acceptedAnswer":{"@type":"Answer","text":"네. 화면 방향 버튼으로 플레이할 수 있습니다."}},{"@type":"Question","name":"게임 종료 후 바로 다시 할 수 있나요?","acceptedAnswer":{"@type":"Answer","text":"네. 다시 시작 버튼을 누르면 보드와 점수가 초기화되고 새 판이 시작됩니다."}}]},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"홈","item":"https://hanpangames.kr/"},{"@type":"ListItem","position":2,"name":"게임","item":"https://hanpangames.kr/games/"},{"@type":"ListItem","position":3,"name":"뱀의 정원","item":"https://hanpangames.kr/games/snake-garden/"}]}]}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"VideoGame","name":"뱀의 정원","url":"https://hanpangames.kr/games/snake-garden/","description":"16x16 보드에서 난이도와 정원 맵을 고르고 먹이 콤보와 별 보너스로 기록에 도전하는 스네이크 게임입니다.","applicationCategory":"Game","operatingSystem":"Web Browser","inLanguage":"ko-KR","isAccessibleForFree":true,"publisher":{"@type":"Organization","name":"한판게임"}},{"@type":"FAQPage","mainEntity":[{"@type":"Question","name":"세 난이도의 차이는 무엇인가요?","acceptedAnswer":{"@type":"Answer","text":"쉬움은 느리고 추가 돌이 없으며, 보통과 어려움은 더 빠르고 단계가 오를 때 각각 1개와 2개의 돌이 추가됩니다. 어려움은 콤보 제한 시간도 더 짧습니다."}},{"@type":"Question","name":"맵별 기록은 따로 저장되나요?","acceptedAnswer":{"@type":"Answer","text":"난이도와 맵 조합별로 최고 점수, 길이, 단계, 콤보와 도전 횟수를 따로 기록합니다."}},{"@type":"Question","name":"모바일에서 스와이프할 수 있나요?","acceptedAnswer":{"@type":"Answer","text":"게임판을 상하좌우로 스와이프하거나 화면 방향 버튼을 사용할 수 있습니다."}},{"@type":"Question","name":"다른 탭으로 이동하면 계속 움직이나요?","acceptedAnswer":{"@type":"Answer","text":"진행 중 다른 탭이나 앱으로 이동하면 자동 일시정지되며 돌아와 직접 계속할 수 있습니다."}},{"@type":"Question","name":"별 먹이는 몇 점인가요?","acceptedAnswer":{"@type":"Answer","text":"기본 30점이며 현재 먹이 콤보 배율이 적용됩니다."}}]},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"홈","item":"https://hanpangames.kr/"},{"@type":"ListItem","position":2,"name":"게임","item":"https://hanpangames.kr/games/"},{"@type":"ListItem","position":3,"name":"뱀의 정원","item":"https://hanpangames.kr/games/snake-garden/"}]}]}</script>
     <script src="/assets/app.js?v=20260820-blockdrop" defer></script>
     <script src="/assets/traditional-games.js?v=20260820-blockdrop" defer></script>
     <script src="/assets/arcade.js?v=20260820-blockdrop" defer></script>
+    <script src="/assets/snake-runtime.js?v=20260825-snake2" defer></script>
   </body>
 </html>
