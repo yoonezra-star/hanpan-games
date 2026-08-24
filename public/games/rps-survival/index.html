@@ -6,198 +6,109 @@
     <link rel="icon" href="/favicon.svg" type="image/svg+xml">
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6918910185244897" crossorigin="anonymous"></script>
     <meta name="google-site-verification" content="qBlRPhDg3Tazy0wuTNee_wfGeDjuYz80N6R_Iinh9bs" />
-    <title>가위바위보 서바이벌 - 한판게임</title>
-    <meta name="description" content="가위바위보 서바이벌 플레이 방법, 조작법, 점수 기준, 공략 팁, 모바일 플레이와 FAQ를 정리한 무료 보드·전략 웹게임 페이지입니다.">
+    <title>가위바위보 서바이벌 - 적응형 상대와 3목숨 연승 게임 | 한판게임</title>
+    <meta name="description" content="쉬움·보통·어려움 적응형 상대와 3목숨 서바이벌을 즐기고 점수, 연승, 승률, 최고 라운드를 기록하는 무료 가위바위보 웹게임입니다.">
     <link rel="canonical" href="https://hanpangames.kr/games/rps-survival/">
     <meta property="og:image" content="https://hanpangames.kr/assets/game-art/rps-survival.webp">
     <meta property="og:image:alt" content="가위바위보 서바이벌 플레이 장면">
     <meta property="og:type" content="website">
     <meta property="og:title" content="가위바위보 서바이벌 - 한판게임">
-    <meta property="og:description" content="가위바위보 서바이벌 플레이 방법, 조작법, 점수 기준, 공략 팁, 모바일 플레이와 FAQ를 정리한 무료 보드·전략 웹게임 페이지입니다.">
+    <meta property="og:description" content="이전 선택 패턴을 분석하는 상대와 3목숨으로 오래 버티며 연승 기록에 도전합니다.">
     <link rel="stylesheet" href="/assets/styles.css?v=20260820-blockdrop">
   </head>
   <body>
     <header class="site-header">
-      <a class="brand" href="/" aria-label="한판게임 홈">
-        <span class="brand-mark" aria-hidden="true">H</span>
-        <span><strong>한판게임</strong><small>HANPAN GAME</small></span>
-      </a>
-      <nav class="nav" aria-label="주요 메뉴">
-        <a href="/games/" aria-current="page">게임</a>
-        <a href="/guides/">가이드</a>
-        <a href="/about/">소개</a>
-        <a href="/help/">도움말</a>
-        <a href="/contact/">문의</a>
-      </nav>
+      <a class="brand" href="/" aria-label="한판게임 홈"><span class="brand-mark" aria-hidden="true">H</span><span><strong>한판게임</strong><small>HANPAN GAME</small></span></a>
+      <nav class="nav" aria-label="주요 메뉴"><a href="/games/" aria-current="page">게임</a><a href="/guides/">가이드</a><a href="/about/">소개</a><a href="/help/">도움말</a><a href="/contact/">문의</a></nav>
     </header>
 
     <main class="subpage game-detail-page">
       <section class="page-title">
         <p class="eyebrow">보드·전략 · 1분</p>
         <h1 id="playTitle">가위바위보 서바이벌</h1>
-        <p id="playDescription">연승을 이어가며 살아남는 가위바위보 게임입니다.</p>
-        <div class="game-launcher" aria-label="게임 선택">
-          <label for="gamePagePicker">
-            <span>플레이할 게임</span>
-            <select id="gamePagePicker" data-game-page-picker data-current-game="rps-survival" onchange="if (this.value &amp;&amp; this.value !== this.dataset.currentGame) window.location.href = '/games/' + encodeURIComponent(this.value) + '/#play-area'"></select>
-          </label>
-          <a class="button primary" id="gamePageStart" data-game-page-start href="#play-area">바로 시작</a>
-          <a class="button secondary" href="/games/">전체 게임</a>
-        </div>
+        <p id="playDescription">이전 선택 패턴을 분석하는 상대와 3목숨으로 오래 버티며 연승 기록을 만드는 가위바위보 게임입니다.</p>
+        <div class="game-launcher" aria-label="게임 선택"><label for="gamePagePicker"><span>플레이할 게임</span><select id="gamePagePicker" data-game-page-picker data-current-game="rps-survival" onchange="if (this.value &amp;&amp; this.value !== this.dataset.currentGame) window.location.href = '/games/' + encodeURIComponent(this.value) + '/#play-area'"></select></label><a class="button primary" id="gamePageStart" data-game-page-start href="#play-area">바로 시작</a><a class="button secondary" href="/games/">전체 게임</a></div>
       </section>
 
       <div class="game-detail-stack">
         <section class="inline-game-stage game-first-stage" id="play-area" aria-live="polite">
-          <div class="stage-head">
-            <div>
-              <p class="eyebrow" id="playCategory">보드·전략 · 1분</p>
-              <h2 id="stageTitle">가위바위보 서바이벌</h2>
-            </div>
-            <div class="stage-actions">
-              <a class="button secondary" href="/play/?game=rps-survival">큰 화면</a>
-              <button class="button primary" id="restartGame" type="button">다시 시작</button>
-            </div>
-          </div>
+          <div class="stage-head"><div><p class="eyebrow" id="playCategory">보드·전략 · 1분</p><h2 id="stageTitle">가위바위보 서바이벌</h2></div><div class="stage-actions"><a class="button secondary" href="/play/?game=rps-survival">큰 화면</a><button class="button primary" id="restartGame" type="button">다시 시작</button></div></div>
           <div class="play-surface" id="playSurface" data-game-id="rps-survival"></div>
           <p class="result-line" id="playResult">게임을 불러오는 중입니다.</p>
         </section>
 
-        <nav class="game-detail-nav" aria-label="게임 설명 목차">
-          <strong>게임 설명</strong>
-          <ul class="toc-list">
-            <li><a href="#overview">핵심 요약</a></li>
-            <li><a href="#play-notes">플레이 포인트</a></li>
-            <li><a href="#how">게임 방법</a></li>
-            <li><a href="#controls">조작</a></li>
-            <li><a href="#scoring">점수 기준</a></li>
-            <li><a href="#strategy">공략</a></li>
-            <li><a href="#mobile">모바일 팁</a></li>
-            <li><a href="#faq">FAQ</a></li>
-            <li><a href="#related-guides">관련 공략</a></li>
-            <li><a href="#related">관련 게임</a></li>
-          </ul>
-        </nav>
+        <nav class="game-detail-nav" aria-label="게임 설명 목차"><strong>게임 설명</strong><ul class="toc-list"><li><a href="#overview">핵심 요약</a></li><li><a href="#difficulty">난이도</a></li><li><a href="#rules">서바이벌 규칙</a></li><li><a href="#controls">조작</a></li><li><a href="#strategy">공략</a></li><li><a href="#records">기록</a></li><li><a href="#faq">FAQ</a></li><li><a href="#related-guides">관련 공략</a></li></ul></nav>
 
         <article class="article featured-article">
           <h2 id="overview">이 게임의 핵심</h2>
-          <p>연승을 이어가며 살아남는 가위바위보 게임입니다.</p>
-          <p>가위바위보 서바이벌은 익숙한 규칙으로 연승을 이어가는 짧은 보드 게임입니다. 완전한 예측은 어렵지만 자신의 선택 패턴을 섞으면 단조로운 흐름을 줄일 수 있습니다.</p>
-          <div class="detail-snapshot" aria-label="게임 요약">
-            <div><strong>장르</strong><span>보드·전략 · 1분</span></div>
-            <div><strong>핵심 포인트</strong><span>연승 흐름과 선택 패턴 관리</span></div>
-            <div><strong>플레이 방식</strong><span>설치 없이 페이지 안에서 바로 시작</span></div>
-          </div>
+          <p>가위바위보 서바이벌은 단순 무작위 한 판이 아니라 3개의 목숨으로 가능한 오래 버티는 연속 라운드 게임입니다. 이기면 연승과 점수가 올라가고, 비기면 연승을 유지하며, 패배하면 목숨 하나를 잃고 연승이 0으로 돌아갑니다.</p>
+          <p>보통과 어려움 상대는 사용자가 <strong>이미 냈던 손</strong>의 최근 빈도와 이전 손 다음에 자주 이어서 낸 손을 분석합니다. 현재 라운드에서 사용자가 누른 손을 본 뒤 상대 손을 바꾸는 방식은 사용하지 않습니다.</p>
+          <div class="detail-snapshot"><div><strong>목숨</strong><span>3개로 시작하고 패배할 때 1개 감소</span></div><div><strong>점수</strong><span>연승이 길어질수록 승리 점수 배율이 최대 x4</span></div><div><strong>기록</strong><span>난이도별 승률·최고 점수·연승·라운드 저장</span></div></div>
 
-          <h2 id="play-notes">플레이 포인트</h2>
-          <p>가위바위보 서바이벌은 완전한 예측 게임처럼 보이지만, 연승 중 언제 보수적으로 갈지 정하는 심리 게임에 가깝습니다. 결과가 이어질수록 선택 패턴이 단순해지지 않도록 바꾸는 편이 좋습니다.</p>
-          <div class="detail-snapshot" aria-label="게임 요약">
-            <div><strong>추천 상황</strong><span>가볍게 운과 선택 리듬을 즐기고 싶을 때</span></div>
-            <div><strong>좋은 기록</strong><span>연승 기록을 유지하며 최고 라운드 갱신</span></div>
-            <div><strong>주의할 점</strong><span>같은 선택을 반복하다가 패턴이 고정되는 상황</span></div>
-          </div>
+          <h2 id="difficulty">쉬움·보통·어려움은 무엇이 다른가요?</h2>
           <ul class="detail-list">
-            <li>연승 후에는 이전 선택과 다른 손을 섞습니다.</li>
-            <li>졌을 때 바로 같은 선택으로 복구하려는 습관을 줄입니다.</li>
-            <li>결과보다 선택 패턴이 치우치는지 봅니다.</li>
+            <li><strong>쉬움</strong>은 거의 무작위로 손을 선택해 기본 규칙과 서바이벌 흐름을 익히기 좋습니다.</li>
+            <li><strong>보통</strong>은 최근 선택 빈도와 간단한 전이 패턴을 일부 반영하지만 무작위 선택도 많이 섞습니다.</li>
+            <li><strong>어려움</strong>은 같은 패턴 분석을 더 높은 비율로 반영하므로 같은 손이나 같은 순서를 반복하면 불리해지기 쉽습니다.</li>
+          </ul>
+          <p>어떤 난이도에서도 상대는 현재 선택을 미리 알 수 없습니다. 적응형 판단은 이전 라운드 기록만 사용합니다.</p>
+
+          <h2 id="rules">3목숨 서바이벌과 점수 규칙</h2>
+          <ul class="detail-list">
+            <li>승리하면 연승이 1 올라가고 기본 10점을 얻습니다.</li>
+            <li>연승 4·7·10회처럼 구간이 올라갈수록 승리 점수 배율이 높아져 최대 x4까지 적용됩니다.</li>
+            <li>무승부는 목숨과 연승을 그대로 유지하며 2점을 얻습니다.</li>
+            <li>패배하면 목숨이 하나 줄고 현재 연승은 0으로 초기화됩니다.</li>
+            <li>목숨 3개를 모두 잃으면 해당 서바이벌이 종료됩니다.</li>
           </ul>
 
-          <h2 id="how">게임 방법</h2>
-          <p>짧은 규칙을 읽고 바로 시작할 수 있는 브라우저 미니게임입니다. 화면의 점수판과 결과 안내를 보면서 한 판씩 기록을 갱신해 보세요.</p>
-          <p>가위바위보 서바이벌은 별도 앱 설치나 로그인이 필요 없는 무료 웹게임입니다. 페이지 오른쪽 또는 아래쪽 플레이 영역에서 바로 시작할 수 있고, 한 판이 짧아 규칙을 익힌 뒤 곧바로 다시 도전하기 좋습니다.</p>
-
-
-
-          <h2 id="controls">조작과 진행</h2>
+          <h2 id="controls">조작과 단축키</h2>
           <ul class="detail-list">
-            <li>가위, 바위, 보 중 하나를 선택합니다.</li>
-            <li>상대 선택과 비교해 승패가 즉시 표시됩니다.</li>
-            <li>패배하면 연승이 끊기고 새 도전 흐름으로 이어집니다.</li>
+            <li>화면에서 가위·바위·보 버튼을 직접 누릅니다.</li>
+            <li>키보드 <strong>1=가위, 2=바위, 3=보</strong>로 빠르게 선택할 수 있습니다.</li>
+            <li><strong>N</strong> 키 또는 새 서바이벌 버튼으로 현재 난이도에서 새 도전을 시작합니다.</li>
+            <li>패턴 분석 초기화 버튼은 현재 상대가 누적한 이번 서바이벌의 선택 패턴을 비우고 새 판을 시작합니다.</li>
           </ul>
 
-          <h2 id="scoring">점수와 성공 기준</h2>
-          <ul class="detail-list">
-            <li>이길 때마다 연승 수가 올라갑니다.</li>
-            <li>비기면 흐름이 유지되거나 다시 선택할 수 있습니다.</li>
-            <li>오래 연승할수록 좋은 기록입니다.</li>
-          </ul>
-
-          <h2 id="strategy">공략 팁</h2>
+          <h2 id="strategy">패턴을 읽히지 않는 공략</h2>
           <ul class="strategy-list">
-            <li>처음 한 판은 규칙을 익히는 데 사용합니다.</li>
-            <li>결과 메시지를 보고 다음 판에서 줄일 실수를 정합니다.</li>
-            <li>모바일에서는 화면 버튼을 천천히 눌러 조작감을 먼저 확인합니다.</li>
-            <li>같은 선택을 계속 반복하지 않고 이전 선택과 다른 수를 섞습니다.</li>
-            <li>연승 중에는 급하게 누르지 말고 다음 선택을 한 번 생각합니다.</li>
-            <li>패배한 뒤에는 방금 선택 패턴이 너무 뻔했는지 확인합니다.</li>
+            <li>같은 손을 연속해서 내는 횟수보다 <strong>같은 순서</strong>를 반복하는 습관을 먼저 줄입니다. 예를 들어 바위→보→바위를 계속 반복하면 전이 패턴에 잡히기 쉽습니다.</li>
+            <li>최근 8~12회의 선택 비율이 한 손으로 치우치면 다른 두 손을 섞어 균형을 되찾습니다.</li>
+            <li>졌다고 방금 낸 손을 무조건 이기는 손로 바꾸는 보상 심리를 반복하지 않습니다. 이것도 일정한 전이 패턴이 됩니다.</li>
+            <li>어려움에서는 완전한 규칙을 만들려 하기보다 세 손을 비슷한 비율로 섞고 순서를 자주 바꾸는 것이 안정적입니다.</li>
           </ul>
+          <p>게임 아래의 패턴 분석 문구는 최근 선택이 한쪽으로 치우쳤는지 알려 줍니다. 상대의 실제 다음 손을 알려 주는 힌트가 아니라 내 선택 습관을 확인하는 복기 도구입니다.</p>
 
-          <h2 id="mobile">모바일 플레이 팁</h2>
-          <ul class="detail-list">
-            <li>세 버튼의 위치를 먼저 확인하고 원하는 선택만 누릅니다.</li>
-            <li>연승 중 연타로 잘못 누르지 않도록 결과 표시를 보고 다음 선택을 합니다.</li>
-          </ul>
-
-          <h2>플레이 흐름</h2>
-          <p>
-            한 판을 시작하면 상단 점수판에서 현재 진행 상태를 확인할 수 있습니다.
-            결과 메시지는 실수, 성공, 최고 기록 여부를 알려 주므로 다음 판에서 무엇을 바꿀지 바로 판단할 수 있습니다.
-          </p>
+          <h2 id="records">난이도별 기록</h2>
+          <p>쉬움·보통·어려움은 서로 다른 기록으로 저장됩니다. 각 난이도에서 도전 횟수, 누적 승·패·무, 승률, 최고 점수, 최고 연승, 최고 라운드를 확인할 수 있습니다.</p>
+          <p>기존 버전에서 저장된 단순 최고 연승 기록이 있다면 보통 난이도 최고 연승으로 이어받습니다. 새 기록은 현재 브라우저의 로컬 저장소에만 보관되며 계정 동기화는 제공하지 않습니다.</p>
 
           <h2 id="faq">자주 묻는 질문</h2>
           <div class="faq-list">
-          <h3>기록은 어디에 저장되나요?</h3>
-          <p>최고 기록은 가능한 경우 현재 브라우저 안에만 저장됩니다.</p>
-          <h3>상대를 완전히 예측할 수 있나요?</h3>
-          <p>무작위성이 있어 완전한 예측은 어렵습니다. 대신 자신의 선택을 섞어 반복 실수를 줄이는 것이 좋습니다.</p>
-          <h3>비기면 실패인가요?</h3>
-          <p>비김은 패배와 다르게 처리될 수 있으며, 결과 안내를 보고 다음 선택을 이어가면 됩니다.</p>
-          <h3>모바일에서도 플레이할 수 있나요?</h3>
-          <p>네. 화면 버튼과 터치 입력을 함께 고려해 작은 화면에서도 게임판과 결과 영역이 겹치지 않도록 구성했습니다.</p>
-          <h3>기록이 사라질 수 있나요?</h3>
-          <p>기록은 가능한 경우 현재 브라우저의 로컬 저장소에 저장됩니다. 브라우저 데이터를 삭제하거나 다른 기기에서 접속하면 이어지지 않을 수 있습니다.</p>
+            <h3>상대가 제가 누른 손을 보고 이기는 손을 내나요?</h3><p>아니요. 상대 손은 현재 선택을 처리하기 전에 결정되며, 적응형 난이도는 이전 라운드의 선택 기록만 분석합니다.</p>
+            <h3>비기면 연승이 끊기나요?</h3><p>아니요. 무승부는 연승과 목숨을 유지하고 2점을 얻습니다.</p>
+            <h3>패턴 분석 초기화는 전적도 지우나요?</h3><p>아니요. 현재 서바이벌의 선택 패턴만 초기화하고, 저장된 난이도별 누적 기록은 유지합니다.</p>
+            <h3>키보드로 플레이할 수 있나요?</h3><p>네. 1은 가위, 2는 바위, 3은 보이며 N으로 새 서바이벌을 시작할 수 있습니다.</p>
+            <h3>기록은 어디에 저장되나요?</h3><p>현재 브라우저 로컬 저장소에 저장되므로 브라우저 데이터를 삭제하거나 다른 기기를 사용하면 이어지지 않을 수 있습니다.</p>
           </div>
 
           <h2>업데이트 노트</h2>
-          <p class="site-note">2026년 7월 20일 가위바위보 서바이벌 페이지에 연승 전략과 선택 패턴 설명을 추가했습니다.</p>
+          <p class="site-note">2026년 8월 25일 기본 무작위 가위바위보를 3목숨 서바이벌, 난이도 3단계, 이전 선택 패턴 기반 적응형 상대, 연승 점수 배율, 난이도별 전적과 키보드 조작을 갖춘 게임으로 확장했습니다.</p>
 
           <h2 id="related-guides">관련 공략</h2>
-          <p>
-            가위바위보 서바이벌은 더 편하게 즐기고 싶다면 아래 가이드를 함께 읽어 보세요.
-            조작, 기록, 모바일 환경, 장르별 기본기를 실제 플레이 기준으로 정리했습니다.
-          </p>
-          <div class="featured-link-grid compact-guide-grid">
-            <a class="featured-link" href="/guides/tic-tac-toe-strategy/"><strong>틱택토 전략 가이드</strong><span>중앙, 모서리, 포크, 방어 순서를 익히는 방법</span></a>
-            <a class="featured-link" href="/guides/short-break-web-games/"><strong>짧은 휴식 게임 고르는 법</strong><span>플레이 시간과 조작 난이도로 게임을 선택하는 기준</span></a>
-            <a class="featured-link" href="/guides/browser-game-benefits/"><strong>무료 브라우저 게임의 장점</strong><span>설치 없는 웹게임을 안전하게 고르는 기준</span></a>
-          </div>
+          <div class="featured-link-grid compact-guide-grid"><a class="featured-link" href="/guides/rps-survival-strategy/"><strong>가위바위보 서바이벌 공략</strong><span>선택 빈도와 전이 패턴을 덜 읽히는 방법</span></a><a class="featured-link" href="/guides/tic-tac-toe-strategy/"><strong>틱택토 전략 가이드</strong><span>상대 수를 읽고 포크와 방어 순서를 만드는 방법</span></a><a class="featured-link" href="/guides/short-break-web-games/"><strong>짧은 휴식 게임 고르는 법</strong><span>1~5분 웹게임을 고르는 기준</span></a></div>
 
           <h2 id="related">관련 게임</h2>
-          <p>
-            <a href="/games/tic-tac-toe/">틱택토 Tic-Tac-Toe</a>, <a href="/games/omok/">오목 한판</a>, <a href="/games/card-solitaire/">카드 솔리테어</a>도 함께 플레이해 보세요.
-            전체 게임은 <a href="/games/">게임 목록</a>에서 장르별로 확인할 수 있습니다.
-          </p>
+          <p><a href="/games/connect-four/">사목 미니</a>, <a href="/games/tic-tac-toe/">틱택토</a>, <a href="/games/omok/">오목 한판</a>도 함께 플레이해 보세요. 전체 게임은 <a href="/games/">게임 목록</a>에서 확인할 수 있습니다.</p>
         </article>
       </div>
     </main>
 
-    <footer class="site-footer">
-      <div>
-        <strong>한판게임</strong>
-        <p>가위바위보 서바이벌과 함께 즐기는 무료 웹 미니게임.</p>
-      </div>
-      <nav aria-label="푸터 메뉴">
-        <a href="/about/">소개</a>
-        <a href="/help/">도움말</a>
-        <a href="/updates/">업데이트</a>
-        <a href="/privacy/">개인정보처리방침</a>
-        <a href="/terms/">이용약관</a>
-        <a href="/contact/">문의</a>
-      </nav>
-      <p class="copyright">© <span id="year"></span> Hanpan Game. All rights reserved.</p>
-    </footer>
-    <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"VideoGame","name":"가위바위보 서바이벌","url":"https://hanpangames.kr/games/rps-survival/","description":"연승을 이어가며 살아남는 가위바위보 게임입니다.","applicationCategory":"Game","operatingSystem":"Web Browser","inLanguage":"ko-KR","isAccessibleForFree":true,"publisher":{"@type":"Organization","name":"한판게임"}},{"@type":"FAQPage","mainEntity":[{"@type":"Question","name":"기록은 어디에 저장되나요?","acceptedAnswer":{"@type":"Answer","text":"최고 기록은 가능한 경우 현재 브라우저 안에만 저장됩니다."}},{"@type":"Question","name":"상대를 완전히 예측할 수 있나요?","acceptedAnswer":{"@type":"Answer","text":"무작위성이 있어 완전한 예측은 어렵습니다. 대신 자신의 선택을 섞어 반복 실수를 줄이는 것이 좋습니다."}},{"@type":"Question","name":"비기면 실패인가요?","acceptedAnswer":{"@type":"Answer","text":"비김은 패배와 다르게 처리될 수 있으며, 결과 안내를 보고 다음 선택을 이어가면 됩니다."}},{"@type":"Question","name":"모바일에서도 플레이할 수 있나요?","acceptedAnswer":{"@type":"Answer","text":"네. 화면 버튼과 터치 입력을 함께 고려해 작은 화면에서도 게임판과 결과 영역이 겹치지 않도록 구성했습니다."}},{"@type":"Question","name":"기록이 사라질 수 있나요?","acceptedAnswer":{"@type":"Answer","text":"기록은 가능한 경우 현재 브라우저의 로컬 저장소에 저장됩니다. 브라우저 데이터를 삭제하거나 다른 기기에서 접속하면 이어지지 않을 수 있습니다."}}]},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"홈","item":"https://hanpangames.kr/"},{"@type":"ListItem","position":2,"name":"게임","item":"https://hanpangames.kr/games/"},{"@type":"ListItem","position":3,"name":"가위바위보 서바이벌","item":"https://hanpangames.kr/games/rps-survival/"}]}]}</script>
+    <footer class="site-footer"><div><strong>한판게임</strong><p>가위바위보 서바이벌과 함께 즐기는 무료 웹 미니게임.</p></div><nav aria-label="푸터 메뉴"><a href="/about/">소개</a><a href="/help/">도움말</a><a href="/updates/">업데이트</a><a href="/privacy/">개인정보처리방침</a><a href="/terms/">이용약관</a><a href="/contact/">문의</a></nav><p class="copyright">© <span id="year"></span> Hanpan Game. All rights reserved.</p></footer>
+    <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"VideoGame","name":"가위바위보 서바이벌","url":"https://hanpangames.kr/games/rps-survival/","description":"이전 선택 패턴을 분석하는 상대와 3목숨으로 오래 버티며 연승 기록에 도전하는 가위바위보 게임입니다.","applicationCategory":"Game","operatingSystem":"Web Browser","inLanguage":"ko-KR","isAccessibleForFree":true,"publisher":{"@type":"Organization","name":"한판게임"}},{"@type":"FAQPage","mainEntity":[{"@type":"Question","name":"상대가 제가 누른 손을 보고 이기는 손을 내나요?","acceptedAnswer":{"@type":"Answer","text":"상대 손은 현재 선택을 처리하기 전에 결정되며 적응형 난이도는 이전 라운드 선택 기록만 분석합니다."}},{"@type":"Question","name":"비기면 연승이 끊기나요?","acceptedAnswer":{"@type":"Answer","text":"무승부는 연승과 목숨을 유지하고 2점을 얻습니다."}},{"@type":"Question","name":"패턴 분석 초기화는 전적도 지우나요?","acceptedAnswer":{"@type":"Answer","text":"현재 서바이벌 선택 패턴만 초기화하고 저장된 난이도별 누적 기록은 유지합니다."}},{"@type":"Question","name":"키보드로 플레이할 수 있나요?","acceptedAnswer":{"@type":"Answer","text":"1은 가위, 2는 바위, 3은 보이며 N으로 새 서바이벌을 시작할 수 있습니다."}},{"@type":"Question","name":"기록은 어디에 저장되나요?","acceptedAnswer":{"@type":"Answer","text":"현재 브라우저 로컬 저장소에 저장되므로 브라우저 데이터를 삭제하거나 다른 기기를 사용하면 이어지지 않을 수 있습니다."}}]},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"홈","item":"https://hanpangames.kr/"},{"@type":"ListItem","position":2,"name":"게임","item":"https://hanpangames.kr/games/"},{"@type":"ListItem","position":3,"name":"가위바위보 서바이벌","item":"https://hanpangames.kr/games/rps-survival/"}]}]}</script>
     <script src="/assets/app.js?v=20260820-blockdrop" defer></script>
     <script src="/assets/traditional-games.js?v=20260820-blockdrop" defer></script>
     <script src="/assets/arcade.js?v=20260820-blockdrop" defer></script>
+    <script src="/assets/rps-runtime.js?v=20260825-rps2" defer></script>
   </body>
 </html>
