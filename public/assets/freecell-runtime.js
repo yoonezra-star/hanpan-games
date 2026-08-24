@@ -1,8 +1,7 @@
 (function () {
   const saveKey = "hanpan-freecell-save-freecell-classic";
   const streakKey = "hanpan-freecell-streak";
-  const metricsKey = "hanpan-freecell-metrics-v1";
-  const maxTrackedDeals = 400;
+  const metricsKey = "hanpan-freecell-metrics-v2";
   const enhancedBoards = new WeakSet();
   let styleAdded = false;
 
@@ -131,19 +130,17 @@
 
   function readMetrics() {
     const saved = readJson(metricsKey, {});
+    const activeDeal = Number(saved.activeDeal);
     return {
       attempts: Math.max(0, Number(saved.attempts) || 0),
       wins: Math.max(0, Number(saved.wins) || 0),
       bestMoves: Number(saved.bestMoves) > 0 ? Number(saved.bestMoves) : null,
       bestStreak: Math.max(0, Number(saved.bestStreak) || 0),
-      attemptedDeals: Array.isArray(saved.attemptedDeals) ? saved.attemptedDeals.map(Number).filter(Number.isFinite).slice(-maxTrackedDeals) : [],
-      wonDeals: Array.isArray(saved.wonDeals) ? saved.wonDeals.map(Number).filter(Number.isFinite).slice(-maxTrackedDeals) : []
+      activeDeal: Number.isInteger(activeDeal) && activeDeal > 0 ? activeDeal : null
     };
   }
 
   function storeMetrics(metrics) {
-    metrics.attemptedDeals = metrics.attemptedDeals.slice(-maxTrackedDeals);
-    metrics.wonDeals = metrics.wonDeals.slice(-maxTrackedDeals);
     writeJson(metricsKey, metrics);
   }
 
@@ -256,8 +253,6 @@
 
     function isStarted() {
       if (Number(moveValue && moveValue.textContent) > 0) return true;
-      const strong = status.querySelector("strong");
-      if (strong && /진행 중|카드 선택됨|게임 완성/.test(strong.textContent)) return true;
       const saved = readJson(saveKey, null);
       const deal = currentDealNumber();
       return Boolean(saved && saved.started && Number(saved.dealNumber) === deal);
@@ -267,23 +262,31 @@
       const deal = currentDealNumber();
       if (!Number.isInteger(deal) || deal < 1) return;
       const complete = board.classList.contains("is-complete") || foundationCount() >= 52;
-      const started = complete || isStarted();
       const metrics = readMetrics();
       let changed = false;
 
-      if (started && !metrics.attemptedDeals.includes(deal)) {
+      if (!complete) delete board.dataset.freecellMetricsComplete;
+
+      if (!complete && isStarted() && metrics.activeDeal !== deal) {
         metrics.attempts += 1;
-        metrics.attemptedDeals.push(deal);
+        metrics.activeDeal = deal;
         changed = true;
       }
-      if (complete && !metrics.wonDeals.includes(deal)) {
+
+      if (complete && board.dataset.freecellMetricsComplete !== "true") {
+        board.dataset.freecellMetricsComplete = "true";
+        if (metrics.activeDeal !== deal) {
+          metrics.attempts += 1;
+          metrics.activeDeal = deal;
+        }
         metrics.wins += 1;
-        metrics.wonDeals.push(deal);
         const moves = Number(moveValue && moveValue.textContent);
         if (Number.isFinite(moves) && moves > 0) metrics.bestMoves = metrics.bestMoves === null ? moves : Math.min(metrics.bestMoves, moves);
         metrics.bestStreak = Math.max(metrics.bestStreak, readStreak());
+        metrics.activeDeal = null;
         changed = true;
       }
+
       if (changed) storeMetrics(metrics);
     }
 
@@ -308,7 +311,14 @@
 
     function abandonCurrentIfNeeded() {
       markProgress();
-      if (isStarted() && !board.classList.contains("is-complete") && foundationCount() < 52) resetStreak();
+      const deal = currentDealNumber();
+      const complete = board.classList.contains("is-complete") || foundationCount() >= 52;
+      if (isStarted() && !complete) resetStreak();
+      const metrics = readMetrics();
+      if (!complete && metrics.activeDeal === deal) {
+        metrics.activeDeal = null;
+        storeMetrics(metrics);
+      }
     }
 
     function loadDealNumber(number) {
