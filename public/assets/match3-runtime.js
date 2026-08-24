@@ -236,7 +236,7 @@
     function addSpecialClears(clearSet, index) {
       const item = board[index]; if (!item) return;
       if (item.s === "h") for (let c = 0; c < cols; c += 1) clearSet.add(indexOf(rowOf(index), c));
-      if (item.s === "v") for (let r = 0; r < rows; r += 1) clearSet.add(indexOf(r, colOf(index));
+      if (item.s === "v") for (let r = 0; r < rows; r += 1) clearSet.add(indexOf(r, colOf(index)));
     }
 
     function expandSpecials(clearSet) {
