@@ -6,198 +6,103 @@
     <link rel="icon" href="/favicon.svg" type="image/svg+xml">
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6918910185244897" crossorigin="anonymous"></script>
     <meta name="google-site-verification" content="qBlRPhDg3Tazy0wuTNee_wfGeDjuYz80N6R_Iinh9bs" />
-    <title>슬라이딩 퍼즐 - 한판게임</title>
-    <meta name="description" content="슬라이딩 퍼즐 플레이 방법, 조작법, 점수 기준, 공략 팁, 모바일 플레이와 FAQ를 정리한 무료 퍼즐 웹게임 페이지입니다.">
+    <title>슬라이딩 퍼즐 - 3×3·4×4 숫자 퍼즐과 자동 저장 | 한판게임</title>
+    <meta name="description" content="3×3 8퍼즐과 4×4 15퍼즐을 풀 수 있는 배열로 즐기고 이동 수·시간 기록, 자동 저장, 거리 힌트, 키보드와 모바일 스와이프를 지원하는 무료 슬라이딩 퍼즐입니다.">
     <link rel="canonical" href="https://hanpangames.kr/games/sliding-puzzle/">
     <meta property="og:image" content="https://hanpangames.kr/assets/game-art/sliding-puzzle.webp">
     <meta property="og:image:alt" content="슬라이딩 퍼즐 플레이 장면">
     <meta property="og:type" content="website">
     <meta property="og:title" content="슬라이딩 퍼즐 - 한판게임">
-    <meta property="og:description" content="슬라이딩 퍼즐 플레이 방법, 조작법, 점수 기준, 공략 팁, 모바일 플레이와 FAQ를 정리한 무료 퍼즐 웹게임 페이지입니다.">
+    <meta property="og:description" content="3×3·4×4 숫자 퍼즐을 풀 수 있는 셔플과 자동 저장, 기록, 힌트로 즐깁니다.">
     <link rel="stylesheet" href="/assets/styles.css?v=20260820-blockdrop">
   </head>
   <body>
-    <header class="site-header">
-      <a class="brand" href="/" aria-label="한판게임 홈">
-        <span class="brand-mark" aria-hidden="true">H</span>
-        <span><strong>한판게임</strong><small>HANPAN GAME</small></span>
-      </a>
-      <nav class="nav" aria-label="주요 메뉴">
-        <a href="/games/" aria-current="page">게임</a>
-        <a href="/guides/">가이드</a>
-        <a href="/about/">소개</a>
-        <a href="/help/">도움말</a>
-        <a href="/contact/">문의</a>
-      </nav>
-    </header>
+    <header class="site-header"><a class="brand" href="/" aria-label="한판게임 홈"><span class="brand-mark" aria-hidden="true">H</span><span><strong>한판게임</strong><small>HANPAN GAME</small></span></a><nav class="nav" aria-label="주요 메뉴"><a href="/games/" aria-current="page">게임</a><a href="/guides/">가이드</a><a href="/about/">소개</a><a href="/help/">도움말</a><a href="/contact/">문의</a></nav></header>
 
     <main class="subpage game-detail-page">
       <section class="page-title">
-        <p class="eyebrow">퍼즐 · 2분</p>
+        <p class="eyebrow">퍼즐 · 2~8분</p>
         <h1 id="playTitle">슬라이딩 퍼즐</h1>
-        <p id="playDescription">빈 칸을 이용해 숫자 타일을 순서대로 맞춥니다.</p>
-        <div class="game-launcher" aria-label="게임 선택">
-          <label for="gamePagePicker">
-            <span>플레이할 게임</span>
-            <select id="gamePagePicker" data-game-page-picker data-current-game="sliding-puzzle" onchange="if (this.value &amp;&amp; this.value !== this.dataset.currentGame) window.location.href = '/games/' + encodeURIComponent(this.value) + '/#play-area'"></select>
-          </label>
-          <a class="button primary" id="gamePageStart" data-game-page-start href="#play-area">바로 시작</a>
-          <a class="button secondary" href="/games/">전체 게임</a>
-        </div>
+        <p id="playDescription">3×3 8퍼즐과 4×4 15퍼즐에서 빈칸을 움직여 숫자를 순서대로 정렬합니다.</p>
+        <div class="game-launcher" aria-label="게임 선택"><label for="gamePagePicker"><span>플레이할 게임</span><select id="gamePagePicker" data-game-page-picker data-current-game="sliding-puzzle" onchange="if (this.value &amp;&amp; this.value !== this.dataset.currentGame) window.location.href = '/games/' + encodeURIComponent(this.value) + '/#play-area'"></select></label><a class="button primary" id="gamePageStart" data-game-page-start href="#play-area">바로 시작</a><a class="button secondary" href="/games/">전체 게임</a></div>
       </section>
 
       <div class="game-detail-stack">
         <section class="inline-game-stage game-first-stage" id="play-area" aria-live="polite">
-          <div class="stage-head">
-            <div>
-              <p class="eyebrow" id="playCategory">퍼즐 · 2분</p>
-              <h2 id="stageTitle">슬라이딩 퍼즐</h2>
-            </div>
-            <div class="stage-actions">
-              <a class="button secondary" href="/play/?game=sliding-puzzle">큰 화면</a>
-              <button class="button primary" id="restartGame" type="button">다시 시작</button>
-            </div>
-          </div>
+          <div class="stage-head"><div><p class="eyebrow" id="playCategory">퍼즐 · 2~8분</p><h2 id="stageTitle">슬라이딩 퍼즐</h2></div><div class="stage-actions"><a class="button secondary" href="/play/?game=sliding-puzzle">큰 화면</a><button class="button primary" id="restartGame" type="button">다시 시작</button></div></div>
           <div class="play-surface" id="playSurface" data-game-id="sliding-puzzle"></div>
           <p class="result-line" id="playResult">게임을 불러오는 중입니다.</p>
         </section>
 
-        <nav class="game-detail-nav" aria-label="게임 설명 목차">
-          <strong>게임 설명</strong>
-          <ul class="toc-list">
-            <li><a href="#overview">핵심 요약</a></li>
-            <li><a href="#play-notes">플레이 포인트</a></li>
-            <li><a href="#how">게임 방법</a></li>
-            <li><a href="#controls">조작</a></li>
-            <li><a href="#scoring">점수 기준</a></li>
-            <li><a href="#strategy">공략</a></li>
-            <li><a href="#mobile">모바일 팁</a></li>
-            <li><a href="#faq">FAQ</a></li>
-            <li><a href="#related-guides">관련 공략</a></li>
-            <li><a href="#related">관련 게임</a></li>
-          </ul>
-        </nav>
+        <nav class="game-detail-nav" aria-label="게임 설명 목차"><strong>게임 설명</strong><ul class="toc-list"><li><a href="#overview">핵심 요약</a></li><li><a href="#sizes">3×3·4×4</a></li><li><a href="#shuffle">풀 수 있는 셔플</a></li><li><a href="#controls">조작</a></li><li><a href="#records">기록·저장</a></li><li><a href="#hint">힌트</a></li><li><a href="#strategy">공략</a></li><li><a href="#faq">FAQ</a></li><li><a href="#related-guides">관련 공략</a></li></ul></nav>
 
         <article class="article featured-article">
           <h2 id="overview">이 게임의 핵심</h2>
-          <p>빈 칸을 이용해 숫자 타일을 순서대로 맞춥니다.</p>
-          <p>슬라이딩 퍼즐은 빈칸을 활용해 숫자 타일을 순서대로 맞추는 퍼즐입니다. 타일 하나만 보고 움직이면 전체 배열이 흐트러지므로 빈칸을 어디로 보낼지 먼저 계획해야 합니다.</p>
-          <div class="detail-snapshot" aria-label="게임 요약">
-            <div><strong>장르</strong><span>퍼즐 · 2분</span></div>
-            <div><strong>핵심 포인트</strong><span>빈칸을 이용한 순서 정리</span></div>
-            <div><strong>플레이 방식</strong><span>설치 없이 페이지 안에서 바로 시작</span></div>
-          </div>
+          <p>슬라이딩 퍼즐은 빈칸과 맞닿은 숫자 타일만 움직여 1부터 차례대로 정렬하는 퍼즐입니다. 3×3에서는 1~8, 4×4에서는 1~15를 맞추고 마지막 칸을 비우면 완성입니다.</p>
+          <p>이번 버전은 단순 무작위 배열을 사용하지 않습니다. 완성된 판에서 실제로 가능한 이동을 여러 번 반복해 섞기 때문에 새 퍼즐은 항상 완성 상태에서 도달 가능한 배열로 시작합니다.</p>
+          <div class="detail-snapshot"><div><strong>보드</strong><span>3×3 8퍼즐 · 4×4 15퍼즐</span></div><div><strong>기록</strong><span>완주율 · 최소 이동 · 최단 시간</span></div><div><strong>이어하기</strong><span>보드 크기별 진행 상태 자동 저장</span></div></div>
 
-          <h2 id="play-notes">플레이 포인트</h2>
-          <p>슬라이딩 퍼즐은 빈칸을 어디로 보내는지가 핵심입니다. 숫자 타일 하나만 밀기보다 빈칸을 순환시켜 목표 타일을 제자리로 끌어오는 방식이 안정적입니다.</p>
-          <div class="detail-snapshot" aria-label="게임 요약">
-            <div><strong>추천 상황</strong><span>순서 맞추기와 공간 이동 퍼즐을 좋아할 때</span></div>
-            <div><strong>좋은 기록</strong><span>되돌림을 줄이고 목표 순서 완성</span></div>
-            <div><strong>주의할 점</strong><span>맞춰 둔 윗줄을 다시 흐트러뜨리는 이동</span></div>
-          </div>
+          <h2 id="sizes">3×3과 4×4의 차이</h2>
           <ul class="detail-list">
-            <li>윗줄부터 차례로 고정합니다.</li>
-            <li>빈칸을 목표 타일 옆으로 보내는 경로를 먼저 만듭니다.</li>
-            <li>마지막 2줄은 전체 순환으로 천천히 정리합니다.</li>
+            <li><strong>3×3</strong>은 8개의 숫자 타일을 사용해 빈칸 순환과 마지막 2×2 마무리를 익히기 좋습니다.</li>
+            <li><strong>4×4</strong>은 15개의 타일을 사용해 한 줄의 마지막 두 타일을 함께 배치하는 계획이 더 중요합니다.</li>
+            <li>두 크기는 진행 상태와 완료 기록을 따로 저장하므로 3×3을 하다가 4×4로 바꾼 뒤 다시 돌아와도 이전 판을 이어갈 수 있습니다.</li>
           </ul>
 
-          <h2 id="how">게임 방법</h2>
-          <p>짧은 규칙을 읽고 바로 시작할 수 있는 브라우저 미니게임입니다. 화면의 점수판과 결과 안내를 보면서 한 판씩 기록을 갱신해 보세요.</p>
-          <p>슬라이딩 퍼즐은 별도 앱 설치나 로그인이 필요 없는 무료 웹게임입니다. 페이지 오른쪽 또는 아래쪽 플레이 영역에서 바로 시작할 수 있고, 한 판이 짧아 규칙을 익힌 뒤 곧바로 다시 도전하기 좋습니다.</p>
+          <h2 id="shuffle">처음부터 풀 수 없는 판이 나오지 않나요?</h2>
+          <p>아니요. 새 퍼즐은 완성 배열에서 시작해 빈칸과 맞닿은 타일을 수백 번 실제로 움직이는 방식으로 섞습니다. 따라서 생성된 배열은 그 이동을 역으로 따라가면 반드시 완성 상태로 돌아갈 수 있습니다.</p>
+          <p>저장된 판을 불러올 때도 타일 중복 여부와 슬라이딩 퍼즐의 역전수 조건을 검사합니다. 저장 데이터가 유효하지 않으면 새로운 풀 수 있는 퍼즐로 시작합니다.</p>
 
-
-
-          <h2 id="controls">조작과 진행</h2>
+          <h2 id="controls">조작과 단축키</h2>
           <ul class="detail-list">
-            <li>빈칸과 맞닿은 타일을 클릭하거나 터치하면 그 타일이 이동합니다.</li>
-            <li>타일을 순서대로 정렬하면 퍼즐이 완성됩니다.</li>
-            <li>새 판을 시작하면 타일 배열이 다시 섞입니다.</li>
+            <li>빈칸과 맞닿은 숫자 타일을 클릭하거나 터치하면 그 타일이 빈칸으로 이동합니다.</li>
+            <li>방향키와 W·A·S·D는 <strong>빈칸을 해당 방향으로</strong> 한 칸 이동합니다.</li>
+            <li>모바일에서는 게임판을 상하좌우로 스와이프해 같은 방식으로 빈칸을 이동할 수 있습니다.</li>
+            <li><strong>H</strong>는 거리 힌트, <strong>N</strong>은 현재 크기의 새 퍼즐입니다.</li>
           </ul>
 
-          <h2 id="scoring">점수와 성공 기준</h2>
-          <ul class="detail-list">
-            <li>정해진 순서로 모든 타일을 맞추면 성공입니다.</li>
-            <li>이동 횟수가 적을수록 더 좋은 풀이입니다.</li>
-            <li>마지막 줄과 마지막 열을 무리하게 흔들지 않는 것이 완성 시간을 줄입니다.</li>
-          </ul>
+          <h2 id="records">자동 저장과 기록</h2>
+          <p>첫 실제 이동을 해야 시간과 도전 횟수가 시작됩니다. 진행 중에는 현재 배열, 이동 수, 경과 시간과 힌트 사용 횟수를 브라우저에 자동 저장합니다. 다른 탭으로 이동한 동안에는 기록 시간이 늘어나지 않습니다.</p>
+          <p>3×3과 4×4별로 도전 횟수, 완주 횟수, 완주율, 최소 이동과 최단 시간을 확인할 수 있습니다. 최소 이동과 최단 시간은 힌트를 사용하지 않고 완성한 판만 기록 경쟁에 반영합니다.</p>
 
-          <h2 id="strategy">공략 팁</h2>
+          <h2 id="hint">거리 힌트는 무엇을 알려 주나요?</h2>
+          <p>거리 힌트는 현재 움직일 수 있는 타일 가운데 한 번 이동했을 때 전체 숫자의 <strong>맨해튼 거리</strong>가 가장 작아지는 후보를 강조합니다. 타일을 자동으로 움직이지 않기 때문에 최종 선택은 직접 합니다.</p>
+          <p>이 힌트는 전체 최적해를 계산하는 솔버가 아닙니다. 일시적으로 거리가 늘어나야 풀리는 구간도 있으므로, 특히 4×4 마지막 두 줄에서는 힌트보다 배치 구조를 우선해서 판단해야 합니다.</p>
+
+          <h2 id="strategy">기본 공략</h2>
           <ul class="strategy-list">
-            <li>처음 한 판은 규칙을 익히는 데 사용합니다.</li>
-            <li>결과 메시지를 보고 다음 판에서 줄일 실수를 정합니다.</li>
-            <li>모바일에서는 화면 버튼을 천천히 눌러 조작감을 먼저 확인합니다.</li>
-            <li>윗줄부터 차례로 맞추고 이미 맞춘 줄은 되도록 건드리지 않습니다.</li>
-            <li>빈칸을 목표 타일 옆으로 가져오는 경로를 먼저 생각합니다.</li>
-            <li>마지막 네 칸은 회전시키듯 움직이면 마무리가 쉬워집니다.</li>
+            <li>3×3은 윗줄을 먼저 고정한 뒤 남은 2줄을 큰 순환으로 정리합니다.</li>
+            <li>4×4은 윗줄부터 진행하되 한 줄의 마지막 두 숫자는 따로 확정하지 말고 한 쌍으로 배치합니다.</li>
+            <li>이미 완성한 영역을 다시 열어야 한다면 목표 타일 하나보다 빈칸이 돌아올 경로를 먼저 계획합니다.</li>
+            <li>마지막 2×2 또는 마지막 두 줄에서는 작은 왕복보다 시계·반시계 방향 순환을 만들어 배열 전체를 돌리는 편이 안정적입니다.</li>
           </ul>
-
-          <h2 id="mobile">모바일 플레이 팁</h2>
-          <ul class="detail-list">
-            <li>작은 타일을 정확히 누르기 위해 빈칸 주변만 차분히 선택합니다.</li>
-            <li>연속 터치보다 한 수씩 배열을 확인하며 이동합니다.</li>
-          </ul>
-
-          <h2>플레이 흐름</h2>
-          <p>
-            한 판을 시작하면 상단 점수판에서 현재 진행 상태를 확인할 수 있습니다.
-            결과 메시지는 실수, 성공, 최고 기록 여부를 알려 주므로 다음 판에서 무엇을 바꿀지 바로 판단할 수 있습니다.
-          </p>
 
           <h2 id="faq">자주 묻는 질문</h2>
           <div class="faq-list">
-          <h3>기록은 어디에 저장되나요?</h3>
-          <p>최고 기록은 가능한 경우 현재 브라우저 안에만 저장됩니다.</p>
-          <h3>아무 타일이나 움직일 수 있나요?</h3>
-          <p>아니요. 빈칸과 맞닿은 타일만 움직일 수 있습니다.</p>
-          <h3>마지막 부분이 자꾸 꼬이는 이유는 무엇인가요?</h3>
-          <p>이미 맞춘 줄을 다시 건드리면 전체 순서가 틀어집니다. 위쪽과 왼쪽부터 고정하는 방식이 안정적입니다.</p>
-          <h3>모바일에서도 플레이할 수 있나요?</h3>
-          <p>네. 화면 버튼과 터치 입력을 함께 고려해 작은 화면에서도 게임판과 결과 영역이 겹치지 않도록 구성했습니다.</p>
-          <h3>기록이 사라질 수 있나요?</h3>
-          <p>기록은 가능한 경우 현재 브라우저의 로컬 저장소에 저장됩니다. 브라우저 데이터를 삭제하거나 다른 기기에서 접속하면 이어지지 않을 수 있습니다.</p>
+            <h3>4×4도 항상 풀 수 있나요?</h3><p>네. 완성 상태에서 합법적인 이동을 반복해 섞으므로 생성된 4×4 판은 항상 도달 가능한 배열입니다.</p>
+            <h3>보드 크기를 바꾸면 진행 중 판이 사라지나요?</h3><p>아니요. 3×3과 4×4는 각각 다른 저장 공간을 사용해 이전 판을 다시 불러올 수 있습니다.</p>
+            <h3>힌트를 쓰면 최고 기록을 세울 수 있나요?</h3><p>완주는 기록되지만 최소 이동과 최단 시간 갱신은 힌트를 사용하지 않은 완주만 반영합니다.</p>
+            <h3>스와이프 방향은 무엇을 의미하나요?</h3><p>스와이프한 방향으로 빈칸이 이동합니다. 빈칸 반대편의 타일이 그 자리로 들어오는 방식입니다.</p>
+            <h3>다른 탭으로 이동해도 시간이 계속 가나요?</h3><p>아니요. 진행 중 다른 탭으로 이동하면 측정 시간이 자동 일시정지되고 돌아오면 다시 이어집니다.</p>
           </div>
 
           <h2>업데이트 노트</h2>
-          <p class="site-note">2026년 7월 20일 슬라이딩 퍼즐 페이지에 빈칸 운용과 마무리 전략을 추가했습니다.</p>
+          <p class="site-note">2026년 8월 25일 3×3·4×4 선택, 항상 풀 수 있는 합법 이동 셔플, 보드별 자동 저장과 이어하기, 이동·시간 기록, 맨해튼 거리 힌트, 키보드와 모바일 스와이프를 추가했습니다.</p>
 
           <h2 id="related-guides">관련 공략</h2>
-          <p>
-            슬라이딩 퍼즐은 더 편하게 즐기고 싶다면 아래 가이드를 함께 읽어 보세요.
-            조작, 기록, 모바일 환경, 장르별 기본기를 실제 플레이 기준으로 정리했습니다.
-          </p>
-          <div class="featured-link-grid compact-guide-grid">
-            <a class="featured-link" href="/guides/block-drop-beginner/"><strong>블록 드롭 초보 가이드</strong><span>빈칸을 줄이고 보드를 낮게 유지하는 배치법</span></a>
-            <a class="featured-link" href="/guides/twenty-48-strategy/"><strong>2048 초보 전략</strong><span>큰 타일을 모서리에 고정하고 보드 흐름을 지키는 방법</span></a>
-            <a class="featured-link" href="/guides/browser-game-benefits/"><strong>무료 브라우저 게임의 장점</strong><span>설치 없는 웹게임을 안전하게 고르는 기준</span></a>
-          </div>
+          <div class="featured-link-grid compact-guide-grid"><a class="featured-link" href="/guides/sliding-puzzle-strategy/"><strong>슬라이딩 퍼즐 공략</strong><span>윗줄 고정, 마지막 두 타일, 빈칸 순환을 실제 풀이 순서로 정리</span></a><a class="featured-link" href="/guides/twenty-48-strategy/"><strong>2048 초보 전략</strong><span>보드 흐름과 빈칸을 유지하는 공간 운영법</span></a><a class="featured-link" href="/guides/block-drop-beginner/"><strong>블록 드롭 초보 가이드</strong><span>빈칸을 줄이고 다음 수를 준비하는 배치법</span></a></div>
 
           <h2 id="related">관련 게임</h2>
-          <p>
-            <a href="/games/number-vault/">숫자 금고</a>, <a href="/games/block-drop-classic/">블록 드롭 클래식</a>, <a href="/games/bubble-shooter/">버블 슈터 클래식</a>도 함께 플레이해 보세요.
-            전체 게임은 <a href="/games/">게임 목록</a>에서 장르별로 확인할 수 있습니다.
-          </p>
+          <p><a href="/games/twenty-48/">2048 한판</a>, <a href="/games/sudoku-mini/">스도쿠 클래식</a>, <a href="/games/mines/">지뢰찾기 클래식</a>도 함께 플레이해 보세요. 전체 게임은 <a href="/games/">게임 목록</a>에서 확인할 수 있습니다.</p>
         </article>
       </div>
     </main>
 
-    <footer class="site-footer">
-      <div>
-        <strong>한판게임</strong>
-        <p>슬라이딩 퍼즐과 함께 즐기는 무료 웹 미니게임.</p>
-      </div>
-      <nav aria-label="푸터 메뉴">
-        <a href="/about/">소개</a>
-        <a href="/help/">도움말</a>
-        <a href="/updates/">업데이트</a>
-        <a href="/privacy/">개인정보처리방침</a>
-        <a href="/terms/">이용약관</a>
-        <a href="/contact/">문의</a>
-      </nav>
-      <p class="copyright">© <span id="year"></span> Hanpan Game. All rights reserved.</p>
-    </footer>
-    <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"VideoGame","name":"슬라이딩 퍼즐","url":"https://hanpangames.kr/games/sliding-puzzle/","description":"빈 칸을 이용해 숫자 타일을 순서대로 맞춥니다.","applicationCategory":"Game","operatingSystem":"Web Browser","inLanguage":"ko-KR","isAccessibleForFree":true,"publisher":{"@type":"Organization","name":"한판게임"}},{"@type":"FAQPage","mainEntity":[{"@type":"Question","name":"기록은 어디에 저장되나요?","acceptedAnswer":{"@type":"Answer","text":"최고 기록은 가능한 경우 현재 브라우저 안에만 저장됩니다."}},{"@type":"Question","name":"아무 타일이나 움직일 수 있나요?","acceptedAnswer":{"@type":"Answer","text":"아니요. 빈칸과 맞닿은 타일만 움직일 수 있습니다."}},{"@type":"Question","name":"마지막 부분이 자꾸 꼬이는 이유는 무엇인가요?","acceptedAnswer":{"@type":"Answer","text":"이미 맞춘 줄을 다시 건드리면 전체 순서가 틀어집니다. 위쪽과 왼쪽부터 고정하는 방식이 안정적입니다."}},{"@type":"Question","name":"모바일에서도 플레이할 수 있나요?","acceptedAnswer":{"@type":"Answer","text":"네. 화면 버튼과 터치 입력을 함께 고려해 작은 화면에서도 게임판과 결과 영역이 겹치지 않도록 구성했습니다."}},{"@type":"Question","name":"기록이 사라질 수 있나요?","acceptedAnswer":{"@type":"Answer","text":"기록은 가능한 경우 현재 브라우저의 로컬 저장소에 저장됩니다. 브라우저 데이터를 삭제하거나 다른 기기에서 접속하면 이어지지 않을 수 있습니다."}}]},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"홈","item":"https://hanpangames.kr/"},{"@type":"ListItem","position":2,"name":"게임","item":"https://hanpangames.kr/games/"},{"@type":"ListItem","position":3,"name":"슬라이딩 퍼즐","item":"https://hanpangames.kr/games/sliding-puzzle/"}]}]}</script>
+    <footer class="site-footer"><div><strong>한판게임</strong><p>슬라이딩 퍼즐과 함께 즐기는 무료 웹 미니게임.</p></div><nav aria-label="푸터 메뉴"><a href="/about/">소개</a><a href="/help/">도움말</a><a href="/updates/">업데이트</a><a href="/privacy/">개인정보처리방침</a><a href="/terms/">이용약관</a><a href="/contact/">문의</a></nav><p class="copyright">© <span id="year"></span> Hanpan Game. All rights reserved.</p></footer>
+    <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"VideoGame","name":"슬라이딩 퍼즐","url":"https://hanpangames.kr/games/sliding-puzzle/","description":"3x3과 4x4 보드에서 풀 수 있는 숫자 배열을 빈칸으로 이동해 완성하고 이동 수와 시간을 기록하는 슬라이딩 퍼즐입니다.","applicationCategory":"Game","operatingSystem":"Web Browser","inLanguage":"ko-KR","isAccessibleForFree":true,"publisher":{"@type":"Organization","name":"한판게임"}},{"@type":"FAQPage","mainEntity":[{"@type":"Question","name":"4×4도 항상 풀 수 있나요?","acceptedAnswer":{"@type":"Answer","text":"네. 완성 상태에서 합법적인 이동을 반복해 섞으므로 생성된 4×4 판은 항상 도달 가능한 배열입니다."}},{"@type":"Question","name":"보드 크기를 바꾸면 진행 중 판이 사라지나요?","acceptedAnswer":{"@type":"Answer","text":"아니요. 3×3과 4×4는 각각 다른 저장 공간을 사용해 이전 판을 다시 불러올 수 있습니다."}},{"@type":"Question","name":"힌트를 쓰면 최고 기록을 세울 수 있나요?","acceptedAnswer":{"@type":"Answer","text":"완주는 기록되지만 최소 이동과 최단 시간 갱신은 힌트를 사용하지 않은 완주만 반영합니다."}},{"@type":"Question","name":"스와이프 방향은 무엇을 의미하나요?","acceptedAnswer":{"@type":"Answer","text":"스와이프한 방향으로 빈칸이 이동합니다."}},{"@type":"Question","name":"다른 탭으로 이동해도 시간이 계속 가나요?","acceptedAnswer":{"@type":"Answer","text":"아니요. 다른 탭에 있는 동안 측정 시간이 자동 일시정지됩니다."}}]},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"홈","item":"https://hanpangames.kr/"},{"@type":"ListItem","position":2,"name":"게임","item":"https://hanpangames.kr/games/"},{"@type":"ListItem","position":3,"name":"슬라이딩 퍼즐","item":"https://hanpangames.kr/games/sliding-puzzle/"}]}]}</script>
     <script src="/assets/app.js?v=20260820-blockdrop" defer></script>
     <script src="/assets/traditional-games.js?v=20260820-blockdrop" defer></script>
     <script src="/assets/arcade.js?v=20260820-blockdrop" defer></script>
+    <script src="/assets/sliding-runtime.js?v=20260825-sliding2" defer></script>
   </body>
 </html>
