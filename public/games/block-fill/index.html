@@ -6,198 +6,38 @@
     <link rel="icon" href="/favicon.svg" type="image/svg+xml">
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6918910185244897" crossorigin="anonymous"></script>
     <meta name="google-site-verification" content="qBlRPhDg3Tazy0wuTNee_wfGeDjuYz80N6R_Iinh9bs" />
-    <title>블록 채우기 - 한판게임</title>
-    <meta name="description" content="블록 채우기 플레이 방법, 조작법, 점수 기준, 공략 팁, 모바일 플레이와 FAQ를 정리한 무료 퍼즐 웹게임 페이지입니다.">
+    <title>블록 채우기 - 폴리오미노 퍼즐 | 한판게임</title>
+    <meta name="description" content="5개 스테이지의 폴리오미노 조각을 회전·배치해 폭탄과 금지칸을 피해 보드를 채우는 무료 블록 채우기 퍼즐입니다. 자동 저장, 되돌리기, 힌트와 모바일 드래그를 지원합니다.">
     <link rel="canonical" href="https://hanpangames.kr/games/block-fill/">
     <meta property="og:image" content="https://hanpangames.kr/assets/game-art/block-fill.webp">
-    <meta property="og:image:alt" content="블록 채우기 플레이 장면">
-    <meta property="og:type" content="website">
-    <meta property="og:title" content="블록 채우기 - 한판게임">
-    <meta property="og:description" content="블록 채우기 플레이 방법, 조작법, 점수 기준, 공략 팁, 모바일 플레이와 FAQ를 정리한 무료 퍼즐 웹게임 페이지입니다.">
+    <meta property="og:image:alt" content="블록 채우기 폴리오미노 퍼즐">
+    <meta property="og:type" content="website"><meta property="og:title" content="블록 채우기 - 폴리오미노 퍼즐 | 한판게임"><meta property="og:description" content="조각을 회전하고 배치해 장애물을 제외한 모든 칸을 채우는 5단계 공간 퍼즐입니다.">
     <link rel="stylesheet" href="/assets/styles.css?v=20260820-blockdrop">
   </head>
   <body>
-    <header class="site-header">
-      <a class="brand" href="/" aria-label="한판게임 홈">
-        <span class="brand-mark" aria-hidden="true">H</span>
-        <span><strong>한판게임</strong><small>HANPAN GAME</small></span>
-      </a>
-      <nav class="nav" aria-label="주요 메뉴">
-        <a href="/games/" aria-current="page">게임</a>
-        <a href="/guides/">가이드</a>
-        <a href="/about/">소개</a>
-        <a href="/help/">도움말</a>
-        <a href="/contact/">문의</a>
-      </nav>
-    </header>
-
+    <header class="site-header"><a class="brand" href="/" aria-label="한판게임 홈"><span class="brand-mark" aria-hidden="true">H</span><span><strong>한판게임</strong><small>HANPAN GAME</small></span></a><nav class="nav" aria-label="주요 메뉴"><a href="/games/" aria-current="page">게임</a><a href="/guides/">가이드</a><a href="/about/">소개</a><a href="/help/">도움말</a><a href="/contact/">문의</a></nav></header>
     <main class="subpage game-detail-page">
-      <section class="page-title">
-        <p class="eyebrow">퍼즐 · 2분</p>
-        <h1 id="playTitle">블록 채우기</h1>
-        <p id="playDescription">빈 칸을 모두 채우되 폭탄 칸은 피하는 블록 퍼즐입니다.</p>
-        <div class="game-launcher" aria-label="게임 선택">
-          <label for="gamePagePicker">
-            <span>플레이할 게임</span>
-            <select id="gamePagePicker" data-game-page-picker data-current-game="block-fill" onchange="if (this.value &amp;&amp; this.value !== this.dataset.currentGame) window.location.href = '/games/' + encodeURIComponent(this.value) + '/#play-area'"></select>
-          </label>
-          <a class="button primary" id="gamePageStart" data-game-page-start href="#play-area">바로 시작</a>
-          <a class="button secondary" href="/games/">전체 게임</a>
-        </div>
-      </section>
-
+      <section class="page-title"><p class="eyebrow">퍼즐 · 3분</p><h1 id="playTitle">블록 채우기</h1><p id="playDescription">폴리오미노 조각을 회전·배치해 폭탄과 금지칸을 제외한 모든 칸을 정확히 채웁니다.</p><div class="game-launcher" aria-label="게임 선택"><label for="gamePagePicker"><span>플레이할 게임</span><select id="gamePagePicker" data-game-page-picker data-current-game="block-fill" onchange="if (this.value && this.value !== this.dataset.currentGame) window.location.href = '/games/' + encodeURIComponent(this.value) + '/#play-area'"></select></label><a class="button primary" id="gamePageStart" data-game-page-start href="#play-area">바로 시작</a><a class="button secondary" href="/games/">전체 게임</a></div></section>
       <div class="game-detail-stack">
-        <section class="inline-game-stage game-first-stage" id="play-area" aria-live="polite">
-          <div class="stage-head">
-            <div>
-              <p class="eyebrow" id="playCategory">퍼즐 · 2분</p>
-              <h2 id="stageTitle">블록 채우기</h2>
-            </div>
-            <div class="stage-actions">
-              <a class="button secondary" href="/play/?game=block-fill">큰 화면</a>
-              <button class="button primary" id="restartGame" type="button">다시 시작</button>
-            </div>
-          </div>
-          <div class="play-surface" id="playSurface" data-game-id="block-fill"></div>
-          <p class="result-line" id="playResult">게임을 불러오는 중입니다.</p>
-        </section>
-
-        <nav class="game-detail-nav" aria-label="게임 설명 목차">
-          <strong>게임 설명</strong>
-          <ul class="toc-list">
-            <li><a href="#overview">핵심 요약</a></li>
-            <li><a href="#play-notes">플레이 포인트</a></li>
-            <li><a href="#how">게임 방법</a></li>
-            <li><a href="#controls">조작</a></li>
-            <li><a href="#scoring">점수 기준</a></li>
-            <li><a href="#strategy">공략</a></li>
-            <li><a href="#mobile">모바일 팁</a></li>
-            <li><a href="#faq">FAQ</a></li>
-            <li><a href="#related-guides">관련 공략</a></li>
-            <li><a href="#related">관련 게임</a></li>
-          </ul>
-        </nav>
-
+        <section class="inline-game-stage game-first-stage" id="play-area" aria-live="polite"><div class="stage-head"><div><p class="eyebrow" id="playCategory">퍼즐 · 3분</p><h2 id="stageTitle">블록 채우기</h2></div><div class="stage-actions"><a class="button secondary" href="/play/?game=block-fill">큰 화면</a><button class="button primary" id="restartGame" type="button">다시 시작</button></div></div><div class="play-surface" id="playSurface" data-game-id="block-fill"></div><p class="result-line" id="playResult">게임을 불러오는 중입니다.</p></section>
+        <nav class="game-detail-nav" aria-label="게임 설명 목차"><strong>게임 설명</strong><ul class="toc-list"><li><a href="#overview">핵심 요약</a></li><li><a href="#how">게임 방법</a></li><li><a href="#controls">조작</a></li><li><a href="#records">기록</a></li><li><a href="#strategy">공략</a></li><li><a href="#mobile">모바일</a></li><li><a href="#faq">FAQ</a></li><li><a href="#related-guides">관련 공략</a></li></ul></nav>
         <article class="article featured-article">
-          <h2 id="overview">이 게임의 핵심</h2>
-          <p>빈 칸을 모두 채우되 폭탄 칸은 피하는 블록 퍼즐입니다.</p>
-          <p>블록 채우기는 다양한 모양의 블록을 빈칸에 맞춰 넣는 공간 퍼즐입니다. 블록을 하나씩 넣는 단순 작업처럼 보이지만, 큰 조각과 특이한 모양을 먼저 처리해야 막히지 않습니다.</p>
-          <div class="detail-snapshot" aria-label="게임 요약">
-            <div><strong>장르</strong><span>퍼즐 · 2분</span></div>
-            <div><strong>핵심 포인트</strong><span>빈칸을 모두 채우는 배치 순서</span></div>
-            <div><strong>플레이 방식</strong><span>설치 없이 페이지 안에서 바로 시작</span></div>
-          </div>
-
-          <h2 id="play-notes">플레이 포인트</h2>
-          <p>블록 채우기는 빈칸을 모두 메우는 퍼즐이지만, 폭탄 칸 주변에서 실수가 자주 납니다. 큰 조각을 먼저 놓고 작은 조각으로 남은 틈을 마감하면 실패 확률이 줄어듭니다.</p>
-          <div class="detail-snapshot" aria-label="게임 요약">
-            <div><strong>추천 상황</strong><span>짧은 배치 퍼즐과 공간 감각을 즐기고 싶을 때</span></div>
-            <div><strong>좋은 기록</strong><span>폭탄 칸을 피하고 모든 빈칸 채우기</span></div>
-            <div><strong>주의할 점</strong><span>작은 칸부터 채워 큰 조각이 들어갈 공간을 잃는 상황</span></div>
-          </div>
-          <ul class="detail-list">
-            <li>가장 큰 조각이 들어갈 후보 자리를 먼저 확인합니다.</li>
-            <li>폭탄 칸 옆은 마지막까지 여유를 남깁니다.</li>
-            <li>막히면 조각 순서를 바꿔 다시 배치합니다.</li>
-          </ul>
-
-          <h2 id="how">게임 방법</h2>
-          <p>짧은 규칙을 읽고 바로 시작할 수 있는 브라우저 미니게임입니다. 화면의 점수판과 결과 안내를 보면서 한 판씩 기록을 갱신해 보세요.</p>
-          <p>블록 채우기는 별도 앱 설치나 로그인이 필요 없는 무료 웹게임입니다. 페이지 오른쪽 또는 아래쪽 플레이 영역에서 바로 시작할 수 있고, 한 판이 짧아 규칙을 익힌 뒤 곧바로 다시 도전하기 좋습니다.</p>
-
-
-
-          <h2 id="controls">조작과 진행</h2>
-          <ul class="detail-list">
-            <li>블록을 선택하고 빈칸에 배치합니다.</li>
-            <li>겹치거나 보드 밖으로 나가는 배치는 사용할 수 없습니다.</li>
-            <li>모든 빈칸이 채워지면 퍼즐이 완성됩니다.</li>
-          </ul>
-
-          <h2 id="scoring">점수와 성공 기준</h2>
-          <ul class="detail-list">
-            <li>보드를 빈칸 없이 채우면 성공입니다.</li>
-            <li>남는 칸이 생기면 배치 순서를 다시 생각해야 합니다.</li>
-            <li>적은 되돌림으로 완성할수록 깔끔한 풀이입니다.</li>
-          </ul>
-
-          <h2 id="strategy">공략 팁</h2>
-          <ul class="strategy-list">
-            <li>처음 한 판은 규칙을 익히는 데 사용합니다.</li>
-            <li>결과 메시지를 보고 다음 판에서 줄일 실수를 정합니다.</li>
-            <li>모바일에서는 화면 버튼을 천천히 눌러 조작감을 먼저 확인합니다.</li>
-            <li>가장 큰 블록이나 모서리가 뚜렷한 블록부터 놓습니다.</li>
-            <li>한 칸짜리 구멍이 생기지 않도록 긴 변을 맞춰 배치합니다.</li>
-            <li>막혔을 때는 마지막 조각이 아니라 처음 큰 조각의 위치를 의심합니다.</li>
-          </ul>
-
-          <h2 id="mobile">모바일 플레이 팁</h2>
-          <ul class="detail-list">
-            <li>조각 선택 상태를 확인하고 보드의 원하는 위치에 천천히 놓습니다.</li>
-            <li>작은 화면에서는 모서리와 가장자리부터 맞추면 오입력이 줄어듭니다.</li>
-          </ul>
-
-          <h2>플레이 흐름</h2>
-          <p>
-            한 판을 시작하면 상단 점수판에서 현재 진행 상태를 확인할 수 있습니다.
-            결과 메시지는 실수, 성공, 최고 기록 여부를 알려 주므로 다음 판에서 무엇을 바꿀지 바로 판단할 수 있습니다.
-          </p>
-
-          <h2 id="faq">자주 묻는 질문</h2>
-          <div class="faq-list">
-          <h3>기록은 어디에 저장되나요?</h3>
-          <p>최고 기록은 가능한 경우 현재 브라우저 안에만 저장됩니다.</p>
-          <h3>정답이 하나뿐인가요?</h3>
-          <p>퍼즐에 따라 여러 배치가 가능할 수 있습니다. 중요한 것은 빈칸 없이 모든 조각을 넣는 것입니다.</p>
-          <h3>막히면 어떻게 풀어야 하나요?</h3>
-          <p>작은 조각보다 큰 조각의 위치를 먼저 바꾸는 편이 해결 가능성이 높습니다.</p>
-          <h3>모바일에서도 플레이할 수 있나요?</h3>
-          <p>네. 화면 버튼과 터치 입력을 함께 고려해 작은 화면에서도 게임판과 결과 영역이 겹치지 않도록 구성했습니다.</p>
-          <h3>기록이 사라질 수 있나요?</h3>
-          <p>기록은 가능한 경우 현재 브라우저의 로컬 저장소에 저장됩니다. 브라우저 데이터를 삭제하거나 다른 기기에서 접속하면 이어지지 않을 수 있습니다.</p>
-          </div>
-
-          <h2>업데이트 노트</h2>
-          <p class="site-note">2026년 7월 20일 블록 채우기 페이지에 조각 배치 순서와 막힘 해결 팁을 추가했습니다.</p>
-
-          <h2 id="related-guides">관련 공략</h2>
-          <p>
-            블록 채우기는 더 편하게 즐기고 싶다면 아래 가이드를 함께 읽어 보세요.
-            조작, 기록, 모바일 환경, 장르별 기본기를 실제 플레이 기준으로 정리했습니다.
-          </p>
-          <div class="featured-link-grid compact-guide-grid">
-            <a class="featured-link" href="/guides/block-drop-beginner/"><strong>블록 드롭 초보 가이드</strong><span>빈칸을 줄이고 보드를 낮게 유지하는 배치법</span></a>
-            <a class="featured-link" href="/guides/twenty-48-strategy/"><strong>2048 초보 전략</strong><span>큰 타일을 모서리에 고정하고 보드 흐름을 지키는 방법</span></a>
-            <a class="featured-link" href="/guides/short-break-web-games/"><strong>짧은 휴식 게임 고르는 법</strong><span>플레이 시간과 조작 난이도로 게임을 선택하는 기준</span></a>
-          </div>
-
-          <h2 id="related">관련 게임</h2>
-          <p>
-            <a href="/games/number-vault/">숫자 금고</a>, <a href="/games/block-drop-classic/">블록 드롭 클래식</a>, <a href="/games/bubble-shooter/">버블 슈터 클래식</a>도 함께 플레이해 보세요.
-            전체 게임은 <a href="/games/">게임 목록</a>에서 장르별로 확인할 수 있습니다.
-          </p>
+          <h2 id="overview">이 게임의 핵심</h2><p>블록 채우기는 5×5 또는 6×6 보드에 여러 폴리오미노 조각을 넣어 장애물을 제외한 목표 칸을 모두 메우는 공간 퍼즐입니다. 각 스테이지는 실제 정답 배치에서 조각을 추출해 만들었기 때문에 풀 수 없는 판이 생성되지 않습니다.</p>
+          <div class="detail-snapshot"><div><strong>스테이지</strong><span>5단계 캠페인</span></div><div><strong>장애물</strong><span>폭탄칸·금지칸은 채우지 않음</span></div><div><strong>보조 기능</strong><span>회전·되돌리기·힌트·자동 저장</span></div></div>
+          <h2 id="how">게임 방법</h2><ul class="detail-list"><li>대기 조각을 선택한 뒤 보드의 기준 칸을 눌러 배치합니다.</li><li>조각은 90도 단위로 회전할 수 있습니다.</li><li>다른 조각, 폭탄칸, 금지칸과 겹치거나 보드 밖으로 나가면 놓을 수 없습니다.</li><li>모든 조각을 사용해 목표 칸을 정확히 채우면 다음 스테이지가 열립니다.</li></ul>
+          <h2 id="controls">조작과 진행</h2><ul class="detail-list"><li><strong>회전</strong>: 선택한 조각을 90도 돌립니다. 키보드 R도 사용할 수 있습니다.</li><li><strong>되돌리기</strong>: 직전 배치를 되돌립니다. 키보드 U를 지원합니다.</li><li><strong>힌트</strong>: 아직 놓지 않은 조각 하나의 정답 위치를 잠시 표시합니다. 키보드 H를 지원합니다.</li><li>조각을 이미 놓은 뒤 다시 선택하면 다른 위치로 옮길 수 있습니다.</li></ul>
+          <h2 id="records">기록과 저장</h2><p>진행 중인 스테이지, 조각 위치, 회전 상태, 행동 수와 경과 시간은 현재 브라우저에 자동 저장됩니다. 다른 탭에 있는 동안에는 기록 시간이 늘어나지 않습니다.</p><ul class="detail-list"><li>스테이지별 최단 시간과 최소 행동을 기록합니다.</li><li>힌트를 사용한 완주는 캠페인 진행에는 반영되지만 최단 시간·최소 행동 기록 갱신에서는 제외됩니다.</li><li>브라우저 데이터를 삭제하면 저장된 진행과 기록도 사라질 수 있습니다.</li></ul>
+          <h2 id="strategy">공략 팁</h2><ul class="strategy-list"><li>면적이 큰 조각과 모서리가 많은 조각부터 후보 위치를 좁힙니다.</li><li>폭탄·금지칸 주변에는 들어갈 수 있는 조각 방향이 제한되므로 먼저 확인합니다.</li><li>한 칸짜리 고립 공간이 생겼다면 직전 조각보다 그 앞의 큰 조각 배치를 의심합니다.</li><li>회전 가능한 모양은 현재 빈칸의 긴 변과 먼저 맞춰 봅니다.</li><li>되돌리기를 여러 번 쓰기보다 남은 조각의 면적과 빈칸 모양을 비교한 뒤 다음 수를 정합니다.</li></ul>
+          <h2 id="mobile">모바일 플레이</h2><p>모바일에서는 조각을 한 번 눌러 선택한 뒤 원하는 칸을 탭하는 방식이 가장 안정적입니다. 조각을 보드 쪽으로 끌어 놓는 드래그 입력도 지원하며, 화면 아래 회전·되돌리기·힌트 버튼은 작은 화면에서 고정형으로 표시됩니다.</p>
+          <h2 id="faq">자주 묻는 질문</h2><div class="faq-list"><h3>각 스테이지는 정말 풀 수 있나요?</h3><p>네. 목표 보드를 먼저 정답 조각으로 나눈 뒤 그 조각을 플레이용으로 제공하므로 모든 스테이지에 최소 한 개의 완성 배치가 있습니다.</p><h3>폭탄칸도 채워야 하나요?</h3><p>아니요. 폭탄칸과 금지칸은 장애물이라 비워 둔 채 나머지 목표 칸만 채우면 됩니다.</p><h3>조각을 잘못 놓으면 처음부터 해야 하나요?</h3><p>아니요. 되돌리기를 사용하거나 놓은 조각을 다시 선택해 옮길 수 있습니다.</p><h3>힌트는 정답을 자동으로 놓나요?</h3><p>아니요. 조각 하나의 정답 위치를 잠시 표시할 뿐 실제 배치는 직접 해야 합니다.</p><h3>새로고침해도 이어지나요?</h3><p>현재 브라우저의 로컬 저장소를 사용할 수 있다면 진행 중 스테이지를 자동으로 복원합니다.</p></div>
+          <h2>업데이트 노트</h2><p class="site-note">2026년 8월 25일 기존 4×4 폭탄 기억 게임을 5단계 폴리오미노 공간 퍼즐로 전면 개편하고 회전, 되돌리기, 힌트, 자동 저장, 기록, 모바일 드래그를 추가했습니다.</p>
+          <h2 id="related-guides">관련 공략</h2><div class="featured-link-grid compact-guide-grid"><a class="featured-link" href="/guides/block-fill-strategy/"><strong>블록 채우기 공략</strong><span>큰 조각, 장애물 주변, 고립칸을 기준으로 배치 순서를 잡는 법</span></a><a class="featured-link" href="/guides/sliding-puzzle-strategy/"><strong>슬라이딩 퍼즐 공략</strong><span>빈칸과 공간을 단계적으로 정리하는 방법</span></a><a class="featured-link" href="/guides/block-drop-beginner/"><strong>블록 드롭 초보 가이드</strong><span>빈칸을 줄이는 블록 배치 기본기</span></a></div>
+          <h2 id="related">관련 게임</h2><p><a href="/games/sliding-puzzle/">슬라이딩 퍼즐</a>, <a href="/games/block-drop-classic/">블록 드롭 클래식</a>, <a href="/games/match-three/">매치3 퍼즐</a>도 함께 플레이해 보세요.</p>
         </article>
       </div>
     </main>
-
-    <footer class="site-footer">
-      <div>
-        <strong>한판게임</strong>
-        <p>블록 채우기와 함께 즐기는 무료 웹 미니게임.</p>
-      </div>
-      <nav aria-label="푸터 메뉴">
-        <a href="/about/">소개</a>
-        <a href="/help/">도움말</a>
-        <a href="/updates/">업데이트</a>
-        <a href="/privacy/">개인정보처리방침</a>
-        <a href="/terms/">이용약관</a>
-        <a href="/contact/">문의</a>
-      </nav>
-      <p class="copyright">© <span id="year"></span> Hanpan Game. All rights reserved.</p>
-    </footer>
-    <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"VideoGame","name":"블록 채우기","url":"https://hanpangames.kr/games/block-fill/","description":"빈 칸을 모두 채우되 폭탄 칸은 피하는 블록 퍼즐입니다.","applicationCategory":"Game","operatingSystem":"Web Browser","inLanguage":"ko-KR","isAccessibleForFree":true,"publisher":{"@type":"Organization","name":"한판게임"}},{"@type":"FAQPage","mainEntity":[{"@type":"Question","name":"기록은 어디에 저장되나요?","acceptedAnswer":{"@type":"Answer","text":"최고 기록은 가능한 경우 현재 브라우저 안에만 저장됩니다."}},{"@type":"Question","name":"정답이 하나뿐인가요?","acceptedAnswer":{"@type":"Answer","text":"퍼즐에 따라 여러 배치가 가능할 수 있습니다. 중요한 것은 빈칸 없이 모든 조각을 넣는 것입니다."}},{"@type":"Question","name":"막히면 어떻게 풀어야 하나요?","acceptedAnswer":{"@type":"Answer","text":"작은 조각보다 큰 조각의 위치를 먼저 바꾸는 편이 해결 가능성이 높습니다."}},{"@type":"Question","name":"모바일에서도 플레이할 수 있나요?","acceptedAnswer":{"@type":"Answer","text":"네. 화면 버튼과 터치 입력을 함께 고려해 작은 화면에서도 게임판과 결과 영역이 겹치지 않도록 구성했습니다."}},{"@type":"Question","name":"기록이 사라질 수 있나요?","acceptedAnswer":{"@type":"Answer","text":"기록은 가능한 경우 현재 브라우저의 로컬 저장소에 저장됩니다. 브라우저 데이터를 삭제하거나 다른 기기에서 접속하면 이어지지 않을 수 있습니다."}}]},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"홈","item":"https://hanpangames.kr/"},{"@type":"ListItem","position":2,"name":"게임","item":"https://hanpangames.kr/games/"},{"@type":"ListItem","position":3,"name":"블록 채우기","item":"https://hanpangames.kr/games/block-fill/"}]}]}</script>
-    <script src="/assets/app.js?v=20260820-blockdrop" defer></script>
-    <script src="/assets/traditional-games.js?v=20260820-blockdrop" defer></script>
-    <script src="/assets/arcade.js?v=20260820-blockdrop" defer></script>
+    <footer class="site-footer"><div><strong>한판게임</strong><p>설치 없이 바로 즐기는 무료 웹 미니게임.</p></div><nav aria-label="푸터 메뉴"><a href="/about/">소개</a><a href="/help/">도움말</a><a href="/updates/">업데이트</a><a href="/privacy/">개인정보처리방침</a><a href="/terms/">이용약관</a><a href="/contact/">문의</a></nav><p class="copyright">© <span id="year"></span> Hanpan Game. All rights reserved.</p></footer>
+    <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"VideoGame","name":"블록 채우기","url":"https://hanpangames.kr/games/block-fill/","description":"5단계 폴리오미노 조각을 회전·배치해 폭탄과 금지칸을 제외한 보드를 채우는 웹 퍼즐 게임입니다.","applicationCategory":"Game","operatingSystem":"Web Browser","inLanguage":"ko-KR","isAccessibleForFree":true},{"@type":"FAQPage","mainEntity":[{"@type":"Question","name":"각 스테이지는 풀 수 있나요?","acceptedAnswer":{"@type":"Answer","text":"정답 배치에서 조각을 추출해 만들었기 때문에 모든 스테이지에 완성 배치가 있습니다."}},{"@type":"Question","name":"폭탄칸도 채워야 하나요?","acceptedAnswer":{"@type":"Answer","text":"폭탄칸과 금지칸은 장애물이라 채우지 않습니다."}},{"@type":"Question","name":"새로고침해도 이어지나요?","acceptedAnswer":{"@type":"Answer","text":"로컬 저장소를 사용할 수 있으면 진행 중 스테이지를 자동 복원합니다."}}]}]}</script>
+    <script src="/assets/app.js?v=20260820-blockdrop" defer></script><script src="/assets/traditional-games.js?v=20260820-blockdrop" defer></script><script src="/assets/arcade.js?v=20260820-blockdrop" defer></script><script src="/assets/blockfill-runtime.js?v=20260825-blockfill2" defer></script>
   </body>
 </html>
