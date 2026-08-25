@@ -6,198 +6,66 @@
     <link rel="icon" href="/favicon.svg" type="image/svg+xml">
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6918910185244897" crossorigin="anonymous"></script>
     <meta name="google-site-verification" content="qBlRPhDg3Tazy0wuTNee_wfGeDjuYz80N6R_Iinh9bs" />
-    <title>패턴 기억 - 한판게임</title>
-    <meta name="description" content="패턴 기억 플레이 방법, 조작법, 점수 기준, 공략 팁, 모바일 플레이와 FAQ를 정리한 무료 두뇌·기억 웹게임 페이지입니다.">
+    <title>패턴 기억 - 난이도별 시각 기억 게임 | 한판게임</title>
+    <meta name="description" content="4×4·5×5·6×6 보드에서 잠깐 보이는 패턴을 기억하고 복원하는 무료 웹게임입니다. 라운드, 목숨, 정확도, 오답 복기, 자동 저장을 지원합니다.">
     <link rel="canonical" href="https://hanpangames.kr/games/pattern-memory/">
     <meta property="og:image" content="https://hanpangames.kr/assets/game-art/pattern-memory.webp">
     <meta property="og:image:alt" content="패턴 기억 플레이 장면">
     <meta property="og:type" content="website">
-    <meta property="og:title" content="패턴 기억 - 한판게임">
-    <meta property="og:description" content="패턴 기억 플레이 방법, 조작법, 점수 기준, 공략 팁, 모바일 플레이와 FAQ를 정리한 무료 두뇌·기억 웹게임 페이지입니다.">
+    <meta property="og:title" content="패턴 기억 - 난이도별 시각 기억 게임 | 한판게임">
+    <meta property="og:description" content="난이도별 보드에서 패턴을 기억하고 라운드 기록에 도전하는 시각 기억 게임입니다.">
     <link rel="stylesheet" href="/assets/styles.css?v=20260820-blockdrop">
   </head>
   <body>
     <header class="site-header">
-      <a class="brand" href="/" aria-label="한판게임 홈">
-        <span class="brand-mark" aria-hidden="true">H</span>
-        <span><strong>한판게임</strong><small>HANPAN GAME</small></span>
-      </a>
-      <nav class="nav" aria-label="주요 메뉴">
-        <a href="/games/" aria-current="page">게임</a>
-        <a href="/guides/">가이드</a>
-        <a href="/about/">소개</a>
-        <a href="/help/">도움말</a>
-        <a href="/contact/">문의</a>
-      </nav>
+      <a class="brand" href="/" aria-label="한판게임 홈"><span class="brand-mark" aria-hidden="true">H</span><span><strong>한판게임</strong><small>HANPAN GAME</small></span></a>
+      <nav class="nav" aria-label="주요 메뉴"><a href="/games/" aria-current="page">게임</a><a href="/guides/">가이드</a><a href="/about/">소개</a><a href="/help/">도움말</a><a href="/contact/">문의</a></nav>
     </header>
-
     <main class="subpage game-detail-page">
       <section class="page-title">
-        <p class="eyebrow">두뇌·기억 · 1분</p>
+        <p class="eyebrow">두뇌·기억 · 1~3분</p>
         <h1 id="playTitle">패턴 기억</h1>
-        <p id="playDescription">잠깐 보이는 패턴을 기억해 같은 칸을 다시 선택합니다.</p>
-        <div class="game-launcher" aria-label="게임 선택">
-          <label for="gamePagePicker">
-            <span>플레이할 게임</span>
-            <select id="gamePagePicker" data-game-page-picker data-current-game="pattern-memory" onchange="if (this.value &amp;&amp; this.value !== this.dataset.currentGame) window.location.href = '/games/' + encodeURIComponent(this.value) + '/#play-area'"></select>
-          </label>
-          <a class="button primary" id="gamePageStart" data-game-page-start href="#play-area">바로 시작</a>
-          <a class="button secondary" href="/games/">전체 게임</a>
-        </div>
+        <p id="playDescription">잠깐 보이는 칸의 위치를 기억하고 같은 패턴을 복원합니다. 라운드가 올라갈수록 칸 수는 늘고 표시 시간은 짧아집니다.</p>
+        <div class="game-launcher" aria-label="게임 선택"><label for="gamePagePicker"><span>플레이할 게임</span><select id="gamePagePicker" data-game-page-picker data-current-game="pattern-memory" onchange="if (this.value && this.value !== this.dataset.currentGame) window.location.href = '/games/' + encodeURIComponent(this.value) + '/#play-area'"></select></label><a class="button primary" id="gamePageStart" data-game-page-start href="#play-area">바로 시작</a><a class="button secondary" href="/games/">전체 게임</a></div>
       </section>
-
       <div class="game-detail-stack">
         <section class="inline-game-stage game-first-stage" id="play-area" aria-live="polite">
-          <div class="stage-head">
-            <div>
-              <p class="eyebrow" id="playCategory">두뇌·기억 · 1분</p>
-              <h2 id="stageTitle">패턴 기억</h2>
-            </div>
-            <div class="stage-actions">
-              <a class="button secondary" href="/play/?game=pattern-memory">큰 화면</a>
-              <button class="button primary" id="restartGame" type="button">다시 시작</button>
-            </div>
-          </div>
+          <div class="stage-head"><div><p class="eyebrow" id="playCategory">두뇌·기억 · 1~3분</p><h2 id="stageTitle">패턴 기억</h2></div><div class="stage-actions"><a class="button secondary" href="/play/?game=pattern-memory">큰 화면</a><button class="button primary" id="restartGame" type="button">다시 시작</button></div></div>
           <div class="play-surface" id="playSurface" data-game-id="pattern-memory"></div>
           <p class="result-line" id="playResult">게임을 불러오는 중입니다.</p>
         </section>
-
-        <nav class="game-detail-nav" aria-label="게임 설명 목차">
-          <strong>게임 설명</strong>
-          <ul class="toc-list">
-            <li><a href="#overview">핵심 요약</a></li>
-            <li><a href="#play-notes">플레이 포인트</a></li>
-            <li><a href="#how">게임 방법</a></li>
-            <li><a href="#controls">조작</a></li>
-            <li><a href="#scoring">점수 기준</a></li>
-            <li><a href="#strategy">공략</a></li>
-            <li><a href="#mobile">모바일 팁</a></li>
-            <li><a href="#faq">FAQ</a></li>
-            <li><a href="#related-guides">관련 공략</a></li>
-            <li><a href="#related">관련 게임</a></li>
-          </ul>
-        </nav>
-
+        <nav class="game-detail-nav" aria-label="게임 설명 목차"><strong>게임 설명</strong><ul class="toc-list"><li><a href="#overview">핵심 요약</a></li><li><a href="#difficulty">난이도</a></li><li><a href="#how">게임 방법</a></li><li><a href="#controls">조작</a></li><li><a href="#records">기록</a></li><li><a href="#strategy">공략</a></li><li><a href="#faq">FAQ</a></li><li><a href="#related-guides">관련 공략</a></li></ul></nav>
         <article class="article featured-article">
           <h2 id="overview">이 게임의 핵심</h2>
-          <p>잠깐 보이는 패턴을 기억해 같은 칸을 다시 선택합니다.</p>
-          <p>패턴 기억은 잠깐 보이는 활성 칸을 기억했다가 같은 위치를 다시 선택하는 게임입니다. 보기 시간은 짧지만 보드를 구역으로 나누면 기억 부담을 줄일 수 있습니다.</p>
-          <div class="detail-snapshot" aria-label="게임 요약">
-            <div><strong>장르</strong><span>두뇌·기억 · 1분</span></div>
-            <div><strong>핵심 포인트</strong><span>짧은 노출 뒤 위치 복원</span></div>
-            <div><strong>플레이 방식</strong><span>설치 없이 페이지 안에서 바로 시작</span></div>
-          </div>
-
-          <h2 id="play-notes">플레이 포인트</h2>
-          <p>패턴 기억은 잠깐 보이는 칸을 사진처럼 외우는 게임입니다. 전체 모양을 먼저 보고, 모서리와 중앙을 기준점으로 삼으면 짧은 시간에도 위치를 복원하기 쉽습니다.</p>
-          <div class="detail-snapshot" aria-label="게임 요약">
-            <div><strong>추천 상황</strong><span>시각 기억과 위치 감각을 훈련하고 싶을 때</span></div>
-            <div><strong>좋은 기록</strong><span>표시된 칸을 한 번에 모두 복원하기</span></div>
-            <div><strong>주의할 점</strong><span>칸 개수만 기억하고 실제 위치를 놓치는 상황</span></div>
-          </div>
-          <ul class="detail-list">
-            <li>모서리 포함 여부를 가장 먼저 확인합니다.</li>
-            <li>패턴을 선이나 도형 모양으로 묶어 기억합니다.</li>
-            <li>입력할 때는 확실한 칸부터 누릅니다.</li>
-          </ul>
-
+          <p>패턴 기억은 잠깐 표시되는 활성 칸을 기억한 뒤 같은 위치를 다시 선택하는 시각 기억 퍼즐입니다. 이번 버전은 한 번 맞히고 끝나는 방식이 아니라 라운드가 계속 이어지는 기록형 게임입니다.</p>
+          <div class="detail-snapshot" aria-label="게임 요약"><div><strong>쉬움</strong><span>4×4 · 목숨 3</span></div><div><strong>보통</strong><span>5×5 · 목숨 2</span></div><div><strong>어려움</strong><span>6×6 · 목숨 1</span></div></div>
+          <h2 id="difficulty">난이도와 라운드 변화</h2>
+          <p>쉬움은 4×4, 보통은 5×5, 어려움은 6×6 보드를 사용합니다. 라운드가 두 번 올라갈 때마다 기억해야 할 칸이 하나씩 늘어나며, 동시에 패턴 표시 시간도 점점 짧아집니다.</p>
+          <ul class="detail-list"><li>쉬움은 충분한 표시 시간과 목숨 3개로 위치 묶기를 연습하기 좋습니다.</li><li>보통은 5×5 공간에서 구역별 기억이 중요합니다.</li><li>어려움은 6×6, 목숨 1개라 첫 복원의 정확도가 중요합니다.</li></ul>
           <h2 id="how">게임 방법</h2>
-          <p>짧은 규칙을 읽고 바로 시작할 수 있는 브라우저 미니게임입니다. 화면의 점수판과 결과 안내를 보면서 한 판씩 기록을 갱신해 보세요.</p>
-          <p>패턴 기억은 별도 앱 설치나 로그인이 필요 없는 무료 웹게임입니다. 페이지 오른쪽 또는 아래쪽 플레이 영역에서 바로 시작할 수 있고, 한 판이 짧아 규칙을 익힌 뒤 곧바로 다시 도전하기 좋습니다.</p>
-
-
-
-          <h2 id="controls">조작과 진행</h2>
-          <ul class="detail-list">
-            <li>처음 몇 초 동안 활성 패턴을 확인합니다.</li>
-            <li>패턴이 사라진 뒤 기억한 칸을 다시 선택합니다.</li>
-            <li>선택 수가 맞으면 결과가 표시됩니다.</li>
-          </ul>
-
-          <h2 id="scoring">점수와 성공 기준</h2>
-          <ul class="detail-list">
-            <li>정확한 칸을 모두 고르면 성공입니다.</li>
-            <li>틀린 칸이 섞이면 실패로 처리됩니다.</li>
-            <li>패턴을 빠르게 외우기보다 구역별 위치로 기억하는 편이 안정적입니다.</li>
-          </ul>
-
+          <ol class="detail-list"><li>난이도를 고르고 시작을 누릅니다.</li><li>파란색으로 표시되는 목표 칸의 위치와 전체 모양을 기억합니다.</li><li>패턴이 사라지면 기억한 칸을 선택합니다. 같은 칸을 다시 누르면 선택을 취소할 수 있습니다.</li><li>필요한 칸 수를 모두 선택한 뒤 <strong>선택 확인</strong>을 누릅니다.</li><li>정답이면 다음 라운드로 넘어가고, 오답이면 복기 화면이 표시됩니다.</li></ol>
+          <h2 id="controls">조작과 오답 복기</h2>
+          <ul class="detail-list"><li>마우스·터치: 칸을 눌러 선택/해제합니다.</li><li>키보드: 방향키로 칸을 이동하고 Enter 또는 Space로 선택합니다.</li><li><strong>H</strong>: 현재 패턴 다시 보기. 점수가 일부 차감되고 완벽 연속 기록이 끊깁니다.</li><li><strong>N</strong>: 새 도전을 시작합니다.</li><li>오답 복기에서 초록은 맞힌 칸, 파랑은 빠뜨린 정답 칸, 빨강은 잘못 고른 칸입니다.</li></ul>
+          <p>목숨이 남아 있으면 복기 후 같은 라운드의 같은 패턴을 다시 보여 줍니다. 탭을 벗어나는 동안 패턴 표시가 진행되지 않으며, 돌아오면 해당 패턴을 처음부터 다시 보여 줍니다.</p>
+          <h2 id="records">저장과 기록</h2>
+          <p>진행 중인 라운드, 정답 패턴, 목숨, 점수, 정확도 관련 값은 현재 브라우저에 저장됩니다. 새로고침하면 선택 중이던 입력을 그대로 추측해서 이어가는 대신 현재 패턴을 다시 보여 준 뒤 안전하게 재개합니다.</p>
+          <ul class="detail-list"><li>난이도별 도전 횟수</li><li>최고 라운드</li><li>최고 점수</li><li>최고 정확도</li><li>실수 없이 이어 간 최고 완벽 연속 라운드</li></ul>
           <h2 id="strategy">공략 팁</h2>
-          <ul class="strategy-list">
-            <li>처음 한 판은 규칙을 익히는 데 사용합니다.</li>
-            <li>결과 메시지를 보고 다음 판에서 줄일 실수를 정합니다.</li>
-            <li>모바일에서는 화면 버튼을 천천히 눌러 조작감을 먼저 확인합니다.</li>
-            <li>보드를 위, 아래 또는 왼쪽, 오른쪽으로 나눠 위치를 기억합니다.</li>
-            <li>칸 개수를 먼저 세고 모양을 떠올리면 누락을 줄일 수 있습니다.</li>
-            <li>사라진 뒤 바로 누르기보다 머릿속에서 한 번 재생한 다음 입력합니다.</li>
-          </ul>
-
-          <h2 id="mobile">모바일 플레이 팁</h2>
-          <ul class="detail-list">
-            <li>작은 화면에서는 활성 칸을 눈으로 따라가기보다 전체 모양을 먼저 봅니다.</li>
-            <li>선택할 때는 이미 누른 칸과 남은 칸을 확인하며 진행합니다.</li>
-          </ul>
-
-          <h2>플레이 흐름</h2>
-          <p>
-            한 판을 시작하면 상단 점수판에서 현재 진행 상태를 확인할 수 있습니다.
-            결과 메시지는 실수, 성공, 최고 기록 여부를 알려 주므로 다음 판에서 무엇을 바꿀지 바로 판단할 수 있습니다.
-          </p>
-
+          <ul class="strategy-list"><li>칸을 하나씩 번호로 외우기보다 왼쪽 위·오른쪽 위·아래처럼 구역으로 나눕니다.</li><li>모서리와 중앙처럼 눈에 띄는 기준점을 먼저 기억합니다.</li><li>활성 칸을 선, 계단, L자, 덩어리처럼 하나의 모양으로 묶습니다.</li><li>입력할 때는 확실한 칸부터 고르고 마지막 한두 칸은 전체 모양을 다시 떠올립니다.</li><li>패턴 다시 보기는 기록 경쟁용이라기보다 막히는 라운드의 기억 방식을 분석할 때 쓰는 편이 좋습니다.</li></ul>
           <h2 id="faq">자주 묻는 질문</h2>
-          <div class="faq-list">
-          <h3>기록은 어디에 저장되나요?</h3>
-          <p>최고 기록은 가능한 경우 현재 브라우저 안에만 저장됩니다.</p>
-          <h3>패턴을 오래 볼 수 있나요?</h3>
-          <p>표시 시간은 제한되어 있어 짧게 보고 기억하는 훈련에 맞춰져 있습니다.</p>
-          <h3>어떻게 하면 덜 헷갈리나요?</h3>
-          <p>칸을 번호처럼 외우기보다 모양과 구역으로 묶어 기억하면 더 안정적입니다.</p>
-          <h3>모바일에서도 플레이할 수 있나요?</h3>
-          <p>네. 화면 버튼과 터치 입력을 함께 고려해 작은 화면에서도 게임판과 결과 영역이 겹치지 않도록 구성했습니다.</p>
-          <h3>기록이 사라질 수 있나요?</h3>
-          <p>기록은 가능한 경우 현재 브라우저의 로컬 저장소에 저장됩니다. 브라우저 데이터를 삭제하거나 다른 기기에서 접속하면 이어지지 않을 수 있습니다.</p>
-          </div>
-
-          <h2>업데이트 노트</h2>
-          <p class="site-note">2026년 7월 20일 패턴 기억 페이지에 구역 기억법과 입력 팁을 추가했습니다.</p>
-
+          <div class="faq-list"><h3>패턴은 매 라운드 새로 나오나요?</h3><p>네. 각 라운드마다 현재 난이도와 목표 칸 수에 맞춰 새 패턴을 생성합니다.</p><h3>틀리면 바로 끝나나요?</h3><p>어려움은 목숨이 1개라 끝나지만 쉬움과 보통은 남은 목숨이 있으면 같은 패턴을 다시 보고 재도전합니다.</p><h3>선택을 잘못 눌렀으면 어떻게 하나요?</h3><p>확인 전에는 같은 칸을 다시 눌러 선택을 취소할 수 있습니다.</p><h3>새로고침하면 진행이 사라지나요?</h3><p>진행 상태를 현재 브라우저에 저장하며, 복구 시 현재 패턴을 다시 보여 주고 이어갑니다.</p><h3>모바일에서도 가능한가요?</h3><p>네. 터치 선택을 지원하며 작은 화면에서도 보드가 화면 폭에 맞춰 줄어듭니다.</p></div>
+          <h2>업데이트 노트</h2><p class="site-note">2026년 8월 25일 난이도별 보드, 라운드 진행, 목숨, 오답 복기, 정확도 기록, 키보드 조작과 자동 저장을 추가했습니다.</p>
           <h2 id="related-guides">관련 공략</h2>
-          <p>
-            패턴 기억은 더 편하게 즐기고 싶다면 아래 가이드를 함께 읽어 보세요.
-            조작, 기록, 모바일 환경, 장르별 기본기를 실제 플레이 기준으로 정리했습니다.
-          </p>
-          <div class="featured-link-grid compact-guide-grid">
-            <a class="featured-link" href="/guides/memory-game-tips/"><strong>기억력 게임 잘하는 법</strong><span>위치를 구역으로 나누고 오래 기억하는 습관</span></a>
-            <a class="featured-link" href="/guides/mobile-browser-game-tips/"><strong>모바일 브라우저 조작 팁</strong><span>터치 실수와 화면 가림을 줄이는 휴대폰 플레이 기준</span></a>
-            <a class="featured-link" href="/guides/short-break-web-games/"><strong>짧은 휴식 게임 고르는 법</strong><span>플레이 시간과 조작 난이도로 게임을 선택하는 기준</span></a>
-          </div>
-
-          <h2 id="related">관련 게임</h2>
-          <p>
-            <a href="/games/memory-tiles/">기억 타일</a>, <a href="/games/simon/">사이먼 게임</a>, <a href="/games/word-guess/">단어 맞추기</a>도 함께 플레이해 보세요.
-            전체 게임은 <a href="/games/">게임 목록</a>에서 장르별로 확인할 수 있습니다.
-          </p>
+          <div class="featured-link-grid compact-guide-grid"><a class="featured-link" href="/guides/pattern-memory-strategy/"><strong>패턴 기억 공략</strong><span>구역·기준점·도형 묶기로 긴 패턴을 복원하는 순서</span></a><a class="featured-link" href="/guides/simon-strategy/"><strong>사이먼 게임 공략</strong><span>순서를 덩어리와 리듬으로 기억하는 방법</span></a><a class="featured-link" href="/guides/memory-game-tips/"><strong>기억력 게임 잘하는 법</strong><span>위치 기억을 오래 유지하는 기본 습관</span></a></div>
+          <h2 id="related">관련 게임</h2><p><a href="/games/simon/">사이먼 게임</a>, <a href="/games/memory-tiles/">기억 타일</a>, <a href="/games/word-guess/">단어 맞추기</a>도 함께 즐겨 보세요.</p>
         </article>
       </div>
     </main>
-
-    <footer class="site-footer">
-      <div>
-        <strong>한판게임</strong>
-        <p>패턴 기억과 함께 즐기는 무료 웹 미니게임.</p>
-      </div>
-      <nav aria-label="푸터 메뉴">
-        <a href="/about/">소개</a>
-        <a href="/help/">도움말</a>
-        <a href="/updates/">업데이트</a>
-        <a href="/privacy/">개인정보처리방침</a>
-        <a href="/terms/">이용약관</a>
-        <a href="/contact/">문의</a>
-      </nav>
-      <p class="copyright">© <span id="year"></span> Hanpan Game. All rights reserved.</p>
-    </footer>
-    <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"VideoGame","name":"패턴 기억","url":"https://hanpangames.kr/games/pattern-memory/","description":"잠깐 보이는 패턴을 기억해 같은 칸을 다시 선택합니다.","applicationCategory":"Game","operatingSystem":"Web Browser","inLanguage":"ko-KR","isAccessibleForFree":true,"publisher":{"@type":"Organization","name":"한판게임"}},{"@type":"FAQPage","mainEntity":[{"@type":"Question","name":"기록은 어디에 저장되나요?","acceptedAnswer":{"@type":"Answer","text":"최고 기록은 가능한 경우 현재 브라우저 안에만 저장됩니다."}},{"@type":"Question","name":"패턴을 오래 볼 수 있나요?","acceptedAnswer":{"@type":"Answer","text":"표시 시간은 제한되어 있어 짧게 보고 기억하는 훈련에 맞춰져 있습니다."}},{"@type":"Question","name":"어떻게 하면 덜 헷갈리나요?","acceptedAnswer":{"@type":"Answer","text":"칸을 번호처럼 외우기보다 모양과 구역으로 묶어 기억하면 더 안정적입니다."}},{"@type":"Question","name":"모바일에서도 플레이할 수 있나요?","acceptedAnswer":{"@type":"Answer","text":"네. 화면 버튼과 터치 입력을 함께 고려해 작은 화면에서도 게임판과 결과 영역이 겹치지 않도록 구성했습니다."}},{"@type":"Question","name":"기록이 사라질 수 있나요?","acceptedAnswer":{"@type":"Answer","text":"기록은 가능한 경우 현재 브라우저의 로컬 저장소에 저장됩니다. 브라우저 데이터를 삭제하거나 다른 기기에서 접속하면 이어지지 않을 수 있습니다."}}]},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"홈","item":"https://hanpangames.kr/"},{"@type":"ListItem","position":2,"name":"게임","item":"https://hanpangames.kr/games/"},{"@type":"ListItem","position":3,"name":"패턴 기억","item":"https://hanpangames.kr/games/pattern-memory/"}]}]}</script>
+    <footer class="site-footer"><div><strong>한판게임</strong><p>설치 없이 바로 즐기는 무료 웹 미니게임.</p></div><nav aria-label="푸터 메뉴"><a href="/about/">소개</a><a href="/help/">도움말</a><a href="/updates/">업데이트</a><a href="/privacy/">개인정보처리방침</a><a href="/terms/">이용약관</a><a href="/contact/">문의</a></nav><p class="copyright">© <span id="year"></span> Hanpan Game. All rights reserved.</p></footer>
+    <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"VideoGame","name":"패턴 기억","url":"https://hanpangames.kr/games/pattern-memory/","description":"난이도별 보드에서 잠깐 보이는 패턴을 기억하고 복원하는 무료 시각 기억 웹게임입니다.","genre":["퍼즐","기억력"],"gamePlatform":"Web Browser","inLanguage":"ko-KR"},{"@type":"FAQPage","mainEntity":[{"@type":"Question","name":"틀리면 바로 끝나나요?","acceptedAnswer":{"@type":"Answer","text":"어려움은 목숨 1개이며 쉬움과 보통은 남은 목숨이 있으면 같은 패턴을 다시 보고 재도전합니다."}},{"@type":"Question","name":"새로고침하면 진행이 사라지나요?","acceptedAnswer":{"@type":"Answer","text":"진행 상태는 현재 브라우저에 저장되며 복구 시 현재 패턴을 다시 보여 준 뒤 이어갑니다."}}]}]}</script>
     <script src="/assets/app.js?v=20260820-blockdrop" defer></script>
     <script src="/assets/traditional-games.js?v=20260820-blockdrop" defer></script>
     <script src="/assets/arcade.js?v=20260820-blockdrop" defer></script>
+    <script src="/assets/pattern-memory-runtime.js?v=20260825-pattern2" defer></script>
   </body>
 </html>
