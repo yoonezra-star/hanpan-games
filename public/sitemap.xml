@@ -11,6 +11,7 @@
   <url><loc>https://hanpangames.kr/terms/</loc><lastmod>2026-07-22</lastmod><changefreq>yearly</changefreq><priority>0.5</priority></url>
   <url><loc>https://hanpangames.kr/contact/</loc><lastmod>2026-07-20</lastmod><changefreq>yearly</changefreq><priority>0.5</priority></url>
 
+  <url><loc>https://hanpangames.kr/guides/hangman-strategy/</loc><lastmod>2026-08-25</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
   <url><loc>https://hanpangames.kr/guides/word-guess-strategy/</loc><lastmod>2026-08-25</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
   <url><loc>https://hanpangames.kr/guides/pattern-memory-strategy/</loc><lastmod>2026-08-25</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
   <url><loc>https://hanpangames.kr/guides/simon-strategy/</loc><lastmod>2026-08-25</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
@@ -71,7 +72,7 @@
   <url><loc>https://hanpangames.kr/games/simon/</loc><lastmod>2026-08-25</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
   <url><loc>https://hanpangames.kr/games/pattern-memory/</loc><lastmod>2026-08-25</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
   <url><loc>https://hanpangames.kr/games/word-guess/</loc><lastmod>2026-08-25</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://hanpangames.kr/games/hangman/</loc><lastmod>2026-08-16</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://hanpangames.kr/games/hangman/</loc><lastmod>2026-08-25</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
   <url><loc>https://hanpangames.kr/games/typing-sprint/</loc><lastmod>2026-08-16</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
   <url><loc>https://hanpangames.kr/games/math-climb/</loc><lastmod>2026-08-16</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
   <url><loc>https://hanpangames.kr/games/color-match/</loc><lastmod>2026-08-16</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
