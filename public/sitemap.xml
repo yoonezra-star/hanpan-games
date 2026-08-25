@@ -11,6 +11,7 @@
   <url><loc>https://hanpangames.kr/terms/</loc><lastmod>2026-07-22</lastmod><changefreq>yearly</changefreq><priority>0.5</priority></url>
   <url><loc>https://hanpangames.kr/contact/</loc><lastmod>2026-07-20</lastmod><changefreq>yearly</changefreq><priority>0.5</priority></url>
 
+  <url><loc>https://hanpangames.kr/guides/simon-strategy/</loc><lastmod>2026-08-25</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
   <url><loc>https://hanpangames.kr/guides/block-fill-strategy/</loc><lastmod>2026-08-25</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
   <url><loc>https://hanpangames.kr/guides/match-three-strategy/</loc><lastmod>2026-08-25</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
   <url><loc>https://hanpangames.kr/guides/sliding-puzzle-strategy/</loc><lastmod>2026-08-25</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
@@ -65,7 +66,7 @@
   <url><loc>https://hanpangames.kr/games/twenty-48/</loc><lastmod>2026-08-20</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
   <url><loc>https://hanpangames.kr/games/match-three/</loc><lastmod>2026-08-25</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
   <url><loc>https://hanpangames.kr/games/block-fill/</loc><lastmod>2026-08-25</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://hanpangames.kr/games/simon/</loc><lastmod>2026-08-16</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://hanpangames.kr/games/simon/</loc><lastmod>2026-08-25</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
   <url><loc>https://hanpangames.kr/games/pattern-memory/</loc><lastmod>2026-08-16</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
   <url><loc>https://hanpangames.kr/games/word-guess/</loc><lastmod>2026-08-16</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
   <url><loc>https://hanpangames.kr/games/hangman/</loc><lastmod>2026-08-16</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
