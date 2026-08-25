@@ -6,41 +6,27 @@
     <link rel="icon" href="/favicon.svg" type="image/svg+xml">
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6918910185244897" crossorigin="anonymous"></script>
     <meta name="google-site-verification" content="qBlRPhDg3Tazy0wuTNee_wfGeDjuYz80N6R_Iinh9bs" />
-    <title>단어 맞추기 - 한판게임</title>
-    <meta name="description" content="단어 맞추기 플레이 방법, 조작법, 점수 기준, 공략 팁, 모바일 플레이와 FAQ를 정리한 무료 두뇌·기억 웹게임 페이지입니다.">
+    <title>단어 맞추기 - 카테고리·단계별 힌트 어휘 추리 | 한판게임</title>
+    <meta name="description" content="생활·여행·자연·과학·음식 40개 어휘를 8문제씩 추리하는 단어 맞추기 게임입니다. 난이도, 단계별 힌트, 연승, 정확도, 자동 저장을 지원합니다.">
     <link rel="canonical" href="https://hanpangames.kr/games/word-guess/">
     <meta property="og:image" content="https://hanpangames.kr/assets/game-art/word-guess.webp">
     <meta property="og:image:alt" content="단어 맞추기 플레이 장면">
-    <meta property="og:type" content="website">
-    <meta property="og:title" content="단어 맞추기 - 한판게임">
-    <meta property="og:description" content="단어 맞추기 플레이 방법, 조작법, 점수 기준, 공략 팁, 모바일 플레이와 FAQ를 정리한 무료 두뇌·기억 웹게임 페이지입니다.">
+    <meta property="og:type" content="website"><meta property="og:title" content="단어 맞추기 - 한판게임"><meta property="og:description" content="5개 카테고리의 힌트를 읽고 8문제 어휘 추리에 도전하는 무료 웹게임입니다.">
     <link rel="stylesheet" href="/assets/styles.css?v=20260820-blockdrop">
   </head>
   <body>
     <header class="site-header">
-      <a class="brand" href="/" aria-label="한판게임 홈">
-        <span class="brand-mark" aria-hidden="true">H</span>
-        <span><strong>한판게임</strong><small>HANPAN GAME</small></span>
-      </a>
-      <nav class="nav" aria-label="주요 메뉴">
-        <a href="/games/" aria-current="page">게임</a>
-        <a href="/guides/">가이드</a>
-        <a href="/about/">소개</a>
-        <a href="/help/">도움말</a>
-        <a href="/contact/">문의</a>
-      </nav>
+      <a class="brand" href="/" aria-label="한판게임 홈"><span class="brand-mark" aria-hidden="true">H</span><span><strong>한판게임</strong><small>HANPAN GAME</small></span></a>
+      <nav class="nav" aria-label="주요 메뉴"><a href="/games/" aria-current="page">게임</a><a href="/guides/">가이드</a><a href="/about/">소개</a><a href="/help/">도움말</a><a href="/contact/">문의</a></nav>
     </header>
 
     <main class="subpage game-detail-page">
       <section class="page-title">
         <p class="eyebrow">두뇌·기억 · 2분</p>
         <h1 id="playTitle">단어 맞추기</h1>
-        <p id="playDescription">힌트를 보고 숨겨진 단어를 추리합니다.</p>
+        <p id="playDescription">생활·여행·자연·과학·음식 힌트를 읽고 8개의 숨은 단어를 연속으로 추리합니다.</p>
         <div class="game-launcher" aria-label="게임 선택">
-          <label for="gamePagePicker">
-            <span>플레이할 게임</span>
-            <select id="gamePagePicker" data-game-page-picker data-current-game="word-guess" onchange="if (this.value &amp;&amp; this.value !== this.dataset.currentGame) window.location.href = '/games/' + encodeURIComponent(this.value) + '/#play-area'"></select>
-          </label>
+          <label for="gamePagePicker"><span>플레이할 게임</span><select id="gamePagePicker" data-game-page-picker data-current-game="word-guess" onchange="if (this.value && this.value !== this.dataset.currentGame) window.location.href = '/games/' + encodeURIComponent(this.value) + '/#play-area'"></select></label>
           <a class="button primary" id="gamePageStart" data-game-page-start href="#play-area">바로 시작</a>
           <a class="button secondary" href="/games/">전체 게임</a>
         </div>
@@ -48,156 +34,80 @@
 
       <div class="game-detail-stack">
         <section class="inline-game-stage game-first-stage" id="play-area" aria-live="polite">
-          <div class="stage-head">
-            <div>
-              <p class="eyebrow" id="playCategory">두뇌·기억 · 2분</p>
-              <h2 id="stageTitle">단어 맞추기</h2>
-            </div>
-            <div class="stage-actions">
-              <a class="button secondary" href="/play/?game=word-guess">큰 화면</a>
-              <button class="button primary" id="restartGame" type="button">다시 시작</button>
-            </div>
-          </div>
+          <div class="stage-head"><div><p class="eyebrow" id="playCategory">두뇌·기억 · 2분</p><h2 id="stageTitle">단어 맞추기</h2></div><div class="stage-actions"><a class="button secondary" href="/play/?game=word-guess">큰 화면</a><button class="button primary" id="restartGame" type="button">다시 시작</button></div></div>
           <div class="play-surface" id="playSurface" data-game-id="word-guess"></div>
           <p class="result-line" id="playResult">게임을 불러오는 중입니다.</p>
         </section>
 
-        <nav class="game-detail-nav" aria-label="게임 설명 목차">
-          <strong>게임 설명</strong>
-          <ul class="toc-list">
-            <li><a href="#overview">핵심 요약</a></li>
-            <li><a href="#play-notes">플레이 포인트</a></li>
-            <li><a href="#how">게임 방법</a></li>
-            <li><a href="#controls">조작</a></li>
-            <li><a href="#scoring">점수 기준</a></li>
-            <li><a href="#strategy">공략</a></li>
-            <li><a href="#mobile">모바일 팁</a></li>
-            <li><a href="#faq">FAQ</a></li>
-            <li><a href="#related-guides">관련 공략</a></li>
-            <li><a href="#related">관련 게임</a></li>
-          </ul>
-        </nav>
+        <nav class="game-detail-nav" aria-label="게임 설명 목차"><strong>게임 설명</strong><ul class="toc-list"><li><a href="#overview">핵심 요약</a></li><li><a href="#how">게임 방법</a></li><li><a href="#difficulty">난이도·카테고리</a></li><li><a href="#hints">힌트와 점수</a></li><li><a href="#records">기록·저장</a></li><li><a href="#strategy">공략</a></li><li><a href="#mobile">모바일</a></li><li><a href="#faq">FAQ</a></li><li><a href="#related-guides">관련 공략</a></li></ul></nav>
 
         <article class="article featured-article">
           <h2 id="overview">이 게임의 핵심</h2>
-          <p>힌트를 보고 숨겨진 단어를 추리합니다.</p>
-          <p>단어 맞추기는 짧은 힌트를 읽고 숨겨진 단어를 추론하는 두뇌 게임입니다. 정답을 바로 떠올리기 어렵다면 힌트의 핵심 명사와 게임 문맥을 함께 보는 것이 좋습니다.</p>
-          <div class="detail-snapshot" aria-label="게임 요약">
-            <div><strong>장르</strong><span>두뇌·기억 · 2분</span></div>
-            <div><strong>핵심 포인트</strong><span>힌트 해석과 단어 추론</span></div>
-            <div><strong>플레이 방식</strong><span>설치 없이 페이지 안에서 바로 시작</span></div>
-          </div>
-
-          <h2 id="play-notes">플레이 포인트</h2>
-          <p>단어 맞추기는 힌트를 넓게 해석하는 것보다 가능한 글자 후보를 줄이는 추리 게임입니다. 자주 쓰이는 모음과 받침을 먼저 확인하면 실패 횟수를 아낄 수 있습니다.</p>
-          <div class="detail-snapshot" aria-label="게임 요약">
-            <div><strong>추천 상황</strong><span>가벼운 어휘 추리와 힌트 풀이를 즐기고 싶을 때</span></div>
-            <div><strong>좋은 기록</strong><span>제한된 오답 안에 단어 완성</span></div>
-            <div><strong>주의할 점</strong><span>힌트와 관련 없는 글자를 감으로 고르는 패턴</span></div>
-          </div>
-          <ul class="detail-list">
-            <li>모음 후보를 먼저 확인합니다.</li>
-            <li>힌트 주제에 맞는 단어 길이를 떠올립니다.</li>
-            <li>틀린 글자는 다음 후보에서 확실히 제외합니다.</li>
-          </ul>
+          <p>한 판은 8문제로 구성됩니다. 각 문제의 첫 힌트를 읽고 정답을 입력하며, 어렵다면 추가 힌트를 단계적으로 열 수 있습니다.</p>
+          <div class="detail-snapshot" aria-label="게임 요약"><div><strong>어휘 수</strong><span>40개</span></div><div><strong>카테고리</strong><span>생활·여행·자연·과학·음식</span></div><div><strong>한 판</strong><span>8문제</span></div></div>
 
           <h2 id="how">게임 방법</h2>
-          <p>짧은 규칙을 읽고 바로 시작할 수 있는 브라우저 미니게임입니다. 화면의 점수판과 결과 안내를 보면서 한 판씩 기록을 갱신해 보세요.</p>
-          <p>단어 맞추기는 별도 앱 설치나 로그인이 필요 없는 무료 웹게임입니다. 페이지 오른쪽 또는 아래쪽 플레이 영역에서 바로 시작할 수 있고, 한 판이 짧아 규칙을 익힌 뒤 곧바로 다시 도전하기 좋습니다.</p>
+          <ol class="detail-list">
+            <li>난이도와 카테고리를 고르고 8문제 도전을 시작합니다.</li>
+            <li>첫 힌트와 글자 수를 보고 정답을 입력합니다.</li>
+            <li>Enter 또는 정답 확인 버튼으로 답을 제출합니다.</li>
+            <li>모르면 힌트를 더 열거나 정답 보기를 사용합니다.</li>
+            <li>8문제가 끝나면 정답 수, 점수, 정확도를 확인합니다.</li>
+          </ol>
 
+          <h2 id="difficulty">난이도와 카테고리</h2>
+          <div class="detail-snapshot"><div><strong>쉬움</strong><span>문제당 기회 5번 · 기본 100점</span></div><div><strong>보통</strong><span>문제당 기회 4번 · 기본 150점</span></div><div><strong>어려움</strong><span>문제당 기회 3번 · 기본 220점</span></div></div>
+          <p>카테고리는 전체, 생활, 여행, 자연, 과학, 음식 중에서 선택할 수 있습니다. 한 카테고리에는 8개 단어가 있어 해당 분야만 골라도 한 판 동안 같은 단어가 반복되지 않습니다.</p>
 
+          <h2 id="hints">힌트와 점수</h2>
+          <p>첫 힌트는 기본으로 공개됩니다. 두 번째와 세 번째 힌트를 열면 정답에 가까운 정보가 추가되지만, 그 문제에서 얻을 수 있는 점수는 줄어듭니다. 틀린 답을 제출해도 남은 기회와 획득 가능 점수가 함께 줄어듭니다.</p>
+          <ul class="detail-list"><li>빠르게 맞힐수록 점수가 높습니다.</li><li>연속 정답은 최대 5연승까지 문제 점수에 보너스를 더합니다.</li><li>추가 힌트를 쓰면 연승은 끊기므로 기록 도전에서는 첫 힌트 풀이가 중요합니다.</li><li>기회를 모두 쓰거나 정답 보기를 누른 문제는 오답으로 기록되고 다음 문제로 넘어갑니다.</li></ul>
 
-          <h2 id="controls">조작과 진행</h2>
-          <ul class="detail-list">
-            <li>힌트를 읽고 입력창에 정답을 적습니다.</li>
-            <li>확인 버튼을 누르면 정답 여부가 표시됩니다.</li>
-            <li>틀렸다면 힌트를 다시 읽고 다른 단어 후보를 생각합니다.</li>
-          </ul>
-
-          <h2 id="scoring">점수와 성공 기준</h2>
-          <ul class="detail-list">
-            <li>정답을 맞히면 성공입니다.</li>
-            <li>적은 시도로 맞힐수록 더 깔끔한 풀이입니다.</li>
-            <li>힌트 단어를 그대로 옮기기보다 의미를 바꿔 생각하는 과정이 중요합니다.</li>
-          </ul>
+          <h2 id="records">기록과 자동 저장</h2>
+          <p>난이도별로 도전 횟수, 8문제 완주 횟수, 최고 점수, 최고 연승, 최고 정확도를 현재 브라우저에 저장합니다. 진행 중에는 현재 문제, 남은 기회, 열린 힌트, 점수와 연승도 저장되어 새로고침 후 이어갈 수 있습니다.</p>
 
           <h2 id="strategy">공략 팁</h2>
           <ul class="strategy-list">
-            <li>처음 한 판은 규칙을 익히는 데 사용합니다.</li>
-            <li>결과 메시지를 보고 다음 판에서 줄일 실수를 정합니다.</li>
-            <li>모바일에서는 화면 버튼을 천천히 눌러 조작감을 먼저 확인합니다.</li>
-            <li>힌트에서 대상, 기능, 장소를 나누어 봅니다.</li>
-            <li>너무 긴 단어보다 사이트와 게임 맥락에 맞는 짧은 단어부터 시도합니다.</li>
-            <li>오답이 나오면 같은 뜻의 다른 표현을 생각합니다.</li>
+            <li>첫 힌트에서 먼저 범주를 좁히고, 곧바로 답을 입력하지 말고 후보를 2~3개 떠올립니다.</li>
+            <li>화면에 표시되는 글자 수를 이용해 긴 후보와 짧은 후보를 즉시 제거합니다.</li>
+            <li>오답을 냈다면 같은 의미의 비슷한 표현보다 힌트의 기능·장소·특징을 다시 분리해 봅니다.</li>
+            <li>기회가 많이 남았다고 무작정 추측하지 말고 두 번째 힌트를 열어 점수 손실과 오답 손실을 비교합니다.</li>
+            <li>카테고리별로 반복 플레이하면 같은 분야의 어휘 연결이 빨라져 첫 힌트 정답률을 높이기 좋습니다.</li>
           </ul>
 
-          <h2 id="mobile">모바일 플레이 팁</h2>
-          <ul class="detail-list">
-            <li>모바일 키보드 자동완성이 정답을 바꿀 수 있어 입력 후 확인합니다.</li>
-            <li>한글 조합이 꼬이면 입력창을 비우고 다시 적는 편이 좋습니다.</li>
-          </ul>
-
-          <h2>플레이 흐름</h2>
-          <p>
-            한 판을 시작하면 상단 점수판에서 현재 진행 상태를 확인할 수 있습니다.
-            결과 메시지는 실수, 성공, 최고 기록 여부를 알려 주므로 다음 판에서 무엇을 바꿀지 바로 판단할 수 있습니다.
-          </p>
+          <h2 id="mobile">모바일 플레이</h2>
+          <p>정답 입력창과 확인 버튼은 모바일에서 세로로 배치됩니다. 한글 조합이 끝난 뒤 Enter 또는 정답 확인을 누르면 되고, 자동완성이 단어를 바꿨는지 제출 전에 한 번 확인하는 편이 좋습니다.</p>
 
           <h2 id="faq">자주 묻는 질문</h2>
           <div class="faq-list">
-          <h3>기록은 어디에 저장되나요?</h3>
-          <p>최고 기록은 가능한 경우 현재 브라우저 안에만 저장됩니다.</p>
-          <h3>띄어쓰기도 맞아야 하나요?</h3>
-          <p>게임에 따라 정답 비교 방식이 단순할 수 있어 힌트에 맞는 핵심 단어를 정확히 입력하는 것이 좋습니다.</p>
-          <h3>힌트가 어려우면 어떻게 하나요?</h3>
-          <p>힌트의 단어를 기능, 장르, 상황으로 나누어 보면 후보를 줄일 수 있습니다.</p>
-          <h3>모바일에서도 플레이할 수 있나요?</h3>
-          <p>네. 화면 버튼과 터치 입력을 함께 고려해 작은 화면에서도 게임판과 결과 영역이 겹치지 않도록 구성했습니다.</p>
-          <h3>기록이 사라질 수 있나요?</h3>
-          <p>기록은 가능한 경우 현재 브라우저의 로컬 저장소에 저장됩니다. 브라우저 데이터를 삭제하거나 다른 기기에서 접속하면 이어지지 않을 수 있습니다.</p>
+            <h3>띄어쓰기가 달라도 되나요?</h3><p>네. 비교할 때 공백과 일부 구분 문자를 제거하므로 핵심 단어가 같으면 정답으로 처리됩니다.</p>
+            <h3>한 판에 같은 단어가 다시 나오나요?</h3><p>아니요. 선택한 카테고리 풀을 섞어 8개를 뽑기 때문에 한 판 안에서는 같은 단어를 반복하지 않습니다.</p>
+            <h3>힌트를 많이 쓰면 기록에 불리한가요?</h3><p>추가 힌트마다 문제 점수가 낮아지고 연승도 끊기므로 최고 점수 도전에서는 필요한 만큼만 여는 편이 좋습니다.</p>
+            <h3>새로고침하면 처음부터 다시 하나요?</h3><p>아니요. 진행 중인 8문제 도전은 현재 브라우저에 저장되어 같은 문제와 남은 기회부터 이어집니다.</p>
+            <h3>기록은 다른 기기에도 동기화되나요?</h3><p>아니요. 기록은 현재 브라우저의 로컬 저장소에만 보관됩니다.</p>
           </div>
 
           <h2>업데이트 노트</h2>
-          <p class="site-note">2026년 7월 20일 단어 맞추기 페이지에 힌트 읽기와 입력 팁을 보강했습니다.</p>
+          <p class="site-note">2026년 8월 25일 40개 어휘, 5개 카테고리, 3단계 난이도, 단계별 힌트, 8문제 연속 도전, 연승·정확도·자동 저장 기능을 추가했습니다.</p>
 
           <h2 id="related-guides">관련 공략</h2>
-          <p>
-            단어 맞추기는 더 편하게 즐기고 싶다면 아래 가이드를 함께 읽어 보세요.
-            조작, 기록, 모바일 환경, 장르별 기본기를 실제 플레이 기준으로 정리했습니다.
-          </p>
           <div class="featured-link-grid compact-guide-grid">
-            <a class="featured-link" href="/guides/memory-game-tips/"><strong>기억력 게임 잘하는 법</strong><span>위치를 구역으로 나누고 오래 기억하는 습관</span></a>
-            <a class="featured-link" href="/guides/short-break-web-games/"><strong>짧은 휴식 게임 고르는 법</strong><span>플레이 시간과 조작 난이도로 게임을 선택하는 기준</span></a>
-            <a class="featured-link" href="/guides/browser-game-benefits/"><strong>무료 브라우저 게임의 장점</strong><span>설치 없는 웹게임을 안전하게 고르는 기준</span></a>
+            <a class="featured-link" href="/guides/word-guess-strategy/"><strong>단어 맞추기 공략</strong><span>힌트에서 범주를 좁히고 추가 힌트를 효율적으로 쓰는 추리 순서</span></a>
+            <a class="featured-link" href="/guides/memory-game-tips/"><strong>기억력 게임 잘하는 법</strong><span>정보를 묶고 복기하는 기본 습관</span></a>
+            <a class="featured-link" href="/guides/short-break-web-games/"><strong>짧은 휴식 게임 고르는 법</strong><span>플레이 시간과 조작 난이도로 게임을 고르는 기준</span></a>
           </div>
 
           <h2 id="related">관련 게임</h2>
-          <p>
-            <a href="/games/memory-tiles/">기억 타일</a>, <a href="/games/simon/">사이먼 게임</a>, <a href="/games/pattern-memory/">패턴 기억</a>도 함께 플레이해 보세요.
-            전체 게임은 <a href="/games/">게임 목록</a>에서 장르별로 확인할 수 있습니다.
-          </p>
+          <p><a href="/games/hangman/">행맨</a>, <a href="/games/pattern-memory/">패턴 기억</a>, <a href="/games/simon/">사이먼 게임</a>도 함께 플레이해 보세요.</p>
         </article>
       </div>
     </main>
 
-    <footer class="site-footer">
-      <div>
-        <strong>한판게임</strong>
-        <p>단어 맞추기와 함께 즐기는 무료 웹 미니게임.</p>
-      </div>
-      <nav aria-label="푸터 메뉴">
-        <a href="/about/">소개</a>
-        <a href="/help/">도움말</a>
-        <a href="/updates/">업데이트</a>
-        <a href="/privacy/">개인정보처리방침</a>
-        <a href="/terms/">이용약관</a>
-        <a href="/contact/">문의</a>
-      </nav>
-      <p class="copyright">© <span id="year"></span> Hanpan Game. All rights reserved.</p>
-    </footer>
-    <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"VideoGame","name":"단어 맞추기","url":"https://hanpangames.kr/games/word-guess/","description":"힌트를 보고 숨겨진 단어를 추리합니다.","applicationCategory":"Game","operatingSystem":"Web Browser","inLanguage":"ko-KR","isAccessibleForFree":true,"publisher":{"@type":"Organization","name":"한판게임"}},{"@type":"FAQPage","mainEntity":[{"@type":"Question","name":"기록은 어디에 저장되나요?","acceptedAnswer":{"@type":"Answer","text":"최고 기록은 가능한 경우 현재 브라우저 안에만 저장됩니다."}},{"@type":"Question","name":"띄어쓰기도 맞아야 하나요?","acceptedAnswer":{"@type":"Answer","text":"게임에 따라 정답 비교 방식이 단순할 수 있어 힌트에 맞는 핵심 단어를 정확히 입력하는 것이 좋습니다."}},{"@type":"Question","name":"힌트가 어려우면 어떻게 하나요?","acceptedAnswer":{"@type":"Answer","text":"힌트의 단어를 기능, 장르, 상황으로 나누어 보면 후보를 줄일 수 있습니다."}},{"@type":"Question","name":"모바일에서도 플레이할 수 있나요?","acceptedAnswer":{"@type":"Answer","text":"네. 화면 버튼과 터치 입력을 함께 고려해 작은 화면에서도 게임판과 결과 영역이 겹치지 않도록 구성했습니다."}},{"@type":"Question","name":"기록이 사라질 수 있나요?","acceptedAnswer":{"@type":"Answer","text":"기록은 가능한 경우 현재 브라우저의 로컬 저장소에 저장됩니다. 브라우저 데이터를 삭제하거나 다른 기기에서 접속하면 이어지지 않을 수 있습니다."}}]},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"홈","item":"https://hanpangames.kr/"},{"@type":"ListItem","position":2,"name":"게임","item":"https://hanpangames.kr/games/"},{"@type":"ListItem","position":3,"name":"단어 맞추기","item":"https://hanpangames.kr/games/word-guess/"}]}]}</script>
+    <footer class="site-footer"><div><strong>한판게임</strong><p>설치 없이 바로 즐기는 무료 웹 미니게임.</p></div><nav aria-label="푸터 메뉴"><a href="/about/">소개</a><a href="/help/">도움말</a><a href="/updates/">업데이트</a><a href="/privacy/">개인정보처리방침</a><a href="/terms/">이용약관</a><a href="/contact/">문의</a></nav><p class="copyright">© <span id="year"></span> Hanpan Game. All rights reserved.</p></footer>
+    <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"VideoGame","name":"단어 맞추기","url":"https://hanpangames.kr/games/word-guess/","description":"생활·여행·자연·과학·음식 힌트를 읽고 8개의 단어를 추리하는 무료 브라우저 게임","genre":["두뇌 게임","단어 퍼즐"],"gamePlatform":"Web browser","applicationCategory":"Game","inLanguage":"ko-KR"},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"홈","item":"https://hanpangames.kr/"},{"@type":"ListItem","position":2,"name":"게임","item":"https://hanpangames.kr/games/"},{"@type":"ListItem","position":3,"name":"단어 맞추기","item":"https://hanpangames.kr/games/word-guess/"}]}]}</script>
     <script src="/assets/app.js?v=20260820-blockdrop" defer></script>
     <script src="/assets/traditional-games.js?v=20260820-blockdrop" defer></script>
     <script src="/assets/arcade.js?v=20260820-blockdrop" defer></script>
+    <script src="/assets/word-guess-runtime.js?v=20260825-word2" defer></script>
   </body>
 </html>
