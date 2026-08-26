@@ -78,13 +78,12 @@
     function announce(text) { const o = document.querySelector('#playResult'); if (o) o.textContent = text; }
     function currentGroup() { return stages[stage] && stages[stage].groups[turn]; }
     function stageNumber() { return Math.min(5, stage + 1); }
-    function pickupOpen() { return flying && stage < 4 && progress >= P[diff].pickupStart && progress <= P[diff].pickupEnd; }
     function renderStones() {
       ground.innerHTML = '';
       for (let i = 0; i < 4; i++) {
         const active = remaining.has(i);
         const b = document.createElement('button'); b.type = 'button';
-        b.className = 'gg4-stone' + (picked.has(i) ? ' picked' : '') + (!active ? ' removed' : '') + (flying && stage < 4 && progress > P[diff].pickupEnd && active && !picked.has(i) ? ' late' : '');
+        b.className = 'gg4-stone' + (picked.has(i) ? ' picked' : '') + (!active ? ' removed' : '');
         b.textContent = String(i + 1); b.setAttribute('aria-label', `${i + 1}번 바닥 공깃돌`);
         b.style.left = layout[i].x + '%'; b.style.top = layout[i].y + '%';
         b.disabled = !flying || stage === 4 || picked.has(i) || !active || locked;
@@ -193,7 +192,7 @@
         setPrompt();
         if (progress >= 1) fail(stage === 4 ? '공깃돌을 받지 못했습니다.' : '던진 공깃돌이 손으로 돌아오기 전에 받지 못했습니다.');
       }
-      render(); frame = requestAnimationFrame(loop);
+      frame = requestAnimationFrame(loop);
     }
 
     function keyDown(e) {
