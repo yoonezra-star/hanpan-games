@@ -22,6 +22,7 @@
   function save(key, value) {
     try { localStorage.setItem(key, JSON.stringify(value)); } catch (e) {}
   }
+  function freshStones() { return new Set([0, 1, 2, 3]); }
 
   function mount(surface) {
     if (!surface || surface.dataset.gameId !== ID || surface.querySelector('.gg3')) return;
@@ -29,7 +30,7 @@
     let diff = P[prefs.difficulty] ? prefs.difficulty : 'normal';
     const records = load(RK, {});
     let stage = 0, turn = 0, lives = P[diff].lives, score = 0, combo = 0, bestCombo = 0;
-    let flying = false, flightStart = 0, progress = 0, picked = new Set(), ready = true, flipStep = 0, backhand = 0;
+    let flying = false, flightStart = 0, progress = 0, picked = new Set(), remaining = freshStones(), ready = true, flipStep = 0, backhand = 0;
     let frame = 0, last = performance.now(), locked = false;
 
     function record() {
@@ -47,7 +48,7 @@
         .gg3-air.multi{width:66px;height:50px;border-radius:45%;background:radial-gradient(circle at 20% 35%,#fff 0 10%,transparent 11%),radial-gradient(circle at 45% 25%,#fff 0 10%,transparent 11%),radial-gradient(circle at 70% 38%,#fff 0 10%,transparent 11%),radial-gradient(circle at 35% 65%,#fff 0 10%,transparent 11%),radial-gradient(circle at 65% 70%,#fff 0 10%,transparent 11%),#7899c1}
         .gg3-hand{position:absolute;left:50%;bottom:30px;width:150px;height:52px;transform:translateX(-50%);border-radius:70% 70% 35% 35%;background:#f0b98f;border:3px solid #9a694c;z-index:2}.gg3-hand:after{content:"손";position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);font-weight:900;color:#704932}
         .gg3-ground{position:absolute;left:9%;right:9%;bottom:92px;display:grid;grid-template-columns:repeat(4,1fr);gap:16px;z-index:3}
-        .gg3-stone{aspect-ratio:1;max-width:72px;width:100%;justify-self:center;border-radius:50%;border:3px solid #53749a;background:radial-gradient(circle at 35% 30%,#fff,#8fafcf 58%,#55779e);box-shadow:0 7px 10px rgba(0,0,0,.14);cursor:pointer;transition:transform .12s,opacity .12s}.gg3-stone.picked{opacity:.18;transform:translateY(-25px) scale(.8);pointer-events:none}.gg3-stone:disabled{cursor:default}
+        .gg3-stone{aspect-ratio:1;max-width:72px;width:100%;justify-self:center;border-radius:50%;border:3px solid #53749a;background:radial-gradient(circle at 35% 30%,#fff,#8fafcf 58%,#55779e);box-shadow:0 7px 10px rgba(0,0,0,.14);cursor:pointer;transition:transform .12s,opacity .12s}.gg3-stone.picked{opacity:.18;transform:translateY(-25px) scale(.8);pointer-events:none}.gg3-stone.removed{opacity:0;pointer-events:none}.gg3-stone:disabled{cursor:default}
         .gg3-prompt{position:absolute;left:50%;top:18px;transform:translateX(-50%);padding:9px 14px;border-radius:999px;background:#fffdf2e8;font-weight:900;white-space:nowrap;z-index:5}
         .gg3-stage-name{font-size:1.08rem;font-weight:900}.gg3-help{font-size:.92rem;color:#566070}.gg3 button,.gg3 select{min-height:44px}
         @media(max-width:600px){.gg3-board{min-height:340px}.gg3-ground{left:4%;right:4%;gap:10px}.gg3-actions .button{flex:1 1 125px}}
@@ -58,7 +59,7 @@
         <div class="gg3-stage-name" data-v="stageName"></div>
         <div class="gg3-board" aria-label="공깃돌을 던지고 바닥 돌을 주운 뒤 다시 받는 공기놀이 게임 영역"><div class="gg3-prompt"></div><div class="gg3-air" aria-hidden="true"></div><div class="gg3-ground"></div><div class="gg3-hand" aria-hidden="true"></div></div>
         <div class="gg3-actions"><button class="button primary" data-act="toss" type="button">공깃돌 던지기 · Enter</button><button class="button primary" data-act="catch" type="button">받기 · Space</button></div>
-        <div class="gg3-records"></div><p class="gg3-help">1~4단계는 공깃돌을 던진 뒤 바닥 돌을 필요한 개수만큼 눌러 줍고, 내려오는 돌을 Space로 받습니다. 5단계 꺾기는 손등 받기와 뒤집어 받기를 연속으로 성공해야 합니다.</p>
+        <div class="gg3-records"></div><p class="gg3-help">1~4단계는 공깃돌을 던진 뒤 바닥 돌을 필요한 개수만큼 눌러 줍고, 내려오는 돌을 Space로 받습니다. 성공한 돌은 바닥에서 사라져 다음 차례에는 남은 돌만 주울 수 있습니다. 5단계 꺾기는 손등 받기와 뒤집어 받기를 연속으로 성공해야 합니다.</p>
       </div>`;
 
     const $ = (q) => surface.querySelector(q);
@@ -71,7 +72,14 @@
     function renderStones() {
       ground.innerHTML = '';
       for (let i = 0; i < 4; i++) {
-        const b = document.createElement('button'); b.type = 'button'; b.className = 'gg3-stone' + (picked.has(i) ? ' picked' : ''); b.setAttribute('aria-label', `${i + 1}번 바닥 공깃돌`); b.disabled = !flying || stage === 4 || picked.has(i); b.addEventListener('click', () => pickStone(i)); ground.appendChild(b);
+        const active = remaining.has(i);
+        const b = document.createElement('button');
+        b.type = 'button';
+        b.className = 'gg3-stone' + (picked.has(i) ? ' picked' : '') + (!active ? ' removed' : '');
+        b.setAttribute('aria-label', `${i + 1}번 바닥 공깃돌`);
+        b.disabled = !flying || stage === 4 || picked.has(i) || !active;
+        b.addEventListener('click', () => pickStone(i));
+        ground.appendChild(b);
       }
       ground.style.display = stage === 4 ? 'none' : 'grid';
     }
@@ -89,11 +97,11 @@
       if (stage >= 5) { prompt.textContent = '완주'; return; }
       if (stage === 4) { prompt.textContent = flipStep === 0 ? '다섯 알을 띄우고 꼭대기에서 손등으로 받기' : `손등 ${backhand}알 · 내려올 때 뒤집어 받기`; return; }
       const need = currentGroup();
-      prompt.textContent = flying ? `${need}알 줍기 · 현재 ${picked.size}/${need}` : `${need}알을 줍는 차례`;
+      prompt.textContent = flying ? `${need}알 줍기 · 현재 ${picked.size}/${need} · 바닥 ${remaining.size}알` : `${need}알을 줍는 차례 · 바닥 ${remaining.size}알`;
     }
 
     function reset() {
-      stage = 0; turn = 0; lives = P[diff].lives; score = 0; combo = 0; bestCombo = 0; flying = false; picked = new Set(); ready = true; locked = false; flipStep = 0; backhand = 0; progress = 0;
+      stage = 0; turn = 0; lives = P[diff].lives; score = 0; combo = 0; bestCombo = 0; flying = false; picked = new Set(); remaining = freshStones(); ready = true; locked = false; flipStep = 0; backhand = 0; progress = 0;
       record().runs++; save(RK, records); air.style.display = 'none'; air.classList.remove('multi'); setPrompt(); render(); announce(`${P[diff].label} 공기놀이 시작. 던지기 → 줍기 → 받기 순서로 진행하세요.`);
     }
 
@@ -105,7 +113,7 @@
     }
 
     function pickStone(index) {
-      if (!flying || stage === 4 || locked || picked.has(index)) return;
+      if (!flying || stage === 4 || locked || picked.has(index) || !remaining.has(index)) return;
       const need = currentGroup();
       picked.add(index);
       if (picked.size > need) { fail('필요한 개수보다 많이 집었습니다.'); return; }
@@ -123,8 +131,16 @@
 
     function succeedTurn(timingBonus) {
       flying = false; air.style.display = 'none'; combo++; bestCombo = Math.max(bestCombo, combo); score += 50 + stage * 25 + timingBonus + combo * 4;
+      picked.forEach((index) => remaining.delete(index));
       turn++; picked = new Set(); locked = true;
-      if (turn >= stages[stage].groups.length) { score += 120 + stage * 30; stage++; turn = 0; combo += 2; bestCombo = Math.max(bestCombo, combo); }
+      if (turn >= stages[stage].groups.length) {
+        score += 120 + stage * 30;
+        stage++;
+        turn = 0;
+        remaining = freshStones();
+        combo += 2;
+        bestCombo = Math.max(bestCombo, combo);
+      }
       if (stage >= stages.length) { setTimeout(() => finish(true), 250); return; }
       announce(stage === 4 ? '4단계를 통과했습니다. 마지막 꺾기에 도전하세요.' : `${stages[stage].name}로 진행합니다.`);
       setTimeout(() => { locked = false; ready = true; flipStep = 0; setPrompt(); render(); }, 560); render();
@@ -159,7 +175,7 @@
     }
 
     function loop(now) {
-      const dt = Math.min(.034, Math.max(0, (now - last) / 1000)); last = now;
+      last = now;
       if (flying) {
         progress = Math.min(1, (now - flightStart) / (P[diff].flight * 1000));
         const height = Math.sin(progress * Math.PI) * (stage === 4 ? 235 : 220);
