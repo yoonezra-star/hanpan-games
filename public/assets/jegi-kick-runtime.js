@@ -180,9 +180,9 @@
         return;
       }
 
-      chances++;
       const distance = Math.abs(y - 72);
       if (distance <= P[diff].perfect) {
+        chances++;
         successes++;
         perfects++;
         streak++;
@@ -192,6 +192,7 @@
         vx += (Math.random() - .5) * P[diff].drift * .45;
         announce(`완벽한 발등 타격! ${streak}회 연속.`);
       } else if (distance <= P[diff].good) {
+        chances++;
         successes++;
         streak++;
         bestStreak = Math.max(bestStreak, streak);
