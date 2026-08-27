@@ -1,1 +1,98 @@
-<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="icon" href="/favicon.svg" type="image/svg+xml"><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6918910185244897" crossorigin="anonymous"></script><meta name="google-site-verification" content="qBlRPhDg3Tazy0wuTNee_wfGeDjuYz80N6R_Iinh9bs"><title>미로 추격 클래식 - 펠릿·추격자 스테이지 | 한판게임</title><meta name="description" content="미로의 빛 조각을 모으며 추격자를 피하고 스테이지를 반복 돌파하는 무료 미로 추격 웹게임입니다."><link rel="canonical" href="https://hanpangames.kr/games/maze-chase/"><link rel="stylesheet" href="/assets/styles.css?v=20260820-blockdrop"></head><body><header class="site-header"><a class="brand" href="/"><span class="brand-mark">H</span><span><strong>한판게임</strong><small>HANPAN GAME</small></span></a><nav class="nav"><a href="/games/" aria-current="page">게임</a><a href="/guides/">가이드</a><a href="/about/">소개</a></nav></header><main class="subpage game-detail-page"><section class="page-title"><p class="eyebrow">고전 오락실 · 스테이지 생존</p><h1 id="playTitle">미로 추격 클래식</h1><p id="playDescription">13×12 미로의 빛 조각을 모두 모으면서 추격자를 피하는 스테이지형 미로 게임입니다.</p><div class="game-launcher"><select id="gamePagePicker" data-game-page-picker data-current-game="maze-chase" onchange="if(this.value&&this.value!==this.dataset.currentGame)location.href='/games/'+encodeURIComponent(this.value)+'/#play-area'"></select><a class="button primary" href="#play-area">바로 시작</a><a class="button secondary" href="/play/?game=maze-chase">큰 화면</a></div></section><section class="inline-game-stage game-first-stage" id="play-area"><div class="stage-head"><div><p class="eyebrow">Maze</p><h2>미로 추격 플레이</h2></div><button class="button primary" id="restartGame" type="button">다시 시작</button></div><div class="play-surface" id="playSurface" data-game-id="maze-chase"></div><p class="result-line" id="playResult">게임을 불러오는 중입니다.</p></section><article class="article featured-article"><h2>게임 방법</h2><p>방향키 또는 WASD, 화면 방향 버튼으로 노란 플레이어를 움직입니다. 이동 가능한 모든 바닥에 놓인 빛 조각을 다 모으면 다음 스테이지로 넘어갑니다.</p><h2>추격자와 난이도</h2><p>추격자는 플레이어와의 맨해튼 거리가 짧아지는 방향을 우선해 움직입니다. 쉬움보다 어려움에서 추격자의 이동 빈도가 높고 시작 목숨은 적습니다.</p><h2>기록</h2><p>난이도별 도전 횟수, 최고 점수, 최고 스테이지와 한 스테이지 최단 클리어 시간을 저장합니다. 시작 칸을 제외한 빛 조각 73개는 하나당 10점이고 스테이지 클리어는 500점 보너스를 줍니다.</p><h2>공략</h2><p>막다른 길에 들어가기 전 추격자의 위치를 먼저 확인하세요. 교차로를 여러 번 통과할 수 있는 중앙 통로를 안전지대로 남겨 두면 추격자를 반대편으로 유도하기 쉽습니다.</p><h2>업데이트</h2><p class="site-note">2026년 8월 26일 실제 시간 제한과 맞지 않던 표시를 스테이지 생존으로 수정하고, 최단 클리어 기록을 초 단위로 명확하게 표시하도록 개선했습니다.</p><h2>관련 공략</h2><p><a href="/guides/maze-chase-strategy/">미로 추격 공략: 73개 조각·추격 AI·교차로·스테이지 생존</a></p></article></main><footer class="site-footer"><div><strong>한판게임</strong></div></footer><script src="/assets/app.js?v=20260820-blockdrop" defer></script><script src="/assets/arcade.js?v=20260820-blockdrop" defer></script><script src="/assets/maze-chase-runtime.js?v=20260826-maze3" defer></script></body></html>
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6918910185244897" crossorigin="anonymous"></script>
+  <meta name="google-site-verification" content="qBlRPhDg3Tazy0wuTNee_wfGeDjuYz80N6R_Iinh9bs">
+  <title>미로 추격 클래식 - 73개 조각·추격 AI 생존 | 한판게임</title>
+  <meta name="description" content="13×12 미로에서 73개 빛 조각을 모으고 추격자를 피하며 스테이지를 이어 가는 무료 웹게임입니다. 난이도별 목숨·추격 주기, 점수와 최단 클리어 기록 규칙을 제공합니다.">
+  <link rel="canonical" href="https://hanpangames.kr/games/maze-chase/">
+  <link rel="stylesheet" href="/assets/styles.css?v=20260820-blockdrop">
+</head>
+<body>
+<header class="site-header">
+  <a class="brand" href="/" aria-label="한판게임 홈"><span class="brand-mark" aria-hidden="true">H</span><span><strong>한판게임</strong><small>HANPAN GAME</small></span></a>
+  <nav class="nav" aria-label="주요 메뉴"><a href="/games/" aria-current="page">게임</a><a href="/guides/">가이드</a><a href="/about/">소개</a><a href="/help/">도움말</a><a href="/contact/">문의</a></nav>
+</header>
+
+<main class="subpage game-detail-page">
+  <section class="page-title">
+    <p class="eyebrow">아케이드·미로 · 스테이지 생존</p>
+    <h1 id="playTitle">미로 추격 클래식</h1>
+    <p id="playDescription">13×12 고정 미로에서 73개 빛 조각을 모두 모으고 추격자를 피하면서 목숨이 남는 한 다음 스테이지에 도전합니다.</p>
+    <div class="game-launcher"><select id="gamePagePicker" data-game-page-picker data-current-game="maze-chase" onchange="if(this.value&&this.value!==this.dataset.currentGame)location.href='/games/'+encodeURIComponent(this.value)+'/#play-area'"></select><a class="button primary" href="#play-area">바로 시작</a><a class="button secondary" href="/play/?game=maze-chase">큰 화면</a></div>
+  </section>
+
+  <section class="inline-game-stage game-first-stage" id="play-area">
+    <div class="stage-head"><div><p class="eyebrow">Maze</p><h2>미로 추격 플레이</h2></div><button class="button primary" id="restartGame" type="button">다시 시작</button></div>
+    <div class="play-surface" id="playSurface" data-game-id="maze-chase"></div>
+    <p class="result-line" id="playResult">게임을 불러오는 중입니다.</p>
+  </section>
+
+  <article class="article featured-article">
+    <h2>한 스테이지는 73개 조각 수집으로 끝납니다</h2>
+    <p>미로는 13열×12행이며 이동 가능한 바닥은 74칸입니다. 플레이어 시작 칸의 조각을 제외하므로 실제 수집 대상은 <strong>73개</strong>입니다.</p>
+    <p>빛 조각 하나는 10점이고 모든 조각을 모으면 500점의 스테이지 보너스를 받습니다. 따라서 한 스테이지에서 조각과 클리어 보너스로 얻는 총점은 730+500=<strong>1,230점</strong>입니다.</p>
+
+    <h2>난이도는 시작 목숨과 추격자 이동 주기를 바꿉니다</h2>
+    <div class="detail-snapshot">
+      <div><strong>쉬움</strong><span>목숨 4 · 추격자 약 390ms마다 이동</span></div>
+      <div><strong>보통</strong><span>목숨 3 · 추격자 약 260ms마다 이동</span></div>
+      <div><strong>어려움</strong><span>목숨 2 · 추격자 약 130ms마다 이동</span></div>
+    </div>
+    <p>게임의 기본 틱은 약 130ms입니다. 플레이어는 매 틱 현재 지정된 방향으로 한 칸 이동을 시도하고, 추격자는 쉬움 3틱마다, 보통 2틱마다, 어려움에서는 매 틱 움직입니다.</p>
+
+    <h2>방향 입력은 다음 방향을 누를 때까지 유지됩니다</h2>
+    <p>방향키·WASD 또는 화면 방향 버튼으로 방향을 정하면 열린 통로에서는 키를 계속 누르지 않아도 같은 방향으로 움직입니다. 벽을 향하면 위치는 그대로지만 틱은 계속 진행되므로 추격자는 계속 접근할 수 있습니다.</p>
+    <p>교차로에 도착하기 전에 다음 방향을 선택해 벽 앞에서 허비하는 틱을 줄이는 것이 안전성과 최단 클리어 기록 모두에 중요합니다.</p>
+
+    <h2>추격자는 78% 확률로 맨해튼 거리를 줄이는 칸을 우선합니다</h2>
+    <p>추격자는 현재 위치에서 이동 가능한 상하좌우 칸을 비교합니다. 약 78% 확률로 플레이어와의 맨해튼 거리가 가장 짧아지는 이웃 칸을 선택하고, 나머지 경우에는 이동 가능한 칸 중 하나를 무작위로 고릅니다.</p>
+    <p>따라서 완전한 최단경로 탐색 AI는 아니며 교차로에서 가끔 예상과 다른 방향을 고를 수 있습니다.</p>
+
+    <h2>잡혀도 먹은 조각과 점수는 유지됩니다</h2>
+    <p>플레이어 이동 뒤 또는 추격자 이동 뒤 둘이 같은 칸이 되면 목숨이 1 줄어듭니다. 플레이어는 왼쪽 위 시작점, 추격자는 오른쪽 아래 시작점으로 돌아가고 이동 방향은 초기화됩니다.</p>
+    <p>이미 먹은 조각과 누적 점수는 그대로 유지되며 스테이지의 틱 카운트도 계속됩니다. 즉 최단 클리어 시간에는 해당 스테이지에서 충돌로 지연된 시간까지 포함됩니다.</p>
+
+    <h2>다음 스테이지에서도 같은 맵과 추격 속도를 사용합니다</h2>
+    <p>73개 조각을 모두 모으면 스테이지가 1 올라가고 같은 미로가 새 조각으로 다시 시작됩니다. 선택한 난이도가 같다면 추격자의 이동 주기도 그대로이며, 스테이지 번호 자체가 추격자를 더 빠르게 만들지는 않습니다.</p>
+    <p>목숨은 스테이지를 클리어해도 회복되지 않습니다. 높은 스테이지를 목표로 한다면 초반 목숨 보존이 중요합니다.</p>
+
+    <h2>최단 클리어와 게임 오버 기록은 저장 시점이 다릅니다</h2>
+    <p><strong>도전 횟수</strong>는 추격 시작 순간 증가합니다. <strong>최단 클리어</strong>는 한 스테이지를 정상 완료한 순간 해당 스테이지의 틱 수를 비교해 즉시 저장하고, 화면에서는 틱×0.13을 초 단위로 표시합니다.</p>
+    <p><strong>최고 점수와 최고 스테이지</strong>는 목숨이 0이 되어 게임이 끝났을 때 갱신됩니다. 2026년 8월 27일에는 최단 클리어를 게임 오버 전에도 즉시 보존하도록 수정했고, 예전의 999틱 미기록 센티널 때문에 약 129.9초보다 오래 걸린 첫 클리어가 저장되지 않던 경계값 문제도 제거했습니다.</p>
+
+    <h2>일시정지와 새로고침</h2>
+    <p>P 또는 화면 버튼으로 일시정지할 수 있고 탭이 숨겨지면 자동으로 정지합니다. 정지 순간 현재 이동 방향을 초기화하며, 정지 중에는 방향키나 화면 방향 버튼으로 다음 이동을 미리 설정할 수 없습니다. P 키 자동반복도 무시합니다.</p>
+    <p>다시 시작하려면 계속 후 새 방향을 입력해야 합니다. 진행 중 위치·남은 조각·목숨·점수는 새로고침 후 복구되지 않습니다.</p>
+
+    <h2>브라우저에 저장되는 데이터</h2>
+    <p><code>hanpan-maze-records-v2</code>에는 난이도별 <code>attempts</code>, <code>bestScore</code>, <code>bestStage</code>, <code>bestClear</code>가 저장됩니다. <code>hanpan-maze-prefs-v2</code>에는 마지막 선택 난이도 <code>difficulty</code>가 저장됩니다.</p>
+
+    <h2>기본 공략</h2>
+    <ul class="strategy-list">
+      <li>막다른 길에 들어가기 전에 추격자가 반대 구역에 있는지 확인하세요.</li>
+      <li>교차로와 중앙 연결 통로는 조각을 먹은 뒤에도 탈출 경로로 활용하세요.</li>
+      <li>마지막 조각을 멀리 떨어진 여러 구역에 하나씩 남기지 않도록 구역별로 정리하세요.</li>
+      <li>어려움에서는 추격자가 매 틱 움직이므로 벽 앞 정지보다 빈 통로를 돌아 거리 확보하는 편이 안전할 수 있습니다.</li>
+    </ul>
+
+    <h2>업데이트</h2>
+    <p class="site-note">2026년 8월 27일 일시정지 방향 입력과 P 자동반복을 안정화하고, 최단 클리어 즉시 저장 및 999틱 기록 경계값 문제를 수정했습니다. 상세 규칙과 저장 시점도 실제 런타임 기준으로 정리했습니다.</p>
+    <p><a href="/guides/maze-chase-strategy/">미로 추격 공략 자세히 보기</a></p>
+  </article>
+</main>
+
+<footer class="site-footer">
+  <div><strong>한판게임</strong><p>설치 없이 브라우저에서 바로 즐기는 무료 미니게임과 실제 플레이 기준 공략을 제공합니다.</p></div>
+  <nav aria-label="사이트 정보"><a href="/about/">소개</a><a href="/help/">도움말</a><a href="/updates/">업데이트</a><a href="/privacy/">개인정보처리방침</a><a href="/terms/">이용약관</a><a href="/contact/">문의</a></nav>
+  <p class="copyright">© <span id="year"></span> Hanpan Game. All rights reserved.</p>
+</footer>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebPage","name":"미로 추격 클래식","url":"https://hanpangames.kr/games/maze-chase/","description":"13×12 미로의 73개 빛 조각을 모으고 추격자를 피하며 스테이지 기록에 도전하는 무료 웹게임입니다.","inLanguage":"ko-KR"}</script>
+<script src="/assets/app.js?v=20260820-blockdrop" defer></script>
+<script src="/assets/arcade.js?v=20260820-blockdrop" defer></script>
+<script src="/assets/maze-chase-runtime.js?v=20260827-maze4" defer></script>
+</body>
+</html>
