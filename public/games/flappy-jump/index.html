@@ -1,1 +1,98 @@
-<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="icon" href="/favicon.svg" type="image/svg+xml"><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6918910185244897" crossorigin="anonymous"></script><meta name="google-site-verification" content="qBlRPhDg3Tazy0wuTNee_wfGeDjuYz80N6R_Iinh9bs"><title>플래피 점프 - 난이도별 통과 기록 | 한판게임</title><meta name="description" content="쉬움·보통·어려움 간격과 속도에서 Space·터치로 기둥을 통과하고 최고 기록에 도전하는 무료 플래피 웹게임입니다."><link rel="canonical" href="https://hanpangames.kr/games/flappy-jump/"><link rel="stylesheet" href="/assets/styles.css?v=20260820-blockdrop"></head><body><header class="site-header"><a class="brand" href="/"><span class="brand-mark">H</span><span><strong>한판게임</strong><small>HANPAN GAME</small></span></a><nav class="nav"><a href="/games/" aria-current="page">게임</a><a href="/guides/">가이드</a><a href="/about/">소개</a></nav></header><main class="subpage game-detail-page"><section class="page-title"><p class="eyebrow">고전 오락실 · 생존</p><h1 id="playTitle">플래피 점프</h1><p id="playDescription">짧게 점프해 높이를 조절하고 기둥 사이를 연속 통과하는 원버튼 비행 게임입니다.</p><div class="game-launcher"><select id="gamePagePicker" data-game-page-picker data-current-game="flappy-jump" onchange="if(this.value&&this.value!==this.dataset.currentGame)location.href='/games/'+encodeURIComponent(this.value)+'/#play-area'"></select><a class="button primary" href="#play-area">바로 시작</a><a class="button secondary" href="/play/?game=flappy-jump">큰 화면</a></div></section><section class="inline-game-stage game-first-stage" id="play-area"><div class="stage-head"><div><p class="eyebrow">One button</p><h2>플래피 점프 플레이</h2></div><button class="button primary" id="restartGame" type="button">다시 시작</button></div><div class="play-surface" id="playSurface" data-game-id="flappy-jump"></div><p class="result-line" id="playResult">게임을 불러오는 중입니다.</p></section><article class="article featured-article"><h2>조작</h2><p>Space, 화면 클릭 또는 점프 버튼을 누를 때마다 위로 짧게 튀어 오릅니다. 아무 입력이 없으면 중력으로 내려갑니다.</p><h2>난이도</h2><p>쉬움은 기둥 사이 간격이 넓고 이동 속도가 느립니다. 어려움으로 갈수록 간격은 좁아지고 기둥 이동 속도와 낙하 가속이 커집니다.</p><h2>기록</h2><p>기둥 한 쌍을 완전히 지나갈 때마다 1점을 얻습니다. 난이도별 도전 횟수, 최고 통과 수와 누적 통과 수를 저장합니다.</p><h2>공략</h2><p>연속으로 여러 번 누르기보다 기체가 내려오는 순간 짧게 한 번씩 보정하는 것이 안정적입니다. 기둥 입구가 아니라 통과 후의 높이까지 예상하면 급격한 상하 움직임을 줄일 수 있습니다.</p><h2>업데이트</h2><p class="site-note">2026년 8월 25일 난이도별 간격·속도·중력, 최고/누적 통과 기록과 터치 조작을 추가했습니다.</p><h2>관련 공략</h2><p><a href="/guides/flappy-jump-guide/">플래피 점프 공략: 점프 간격과 높이 보정법</a></p></article></main><footer class="site-footer"><div><strong>한판게임</strong></div></footer><script src="/assets/app.js?v=20260820-blockdrop" defer></script><script src="/assets/arcade.js?v=20260820-blockdrop" defer></script><script src="/assets/flappy-jump-runtime.js?v=20260825-flappy2" defer></script></body></html>
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6918910185244897" crossorigin="anonymous"></script>
+  <meta name="google-site-verification" content="qBlRPhDg3Tazy0wuTNee_wfGeDjuYz80N6R_Iinh9bs">
+  <title>플래피 점프 - 105~150px 틈·생존 기록 | 한판게임</title>
+  <meta name="description" content="쉬움 150px, 보통 125px, 어려움 105px 기둥 틈에서 Space·터치로 높이를 조절하고 최고·누적 통과 기록에 도전하는 무료 원버튼 생존 웹게임입니다.">
+  <link rel="canonical" href="https://hanpangames.kr/games/flappy-jump/">
+  <link rel="stylesheet" href="/assets/styles.css?v=20260820-blockdrop">
+</head>
+<body>
+<header class="site-header">
+  <a class="brand" href="/" aria-label="한판게임 홈"><span class="brand-mark" aria-hidden="true">H</span><span><strong>한판게임</strong><small>HANPAN GAME</small></span></a>
+  <nav class="nav" aria-label="주요 메뉴"><a href="/games/" aria-current="page">게임</a><a href="/guides/">가이드</a><a href="/about/">소개</a><a href="/help/">도움말</a><a href="/contact/">문의</a></nav>
+</header>
+
+<main class="subpage game-detail-page">
+  <section class="page-title">
+    <p class="eyebrow">원버튼·생존 · 기둥 통과</p>
+    <h1 id="playTitle">플래피 점프</h1>
+    <p id="playDescription">Space·클릭·터치 한 번으로 상승 속도를 만들고, 중력으로 내려오는 높이를 조절해 기둥 틈을 연속 통과하는 생존형 웹게임입니다.</p>
+    <div class="game-launcher"><select id="gamePagePicker" data-game-page-picker data-current-game="flappy-jump" onchange="if(this.value&&this.value!==this.dataset.currentGame)location.href='/games/'+encodeURIComponent(this.value)+'/#play-area'"></select><a class="button primary" href="#play-area">바로 시작</a><a class="button secondary" href="/play/?game=flappy-jump">큰 화면</a></div>
+  </section>
+
+  <section class="inline-game-stage game-first-stage" id="play-area">
+    <div class="stage-head"><div><p class="eyebrow">One button</p><h2>플래피 점프 플레이</h2></div><button class="button primary" id="restartGame" type="button">다시 시작</button></div>
+    <div class="play-surface" id="playSurface" data-game-id="flappy-jump"></div>
+    <p class="result-line" id="playResult">게임을 불러오는 중입니다.</p>
+  </section>
+
+  <article class="article featured-article">
+    <h2>난이도마다 틈·이동 속도·중력이 모두 다릅니다</h2>
+    <div class="detail-snapshot">
+      <div><strong>쉬움</strong><span>기둥 틈 150px · 속도 2.3 · 중력 0.32</span></div>
+      <div><strong>보통</strong><span>기둥 틈 125px · 속도 2.8 · 중력 0.36</span></div>
+      <div><strong>어려움</strong><span>기둥 틈 105px · 속도 3.25 · 중력 0.40</span></div>
+    </div>
+    <p>어려움으로 갈수록 통과 공간이 좁아지고 기둥이 더 빠르게 다가오며 낙하 가속도 커집니다. 별도의 1분 제한은 없고 기둥이나 화면 위·아래 경계에 부딪힐 때까지 계속됩니다.</p>
+
+    <h2>점프는 상승력을 누적하지 않고 세로 속도를 -6.2로 다시 설정합니다</h2>
+    <p>비행은 화면 좌측의 고정된 가로 위치에서 시작하며 기체 중심은 처음 약 y=220에 있습니다. Space, 캔버스 클릭·터치 또는 점프 버튼을 누를 때마다 현재 세로 속도가 <strong>-6.2</strong>로 바뀝니다.</p>
+    <p>빠르게 여러 번 눌러 상승력이 합산되는 구조는 아니지만, 상승 중 다시 입력하면 -6.2가 다시 적용되어 높은 상태가 오래 이어질 수 있습니다. 2026년 8월 27일부터 Space를 길게 눌렀을 때 발생하는 브라우저 자동반복 keydown은 점프로 인정하지 않습니다.</p>
+
+    <h2>기둥 쌍은 약 1.45초마다 새로 생성됩니다</h2>
+    <p>기둥 생성 주기는 난이도와 관계없이 약 <strong>1,450ms</strong>입니다. 기둥 폭은 56px이며, 생성된 기둥은 선택 난이도의 속도만큼 왼쪽으로 이동합니다.</p>
+    <p>어려움에서 생성 자체가 더 잦아지는 것은 아니지만 이동 속도가 빨라 화면 오른쪽에서 기체까지 오는 시간이 짧아집니다. 다음 틈 높이를 더 일찍 읽어야 하는 이유입니다.</p>
+
+    <h2>기둥을 완전히 지난 뒤에 1점이 올라갑니다</h2>
+    <p>기둥 틈에 들어갔다고 바로 통과로 계산하지 않습니다. 기둥 쌍의 오른쪽 끝이 기체 중심의 가로 위치보다 완전히 왼쪽으로 지나간 순간 해당 기둥이 한 번만 점수 처리되고 <strong>통과 +1</strong>이 됩니다.</p>
+    <p>따라서 기둥 후단을 완전히 벗어나기 전까지는 현재 높이를 안정적으로 유지하는 것이 중요합니다.</p>
+
+    <h2>위·아래 화면 경계도 충돌 조건입니다</h2>
+    <p>기체 중심 y가 약 12px보다 위로 올라가거나 408px보다 아래로 내려가면 게임이 끝납니다. 화면 아래에는 지면이 약 y=420부터 그려지므로 낮은 틈을 따라가다가 입력을 너무 오래 쉬는 것도 위험합니다.</p>
+    <p>기둥과는 기체 중심 기준 약 13px 반경을 사용해 겹침을 판정합니다. 어려움 105px 틈에서는 화면상 여유보다 실제 통과 여유가 더 좁게 느껴질 수 있습니다.</p>
+
+    <h2>최고 기록과 누적 통과는 통과 순간 바로 저장합니다</h2>
+    <p><strong>도전 횟수</strong>는 비행 시작 순간 1 증가합니다. 기둥을 하나 완전히 통과할 때마다 현재 점수를 기준으로 <strong>최고 기록</strong>을 비교하고, <strong>누적 통과</strong>도 1씩 증가시킨 뒤 즉시 브라우저에 저장합니다.</p>
+    <p>이전에는 최고·누적 통과를 충돌로 판이 끝난 뒤 저장했기 때문에 진행 중 새로고침이나 다른 게임 이동으로 이미 지나간 기둥이 누적 기록에서 빠질 수 있었습니다. 2026년 8월 27일부터는 실제 통과 순간을 기록 기준으로 사용합니다.</p>
+
+    <h2>일시정지 후에는 직접 재개해야 합니다</h2>
+    <p>P 또는 화면의 일시정지 버튼으로 비행을 멈출 수 있습니다. 정지 중에는 Space·클릭·터치·점프 버튼이 새 점프를 만들지 않습니다.</p>
+    <p>브라우저 탭이 숨겨지면 자동으로 일시정지되며 탭으로 돌아왔다고 자동 재개되지 않습니다. 준비가 되었을 때 계속 버튼 또는 P를 눌러 재개합니다. 재개 순간 기준 시간을 다시 잡아 숨겨져 있던 시간 때문에 큰 프레임 이동이 생기지 않도록 했습니다.</p>
+
+    <h2>새로고침 후 현재 비행은 복원되지 않습니다</h2>
+    <p>현재 기체 높이, 세로 속도, 화면의 기둥 위치와 현재 점수를 이어서 복원하는 인게임 세이브는 없습니다. 새로고침하면 새 판을 시작해야 합니다.</p>
+    <p>다만 이미 시작한 도전 횟수와 실제로 통과해 저장된 최고·누적 기록, 마지막 난이도 선택은 브라우저에 남습니다.</p>
+
+    <h2>브라우저에 저장되는 데이터</h2>
+    <p><code>hanpan-flappy-records-v2</code>에는 난이도별 <code>attempts</code>, <code>best</code>, <code>total</code>이 저장됩니다. <code>hanpan-flappy-prefs-v2</code>에는 마지막 선택 난이도 <code>difficulty</code>가 저장됩니다.</p>
+
+    <h2>기본 공략</h2>
+    <ul class="strategy-list">
+      <li>상승 중 연속 입력보다 하강이 시작될 때 짧게 한 번씩 보정하세요.</li>
+      <li>현재 기둥 진입이 안정되면 시선을 오른쪽 다음 기둥 틈으로 옮기세요.</li>
+      <li>기둥 중앙을 완벽히 맞히기보다 상하 움직임의 진폭을 작게 유지하세요.</li>
+      <li>어려움에서는 큰 낙하 뒤 연타 복구보다 작은 높이 수정이 안전합니다.</li>
+    </ul>
+
+    <h2>업데이트</h2>
+    <p class="site-note">2026년 8월 27일 Space 자동반복을 차단하고 수동 일시정지·탭 복귀 후 직접 재개를 추가했습니다. 최고 기록과 누적 통과도 기둥 통과 순간 즉시 저장하도록 기록 구조를 보강했습니다.</p>
+    <p><a href="/guides/flappy-jump-guide/">플래피 점프 공략 자세히 보기</a></p>
+  </article>
+</main>
+
+<footer class="site-footer">
+  <div><strong>한판게임</strong><p>설치 없이 브라우저에서 바로 즐기는 무료 미니게임과 실제 플레이 기준 공략을 제공합니다.</p></div>
+  <nav aria-label="사이트 정보"><a href="/about/">소개</a><a href="/help/">도움말</a><a href="/updates/">업데이트</a><a href="/privacy/">개인정보처리방침</a><a href="/terms/">이용약관</a><a href="/contact/">문의</a></nav>
+  <p class="copyright">© <span id="year"></span> Hanpan Game. All rights reserved.</p>
+</footer>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebPage","name":"플래피 점프","url":"https://hanpangames.kr/games/flappy-jump/","description":"난이도별 기둥 틈과 중력에서 높이를 조절해 통과 기록에 도전하는 무료 원버튼 생존 웹게임입니다.","inLanguage":"ko-KR"}</script>
+<script src="/assets/app.js?v=20260820-blockdrop" defer></script>
+<script src="/assets/arcade.js?v=20260820-blockdrop" defer></script>
+<script src="/assets/flappy-jump-runtime.js?v=20260827-flappy3" defer></script>
+</body>
+</html>
