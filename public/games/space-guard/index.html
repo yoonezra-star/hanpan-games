@@ -1,1 +1,97 @@
-<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="icon" href="/favicon.svg" type="image/svg+xml"><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6918910185244897" crossorigin="anonymous"></script><meta name="google-site-verification" content="qBlRPhDg3Tazy0wuTNee_wfGeDjuYz80N6R_Iinh9bs"><title>우주 방어선 - 웨이브 슈팅 웹게임 | 한판게임</title><meta name="description" content="난이도, 목숨, 웨이브, 자동 연사와 격추 기록을 지원하는 무료 우주 슈팅 웹게임입니다."><link rel="canonical" href="https://hanpangames.kr/games/space-guard/"><link rel="stylesheet" href="/assets/styles.css?v=20260820-blockdrop"></head><body><header class="site-header"><a class="brand" href="/"><span class="brand-mark">H</span><span><strong>한판게임</strong><small>HANPAN GAME</small></span></a><nav class="nav"><a href="/games/" aria-current="page">게임</a><a href="/guides/">가이드</a><a href="/about/">소개</a><a href="/help/">도움말</a></nav></header><main class="subpage game-detail-page"><section class="page-title"><p class="eyebrow">고전 오락실 · 웨이브 생존</p><h1 id="playTitle">우주 방어선</h1><p id="playDescription">좌우로 기체를 움직이며 자동 연사와 추가 발사로 내려오는 적 편대를 막는 웨이브 슈팅 게임입니다.</p><div class="game-launcher"><select id="gamePagePicker" data-game-page-picker data-current-game="space-guard" onchange="if(this.value&&this.value!==this.dataset.currentGame)location.href='/games/'+encodeURIComponent(this.value)+'/#play-area'"></select><a class="button primary" href="#play-area">바로 시작</a><a class="button secondary" href="/play/?game=space-guard">큰 화면</a></div></section><section class="inline-game-stage game-first-stage" id="play-area"><div class="stage-head"><div><p class="eyebrow">Shooter</p><h2>우주 방어선 플레이</h2></div><button class="button primary" id="restartGame" type="button">다시 시작</button></div><div class="play-surface" id="playSurface" data-game-id="space-guard"></div><p class="result-line" id="playResult">게임을 불러오는 중입니다.</p></section><article class="article featured-article"><h2>게임 방법</h2><p>좌우 방향키 또는 A/D, 화면 이동 버튼으로 기체를 움직입니다. 기본적으로 자동 연사하며 Space나 발사 버튼으로 즉시 추가 탄을 쏠 수 있습니다.</p><h2>웨이브</h2><p>적을 10기 격추할 때마다 웨이브가 올라가고 적의 하강 속도가 빨라집니다. 일부 웨이브에서는 두 번 맞혀야 파괴되는 강화 적도 등장합니다.</p><h2>실패 조건과 기록</h2><p>적이 방어선을 통과하거나 기체와 충돌하면 목숨을 잃습니다. 난이도별 도전 횟수, 최고 점수, 최고 웨이브와 최다 격추 수를 브라우저에 기록합니다.</p><h2>공략</h2><p>적 바로 아래에서 좌우로 짧게 움직이는 편이 긴 횡이동보다 안전합니다. 강화 적을 쫓다가 다른 열이 비지 않도록 화면 전체의 하강 위치를 함께 보세요.</p><h2>업데이트</h2><p class="site-note">2026년 8월 25일 난이도, 목숨, 웨이브, 강화 적, 자동 연사, 모바일 이동 버튼과 기록을 추가했습니다.</p><h2>관련 공략</h2><p><a href="/guides/space-guard-strategy/">우주 방어선 공략: 열 관리와 웨이브 생존법</a></p></article></main><footer class="site-footer"><div><strong>한판게임</strong></div></footer><script src="/assets/app.js?v=20260820-blockdrop" defer></script><script src="/assets/arcade.js?v=20260820-blockdrop" defer></script><script src="/assets/space-guard-runtime.js?v=20260825-space2" defer></script></body></html>
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6918910185244897" crossorigin="anonymous"></script>
+  <meta name="google-site-verification" content="qBlRPhDg3Tazy0wuTNee_wfGeDjuYz80N6R_Iinh9bs">
+  <title>우주 방어선 - 웨이브·강화 적 생존 슈팅 | 한판게임</title>
+  <meta name="description" content="목숨 2~4개, 난이도별 적 속도와 자동 연사, 10기 단위 웨이브, 4웨이브부터 등장하는 강화 적을 관리하며 최고 점수·웨이브·격추 기록에 도전하는 무료 웹 슈팅 게임입니다.">
+  <link rel="canonical" href="https://hanpangames.kr/games/space-guard/">
+  <link rel="stylesheet" href="/assets/styles.css?v=20260820-blockdrop">
+</head>
+<body>
+<header class="site-header">
+  <a class="brand" href="/" aria-label="한판게임 홈"><span class="brand-mark" aria-hidden="true">H</span><span><strong>한판게임</strong><small>HANPAN GAME</small></span></a>
+  <nav class="nav" aria-label="주요 메뉴"><a href="/games/" aria-current="page">게임</a><a href="/guides/">가이드</a><a href="/about/">소개</a><a href="/help/">도움말</a><a href="/contact/">문의</a></nav>
+</header>
+
+<main class="subpage game-detail-page">
+  <section class="page-title">
+    <p class="eyebrow">아케이드·생존 · 웨이브</p>
+    <h1 id="playTitle">우주 방어선</h1>
+    <p id="playDescription">좌우로 기체를 움직여 자동 연사와 수동 추가 발사를 활용하고, 방어선에 가까운 적부터 제거하며 가능한 오래 웨이브를 이어 가는 생존 슈팅 게임입니다.</p>
+    <div class="game-launcher"><select id="gamePagePicker" data-game-page-picker data-current-game="space-guard" onchange="if(this.value&&this.value!==this.dataset.currentGame)location.href='/games/'+encodeURIComponent(this.value)+'/#play-area'"></select><a class="button primary" href="#play-area">바로 시작</a><a class="button secondary" href="/play/?game=space-guard">큰 화면</a></div>
+  </section>
+
+  <section class="inline-game-stage game-first-stage" id="play-area">
+    <div class="stage-head"><div><p class="eyebrow">Shooter</p><h2>우주 방어선 플레이</h2></div><button class="button primary" id="restartGame" type="button">다시 시작</button></div>
+    <div class="play-surface" id="playSurface" data-game-id="space-guard"></div>
+    <p class="result-line" id="playResult">게임을 불러오는 중입니다.</p>
+  </section>
+
+  <article class="article featured-article">
+    <h2>난이도마다 목숨·적 속도·자동 연사가 다릅니다</h2>
+    <div class="detail-snapshot">
+      <div><strong>쉬움</strong><span>목숨 4 · 적 배율 0.72 · 자동 연사 약 420ms</span></div>
+      <div><strong>보통</strong><span>목숨 3 · 적 배율 0.90 · 자동 연사 약 500ms</span></div>
+      <div><strong>어려움</strong><span>목숨 2 · 적 배율 1.12 · 자동 연사 약 570ms</span></div>
+    </div>
+    <p>어려움으로 갈수록 실수 허용 횟수가 줄고 적이 더 빨리 내려오며 자동 발사 간격도 길어집니다. 시간 제한은 없고 목숨이 0이 될 때까지 계속 진행합니다.</p>
+
+    <h2>적은 8개 기본 열에서 등장합니다</h2>
+    <p>새 적은 화면 위쪽의 8개 기본 x 위치 중 하나에서 등장하고 내려오면서 좌우로 조금 흔들립니다. 적 생성 간격은 <strong>max(250ms, 760 - 웨이브×38ms)</strong> 구조라 웨이브가 높아질수록 짧아지며 14웨이브부터는 약 250ms 하한에 도달합니다.</p>
+
+    <h2>10기 격추마다 웨이브가 1 올라갑니다</h2>
+    <p>격추 수가 10·20·30처럼 10의 배수가 될 때 다음 웨이브로 올라갑니다. 적 한 기를 격추하면 <strong>20 + 현재 웨이브×5점</strong>을 얻습니다. 10번째 적까지는 1웨이브 점수인 25점으로 계산된 뒤 2웨이브가 시작됩니다.</p>
+    <p>4웨이브부터 새 적의 약 22%가 체력 2의 강화 적으로 등장합니다. 강화 적은 일반 적보다 한 발을 더 맞혀야 제거됩니다.</p>
+
+    <h2>적을 놓치거나 기체와 충돌하면 목숨을 잃습니다</h2>
+    <p>적이 기체 높이까지 내려온 상태에서 기체와 가로 거리가 가까우면 충돌로 목숨 1개를 잃습니다. 기체를 비켜 지나가더라도 화면 아래쪽을 완전히 통과하면 방어 실패로 역시 목숨 1개가 줄어듭니다.</p>
+    <p>따라서 피하기만 해서는 생존할 수 없습니다. 화면 가장 아래에 가까운 적을 우선 격추하면서 필요하면 옆으로 피하는 것이 핵심입니다.</p>
+
+    <h2>자동 연사와 수동 발사는 같은 타이머를 공유합니다</h2>
+    <p>자동 발사는 선택한 난이도의 간격마다 작동합니다. Space 또는 화면의 발사 버튼을 누르면 즉시 추가 탄을 쏘며 자동 연사 누적 시간은 다시 0으로 초기화됩니다. 2026년 8월 27일에는 Space 키를 길게 눌렀을 때 브라우저 키 반복으로 과도하게 발사되지 않도록 반복 입력을 차단했습니다.</p>
+
+    <h2>키보드·모바일 조작과 일시정지</h2>
+    <ul class="strategy-list">
+      <li>← / → 또는 A / D: 기체 좌우 이동</li>
+      <li>Space: 수동 추가 발사</li>
+      <li>P 또는 화면 버튼: 일시정지 / 계속</li>
+      <li>모바일: 왼쪽·오른쪽 이동 버튼과 발사 버튼 사용</li>
+    </ul>
+    <p>일시정지하면 이동 방향 상태가 초기화되고 정지 중에는 이동 버튼도 기체를 움직이지 않습니다. 탭을 벗어나면 자동으로 일시정지되며 돌아온 뒤 직접 계속해야 합니다.</p>
+
+    <h2>도전 횟수와 최고 기록은 저장 시점이 다릅니다</h2>
+    <p>난이도별 <strong>도전 횟수는 방어 시작 순간</strong> 1 증가합니다. 최고 점수, 최고 웨이브, 최다 격추는 목숨이 0이 되어 실제 방어가 종료된 판에서만 갱신됩니다.</p>
+    <p>진행 중 새로고침하면 현재 웨이브·적·점수·목숨은 복구되지 않습니다. 이미 시작 시 저장된 도전 횟수는 남을 수 있습니다.</p>
+
+    <h2>브라우저에 저장되는 기록</h2>
+    <p><code>hanpan-space-guard-records-v2</code>에는 난이도별 <code>attempts</code>, <code>bestScore</code>, <code>bestWave</code>, <code>bestKills</code>가 저장됩니다. <code>hanpan-space-guard-prefs-v2</code>에는 마지막으로 선택한 <code>difficulty</code>가 저장됩니다.</p>
+
+    <h2>기록을 높이는 기본 운영</h2>
+    <ul class="strategy-list">
+      <li>새로 나타난 적보다 방어선에 더 가까운 적을 먼저 확인하세요.</li>
+      <li>강화 적이 아직 위쪽이라면 아래쪽 일반 적을 먼저 제거할 수 있습니다.</li>
+      <li>화면 끝에서 끝까지 크게 움직이기보다 중앙 근처에서 위험한 열로 짧게 정렬하세요.</li>
+      <li>목숨이 적은 어려움에서는 점수보다 방어선 통과를 막는 것을 우선하세요.</li>
+    </ul>
+
+    <h2>업데이트</h2>
+    <p class="site-note">2026년 8월 27일 실제 런타임 기준으로 적 생성·점수·강화 적·충돌·기록 저장 규칙을 정리하고, P/Space 자동반복과 일시정지 중 이동 상태를 안정화했습니다.</p>
+    <p><a href="/guides/space-guard-strategy/">우주 방어선 공략 자세히 보기</a></p>
+  </article>
+</main>
+
+<footer class="site-footer">
+  <div><strong>한판게임</strong><p>설치 없이 브라우저에서 바로 즐기는 무료 미니게임과 실제 플레이 기준 공략을 제공합니다.</p></div>
+  <nav aria-label="사이트 정보"><a href="/about/">소개</a><a href="/help/">도움말</a><a href="/updates/">업데이트</a><a href="/privacy/">개인정보처리방침</a><a href="/terms/">이용약관</a><a href="/contact/">문의</a></nav>
+  <p class="copyright">© <span id="year"></span> Hanpan Game. All rights reserved.</p>
+</footer>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebPage","name":"우주 방어선","url":"https://hanpangames.kr/games/space-guard/","description":"난이도별 목숨과 적 속도, 웨이브와 강화 적을 관리하는 무료 생존형 우주 슈팅 웹게임입니다.","inLanguage":"ko-KR"}</script>
+<script src="/assets/app.js?v=20260820-blockdrop" defer></script>
+<script src="/assets/arcade.js?v=20260820-blockdrop" defer></script>
+<script src="/assets/space-guard-runtime.js?v=20260827-space3" defer></script>
+</body>
+</html>
