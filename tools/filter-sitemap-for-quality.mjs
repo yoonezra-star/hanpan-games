@@ -1,8 +1,10 @@
 import fs from "node:fs";
 import path from "node:path";
 import {
+  INDEXABLE_CATEGORY_IDS,
   INDEXABLE_GAME_IDS,
   INDEXABLE_GUIDE_IDS,
+  gameCategoryIds,
   indexableGameIds,
   indexableGuideIds,
 } from "./content-quality.mjs";
@@ -17,7 +19,7 @@ function isApprovedLocation(location) {
 
   if (parts[0] === "play") return false;
   if (parts[0] === "games" && parts.length === 2) {
-    return indexableGameIds.has(parts[1]);
+    return indexableGameIds.has(parts[1]) || gameCategoryIds.has(parts[1]);
   }
   if (parts[0] === "guides" && parts.length === 2) {
     return indexableGuideIds.has(parts[1]);
@@ -34,6 +36,7 @@ const keptEntries = urlBlocks.flatMap((block) => {
 const locationSet = new Set(keptEntries.map((entry) => entry.location));
 const requiredLocations = [
   ...INDEXABLE_GAME_IDS.map((id) => `https://hanpangames.kr/games/${id}/`),
+  ...INDEXABLE_CATEGORY_IDS.map((id) => `https://hanpangames.kr/games/${id}/`),
   ...INDEXABLE_GUIDE_IDS.map((id) => `https://hanpangames.kr/guides/${id}/`),
 ];
 
@@ -61,6 +64,12 @@ const updatedLocations = new Set([
   "https://hanpangames.kr/games/sliding-puzzle/",
   "https://hanpangames.kr/games/hangman/",
   "https://hanpangames.kr/games/flappy-jump/",
+  "https://hanpangames.kr/games/arcade/",
+  "https://hanpangames.kr/games/board/",
+  "https://hanpangames.kr/games/brain/",
+  "https://hanpangames.kr/games/puzzle/",
+  "https://hanpangames.kr/games/skill/",
+  "https://hanpangames.kr/games/traditional/",
 ]);
 
 function withLastModified(entry) {

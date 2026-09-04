@@ -2,7 +2,7 @@ import fs from "node:fs";
 import path from "node:path";
 import {
   applyIndexingPolicy,
-  indexableGameIds,
+  indexableGamePageIds,
   indexableGuideIds,
 } from "./content-quality.mjs";
 
@@ -29,7 +29,7 @@ function applyDirectoryPolicy(section, indexableIds) {
   return changed;
 }
 
-const gameChanges = applyDirectoryPolicy("games", indexableGameIds);
+const gameChanges = applyDirectoryPolicy("games", indexableGamePageIds);
 const guideChanges = applyDirectoryPolicy("guides", indexableGuideIds);
 const playPagePath = path.join(publicDir, "play", "index.html");
 const playPageBefore = fs.readFileSync(playPagePath, "utf8");

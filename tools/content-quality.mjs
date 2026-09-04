@@ -53,9 +53,7 @@ export const INDEXABLE_GUIDE_IDS = Object.freeze([
   "twenty-48-strategy",
 ]);
 
-export const indexableGameIds = new Set(INDEXABLE_GAME_IDS);
-export const indexableGuideIds = new Set(INDEXABLE_GUIDE_IDS);
-export const gameCategoryIds = new Set([
+export const INDEXABLE_CATEGORY_IDS = Object.freeze([
   "arcade",
   "board",
   "brain",
@@ -63,6 +61,11 @@ export const gameCategoryIds = new Set([
   "skill",
   "traditional",
 ]);
+
+export const indexableGameIds = new Set(INDEXABLE_GAME_IDS);
+export const indexableGuideIds = new Set(INDEXABLE_GUIDE_IDS);
+export const gameCategoryIds = new Set(INDEXABLE_CATEGORY_IDS);
+export const indexableGamePageIds = new Set([...INDEXABLE_GAME_IDS, ...INDEXABLE_CATEGORY_IDS]);
 
 export function applyIndexingPolicy(html, indexable) {
   let next = html.replace(noindexPattern, "");

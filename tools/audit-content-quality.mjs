@@ -2,7 +2,7 @@ import fs from "node:fs";
 import path from "node:path";
 import {
   gameCategoryIds,
-  indexableGameIds,
+  indexableGamePageIds,
   indexableGuideIds,
 } from "./content-quality.mjs";
 
@@ -51,7 +51,7 @@ function table(rows) {
   ].join("\n");
 }
 
-const gameSectionRows = readSection("games", indexableGameIds);
+const gameSectionRows = readSection("games", indexableGamePageIds);
 const categoryHubs = gameSectionRows.filter((row) => gameCategoryIds.has(row.id));
 const games = gameSectionRows.filter((row) => !gameCategoryIds.has(row.id));
 const guides = readSection("guides", indexableGuideIds);
@@ -66,7 +66,7 @@ const report = `# AdSense 콘텐츠 품질 감사
 - 보강 대기 게임: ${games.filter((row) => !row.indexable).length}개
 - 핵심 가이드: ${guides.filter((row) => row.indexable).length}개
 - 통합·보강 검토 가이드: ${guides.filter((row) => !row.indexable).length}개
-- 보강 대기 카테고리 허브: ${categoryHubs.length}개
+- 색인 카테고리 허브: ${categoryHubs.filter((row) => row.indexable).length}개
 - 색인/광고 정책 오류: ${policyErrors.length}개
 
 ## 게임 페이지
