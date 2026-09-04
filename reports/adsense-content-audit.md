@@ -13,14 +13,14 @@
 | 상태 | ID | 페이지 | 단어 수 | 색인 | AdSense |
 | --- | --- | --- | ---: | --- | --- |
 | 유지 | freecell-classic | 프리셀 클래식 | 1232 | index | 있음 |
-| 유지 | card-solitaire | 카드 솔리테어 | 1076 | index | 있음 |
-| 유지 | mines | 지뢰찾기 클래식 | 946 | index | 있음 |
+| 유지 | card-solitaire | 카드 솔리테어 | 1178 | index | 있음 |
+| 유지 | mines | 지뢰찾기 클래식 | 1046 | index | 있음 |
+| 유지 | block-drop-classic | 블록 드롭 클래식 | 943 | index | 있음 |
 | 유지 | connect-four | 사목 미니 | 869 | index | 있음 |
-| 유지 | block-drop-classic | 블록 드롭 클래식 | 840 | index | 있음 |
+| 유지 | sudoku-mini | 스도쿠 클래식 | 808 | index | 있음 |
 | 유지 | brick-break | 벽돌깨기 미니 | 801 | index | 있음 |
-| 유지 | sudoku-mini | 스도쿠 클래식 | 705 | index | 있음 |
+| 유지 | twenty-48 | 2048 한판 | 777 | index | 있음 |
 | 유지 | snake-garden | 뱀의 정원 | 675 | index | 있음 |
-| 유지 | twenty-48 | 2048 한판 | 674 | index | 있음 |
 | 유지 | tic-tac-toe | 틱택토 Tic-Tac-Toe | 628 | index | 있음 |
 | 유지 | hangman | 행맨 | 595 | index | 있음 |
 | 유지 | sliding-puzzle | 슬라이딩 퍼즐 | 573 | index | 있음 |

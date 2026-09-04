@@ -25,13 +25,13 @@ function isApprovedLocation(location) {
   return true;
 }
 
-const keptLocations = urlBlocks.flatMap((block) => {
+const keptEntries = urlBlocks.flatMap((block) => {
   const location = block.match(/<loc>([^<]+)<\/loc>/)?.[1];
   if (!location) throw new Error("A sitemap URL entry is missing its loc element.");
-  return isApprovedLocation(location) ? [location] : [];
+  return isApprovedLocation(location) ? [{ location, block }] : [];
 });
 
-const locationSet = new Set(keptLocations);
+const locationSet = new Set(keptEntries.map((entry) => entry.location));
 const requiredLocations = [
   ...INDEXABLE_GAME_IDS.map((id) => `https://hanpangames.kr/games/${id}/`),
   ...INDEXABLE_GUIDE_IDS.map((id) => `https://hanpangames.kr/guides/${id}/`),
@@ -39,16 +39,33 @@ const requiredLocations = [
 
 for (const location of requiredLocations) {
   if (!locationSet.has(location)) {
-    keptLocations.push(location);
+    keptEntries.push({ location, block: `<url><loc>${location}</loc></url>` });
     locationSet.add(location);
   }
 }
 
+const updatedLocations = new Set([
+  "https://hanpangames.kr/updates/",
+  "https://hanpangames.kr/games/mines/",
+  "https://hanpangames.kr/games/card-solitaire/",
+  "https://hanpangames.kr/games/sudoku-mini/",
+  "https://hanpangames.kr/games/twenty-48/",
+  "https://hanpangames.kr/games/block-drop-classic/",
+]);
+
+function withLastModified(entry) {
+  if (!updatedLocations.has(entry.location)) return entry.block;
+  if (/<lastmod>[^<]+<\/lastmod>/.test(entry.block)) {
+    return entry.block.replace(/<lastmod>[^<]+<\/lastmod>/, "<lastmod>2026-09-04</lastmod>");
+  }
+  return entry.block.replace("</url>", "<lastmod>2026-09-04</lastmod></url>");
+}
+
 const nextSitemap = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-${keptLocations.map((location) => `  <url><loc>${location}</loc></url>`).join("\n")}
+${keptEntries.map((entry) => `  ${withLastModified(entry)}`).join("\n")}
 </urlset>
 `;
 
 fs.writeFileSync(sitemapPath, nextSitemap, "utf8");
-console.log(`Filtered sitemap from ${urlBlocks.length} to ${keptLocations.length} quality-reviewed URLs.`);
+console.log(`Filtered sitemap from ${urlBlocks.length} to ${keptEntries.length} quality-reviewed URLs.`);

@@ -67,6 +67,13 @@
   const publicCatalog = ["mines", "card-solitaire", "sudoku-mini", "twenty-48", "block-drop-classic", "brick-break", "snake-garden", "freecell-classic", "tic-tac-toe", "connect-four", "maze-chase", "match-three", "sliding-puzzle", "hangman", "flappy-jump"]
     .map(function (id) { return gameById.get(id); })
     .filter(Boolean);
+  const flagshipChallengeRules = {
+    "mines": { label: "진행", unit: "%", tiers: [[25, "숫자 경계 만들기"], [60, "판의 절반 넘기기"], [100, "모든 안전 칸 열기"]] },
+    "card-solitaire": { label: "정리", unit: "장", tiers: [[13, "한 무늬 분량 정리"], [26, "카드 절반 정리"], [52, "네 기초 더미 완성"]] },
+    "sudoku-mini": { label: "입력", unit: "칸", tiers: [[15, "첫 구역 확정"], [35, "후반 후보 정리"], [51, "모든 빈칸 완성"]] },
+    "twenty-48": { label: "최대 타일", unit: "", tiers: [[128, "128 타일 만들기"], [512, "512 타일 만들기"], [2048, "2048 타일 완성"]] },
+    "block-drop-classic": { label: "줄", unit: "줄", tiers: [[2, "첫 두 줄 삭제"], [10, "10줄 정리"], [30, "30줄 생존"]] }
+  };
 
   let cleanup = [];
 
@@ -500,6 +507,7 @@
     };
     (map[game.type] || renderTap)(game, surface);
     if (!flagshipGameIds.has(game.id)) addLiveMotion(game, surface);
+    addFlagshipChallenge(game, surface);
     addPlayGuidance(game, surface);
   }
 
@@ -9635,6 +9643,50 @@
       });
     }
     updateTarget();
+  }
+
+  function addFlagshipChallenge(game, surface) {
+    const rule = flagshipChallengeRules[game.id];
+    const score = surface.querySelector(".mini-score");
+    if (!rule || !score || surface.querySelector(".flagship-challenge")) return;
+
+    const panel = document.createElement("section");
+    panel.className = "flagship-challenge";
+    panel.setAttribute("aria-label", "이번 판 도전");
+    panel.innerHTML = `<div class="flagship-challenge-head"><div><strong>이번 판 도전</strong><span data-challenge-summary aria-live="polite"></span></div><b data-challenge-value></b></div><div class="flagship-challenge-track" aria-hidden="true"><i data-challenge-progress></i></div><ol>${rule.tiers.map(function (tier) { return `<li><span aria-hidden="true"></span><strong>${tier[1]}</strong><small>${tier[0]}${rule.unit}</small></li>`; }).join("")}</ol>`;
+    surface.appendChild(panel);
+
+    function currentValue() {
+      const scoreItem = Array.from(score.querySelectorAll(":scope > span")).find(function (item) {
+        const label = item.querySelector("small");
+        return label && label.textContent.trim() === rule.label;
+      });
+      const value = scoreItem && scoreItem.querySelector("b");
+      const match = value && value.textContent.replace(/,/g, "").match(/\d+/);
+      return match ? Number(match[0]) : 0;
+    }
+
+    function sync() {
+      const current = currentValue();
+      const finalTarget = rule.tiers[rule.tiers.length - 1][0];
+      const nextTier = rule.tiers.find(function (tier) { return current < tier[0]; });
+      const items = panel.querySelectorAll("li");
+      items.forEach(function (item, index) {
+        const complete = current >= rule.tiers[index][0];
+        item.classList.toggle("is-complete", complete);
+        item.querySelector("span").textContent = complete ? "✓" : String(index + 1);
+      });
+      panel.querySelector("[data-challenge-value]").textContent = `${current}${rule.unit}`;
+      panel.querySelector("[data-challenge-summary]").textContent = nextTier
+        ? `다음 목표 · ${nextTier[1]}`
+        : "세 단계 목표를 모두 달성했습니다.";
+      panel.querySelector("[data-challenge-progress]").style.width = `${Math.min(100, current / finalTarget * 100)}%`;
+    }
+
+    const observer = new MutationObserver(sync);
+    observer.observe(score, { childList: true, subtree: true, characterData: true });
+    cleanup.push(function () { observer.disconnect(); });
+    sync();
   }
 
   window.HANPAN_CATALOG = catalog;

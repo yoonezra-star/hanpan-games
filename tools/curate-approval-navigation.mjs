@@ -21,6 +21,48 @@ function filterLinkedBlocks(html, pattern, allowedIds) {
   return html.replace(pattern, (block, id) => allowedIds.has(id) ? block : "");
 }
 
+const flagshipEditorialSections = {
+  "mines": {
+    intro: "지뢰찾기 기록은 단순히 빨리 누른 시간이 아니라 확실한 근거를 얼마나 연속으로 찾았는지 보여 줍니다. 이번 판 도전은 열린 안전 칸의 비율을 기준으로 현재 진행을 세 단계로 나눕니다.",
+    tiers: ["25% · 첫 숫자 경계를 만든 뒤 닫힌 칸과 깃발 수를 비교합니다.", "60% · 한쪽 구역을 마무리하고 남은 숫자 경계를 다시 훑습니다.", "100% · 힌트 없이 모든 안전 칸을 열면 난이도별 최고 시간 비교 대상이 됩니다."],
+    reading: "진행이 오래 멈춘다면 판 전체를 보지 말고 닫힌 칸과 맞닿은 숫자만 따라가세요. 남은 지뢰 수가 빠르게 줄어도 잘못된 깃발이 섞이면 연쇄 열기에서 실패할 수 있으므로, 속도보다 깃발의 근거가 우선입니다."
+  },
+  "card-solitaire": {
+    intro: "솔리테어의 정리 수치는 네 기초 더미에 올라간 카드 수입니다. 이동 횟수만 줄이는 것보다 뒤집힌 카드를 공개하고 기초 더미로 보낼 통로를 만드는 과정이 완주 가능성을 더 잘 보여 줍니다.",
+    tiers: ["13장 · 한 무늬 분량을 정리하며 낮은 카드의 이동 경로를 확보합니다.", "26장 · 카드 절반을 기초 더미로 옮기고 남은 숨은 카드 수를 확인합니다.", "52장 · 네 무늬를 A부터 K까지 완성하면 완주 시간 기록이 저장됩니다."],
+    reading: "정리 수가 늘지 않는데 이동만 많아지면 기초 더미를 너무 빨리 올렸거나 빈 열을 쓸 K 묶음이 막힌 경우가 많습니다. 숨은 카드 수가 줄어드는 이동을 먼저 찾고, 힌트는 막힌 원인을 확인하는 용도로 사용하세요."
+  },
+  "sudoku-mini": {
+    intro: "스도쿠의 입력 수치는 처음 비어 있던 칸 가운데 확정 숫자를 채운 개수입니다. 후보 메모는 입력 수에 포함하지 않으므로, 메모를 많이 남기는 것보다 후보를 실제 확정으로 바꾸는 흐름을 확인할 수 있습니다.",
+    tiers: ["15칸 · 단서가 많은 행과 박스부터 확정 숫자를 채웁니다.", "35칸 · 후보 쌍과 박스·행 교차를 사용해 후반 선택지를 줄입니다.", "51칸 · 모든 빈칸을 맞히고 힌트가 없다면 난이도별 최고 시간을 비교합니다."],
+    reading: "입력 수가 멈추면 후보가 적은 칸 하나만 오래 보기보다 특정 숫자가 들어갈 수 있는 위치가 한 곳뿐인 행·열·박스를 찾으세요. 실수 수가 늘면 최근 입력을 되돌리고 그 숫자가 같은 박스와 열에 이미 있었는지부터 확인하는 편이 빠릅니다."
+  },
+  "twenty-48": {
+    intro: "2048의 최대 타일은 한 번의 큰 합치기보다 보드 운영이 얼마나 오래 유지됐는지를 보여 줍니다. 이번 판 도전은 128, 512, 2048을 기준으로 큰 타일과 빈칸 관리가 안정되는 구간을 나눕니다.",
+    tiers: ["128 · 가장 큰 타일을 한 모서리에 고정하는 기본 대형을 만듭니다.", "512 · 큰 타일 옆에 절반 크기 타일을 계단처럼 연결합니다.", "2048 · 빈칸을 유지하며 마지막 두 1024 타일의 합칠 방향을 확보합니다."],
+    reading: "최대 타일은 높지만 점수가 더 오르지 않으면 큰 타일 주변에 낮은 숫자가 흩어진 상태일 가능성이 큽니다. 이동 뒤 빈칸이 세 칸 이하라면 당장 큰 숫자를 만드는 수보다 낮은 타일 두 개를 정리하는 수를 먼저 검토하세요."
+  },
+  "block-drop-classic": {
+    intro: "블록 드롭의 삭제 줄은 점수보다 쉽게 비교할 수 있는 생존 지표입니다. 두 줄은 기본 조작, 열 줄은 보드 높이 관리, 서른 줄은 다음 블록과 홀드를 함께 읽는 안정성을 확인하는 기준입니다.",
+    tiers: ["2줄 · 회전과 즉시 낙하를 익히며 첫 빈틈 없는 바닥을 만듭니다.", "10줄 · 높은 기둥을 줄이고 긴 블록용 세로 통로를 유지합니다.", "30줄 · 속도가 오른 뒤에도 홀드와 다음 블록 3개로 위험 배치를 피합니다."],
+    reading: "삭제 줄이 늘지 않는데 보드만 높아지면 한 번에 네 줄을 노리느라 깊은 구멍을 만든 경우가 많습니다. 구멍 위를 덮는 블록을 피하고, 최고점이 좌우로 급격히 달라지면 한 줄 삭제라도 먼저 만들어 높이를 낮추세요."
+  }
+};
+
+function flagshipEditorialHtml(section) {
+  return `<!-- FLAGSHIP_RECORD_GUIDE_START -->
+          <div class="flagship-record-guide" id="record-challenges">
+            <h2>기록 도전과 판세 읽기</h2>
+            <p>${section.intro}</p>
+            <ul class="strategy-list">
+              ${section.tiers.map((tier) => `<li>${tier}</li>`).join("\n              ")}
+            </ul>
+            <h3>현재 기록을 해석하는 기준</h3>
+            <p>${section.reading}</p>
+          </div>
+          <!-- FLAGSHIP_RECORD_GUIDE_END -->`;
+}
+
 updateFile(path.join("assets", "arcade.js"), (html) => {
   const visibleIds = INDEXABLE_GAME_IDS.map((id) => `"${id}"`).join(", ");
   const flagshipIds = FLAGSHIP_GAME_IDS.map((id) => `"${id}"`).join(", ");
@@ -36,12 +78,34 @@ updateFile(path.join("assets", "arcade.js"), (html) => {
 });
 
 FLAGSHIP_GAME_IDS.forEach((id) => {
-  updateFile(path.join("games", id, "index.html"), (html) => html.replace(
-    /<main class="([^"]*\bgame-detail-page\b[^"]*)">/,
-    (match, classes) => classes.includes("flagship-game-page")
-      ? match
-      : `<main class="${classes} flagship-game-page">`,
-  ));
+  updateFile(path.join("games", id, "index.html"), (html) => {
+    let next = html.replace(
+      /<main class="([^"]*\bgame-detail-page\b[^"]*)">/,
+      (match, classes) => classes.includes("flagship-game-page")
+        ? match
+        : `<main class="${classes} flagship-game-page">`,
+    );
+    next = next.replace(/\s*<!-- FLAGSHIP_RECORD_GUIDE_START -->[\s\S]*?<!-- FLAGSHIP_RECORD_GUIDE_END -->\s*/g, "\n\n          ");
+    next = next.replace(/\s*<li><a href="#record-challenges">기록 도전<\/a><\/li>/g, "");
+    next = next.replace('<li><a href="#faq">FAQ</a></li>', '<li><a href="#record-challenges">기록 도전</a></li>\n            <li><a href="#faq">FAQ</a></li>');
+    return next.replace('<h2 id="faq">', `${flagshipEditorialHtml(flagshipEditorialSections[id])}\n\n          <h2 id="faq">`);
+  });
+});
+
+const flagshipUpdateEntry = `<!-- FLAGSHIP_CHALLENGE_UPDATE_START -->
+        <h2>2026년 9월 4일</h2>
+        <h3>대표 게임 기록 도전과 모바일 플레이 개선</h3>
+        <p>
+          <a href="/games/mines/">지뢰찾기</a>, <a href="/games/card-solitaire/">카드 솔리테어</a>,
+          <a href="/games/sudoku-mini/">스도쿠</a>, <a href="/games/twenty-48/">2048</a>,
+          <a href="/games/block-drop-classic/">블록 드롭</a>에 현재 점수판을 읽는 3단계 도전 목표를 추가했습니다.
+          모바일에서는 점수와 게임판이 먼저 보이도록 선택기와 조작 영역을 압축하고, 각 페이지 본문에 기록을 해석하는 기준과 상황별 목표를 보강했습니다.
+        </p>
+        <!-- FLAGSHIP_CHALLENGE_UPDATE_END -->`;
+
+updateFile(path.join("updates", "index.html"), (html) => {
+  const next = html.replace(/\s*<!-- FLAGSHIP_CHALLENGE_UPDATE_START -->[\s\S]*?<!-- FLAGSHIP_CHALLENGE_UPDATE_END -->\s*/g, "\n        ");
+  return next.replace('<article class="article timeline">', `<article class="article timeline">\n        ${flagshipUpdateEntry}`);
 });
 
 const homeGuideCards = [
