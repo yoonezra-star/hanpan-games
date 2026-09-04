@@ -4921,4 +4921,122 @@ body.game-fullscreen-fallback-open {
   .subpage > .page-title {
     margin-bottom: 22px;
   }
+
+  .flagship-game-page {
+    padding-top: 18px;
+  }
+
+  .flagship-game-page > .page-title {
+    margin-bottom: 14px;
+  }
+
+  .flagship-game-page .page-title .eyebrow {
+    margin-bottom: 6px;
+  }
+
+  .flagship-game-page .page-title h1 {
+    font-size: 34px;
+    line-height: 1.08;
+  }
+
+  .flagship-game-page .page-title > p:not(.eyebrow) {
+    margin: 7px 0 0;
+    font-size: 15px;
+    line-height: 1.5;
+  }
+
+  .flagship-game-page .game-launcher {
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: end;
+    gap: 8px;
+    margin-top: 14px;
+  }
+
+  .flagship-game-page .game-launcher label {
+    grid-column: auto;
+    gap: 0;
+  }
+
+  .flagship-game-page .game-launcher label > span {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
+
+  .flagship-game-page .game-launcher > .button.secondary {
+    display: none;
+  }
+
+  .flagship-game-page .game-launcher select,
+  .flagship-game-page .game-launcher .button {
+    min-height: 44px;
+    font-size: 14px;
+  }
+
+  .flagship-game-page .game-launcher .button {
+    padding: 0 14px;
+  }
+
+  .flagship-game-page .game-first-stage {
+    margin-top: 0;
+  }
+
+  .flagship-game-page .game-first-stage .stage-head {
+    margin-bottom: 10px;
+  }
+
+  .flagship-game-page .game-first-stage .stage-head > div:first-child {
+    display: none;
+  }
+
+  .flagship-game-page .game-first-stage .stage-actions {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px;
+    width: 100%;
+  }
+
+  .flagship-game-page .game-first-stage .stage-actions > a {
+    display: none;
+  }
+
+  .flagship-game-page .game-first-stage .stage-actions .button {
+    min-height: 44px;
+    padding: 0 10px;
+    font-size: 14px;
+  }
+
+  .flagship-game-page .game-first-stage .play-surface {
+    gap: 10px;
+  }
+
+  .flagship-game-page .play-guidance {
+    margin-top: 4px;
+    padding: 10px 12px;
+  }
+
+  .flagship-game-page .mines-actions {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 4px;
+  }
+
+  .flagship-game-page .mines-actions .button {
+    min-height: 44px;
+    padding: 4px 2px;
+    font-size: 11px;
+  }
+
+  .flagship-game-page .block-drop-game > .mini-score {
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+  }
+}
+
+.game-first-stage.uses-inline-stage-actions .stage-head {
+  display: none;
 }

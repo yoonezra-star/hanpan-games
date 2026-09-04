@@ -63,6 +63,7 @@
     .filter(function (game) { return !approvalVisibleGameIds.has(game.id); })
     .map(function (game) { return game.id; }));
   const gameById = new Map(catalog.map(function (game) { return [game.id, game]; }));
+  const flagshipGameIds = new Set(["mines", "card-solitaire", "sudoku-mini", "twenty-48", "block-drop-classic"]);
   const publicCatalog = ["mines", "card-solitaire", "sudoku-mini", "twenty-48", "block-drop-classic", "brick-break", "snake-garden", "freecell-classic", "tic-tac-toe", "connect-four", "maze-chase", "match-three", "sliding-puzzle", "hangman", "flappy-jump"]
     .map(function (id) { return gameById.get(id); })
     .filter(Boolean);
@@ -272,6 +273,10 @@
     const stage = surface.closest(".inline-game-stage, .arcade-stage");
     const actions = stage && $(".stage-actions", stage);
     if (!stage || !actions || $("[data-game-fullscreen]", stage)) return;
+    if (surface.dataset.gameId === "mines" && window.__hanpanMinesRuntime) {
+      stage.classList.add("uses-inline-stage-actions");
+      return;
+    }
 
     const toggle = document.createElement("button");
     const icon = document.createElement("span");
@@ -494,7 +499,7 @@
       garden: renderGarden
     };
     (map[game.type] || renderTap)(game, surface);
-    addLiveMotion(game, surface);
+    if (!flagshipGameIds.has(game.id)) addLiveMotion(game, surface);
     addPlayGuidance(game, surface);
   }
 
@@ -552,7 +557,8 @@
       ? "<p class=\"policy-note\"><strong>무료 오락용 게임</strong><span>이 게임은 실제 돈, 결제, 환전, 경품, 현금성 보상 없이 브라우저 안에서만 진행됩니다.</span></p>"
       : "";
     note.innerHTML = `<p><strong>조작 힌트</strong><span>${hint}</span></p>${policy}`;
-    surface.prepend(note);
+    if (flagshipGameIds.has(game.id)) surface.append(note);
+    else surface.prepend(note);
   }
 
   function addLiveMotion(game, surface) {

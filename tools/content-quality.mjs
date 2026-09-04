@@ -21,6 +21,14 @@ export const INDEXABLE_GAME_IDS = Object.freeze([
   "flappy-jump",
 ]);
 
+export const FLAGSHIP_GAME_IDS = Object.freeze([
+  "mines",
+  "card-solitaire",
+  "sudoku-mini",
+  "twenty-48",
+  "block-drop-classic",
+]);
+
 export const INDEXABLE_GUIDE_IDS = Object.freeze([
   "block-drop-beginner",
   "brick-break-strategy",

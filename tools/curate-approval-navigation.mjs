@@ -1,6 +1,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import {
+  FLAGSHIP_GAME_IDS,
   INDEXABLE_GAME_IDS,
   indexableGameIds,
   indexableGuideIds,
@@ -22,15 +23,25 @@ function filterLinkedBlocks(html, pattern, allowedIds) {
 
 updateFile(path.join("assets", "arcade.js"), (html) => {
   const visibleIds = INDEXABLE_GAME_IDS.map((id) => `"${id}"`).join(", ");
+  const flagshipIds = FLAGSHIP_GAME_IDS.map((id) => `"${id}"`).join(", ");
   let next = html.replace(
     /const approval(?:Visible|Hidden)GameIds[\s\S]*?const publicCatalog = [\s\S]*?\n  \}\);/,
-    `const approvalVisibleGameIds = new Set([${visibleIds}]);\n  const approvalHiddenGameIds = new Set(catalog\n    .filter(function (game) { return !approvalVisibleGameIds.has(game.id); })\n    .map(function (game) { return game.id; }));\n  const gameById = new Map(catalog.map(function (game) { return [game.id, game]; }));\n  const publicCatalog = [${visibleIds}]\n    .map(function (id) { return gameById.get(id); })\n    .filter(Boolean);`,
+    `const approvalVisibleGameIds = new Set([${visibleIds}]);\n  const approvalHiddenGameIds = new Set(catalog\n    .filter(function (game) { return !approvalVisibleGameIds.has(game.id); })\n    .map(function (game) { return game.id; }));\n  const gameById = new Map(catalog.map(function (game) { return [game.id, game]; }));\n  const flagshipGameIds = new Set([${flagshipIds}]);\n  const publicCatalog = [${visibleIds}]\n    .map(function (id) { return gameById.get(id); })\n    .filter(Boolean);`,
   );
   next = next.replace(
     "publicCatalog.forEach(function (game) {\n      const option = document.createElement(\"option\");",
     `const currentGame = catalog.find(function (game) { return game.id === current; });\n    const pickerCatalog = currentGame && approvalHiddenGameIds.has(current)\n      ? [currentGame].concat(publicCatalog)\n      : publicCatalog;\n\n    pickerCatalog.forEach(function (game) {\n      const option = document.createElement(\"option\");`,
   );
   return next;
+});
+
+FLAGSHIP_GAME_IDS.forEach((id) => {
+  updateFile(path.join("games", id, "index.html"), (html) => html.replace(
+    /<main class="([^"]*\bgame-detail-page\b[^"]*)">/,
+    (match, classes) => classes.includes("flagship-game-page")
+      ? match
+      : `<main class="${classes} flagship-game-page">`,
+  ));
 });
 
 const homeGuideCards = [
