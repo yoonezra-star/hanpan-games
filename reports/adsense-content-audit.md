@@ -22,11 +22,11 @@
 | 유지 | snake-garden | 뱀의 정원 | 780 | index | 있음 |
 | 유지 | twenty-48 | 2048 한판 | 777 | index | 있음 |
 | 유지 | tic-tac-toe | 틱택토 Tic-Tac-Toe | 721 | index | 있음 |
-| 유지 | hangman | 행맨 | 595 | index | 있음 |
-| 유지 | sliding-puzzle | 슬라이딩 퍼즐 | 573 | index | 있음 |
-| 유지 | flappy-jump | 플래피 점프 | 540 | index | 있음 |
-| 유지 | maze-chase | 미로 추격 클래식 | 532 | index | 있음 |
-| 유지 | match-three | 매치3 퍼즐 | 527 | index | 있음 |
+| 유지 | hangman | 행맨 | 690 | index | 있음 |
+| 유지 | sliding-puzzle | 슬라이딩 퍼즐 | 672 | index | 있음 |
+| 유지 | flappy-jump | 플래피 점프 | 642 | index | 있음 |
+| 유지 | match-three | 매치3 퍼즐 | 631 | index | 있음 |
+| 유지 | maze-chase | 미로 추격 클래식 | 628 | index | 있음 |
 | 보강 대기 | rps-survival | 가위바위보 서바이벌 | 539 | noindex | 없음 |
 | 보강 대기 | simon | 사이먼 게임 | 515 | noindex | 없음 |
 | 보강 대기 | click-sprint | 클릭 스프린트 | 498 | noindex | 없음 |

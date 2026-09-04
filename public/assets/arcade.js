@@ -63,7 +63,7 @@
     .filter(function (game) { return !approvalVisibleGameIds.has(game.id); })
     .map(function (game) { return game.id; }));
   const gameById = new Map(catalog.map(function (game) { return [game.id, game]; }));
-  const flagshipGameIds = new Set(["mines", "card-solitaire", "sudoku-mini", "twenty-48", "block-drop-classic", "brick-break", "snake-garden", "freecell-classic", "tic-tac-toe", "connect-four"]);
+  const flagshipGameIds = new Set(["mines", "card-solitaire", "sudoku-mini", "twenty-48", "block-drop-classic", "brick-break", "snake-garden", "freecell-classic", "tic-tac-toe", "connect-four", "maze-chase", "match-three", "sliding-puzzle", "hangman", "flappy-jump"]);
   const publicCatalog = ["mines", "card-solitaire", "sudoku-mini", "twenty-48", "block-drop-classic", "brick-break", "snake-garden", "freecell-classic", "tic-tac-toe", "connect-four", "maze-chase", "match-three", "sliding-puzzle", "hangman", "flappy-jump"]
     .map(function (id) { return gameById.get(id); })
     .filter(Boolean);
@@ -77,7 +77,12 @@
     "snake-garden": { label: "길이", unit: "칸", tiers: [[6, "기본 순환 경로 만들기"], [10, "길이 10 유지"], [15, "후반 공간 관리"]] },
     "freecell-classic": { label: "정리", unit: "장", tiers: [[13, "한 무늬 분량 정리"], [26, "카드 절반 정리"], [52, "네 기초 더미 완성"]] },
     "tic-tac-toe": { source: ".tt2", metric: "ticMatch", unit: "승", tiers: [[1, "첫 판 승리"], [2, "매치 포인트 도달"], [3, "3선승 매치 완성"]] },
-    "connect-four": { source: ".connect4-pro-game", metric: "connectTurns", unit: "수", tiers: [[2, "두 수 전개"], [3, "세 수 전개"], [4, "한 판 마무리", "대국 종료"]] }
+    "connect-four": { source: ".connect4-pro-game", metric: "connectTurns", unit: "수", tiers: [[2, "두 수 전개"], [3, "세 수 전개"], [4, "한 판 마무리", "대국 종료"]] },
+    "maze-chase": { label: "남은 조각", metric: "mazeCollected", unit: "개", tiers: [[20, "첫 구역 정리"], [50, "남은 경로 압축"], [73, "모든 빛 조각 수집"]] },
+    "match-three": { label: "스테이지", unit: "", tiers: [[2, "스테이지 2 진입"], [3, "스테이지 3 진입"], [5, "스테이지 5 도전"]] },
+    "sliding-puzzle": { label: "제자리", metric: "slidingProgress", unit: "%", tiers: [[40, "첫 구역 맞추기"], [75, "마지막 구역 진입"], [100, "모든 타일 정렬"]] },
+    "hangman": { label: "연승", unit: "연승", tiers: [[1, "첫 단어 완성"], [3, "세 단어 연속 완성"], [5, "다섯 단어 연속 완성"]] },
+    "flappy-jump": { label: "통과", unit: "개", tiers: [[1, "첫 기둥 통과"], [5, "다섯 기둥 통과"], [10, "두 자릿수 기록"]] }
   };
 
   let cleanup = [];
@@ -9672,6 +9677,20 @@
         const red = source.querySelectorAll('[data-mark="1"]').length;
         const yellow = source.querySelectorAll('[data-mark="2"]').length;
         return Math.max(red, yellow);
+      }
+      if (rule.metric === "mazeCollected") {
+        const scoreItem = Array.from(source.querySelectorAll(":scope > span")).find(function (item) {
+          return item.querySelector("small")?.textContent.trim() === rule.label;
+        });
+        const left = Number(scoreItem?.querySelector("b")?.textContent.match(/\d+/)?.[0] || 73);
+        return Math.max(0, Math.min(73, 73 - left));
+      }
+      if (rule.metric === "slidingProgress") {
+        const scoreItem = Array.from(source.querySelectorAll(":scope > span")).find(function (item) {
+          return item.querySelector("small")?.textContent.trim() === rule.label;
+        });
+        const match = scoreItem?.querySelector("b")?.textContent.match(/(\d+)\s*\/\s*(\d+)/);
+        return match && Number(match[2]) ? Math.round(Number(match[1]) / Number(match[2]) * 100) : 0;
       }
       const scoreItem = Array.from(source.querySelectorAll(":scope > span")).find(function (item) {
         const label = item.querySelector("small");

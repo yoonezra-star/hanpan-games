@@ -32,6 +32,11 @@ export const FLAGSHIP_GAME_IDS = Object.freeze([
   "freecell-classic",
   "tic-tac-toe",
   "connect-four",
+  "maze-chase",
+  "match-three",
+  "sliding-puzzle",
+  "hangman",
+  "flappy-jump",
 ]);
 
 export const INDEXABLE_GUIDE_IDS = Object.freeze([

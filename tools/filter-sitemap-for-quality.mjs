@@ -56,6 +56,11 @@ const updatedLocations = new Set([
   "https://hanpangames.kr/games/freecell-classic/",
   "https://hanpangames.kr/games/tic-tac-toe/",
   "https://hanpangames.kr/games/connect-four/",
+  "https://hanpangames.kr/games/maze-chase/",
+  "https://hanpangames.kr/games/match-three/",
+  "https://hanpangames.kr/games/sliding-puzzle/",
+  "https://hanpangames.kr/games/hangman/",
+  "https://hanpangames.kr/games/flappy-jump/",
 ]);
 
 function withLastModified(entry) {
