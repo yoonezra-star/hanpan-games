@@ -1,5 +1,10 @@
 import fs from "node:fs";
 import path from "node:path";
+import {
+  INDEXABLE_GUIDE_IDS,
+  applyIndexingPolicy,
+  indexableGameIds,
+} from "./content-quality.mjs";
 
 const root = process.cwd();
 const publicDir = path.join(root, "public");
@@ -47,19 +52,7 @@ const tagClass = {
 };
 
 const sensitiveGameIds = new Set();
-const editorialGuideIds = [
-  "twenty-48-strategy",
-  "snake-garden-guide",
-  "mines-beginner-guide",
-  "memory-game-tips",
-  "browser-game-benefits",
-  "short-break-web-games",
-  "brick-break-strategy",
-  "block-drop-beginner",
-  "tic-tac-toe-strategy",
-  "mobile-browser-game-tips",
-  "sudoku-classic-guide",
-];
+const editorialGuideIds = INDEXABLE_GUIDE_IDS;
 
 const guideCards = {
   "twenty-48-strategy": {
@@ -1338,7 +1331,7 @@ function pageHtml(game) {
   const socialImageMeta = illustratedGameIds.has(game.id)
     ? `    <meta property="og:image" content="${siteUrl}/assets/game-art/${game.id}.webp">\n    <meta property="og:image:alt" content="${htmlEscape(game.title)} 플레이 장면">\n`
     : "";
-  const isApprovalSensitive = sensitiveGameIds.has(game.id);
+  const isApprovalSensitive = sensitiveGameIds.has(game.id) || !indexableGameIds.has(game.id);
   const pageAdsenseScript = isApprovalSensitive ? "" : `    ${adsenseScript}\n`;
   const robotsMeta = isApprovalSensitive ? `    <meta name="robots" content="noindex, follow">\n` : "";
   const tocItems = [["overview", "핵심 요약"], ["play-notes", "플레이 포인트"], ["how", "게임 방법"], ...(traditionalBackgrounds[game.id] ? [["background", "놀이 배경"]] : []), ["controls", "조작"], ["scoring", "점수 기준"], ["strategy", "공략"], ["mobile", "모바일 팁"], ["faq", "FAQ"], ["related-guides", "관련 공략"], ["related", "관련 게임"]];
@@ -1480,13 +1473,15 @@ for (const game of catalog) {
   fs.mkdirSync(dir, { recursive: true });
   if (!customPageIds.has(game.id) || !fs.existsSync(outputPath)) {
     fs.writeFileSync(outputPath, pageHtml(game), "utf8");
+  } else {
+    const current = fs.readFileSync(outputPath, "utf8");
+    fs.writeFileSync(outputPath, applyIndexingPolicy(current, indexableGameIds.has(game.id)), "utf8");
   }
 }
 
 const staticUrls = [
   { loc: `${siteUrl}/`, priority: "1.0", changefreq: "weekly", lastmod: "2026-08-20" },
   { loc: `${siteUrl}/games/`, priority: "0.9", changefreq: "weekly", lastmod: "2026-08-20" },
-  { loc: `${siteUrl}/play/`, priority: "0.9", changefreq: "weekly", lastmod: "2026-08-20" },
   { loc: `${siteUrl}/guides/`, priority: "0.8", changefreq: "monthly", lastmod: "2026-08-20" },
   { loc: `${siteUrl}/help/`, priority: "0.7", changefreq: "monthly", lastmod: "2026-07-22" },
   { loc: `${siteUrl}/updates/`, priority: "0.6", changefreq: "monthly", lastmod: "2026-08-20" },
@@ -1503,7 +1498,7 @@ const staticUrls = [
 ];
 
 const gameUrls = catalog
-  .filter((game) => !sensitiveGameIds.has(game.id))
+  .filter((game) => !sensitiveGameIds.has(game.id) && indexableGameIds.has(game.id))
   .map((game) => ({
     loc: `${siteUrl}/games/${game.id}/`,
     priority: "0.8",

@@ -1,5 +1,6 @@
 import fs from "node:fs";
 import path from "node:path";
+import { applyIndexingPolicy, indexableGameIds } from "./content-quality.mjs";
 
 const root = process.cwd();
 const arcadePath = path.join(root, "public", "assets", "arcade.js");
@@ -44,7 +45,7 @@ try {
   await import("./generate-game-pages-core.mjs");
 } finally {
   customPages.forEach(function (page) {
-    fs.writeFileSync(page.pagePath, page.content, "utf8");
+    fs.writeFileSync(page.pagePath, applyIndexingPolicy(page.content, indexableGameIds.has(page.id)), "utf8");
   });
 }
 

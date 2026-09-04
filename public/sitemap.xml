@@ -2,7 +2,6 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url><loc>https://hanpangames.kr/</loc></url>
   <url><loc>https://hanpangames.kr/games/</loc></url>
-  <url><loc>https://hanpangames.kr/play/</loc></url>
   <url><loc>https://hanpangames.kr/guides/</loc></url>
   <url><loc>https://hanpangames.kr/help/</loc></url>
   <url><loc>https://hanpangames.kr/updates/</loc></url>
@@ -10,65 +9,6 @@
   <url><loc>https://hanpangames.kr/privacy/</loc></url>
   <url><loc>https://hanpangames.kr/terms/</loc></url>
   <url><loc>https://hanpangames.kr/contact/</loc></url>
-  <url><loc>https://hanpangames.kr/games/traditional/</loc></url>
-  <url><loc>https://hanpangames.kr/games/arcade/</loc></url>
-  <url><loc>https://hanpangames.kr/games/puzzle/</loc></url>
-  <url><loc>https://hanpangames.kr/games/board/</loc></url>
-  <url><loc>https://hanpangames.kr/games/brain/</loc></url>
-  <url><loc>https://hanpangames.kr/games/skill/</loc></url>
-  <url><loc>https://hanpangames.kr/guides/free-web-games-guide/</loc></url>
-  <url><loc>https://hanpangames.kr/guides/classic-web-games-guide/</loc></url>
-  <url><loc>https://hanpangames.kr/guides/simple-control-games-guide/</loc></url>
-  <url><loc>https://hanpangames.kr/guides/keyboard-mouse-games-guide/</loc></url>
-  <url><loc>https://hanpangames.kr/guides/number-games-guide/</loc></url>
-  <url><loc>https://hanpangames.kr/guides/logic-games-guide/</loc></url>
-  <url><loc>https://hanpangames.kr/guides/memory-games-guide/</loc></url>
-  <url><loc>https://hanpangames.kr/guides/attention-games-guide/</loc></url>
-  <url><loc>https://hanpangames.kr/guides/word-games-guide/</loc></url>
-  <url><loc>https://hanpangames.kr/guides/arcade-games-guide/</loc></url>
-  <url><loc>https://hanpangames.kr/guides/korean-traditional-games-guide/</loc></url>
-  <url><loc>https://hanpangames.kr/guides/board-card-games-guide/</loc></url>
-  <url><loc>https://hanpangames.kr/guides/puzzle-games-guide/</loc></url>
-  <url><loc>https://hanpangames.kr/guides/reaction-games-guide/</loc></url>
-  <url><loc>https://hanpangames.kr/guides/brain-games-guide/</loc></url>
-  <url><loc>https://hanpangames.kr/guides/bubble-shooter-strategy/</loc></url>
-  <url><loc>https://hanpangames.kr/guides/chair-dash-guide/</loc></url>
-  <url><loc>https://hanpangames.kr/guides/jegi-kick-guide/</loc></url>
-  <url><loc>https://hanpangames.kr/guides/tuho-strategy/</loc></url>
-  <url><loc>https://hanpangames.kr/guides/ddakji-flip-strategy/</loc></url>
-  <url><loc>https://hanpangames.kr/guides/gonggi-strategy/</loc></url>
-  <url><loc>https://hanpangames.kr/guides/omok-strategy/</loc></url>
-  <url><loc>https://hanpangames.kr/guides/mole-finder-guide/</loc></url>
-  <url><loc>https://hanpangames.kr/guides/pong-rally-strategy/</loc></url>
-  <url><loc>https://hanpangames.kr/guides/space-guard-strategy/</loc></url>
-  <url><loc>https://hanpangames.kr/guides/maze-chase-strategy/</loc></url>
-  <url><loc>https://hanpangames.kr/guides/flappy-jump-guide/</loc></url>
-  <url><loc>https://hanpangames.kr/guides/bubble-pop-guide/</loc></url>
-  <url><loc>https://hanpangames.kr/guides/airplane-dodge-guide/</loc></url>
-  <url><loc>https://hanpangames.kr/guides/dessert-catch-guide/</loc></url>
-  <url><loc>https://hanpangames.kr/guides/planet-toss-guide/</loc></url>
-  <url><loc>https://hanpangames.kr/guides/perfume-workshop-strategy/</loc></url>
-  <url><loc>https://hanpangames.kr/guides/number-vault-strategy/</loc></url>
-  <url><loc>https://hanpangames.kr/guides/click-sprint-guide/</loc></url>
-  <url><loc>https://hanpangames.kr/guides/aim-trainer-guide/</loc></url>
-  <url><loc>https://hanpangames.kr/guides/constellation-strategy/</loc></url>
-  <url><loc>https://hanpangames.kr/guides/garden-water-strategy/</loc></url>
-  <url><loc>https://hanpangames.kr/guides/reaction-speed-guide/</loc></url>
-  <url><loc>https://hanpangames.kr/guides/typing-sprint-strategy/</loc></url>
-  <url><loc>https://hanpangames.kr/guides/math-climb-strategy/</loc></url>
-  <url><loc>https://hanpangames.kr/guides/color-match-strategy/</loc></url>
-  <url><loc>https://hanpangames.kr/guides/memory-tiles-strategy/</loc></url>
-  <url><loc>https://hanpangames.kr/guides/hangman-strategy/</loc></url>
-  <url><loc>https://hanpangames.kr/guides/word-guess-strategy/</loc></url>
-  <url><loc>https://hanpangames.kr/guides/pattern-memory-strategy/</loc></url>
-  <url><loc>https://hanpangames.kr/guides/simon-strategy/</loc></url>
-  <url><loc>https://hanpangames.kr/guides/block-fill-strategy/</loc></url>
-  <url><loc>https://hanpangames.kr/guides/match-three-strategy/</loc></url>
-  <url><loc>https://hanpangames.kr/guides/sliding-puzzle-strategy/</loc></url>
-  <url><loc>https://hanpangames.kr/guides/rps-survival-strategy/</loc></url>
-  <url><loc>https://hanpangames.kr/guides/connect-four-strategy/</loc></url>
-  <url><loc>https://hanpangames.kr/guides/freecell-classic-strategy/</loc></url>
-  <url><loc>https://hanpangames.kr/guides/card-solitaire-strategy/</loc></url>
   <url><loc>https://hanpangames.kr/guides/twenty-48-strategy/</loc></url>
   <url><loc>https://hanpangames.kr/guides/sudoku-classic-guide/</loc></url>
   <url><loc>https://hanpangames.kr/guides/snake-garden-guide/</loc></url>
@@ -80,49 +20,21 @@
   <url><loc>https://hanpangames.kr/guides/block-drop-beginner/</loc></url>
   <url><loc>https://hanpangames.kr/guides/tic-tac-toe-strategy/</loc></url>
   <url><loc>https://hanpangames.kr/guides/mobile-browser-game-tips/</loc></url>
-  <url><loc>https://hanpangames.kr/games/reaction-speed/</loc></url>
-  <url><loc>https://hanpangames.kr/games/number-vault/</loc></url>
-  <url><loc>https://hanpangames.kr/games/memory-tiles/</loc></url>
-  <url><loc>https://hanpangames.kr/games/click-sprint/</loc></url>
-  <url><loc>https://hanpangames.kr/games/aim-trainer/</loc></url>
-  <url><loc>https://hanpangames.kr/games/mole-finder/</loc></url>
   <url><loc>https://hanpangames.kr/games/brick-break/</loc></url>
   <url><loc>https://hanpangames.kr/games/block-drop-classic/</loc></url>
-  <url><loc>https://hanpangames.kr/games/pong-rally/</loc></url>
-  <url><loc>https://hanpangames.kr/games/space-guard/</loc></url>
   <url><loc>https://hanpangames.kr/games/maze-chase/</loc></url>
   <url><loc>https://hanpangames.kr/games/flappy-jump/</loc></url>
-  <url><loc>https://hanpangames.kr/games/bubble-shooter/</loc></url>
-  <url><loc>https://hanpangames.kr/games/bubble-pop/</loc></url>
   <url><loc>https://hanpangames.kr/games/snake-garden/</loc></url>
-  <url><loc>https://hanpangames.kr/games/airplane-dodge/</loc></url>
-  <url><loc>https://hanpangames.kr/games/chair-dash/</loc></url>
-  <url><loc>https://hanpangames.kr/games/dessert-catch/</loc></url>
-  <url><loc>https://hanpangames.kr/games/planet-toss/</loc></url>
-  <url><loc>https://hanpangames.kr/games/jegi-kick/</loc></url>
-  <url><loc>https://hanpangames.kr/games/tuho/</loc></url>
-  <url><loc>https://hanpangames.kr/games/ddakji-flip/</loc></url>
-  <url><loc>https://hanpangames.kr/games/gonggi/</loc></url>
-  <url><loc>https://hanpangames.kr/games/tic-tac-toe/</loc></url>
-  <url><loc>https://hanpangames.kr/games/omok/</loc></url>
   <url><loc>https://hanpangames.kr/games/card-solitaire/</loc></url>
   <url><loc>https://hanpangames.kr/games/freecell-classic/</loc></url>
   <url><loc>https://hanpangames.kr/games/connect-four/</loc></url>
-  <url><loc>https://hanpangames.kr/games/rps-survival/</loc></url>
   <url><loc>https://hanpangames.kr/games/mines/</loc></url>
   <url><loc>https://hanpangames.kr/games/sliding-puzzle/</loc></url>
   <url><loc>https://hanpangames.kr/games/sudoku-mini/</loc></url>
   <url><loc>https://hanpangames.kr/games/twenty-48/</loc></url>
   <url><loc>https://hanpangames.kr/games/match-three/</loc></url>
-  <url><loc>https://hanpangames.kr/games/block-fill/</loc></url>
-  <url><loc>https://hanpangames.kr/games/simon/</loc></url>
-  <url><loc>https://hanpangames.kr/games/pattern-memory/</loc></url>
-  <url><loc>https://hanpangames.kr/games/word-guess/</loc></url>
   <url><loc>https://hanpangames.kr/games/hangman/</loc></url>
-  <url><loc>https://hanpangames.kr/games/typing-sprint/</loc></url>
-  <url><loc>https://hanpangames.kr/games/math-climb/</loc></url>
-  <url><loc>https://hanpangames.kr/games/color-match/</loc></url>
-  <url><loc>https://hanpangames.kr/games/perfume-workshop/</loc></url>
-  <url><loc>https://hanpangames.kr/games/constellation/</loc></url>
-  <url><loc>https://hanpangames.kr/games/garden-water/</loc></url>
+  <url>
+          <loc>https://hanpangames.kr/games/tic-tac-toe/</loc>
+        </url>
 </urlset>

@@ -136,7 +136,7 @@
     function announce(text){const out=document.querySelector("#playResult");if(out)out.textContent=text;}
     function pool(){const all=words[mode];const filtered=category==="전체"?all:all.filter(function(w){return w.cat===category;});return filtered.length?filtered:all;}
     function pick(exclude){const p=pool().filter(function(w){return !exclude || w.word!==exclude;});return p[Math.floor(Math.random()*p.length)]||pool()[0];}
-    function displayUnits(){return mode==="en"?item.word.split(""):Array.from(item.word);}
+    function displayUnits(){if(!item)return[];return mode==="en"?item.word.split(""):Array.from(item.word);}
     function guessKeyForChar(char){return mode==="en"?char.toUpperCase():initialOf(char);}
     function isOpen(char){return guessed.has(guessKeyForChar(char));}
     function remainingCount(){return displayUnits().filter(function(ch){return !isOpen(ch);}).length;}

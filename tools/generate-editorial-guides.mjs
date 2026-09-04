@@ -1,5 +1,6 @@
 import fs from "node:fs";
 import path from "node:path";
+import { indexableGuideIds } from "./content-quality.mjs";
 
 const root = process.cwd();
 const publicDir = path.join(root, "public");
@@ -752,6 +753,7 @@ function guidePageHtml(guide) {
   const canonical = `${siteUrl}/guides/${guide.id}/`;
   const guidePublishedDate = guide.publishedDate || publishedDate;
   const modifiedDate = guide.modifiedDate || publishedDate;
+  const isIndexable = indexableGuideIds.has(guide.id);
   const otherGuides = guides.filter((item) => item.id !== guide.id).slice(0, 3);
   const jsonLd = {
     "@context": "https://schema.org",
@@ -791,7 +793,7 @@ function guidePageHtml(guide) {
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="icon" href="/favicon.svg" type="image/svg+xml">
-    ${adsenseScript}
+    ${isIndexable ? adsenseScript : '<meta name="robots" content="noindex, follow">'}
     ${searchConsoleVerification}
     <title>${escapeHtml(guide.title)} - 한판게임</title>
     <meta name="description" content="${escapeHtml(guide.description)}">

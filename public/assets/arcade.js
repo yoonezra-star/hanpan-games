@@ -58,7 +58,10 @@
 
   const illustratedGameIds = new Set(catalog.map(function (game) { return game.id; }));
 
-  const approvalHiddenGameIds = new Set();
+  const approvalVisibleGameIds = new Set(["block-drop-classic", "brick-break", "card-solitaire", "connect-four", "flappy-jump", "freecell-classic", "hangman", "match-three", "maze-chase", "mines", "sliding-puzzle", "snake-garden", "sudoku-mini", "tic-tac-toe", "twenty-48"]);
+  const approvalHiddenGameIds = new Set(catalog
+    .filter(function (game) { return !approvalVisibleGameIds.has(game.id); })
+    .map(function (game) { return game.id; }));
   const publicCatalog = catalog.filter(function (game) {
     return !approvalHiddenGameIds.has(game.id);
   });
@@ -413,8 +416,10 @@
         if (pageTitle) pageTitle.textContent = current.title;
         if (pageDescription) pageDescription.textContent = current.description;
       }
-      $("#stageTitle").textContent = current.title;
-      $("#playCategory").textContent = `${categoryNames[current.category]} · ${current.minutes}`;
+      const stageTitle = $("#stageTitle");
+      const playCategory = $("#playCategory");
+      if (stageTitle) stageTitle.textContent = current.title;
+      if (playCategory) playCategory.textContent = `${categoryNames[current.category]} · ${current.minutes}`;
       surface.innerHTML = "";
       try {
         localStorage.setItem("hanpan-recent-game", current.id);
