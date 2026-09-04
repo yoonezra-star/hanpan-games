@@ -51,6 +51,11 @@ const updatedLocations = new Set([
   "https://hanpangames.kr/games/sudoku-mini/",
   "https://hanpangames.kr/games/twenty-48/",
   "https://hanpangames.kr/games/block-drop-classic/",
+  "https://hanpangames.kr/games/brick-break/",
+  "https://hanpangames.kr/games/snake-garden/",
+  "https://hanpangames.kr/games/freecell-classic/",
+  "https://hanpangames.kr/games/tic-tac-toe/",
+  "https://hanpangames.kr/games/connect-four/",
 ]);
 
 function withLastModified(entry) {

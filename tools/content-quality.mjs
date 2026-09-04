@@ -27,6 +27,11 @@ export const FLAGSHIP_GAME_IDS = Object.freeze([
   "sudoku-mini",
   "twenty-48",
   "block-drop-classic",
+  "brick-break",
+  "snake-garden",
+  "freecell-classic",
+  "tic-tac-toe",
+  "connect-four",
 ]);
 
 export const INDEXABLE_GUIDE_IDS = Object.freeze([

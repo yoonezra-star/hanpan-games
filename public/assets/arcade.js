@@ -63,7 +63,7 @@
     .filter(function (game) { return !approvalVisibleGameIds.has(game.id); })
     .map(function (game) { return game.id; }));
   const gameById = new Map(catalog.map(function (game) { return [game.id, game]; }));
-  const flagshipGameIds = new Set(["mines", "card-solitaire", "sudoku-mini", "twenty-48", "block-drop-classic"]);
+  const flagshipGameIds = new Set(["mines", "card-solitaire", "sudoku-mini", "twenty-48", "block-drop-classic", "brick-break", "snake-garden", "freecell-classic", "tic-tac-toe", "connect-four"]);
   const publicCatalog = ["mines", "card-solitaire", "sudoku-mini", "twenty-48", "block-drop-classic", "brick-break", "snake-garden", "freecell-classic", "tic-tac-toe", "connect-four", "maze-chase", "match-three", "sliding-puzzle", "hangman", "flappy-jump"]
     .map(function (id) { return gameById.get(id); })
     .filter(Boolean);
@@ -72,7 +72,12 @@
     "card-solitaire": { label: "정리", unit: "장", tiers: [[13, "한 무늬 분량 정리"], [26, "카드 절반 정리"], [52, "네 기초 더미 완성"]] },
     "sudoku-mini": { label: "입력", unit: "칸", tiers: [[15, "첫 구역 확정"], [35, "후반 후보 정리"], [51, "모든 빈칸 완성"]] },
     "twenty-48": { label: "최대 타일", unit: "", tiers: [[128, "128 타일 만들기"], [512, "512 타일 만들기"], [2048, "2048 타일 완성"]] },
-    "block-drop-classic": { label: "줄", unit: "줄", tiers: [[2, "첫 두 줄 삭제"], [10, "10줄 정리"], [30, "30줄 생존"]] }
+    "block-drop-classic": { label: "줄", unit: "줄", tiers: [[2, "첫 두 줄 삭제"], [10, "10줄 정리"], [30, "30줄 생존"]] },
+    "brick-break": { label: "스테이지", unit: "", tiers: [[2, "스테이지 2 진입"], [3, "스테이지 3 진입"], [5, "스테이지 5 도전"]] },
+    "snake-garden": { label: "길이", unit: "칸", tiers: [[6, "기본 순환 경로 만들기"], [10, "길이 10 유지"], [15, "후반 공간 관리"]] },
+    "freecell-classic": { label: "정리", unit: "장", tiers: [[13, "한 무늬 분량 정리"], [26, "카드 절반 정리"], [52, "네 기초 더미 완성"]] },
+    "tic-tac-toe": { source: ".tt2", metric: "ticMatch", unit: "승", tiers: [[1, "첫 판 승리"], [2, "매치 포인트 도달"], [3, "3선승 매치 완성"]] },
+    "connect-four": { source: ".connect4-pro-game", metric: "connectTurns", unit: "수", tiers: [[2, "두 수 전개"], [3, "세 수 전개"], [4, "한 판 마무리", "대국 종료"]] }
   };
 
   let cleanup = [];
@@ -507,7 +512,6 @@
     };
     (map[game.type] || renderTap)(game, surface);
     if (!flagshipGameIds.has(game.id)) addLiveMotion(game, surface);
-    addFlagshipChallenge(game, surface);
     addPlayGuidance(game, surface);
   }
 
@@ -9647,17 +9651,29 @@
 
   function addFlagshipChallenge(game, surface) {
     const rule = flagshipChallengeRules[game.id];
-    const score = surface.querySelector(".mini-score");
-    if (!rule || !score || surface.querySelector(".flagship-challenge")) return;
+    const source = rule && surface.querySelector(rule.source || ".mini-score");
+    if (!rule || !source || surface.querySelector(".flagship-challenge")) return;
 
     const panel = document.createElement("section");
     panel.className = "flagship-challenge";
     panel.setAttribute("aria-label", "이번 판 도전");
-    panel.innerHTML = `<div class="flagship-challenge-head"><div><strong>이번 판 도전</strong><span data-challenge-summary aria-live="polite"></span></div><b data-challenge-value></b></div><div class="flagship-challenge-track" aria-hidden="true"><i data-challenge-progress></i></div><ol>${rule.tiers.map(function (tier) { return `<li><span aria-hidden="true"></span><strong>${tier[1]}</strong><small>${tier[0]}${rule.unit}</small></li>`; }).join("")}</ol>`;
+    panel.innerHTML = `<div class="flagship-challenge-head"><div><strong>이번 판 도전</strong><span data-challenge-summary aria-live="polite"></span></div><b data-challenge-value></b></div><div class="flagship-challenge-track" aria-hidden="true"><i data-challenge-progress></i></div><ol>${rule.tiers.map(function (tier) { return `<li><span aria-hidden="true"></span><strong>${tier[1]}</strong><small>${tier[2] || `${tier[0]}${rule.unit}`}</small></li>`; }).join("")}</ol>`;
     surface.appendChild(panel);
 
     function currentValue() {
-      const scoreItem = Array.from(score.querySelectorAll(":scope > span")).find(function (item) {
+      if (rule.metric === "ticMatch") {
+        const matchText = source.querySelector("#ttm")?.textContent || "";
+        const match = matchText.match(/X\s+(\d+)\s*:\s*(\d+)\s+O/);
+        return match ? Math.max(Number(match[1]), Number(match[2])) : 0;
+      }
+      if (rule.metric === "connectTurns") {
+        const ended = source.querySelector(".connect4-pro-status strong")?.textContent.trim() === "대국 종료";
+        if (ended) return rule.tiers[rule.tiers.length - 1][0];
+        const red = source.querySelectorAll('[data-mark="1"]').length;
+        const yellow = source.querySelectorAll('[data-mark="2"]').length;
+        return Math.max(red, yellow);
+      }
+      const scoreItem = Array.from(source.querySelectorAll(":scope > span")).find(function (item) {
         const label = item.querySelector("small");
         return label && label.textContent.trim() === rule.label;
       });
@@ -9676,7 +9692,8 @@
         item.classList.toggle("is-complete", complete);
         item.querySelector("span").textContent = complete ? "✓" : String(index + 1);
       });
-      panel.querySelector("[data-challenge-value]").textContent = `${current}${rule.unit}`;
+      const connectEnded = rule.metric === "connectTurns" && source.querySelector(".connect4-pro-status strong")?.textContent.trim() === "대국 종료";
+      panel.querySelector("[data-challenge-value]").textContent = connectEnded ? "종료" : `${current}${rule.unit}`;
       panel.querySelector("[data-challenge-summary]").textContent = nextTier
         ? `다음 목표 · ${nextTier[1]}`
         : "세 단계 목표를 모두 달성했습니다.";
@@ -9684,13 +9701,22 @@
     }
 
     const observer = new MutationObserver(sync);
-    observer.observe(score, { childList: true, subtree: true, characterData: true });
+    observer.observe(source, { childList: true, subtree: true, characterData: true, attributes: true, attributeFilter: ["data-mark"] });
     cleanup.push(function () { observer.disconnect(); });
     sync();
+  }
+
+  function scanFlagshipChallenges() {
+    document.querySelectorAll("#playSurface[data-game-id]").forEach(function (surface) {
+      const game = gameById.get(surface.dataset.gameId);
+      if (game) addFlagshipChallenge(game, surface);
+    });
   }
 
   window.HANPAN_CATALOG = catalog;
   renderCatalog();
   renderPlayPage();
   renderGamePageLauncher();
+  scanFlagshipChallenges();
+  new MutationObserver(scanFlagshipChallenges).observe(document.documentElement, { childList: true, subtree: true });
 })();
