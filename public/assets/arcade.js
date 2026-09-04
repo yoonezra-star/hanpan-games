@@ -58,13 +58,13 @@
 
   const illustratedGameIds = new Set(catalog.map(function (game) { return game.id; }));
 
-  const approvalVisibleGameIds = new Set(["mines", "card-solitaire", "sudoku-mini", "twenty-48", "block-drop-classic", "brick-break", "snake-garden", "freecell-classic", "tic-tac-toe", "connect-four", "maze-chase", "match-three", "sliding-puzzle", "hangman", "flappy-jump"]);
+  const approvalVisibleGameIds = new Set(["mines", "card-solitaire", "sudoku-mini", "twenty-48", "block-drop-classic", "brick-break", "snake-garden", "freecell-classic", "tic-tac-toe", "connect-four", "maze-chase", "match-three", "sliding-puzzle", "hangman", "flappy-jump", "omok", "bubble-shooter", "pong-rally", "simon", "reaction-speed"]);
   const approvalHiddenGameIds = new Set(catalog
     .filter(function (game) { return !approvalVisibleGameIds.has(game.id); })
     .map(function (game) { return game.id; }));
   const gameById = new Map(catalog.map(function (game) { return [game.id, game]; }));
-  const flagshipGameIds = new Set(["mines", "card-solitaire", "sudoku-mini", "twenty-48", "block-drop-classic", "brick-break", "snake-garden", "freecell-classic", "tic-tac-toe", "connect-four", "maze-chase", "match-three", "sliding-puzzle", "hangman", "flappy-jump"]);
-  const publicCatalog = ["mines", "card-solitaire", "sudoku-mini", "twenty-48", "block-drop-classic", "brick-break", "snake-garden", "freecell-classic", "tic-tac-toe", "connect-four", "maze-chase", "match-three", "sliding-puzzle", "hangman", "flappy-jump"]
+  const flagshipGameIds = new Set(["mines", "card-solitaire", "sudoku-mini", "twenty-48", "block-drop-classic", "brick-break", "snake-garden", "freecell-classic", "tic-tac-toe", "connect-four", "maze-chase", "match-three", "sliding-puzzle", "hangman", "flappy-jump", "omok", "bubble-shooter", "pong-rally", "simon", "reaction-speed"]);
+  const publicCatalog = ["mines", "card-solitaire", "sudoku-mini", "twenty-48", "block-drop-classic", "brick-break", "snake-garden", "freecell-classic", "tic-tac-toe", "connect-four", "maze-chase", "match-three", "sliding-puzzle", "hangman", "flappy-jump", "omok", "bubble-shooter", "pong-rally", "simon", "reaction-speed"]
     .map(function (id) { return gameById.get(id); })
     .filter(Boolean);
   const flagshipChallengeRules = {
@@ -82,7 +82,12 @@
     "match-three": { label: "스테이지", unit: "", tiers: [[2, "스테이지 2 진입"], [3, "스테이지 3 진입"], [5, "스테이지 5 도전"]] },
     "sliding-puzzle": { label: "제자리", metric: "slidingProgress", unit: "%", tiers: [[40, "첫 구역 맞추기"], [75, "마지막 구역 진입"], [100, "모든 타일 정렬"]] },
     "hangman": { label: "연승", unit: "연승", tiers: [[1, "첫 단어 완성"], [3, "세 단어 연속 완성"], [5, "다섯 단어 연속 완성"]] },
-    "flappy-jump": { label: "통과", unit: "개", tiers: [[1, "첫 기둥 통과"], [5, "다섯 기둥 통과"], [10, "두 자릿수 기록"]] }
+    "flappy-jump": { label: "통과", unit: "개", tiers: [[1, "첫 기둥 통과"], [5, "다섯 기둥 통과"], [10, "두 자릿수 기록"]] },
+    "omok": { source: ".om2", metric: "omokTurns", unit: "수", tiers: [[3, "세 수 전개"], [5, "다섯 수 전개"], [8, "한 판 마무리", "대국 종료"]] },
+    "bubble-shooter": { source: ".bs2", metric: "bubbleCombo", unit: "연속", tiers: [[1, "첫 3매치"], [3, "3연속 매치"], [5, "최대 배율 도달"]] },
+    "pong-rally": { label: "내 점수", unit: "점", tiers: [[1, "첫 득점"], [4, "4점 선점"], [7, "7점 경기 승리"]] },
+    "simon": { label: "라운드", unit: "단계", tiers: [[3, "3단계 기억"], [6, "6단계 연결"], [10, "10단계 완주"]] },
+    "reaction-speed": { source: ".reaction-runtime-root", metric: "reactionRounds", unit: "회", tiers: [[1, "첫 반응 측정"], [3, "3회 측정 완료"], [5, "기본 세트 완주"]] }
   };
 
   let cleanup = [];
@@ -9612,7 +9617,12 @@
       return `/games/${encodeURIComponent(id)}/#play-area`;
     }
 
-    publicCatalog.forEach(function (game) {
+    const currentGame = catalog.find(function (game) { return game.id === current; });
+    const pickerCatalog = currentGame && approvalHiddenGameIds.has(current)
+      ? [currentGame].concat(publicCatalog)
+      : publicCatalog;
+
+    pickerCatalog.forEach(function (game) {
       const option = document.createElement("option");
       option.value = game.id;
       option.textContent = `${game.title} · ${categoryNames[game.category]}`;
@@ -9678,6 +9688,19 @@
         const yellow = source.querySelectorAll('[data-mark="2"]').length;
         return Math.max(red, yellow);
       }
+      if (rule.metric === "omokTurns") {
+        const ended = /승리|무승부/.test(source.querySelector("#ommsg")?.textContent || "");
+        if (ended) return rule.tiers[rule.tiers.length - 1][0];
+        const black = source.querySelectorAll(".cell.b").length;
+        const white = source.querySelectorAll(".cell.w").length;
+        return Math.min(rule.tiers[rule.tiers.length - 1][0] - 1, Math.max(black, white));
+      }
+      if (rule.metric === "bubbleCombo") {
+        return Number(source.querySelector("#bsc")?.textContent.match(/콤보\s*(\d+)/)?.[1] || 0);
+      }
+      if (rule.metric === "reactionRounds") {
+        return source.querySelectorAll(".reaction-history > span").length;
+      }
       if (rule.metric === "mazeCollected") {
         const scoreItem = Array.from(source.querySelectorAll(":scope > span")).find(function (item) {
           return item.querySelector("small")?.textContent.trim() === rule.label;
@@ -9711,8 +9734,9 @@
         item.classList.toggle("is-complete", complete);
         item.querySelector("span").textContent = complete ? "✓" : String(index + 1);
       });
-      const connectEnded = rule.metric === "connectTurns" && source.querySelector(".connect4-pro-status strong")?.textContent.trim() === "대국 종료";
-      panel.querySelector("[data-challenge-value]").textContent = connectEnded ? "종료" : `${current}${rule.unit}`;
+      const gameEnded = (rule.metric === "connectTurns" && source.querySelector(".connect4-pro-status strong")?.textContent.trim() === "대국 종료")
+        || (rule.metric === "omokTurns" && /승리|무승부/.test(source.querySelector("#ommsg")?.textContent || ""));
+      panel.querySelector("[data-challenge-value]").textContent = gameEnded ? "종료" : `${current}${rule.unit}`;
       panel.querySelector("[data-challenge-summary]").textContent = nextTier
         ? `다음 목표 · ${nextTier[1]}`
         : "세 단계 목표를 모두 달성했습니다.";

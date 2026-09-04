@@ -4987,6 +4987,15 @@ body.game-fullscreen-fallback-open {
     margin-top: 0;
   }
 
+  .flagship-game-page .inline-game-stage {
+    margin-right: -14px;
+    margin-left: -14px;
+    padding: 10px;
+    border-right: 0;
+    border-left: 0;
+    border-radius: 0;
+  }
+
   .flagship-game-page .game-first-stage .stage-head {
     margin-bottom: 10px;
   }

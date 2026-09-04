@@ -1,10 +1,10 @@
 # AdSense 콘텐츠 품질 감사
 
 - 기준일: 2026-09-04
-- 대표 게임: 15개
-- 보강 대기 게임: 30개
-- 핵심 가이드: 11개
-- 통합·보강 검토 가이드: 53개
+- 대표 게임: 20개
+- 보강 대기 게임: 25개
+- 핵심 가이드: 16개
+- 통합·보강 검토 가이드: 48개
 - 색인 카테고리 허브: 6개
 - 색인/광고 정책 오류: 0개
 
@@ -22,13 +22,17 @@
 | 유지 | snake-garden | 뱀의 정원 | 780 | index | 있음 |
 | 유지 | twenty-48 | 2048 한판 | 777 | index | 있음 |
 | 유지 | tic-tac-toe | 틱택토 Tic-Tac-Toe | 721 | index | 있음 |
+| 유지 | simon | 사이먼 게임 | 694 | index | 있음 |
 | 유지 | hangman | 행맨 | 690 | index | 있음 |
 | 유지 | sliding-puzzle | 슬라이딩 퍼즐 | 672 | index | 있음 |
 | 유지 | flappy-jump | 플래피 점프 | 642 | index | 있음 |
 | 유지 | match-three | 매치3 퍼즐 | 631 | index | 있음 |
 | 유지 | maze-chase | 미로 추격 클래식 | 628 | index | 있음 |
+| 유지 | pong-rally | 퐁 랠리 | 528 | index | 있음 |
+| 유지 | reaction-speed | 반응속도 체크 | 511 | index | 있음 |
+| 유지 | bubble-shooter | 버블 슈터 클래식 | 398 | index | 있음 |
+| 유지 | omok | 오목 한판 | 328 | index | 있음 |
 | 보강 대기 | rps-survival | 가위바위보 서바이벌 | 539 | noindex | 없음 |
-| 보강 대기 | simon | 사이먼 게임 | 515 | noindex | 없음 |
 | 보강 대기 | click-sprint | 클릭 스프린트 | 498 | noindex | 없음 |
 | 보강 대기 | word-guess | 단어 맞추기 | 465 | noindex | 없음 |
 | 보강 대기 | pattern-memory | 패턴 기억 | 458 | noindex | 없음 |
@@ -37,21 +41,17 @@
 | 보강 대기 | mole-finder | 두더지 찾기 | 422 | noindex | 없음 |
 | 보강 대기 | typing-sprint | 타이핑 노선 | 410 | noindex | 없음 |
 | 보강 대기 | memory-tiles | 기억 타일 | 362 | noindex | 없음 |
-| 보강 대기 | pong-rally | 퐁 랠리 | 349 | noindex | 없음 |
-| 보강 대기 | reaction-speed | 반응속도 체크 | 315 | noindex | 없음 |
 | 보강 대기 | garden-water | 정원 물주기 | 294 | noindex | 없음 |
 | 보강 대기 | perfume-workshop | 향수 소트 공방 | 269 | noindex | 없음 |
 | 보강 대기 | color-match | 색깔 맞추기 | 254 | noindex | 없음 |
 | 보강 대기 | constellation | 별자리 잇기 | 241 | noindex | 없음 |
 | 보강 대기 | aim-trainer | 에임 트레이너 | 238 | noindex | 없음 |
 | 보강 대기 | gonggi | 공기놀이 한판 | 220 | noindex | 없음 |
-| 보강 대기 | bubble-shooter | 버블 슈터 클래식 | 197 | noindex | 없음 |
 | 보강 대기 | planet-toss | 행성 던지기 | 196 | noindex | 없음 |
 | 보강 대기 | math-climb | 수학 등산 | 193 | noindex | 없음 |
 | 보강 대기 | ddakji-flip | 딱지치기 한판 | 183 | noindex | 없음 |
 | 보강 대기 | tuho | 투호 한판 | 182 | noindex | 없음 |
 | 보강 대기 | jegi-kick | 제기차기 한판 | 162 | noindex | 없음 |
-| 보강 대기 | omok | 오목 한판 | 133 | noindex | 없음 |
 | 보강 대기 | number-vault | 숫자 금고 | 122 | noindex | 없음 |
 | 보강 대기 | chair-dash | 의자 질주 | 111 | noindex | 없음 |
 | 보강 대기 | dessert-catch | 디저트 캐치 | 110 | noindex | 없음 |
@@ -73,7 +73,11 @@
 
 | 상태 | ID | 페이지 | 단어 수 | 색인 | AdSense |
 | --- | --- | --- | ---: | --- | --- |
+| 유지 | omok-strategy | 오목 공략: 열린 3·4·교차 위협과 AI 대전 전략 | 1743 | index | 있음 |
+| 유지 | reaction-speed-guide | 반응속도 체크 가이드: 5·10회 측정, 평균·중앙값·부정출발 해석 | 1673 | index | 있음 |
+| 유지 | bubble-shooter-strategy | 버블 슈터 공략: 3매치·연쇄 낙하·추가줄·콤보 점수 전략 | 1626 | index | 있음 |
 | 유지 | tic-tac-toe-strategy | 틱택토 전략: 포크·중앙·모서리·하드 AI 3선승 공략 | 1355 | index | 있음 |
+| 유지 | pong-rally-strategy | 퐁 랠리 공략: 7점제·반사각·AI 추적·랠리 가속 | 1247 | index | 있음 |
 | 유지 | block-drop-beginner | 블록 드롭 클래식 초보 가이드: 빈칸을 줄이는 배치법 | 690 | index | 있음 |
 | 유지 | snake-garden-guide | 스네이크 게임 공략: 맵·콤보보다 탈출 공간을 먼저 보는 법 | 687 | index | 있음 |
 | 유지 | brick-break-strategy | 벽돌깨기 초보 공략: 패들 위치와 반사각 이해하기 | 620 | index | 있음 |
@@ -84,11 +88,9 @@
 | 유지 | mobile-browser-game-tips | 모바일 브라우저 게임을 편하게 즐기는 조작 팁 | 418 | index | 있음 |
 | 유지 | sudoku-classic-guide | 스도쿠 입문 공략: 후보 메모로 확정 숫자 찾는 법 | 418 | index | 있음 |
 | 유지 | browser-game-benefits | 무료 브라우저 게임의 장점과 주의할 점 | 396 | index | 있음 |
+| 유지 | simon-strategy | 사이먼 게임 공략: 긴 순서를 덩어리와 리듬으로 기억하는 법 | 353 | index | 있음 |
 | 보강 대기 | number-vault-strategy | 숫자 금고 공략: 1~500 UP/DOWN·중간값·최소 시도·저장 | 1792 | noindex | 없음 |
 | 보강 대기 | perfume-workshop-strategy | 향수 소트 공략: 빈 병·묶음 이동·최소 이동·최단 시간 전략 | 1773 | noindex | 없음 |
-| 보강 대기 | omok-strategy | 오목 공략: 열린 3·4·교차 위협과 AI 대전 전략 | 1743 | noindex | 없음 |
-| 보강 대기 | reaction-speed-guide | 반응속도 체크 가이드: 5·10회 측정, 평균·중앙값·부정출발 해석 | 1673 | noindex | 없음 |
-| 보강 대기 | bubble-shooter-strategy | 버블 슈터 공략: 3매치·연쇄 낙하·추가줄·콤보 점수 전략 | 1626 | noindex | 없음 |
 | 보강 대기 | math-climb-strategy | 수학 등산 공략: 12~18구간·콤보·점수·제한시간 전략 | 1548 | noindex | 없음 |
 | 보강 대기 | typing-sprint-strategy | 타이핑 노선 공략: CPM·정확도·콤보·오타 시간 페널티 전략 | 1541 | noindex | 없음 |
 | 보강 대기 | click-sprint-guide | 클릭 스프린트 공략: 5·10·20초 CPS·1초 버스트·페이스 | 1521 | noindex | 없음 |
@@ -99,7 +101,6 @@
 | 보강 대기 | garden-water-strategy | 정원 물주기 공략: 45% 기준·위급 구조·콤보·최소 낭비 | 1301 | noindex | 없음 |
 | 보강 대기 | bubble-pop-guide | 버블팝 공략: 콤보·골든 버블·폭탄·놓침 줄이기 | 1293 | noindex | 없음 |
 | 보강 대기 | memory-tiles-strategy | 기억 타일 공략: 12~24칸·최소 이동·정확도·기억 전략 | 1291 | noindex | 없음 |
-| 보강 대기 | pong-rally-strategy | 퐁 랠리 공략: 7점제·반사각·AI 추적·랠리 가속 | 1247 | noindex | 없음 |
 | 보강 대기 | flappy-jump-guide | 플래피 점프 공략: 기둥 간격·중력·점프 리듬·기록 저장 | 1217 | noindex | 없음 |
 | 보강 대기 | planet-toss-guide | 행성 던지기 공략: 각도·힘·바람·10회 기록 보정법 | 1197 | noindex | 없음 |
 | 보강 대기 | maze-chase-strategy | 미로 추격 공략: 73개 조각·추격 AI·최단 클리어 | 1131 | noindex | 없음 |
@@ -134,6 +135,5 @@
 | 보강 대기 | match-three-strategy | 매치3 퍼즐 공략: 연쇄·줄폭탄·컬러폭탄을 쓰는 순서 | 436 | noindex | 없음 |
 | 보강 대기 | memory-games-guide | 기억력 게임 추천: 패턴 기억·사이먼·기억 타일 고르는 법 | 427 | noindex | 없음 |
 | 보강 대기 | word-guess-strategy | 단어 맞추기 공략: 힌트에서 후보를 빠르게 줄이는 법 | 403 | noindex | 없음 |
-| 보강 대기 | simon-strategy | 사이먼 게임 공략: 긴 순서를 덩어리와 리듬으로 기억하는 법 | 353 | noindex | 없음 |
 | 보강 대기 | block-fill-strategy | 블록 채우기 공략: 큰 조각과 장애물부터 보는 배치 순서 | 350 | noindex | 없음 |
 | 보강 대기 | pattern-memory-strategy | 패턴 기억 공략: 구역·기준점·도형으로 위치를 외우는 법 | 347 | noindex | 없음 |

@@ -19,6 +19,11 @@ export const INDEXABLE_GAME_IDS = Object.freeze([
   "sliding-puzzle",
   "hangman",
   "flappy-jump",
+  "omok",
+  "bubble-shooter",
+  "pong-rally",
+  "simon",
+  "reaction-speed",
 ]);
 
 export const FLAGSHIP_GAME_IDS = Object.freeze([
@@ -37,6 +42,11 @@ export const FLAGSHIP_GAME_IDS = Object.freeze([
   "sliding-puzzle",
   "hangman",
   "flappy-jump",
+  "omok",
+  "bubble-shooter",
+  "pong-rally",
+  "simon",
+  "reaction-speed",
 ]);
 
 export const INDEXABLE_GUIDE_IDS = Object.freeze([
@@ -51,6 +61,11 @@ export const INDEXABLE_GUIDE_IDS = Object.freeze([
   "sudoku-classic-guide",
   "tic-tac-toe-strategy",
   "twenty-48-strategy",
+  "omok-strategy",
+  "bubble-shooter-strategy",
+  "pong-rally-strategy",
+  "simon-strategy",
+  "reaction-speed-guide",
 ]);
 
 export const INDEXABLE_CATEGORY_IDS = Object.freeze([

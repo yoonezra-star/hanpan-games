@@ -9,6 +9,8 @@ import {
 
 const root = process.cwd();
 const publicDir = path.join(root, "public");
+const representativeGameCount = INDEXABLE_GAME_IDS.length;
+const coreGuideCount = indexableGuideIds.size;
 
 function updateFile(relativePath, transform) {
   const filePath = path.join(publicDir, relativePath);
@@ -96,6 +98,41 @@ const flagshipEditorialSections = {
     intro: "플래피 점프의 통과 수는 기둥 한 쌍을 완전히 지난 횟수입니다. 한 번의 입력 강도는 같으므로, 1개·5개·10개 구간은 기둥 중앙을 향해 입력 간격을 일정하게 조절하는 능력을 보여 줍니다.",
     tiers: ["1개 · 첫 기둥의 틈 중앙을 통과해 점프와 낙하 리듬을 확인합니다.", "5개 · 기둥 직전의 급한 연속 입력 없이 일정한 높이를 유지합니다.", "10개 · 난이도별 속도와 틈 크기에 맞춘 입력 간격으로 두 자릿수 기록을 만듭니다."],
     reading: "충돌 위치가 틈 위쪽이면 입력이 너무 늦게 몰렸고, 아래쪽이면 다음 점프를 기다린 시간이 길었던 경우가 많습니다. 기체가 틈 중앙에 도착했을 때가 아니라 기둥 앞에서 현재 상승·하강 방향을 보고 미리 한 번 입력하세요."
+  },
+  "omok": {
+    intro: "오목은 돌 개수보다 한 수로 몇 방향의 위협을 만드는지가 중요합니다. 이번 판 도전은 한쪽 돌의 착수 수로 초반 전개를 보여 주고, 다섯 돌 연결 또는 무승부가 확정됐을 때 마지막 단계를 완료합니다.",
+    tiers: ["세 수 전개 · 중앙 부근에 가로·세로·대각선 후보를 겹쳐 둡니다.", "다섯 수 전개 · 열린 3과 상대의 즉시 4 완성 칸을 함께 확인합니다.", "대국 종료 · 다섯 돌 이상 연결하거나 모든 칸이 차는 순간까지 판을 마칩니다."],
+    reading: "내 돌이 많아져도 한쪽이 막힌 4 하나만 남으면 공격 선택지가 좁습니다. 매 수 뒤 내 즉시 승리, 상대의 즉시 승리, 두 방향을 동시에 여는 교차 위협 순서로 확인하세요. 어려움 AI를 상대로는 공격 수보다 한 수 뒤 상대가 만들 열린 4를 먼저 차단하는 편이 안정적입니다.",
+    practice: "첫 연습에서는 중앙에서 두 칸 이내만 사용하며 가로와 대각선이 겹치는 모양을 만들어 보세요. 다음 판에는 되돌리기를 한 번만 허용하고 놓친 차단 수를 직접 찾습니다. 같은 첫 수를 흑과 백으로 번갈아 두면 선공이 만든 주도권과 후공의 방어 부담을 비교하기 쉽습니다.",
+    mobile: "모바일에서는 바둑판을 확대하기보다 기기를 가로로 돌려 교차점 간격을 확보하는 편이 정확합니다. 착수 전에 마지막 돌의 붉은 테두리와 현재 차례를 확인하고, 손가락을 떼는 순간 선택되므로 원하는 교차점 중앙을 한 번만 누르세요."
+  },
+  "bubble-shooter": {
+    intro: "버블 슈터의 콤보는 실패 샷 없이 3개 이상 군집을 연속으로 제거한 횟수입니다. 한 번의 큰 낙하뿐 아니라 다음 색과 빈 칸을 읽어 연속 매치를 유지하는 능력을 1·3·5단계로 나눠 보여 줍니다.",
+    tiers: ["첫 3매치 · 다음 버블과 닿는 확실한 같은 색 두 개를 찾습니다.", "3연속 매치 · 미스 카운트를 늘리지 않고 세 번 연속 군집을 제거합니다.", "최대 배율 · 다섯 번째 연속 매치로 최고 점수 배율에 도달합니다."],
+    reading: "현재 점수만 높고 콤보가 0이라면 큰 낙하 뒤 연결이 끊겼거나 무리한 빈 칸을 선택한 상태입니다. 다음 색이 바로 맞지 않을 때는 위쪽 목을 끊을 수 있는 군집 주변에 붙여 후속 색의 통로를 만들고, 추가줄까지 한 번 남았다면 확실한 3매치를 우선하세요.",
+    practice: "첫 판은 점수 대신 미스 없이 세 번 제거하는 것을 목표로 합니다. 다음 판에는 천장과 아래 군집을 잇는 한두 개의 연결 버블을 찾아 그 목을 끊어 보세요. 쉬움의 4색에서 낙하 구조가 익숙해진 뒤 보통과 어려움으로 올리면 색이 늘어도 빈 칸 계획을 유지하기 쉽습니다.",
+    mobile: "세로 화면에서는 보드 아래쪽의 빈 칸을 먼저 누르기 쉬우므로 다음 버블 색을 확인한 뒤 목표 군집에서 가장 가까운 유효 칸을 선택하세요. 가로 화면은 전체 12개 행과 추가줄 압박을 한눈에 비교할 때 유리하며, 한 번 누른 샷은 취소되지 않습니다."
+  },
+  "pong-rally": {
+    intro: "퐁 랠리는 7점을 먼저 얻는 경기입니다. 이번 판 도전은 내 점수를 읽어 첫 득점, 4점 선점, 7점 승리로 나누며 랠리 길이와 실제 경기 결과를 함께 판단할 수 있게 합니다.",
+    tiers: ["1점 · 공이 패들 중앙으로 돌아오게 움직임을 작게 조절합니다.", "4점 · 공의 진행 방향을 먼저 보고 패들을 도착 지점에 미리 둡니다.", "7점 · 빨라진 후반 공에도 수비 위치를 잃지 않고 경기를 끝냅니다."],
+    reading: "최장 랠리는 긴데 내 점수가 낮다면 공을 받아 내는 데는 성공하지만 상대가 받기 어려운 각도를 만들지 못한 상태입니다. 여유가 있을 때 패들 위아래 가장자리로 공을 보내고, 공이 가까워진 뒤 크게 따라가기보다 중앙 부근에서 다음 충돌 높이를 예측하세요.",
+    practice: "처음 두 점은 패들 중앙 수비만 사용해 공 속도와 AI 추적 폭을 익힙니다. 이후에는 한 점마다 위쪽과 아래쪽 가장자리를 번갈아 맞혀 반사각 차이를 확인하세요. 난이도를 올릴 때는 승리보다 최장 랠리가 유지되는지를 먼저 보면 조작 적응 여부를 알 수 있습니다.",
+    mobile: "모바일에서는 캔버스 안을 위아래로 드래그하면 패들이 손가락 높이를 따라갑니다. 손가락으로 공을 가리지 않도록 화면 왼쪽 가장자리를 잡고, 가로 전체화면에서는 작은 이동으로도 패들이 충분히 움직이므로 긴 드래그를 줄이세요."
+  },
+  "simon": {
+    intro: "사이먼 게임의 라운드는 기억해야 할 색 순서의 길이와 같습니다. 3·6·10단계 목표는 짧은 시각 기억에서 덩어리와 리듬을 이용하는 장기 순서 기억으로 넘어가는 구간을 보여 줍니다.",
+    tiers: ["3단계 · 색을 하나씩 외우며 기본 입력 순서를 익힙니다.", "6단계 · 두세 개씩 묶어 공간 경로나 짧은 리듬으로 기억합니다.", "10단계 · 새로 추가된 마지막 색을 기존 덩어리에 연결해 재생합니다."],
+    reading: "정확도는 높은데 라운드가 오르지 않으면 긴 순서를 한 항목씩 붙잡아 작업 기억이 넘친 경우가 많습니다. 예를 들어 빨강-파랑-노랑을 하나의 이동으로 묶고, 다음 묶음과 사이에 짧은 박자를 두세요. 다시 보기는 점수가 줄지만 틀린 위치를 확인하는 학습 도구로 사용할 수 있습니다.",
+    practice: "1~3단계에서는 색 이름을 말하고, 4~6단계에서는 시계 방향이나 왕복처럼 이동 경로로 바꿔 기억합니다. 7단계부터는 세 개 단위로 끊어 손가락 움직임을 함께 예행연습하세요. 한 판 뒤에는 틀린 전체 순서가 아니라 처음 흔들린 묶음만 복기하는 편이 효율적입니다.",
+    mobile: "네 색 패드는 고정된 2x2 위치를 유지합니다. 소리를 켜면 색과 음높이를 함께 단서로 쓸 수 있지만 주변 환경이 바뀌면 기록 비교가 달라질 수 있으므로 같은 조건을 유지하세요. 숫자키 1~4를 쓰는 데스크톱에서는 손가락 위치를 고정하면 오입력을 줄일 수 있습니다."
+  },
+  "reaction-speed": {
+    intro: "반응속도는 한 번의 최고 기록보다 정상 측정값을 여러 번 모은 평균과 중앙값이 더 안정적인 지표입니다. 이번 판 도전은 실제 완료된 측정 개수를 세어 1회, 3회, 기본 5회 세트까지의 진행을 보여 줍니다.",
+    tiers: ["1회 · 초록 신호가 나온 뒤 첫 정상 반응값을 기록합니다.", "3회 · 부정출발을 제외한 세 개의 값을 모아 편차를 확인합니다.", "5회 · 클래식 또는 스프린트 기본 세트를 끝내 평균과 중앙값을 비교합니다."],
+    reading: "최고 기록만 빠르고 중앙값이 느리다면 한 번의 우연한 입력이 전체 체감을 대표하지 못합니다. 평균과 중앙값 차이가 크면 매우 느린 회차가 섞였는지 기록 목록을 보고, 일관성 수치가 크면 손 위치와 시선 위치를 고정한 뒤 다시 측정하세요. 다른 기기의 수치는 입력 지연이 달라 직접 비교하지 않는 편이 좋습니다.",
+    practice: "첫 세트는 기록을 의식하지 말고 부정출발 없이 다섯 번 완료합니다. 두 번째 세트에서는 손가락을 화면 가까이에 두고 신호 영역 중앙만 바라봅니다. 세 번째 세트에서 평균, 중앙값, 일관성을 비교해 가장 느린 한 회가 집중 문제인지 기기 입력 문제인지 판단하세요.",
+    mobile: "모바일 브라우저에서는 스크롤이나 확대 제스처가 섞이지 않도록 반응 패드 중앙을 한 손가락으로 누르세요. 배터리 절약 모드, 블루투스 입력 장치, 백그라운드 앱 상태가 지연에 영향을 줄 수 있으므로 기록 비교 전에는 같은 기기와 조건을 유지해야 합니다."
   }
 };
 
@@ -108,7 +145,9 @@ function flagshipEditorialHtml(section) {
               ${section.tiers.map((tier) => `<li>${tier}</li>`).join("\n              ")}
             </ul>
             <h3>현재 기록을 해석하는 기준</h3>
-            <p>${section.reading}</p>
+            <p>${section.reading}</p>${section.practice ? `
+            <h3>단계별 연습 루틴</h3><p>${section.practice}</p>` : ""}${section.mobile ? `
+            <h3>모바일 조작과 기록 조건</h3><p>${section.mobile}</p>` : ""}
           </div>
           <!-- FLAGSHIP_RECORD_GUIDE_END -->`;
 }
@@ -287,13 +326,14 @@ updateFile(path.join("assets", "arcade.js"), (html) => {
   const visibleIds = INDEXABLE_GAME_IDS.map((id) => `"${id}"`).join(", ");
   const flagshipIds = FLAGSHIP_GAME_IDS.map((id) => `"${id}"`).join(", ");
   let next = html.replace(
-    /const approval(?:Visible|Hidden)GameIds[\s\S]*?const publicCatalog = [\s\S]*?\n  \}\);/,
+    /const approvalVisibleGameIds[\s\S]*?(?=  const flagshipChallengeRules =)/,
     `const approvalVisibleGameIds = new Set([${visibleIds}]);\n  const approvalHiddenGameIds = new Set(catalog\n    .filter(function (game) { return !approvalVisibleGameIds.has(game.id); })\n    .map(function (game) { return game.id; }));\n  const gameById = new Map(catalog.map(function (game) { return [game.id, game]; }));\n  const flagshipGameIds = new Set([${flagshipIds}]);\n  const publicCatalog = [${visibleIds}]\n    .map(function (id) { return gameById.get(id); })\n    .filter(Boolean);`,
   );
   next = next.replace(
-    "publicCatalog.forEach(function (game) {\n      const option = document.createElement(\"option\");",
+    /publicCatalog\.forEach\(function \(game\) \{\r?\n\s+const option = document\.createElement\("option"\);/,
     `const currentGame = catalog.find(function (game) { return game.id === current; });\n    const pickerCatalog = currentGame && approvalHiddenGameIds.has(current)\n      ? [currentGame].concat(publicCatalog)\n      : publicCatalog;\n\n    pickerCatalog.forEach(function (game) {\n      const option = document.createElement(\"option\");`,
   );
+  next = next.replace(".filter(Boolean);  const flagshipChallengeRules", ".filter(Boolean);\n  const flagshipChallengeRules");
   return next;
 });
 
@@ -305,6 +345,40 @@ FLAGSHIP_GAME_IDS.forEach((id) => {
         ? match
         : `<main class="${classes} flagship-game-page">`,
     );
+    if (!next.includes("data-game-page-picker")) {
+      const launcher = `<div class="game-launcher" aria-label="게임 선택"><label for="gamePagePicker"><span>플레이할 게임</span><select id="gamePagePicker" data-game-page-picker data-current-game="${id}" onchange="if(this.value&amp;&amp;this.value!==this.dataset.currentGame)location.href='/games/'+encodeURIComponent(this.value)+'/#play-area'"></select></label><a class="button primary" data-game-page-start href="#play-area">바로 시작</a><a class="button secondary" href="/games/">전체 게임</a></div>`;
+      next = next.replace(/(<section class="page-title">[\s\S]*?)(<\/section>)/, `$1${launcher}$2`);
+    }
+    if (!next.includes('type="application/ld+json"')) {
+      const title = next.match(/<h1[^>]*>([\s\S]*?)<\/h1>/i)?.[1].replace(/<[^>]+>/g, "").trim() || id;
+      const description = next.match(/<meta name="description" content="([^"]+)">/i)?.[1] || `${title} 무료 웹게임`;
+      const canonical = next.match(/<link rel="canonical" href="([^"]+)">/i)?.[1] || `https://hanpangames.kr/games/${id}/`;
+      const structuredData = {
+        "@context": "https://schema.org",
+        "@graph": [
+          {
+            "@type": "VideoGame",
+            name: title,
+            url: canonical,
+            description,
+            applicationCategory: "Game",
+            operatingSystem: "Web Browser",
+            inLanguage: "ko-KR",
+            isAccessibleForFree: true,
+            publisher: { "@type": "Organization", name: "한판게임", url: "https://hanpangames.kr/" },
+          },
+          {
+            "@type": "BreadcrumbList",
+            itemListElement: [
+              { "@type": "ListItem", position: 1, name: "홈", item: "https://hanpangames.kr/" },
+              { "@type": "ListItem", position: 2, name: "게임", item: "https://hanpangames.kr/games/" },
+              { "@type": "ListItem", position: 3, name: title, item: canonical },
+            ],
+          },
+        ],
+      };
+      next = next.replace("</body>", `<script type="application/ld+json">${JSON.stringify(structuredData)}</script></body>`);
+    }
     next = next.replace(/\s*<!-- FLAGSHIP_RECORD_GUIDE_START -->[\s\S]*?<!-- FLAGSHIP_RECORD_GUIDE_END -->\s*/g, "\n\n          ");
     next = next.replace(/\s*<li><a href="#record-challenges">기록 도전<\/a><\/li>/g, "");
     if (next.includes('<li><a href="#faq">FAQ</a></li>')) {
@@ -376,7 +450,7 @@ Object.keys(categoryHubGuides).forEach((id) => {
 
 const flagshipUpdateEntry = `<!-- FLAGSHIP_CHALLENGE_UPDATE_START -->
         <h2>2026년 9월 4일</h2>
-        <h3>대표 게임 15종 기록 도전과 모바일 플레이 개선</h3>
+        <h3>대표 게임 ${representativeGameCount}종 기록 도전과 모바일 플레이 개선</h3>
         <p>
           <a href="/games/mines/">지뢰찾기</a>, <a href="/games/card-solitaire/">카드 솔리테어</a>,
           <a href="/games/sudoku-mini/">스도쿠</a>, <a href="/games/twenty-48/">2048</a>,
@@ -386,6 +460,7 @@ const flagshipUpdateEntry = `<!-- FLAGSHIP_CHALLENGE_UPDATE_START -->
           이어서 <a href="/games/maze-chase/">미로 추격</a>, <a href="/games/match-three/">매치3</a>,
           <a href="/games/sliding-puzzle/">슬라이딩 퍼즐</a>, <a href="/games/hangman/">행맨</a>,
           <a href="/games/flappy-jump/">플래피 점프</a>에도 실제 규칙에 맞춘 수집·스테이지·정렬·연승·통과 목표를 적용했습니다.
+          오목, 버블 슈터, 퐁 랠리, 사이먼 게임, 반응속도 체크에는 전용 진행값과 단계별 연습 기준을 추가하고 독립 심화 공략을 함께 공개했습니다.
           모바일에서는 점수와 게임판이 먼저 보이도록 선택기와 조작 영역을 압축하고, 각 페이지 본문에 기록을 해석하는 기준과 상황별 목표를 보강했습니다. 게임이 시작되며 화면을 다시 그리는 경우에도 도전 진행이 유지되도록 실행 구조도 개선했습니다.
         </p>
         <!-- FLAGSHIP_CHALLENGE_UPDATE_END -->`;
@@ -415,6 +490,9 @@ const homeGuideCards = [
   ["brick-break-strategy", "벽돌깨기 초보 공략", "패들 위치와 반사각으로 공을 오래 유지합니다."],
   ["block-drop-beginner", "블록 드롭 초보 가이드", "홀드와 다음 블록을 읽고 보드를 낮게 유지합니다."],
   ["snake-garden-guide", "스네이크 공략", "먹이보다 탈출 공간을 먼저 확인하는 경로 판단을 정리합니다."],
+  ["omok-strategy", "오목 실전 공략", "열린 3과 교차 위협, 즉시 차단 순서를 실제 판세로 설명합니다."],
+  ["bubble-shooter-strategy", "버블 슈터 공략", "3매치와 연결점 낙하, 추가줄을 관리하는 순서를 정리합니다."],
+  ["reaction-speed-guide", "반응속도 측정법", "평균·중앙값·일관성을 이용해 기록을 올바르게 비교합니다."],
 ].map(([id, title, text]) => `    <a class="featured-link" href="/guides/${id}/"><strong>${title}</strong><span>${text}</span></a>`).join("\n");
 
 const homeGameCards = [
@@ -424,10 +502,14 @@ const homeGameCards = [
   ["twenty-48", "blue", "퍼즐", "3분", "2048 한판", "스와이프와 실행 취소를 활용해 2048 이후의 타일까지 도전하세요."],
   ["block-drop-classic", "blue", "퍼즐", "4분", "블록 드롭 클래식", "홀드와 다음 블록 3개를 활용해 줄 삭제·백투백 기록에 도전합니다."],
   ["brick-break", "red", "고전 오락실", "2분", "벽돌깨기 미니", "패들 위치와 반사각을 조절해 벽돌을 깨고 높은 스테이지에 도전합니다."],
+  ["omok", "gold", "보드·전략", "5분", "오목 한판", "15x15 바둑판에서 AI와 겨루며 열린 3과 교차 위협을 만드세요."],
+  ["bubble-shooter", "blue", "퍼즐", "4분", "버블 슈터 클래식", "같은 색 군집을 연결하고 천장 연결점을 끊어 연쇄 낙하를 만드세요."],
+  ["pong-rally", "red", "고전 오락실", "2분", "퐁 랠리", "패들 위치와 반사각을 조절해 AI보다 먼저 7점을 얻으세요."],
+  ["simon", "green", "두뇌·기억", "2분", "사이먼 게임", "빛과 소리의 순서를 덩어리로 기억해 더 긴 라운드에 도전하세요."],
 ].map(([id, tag, category, minutes, title, text]) => `    <article class="featured-game-card"><a href="/games/${id}/"><img src="/assets/game-art/${id}.webp" width="640" height="360" loading="lazy" alt="${title} 플레이 화면"><div class="featured-game-body"><div class="game-meta"><span class="tag ${tag}">${category}</span><span>${minutes}</span></div><h3>${title}</h3><p>${text}</p><strong>바로 시작</strong></div></a></article>`).join("\n");
 
 const homeHero = `<section class="hero">
-    <div class="hero-copy"><p class="eyebrow">15 CLASSIC BROWSER GAMES</p><h1>한판게임</h1><p class="hero-kicker">아는 게임부터, 바로 한 판.</p><p class="lead">지뢰찾기, 솔리테어, 스도쿠, 2048과 블록 드롭을 모바일과 데스크톱에서 설치 없이 즐기세요.</p><div class="hero-actions"><a class="button primary" href="/games/">대표 게임 보기</a><a class="button secondary" href="/games/mines/#play-area">지뢰찾기 시작</a></div></div>
+    <div class="hero-copy"><p class="eyebrow">${representativeGameCount} CLASSIC BROWSER GAMES</p><h1>한판게임</h1><p class="hero-kicker">아는 게임부터, 바로 한 판.</p><p class="lead">지뢰찾기, 솔리테어, 스도쿠, 오목과 버블 슈터를 모바일과 데스크톱에서 설치 없이 즐기세요.</p><div class="hero-actions"><a class="button primary" href="/games/">대표 게임 보기</a><a class="button secondary" href="/games/mines/#play-area">지뢰찾기 시작</a></div></div>
     <div class="hero-game-preview" aria-label="인기 게임 바로가기"><a href="/games/mines/"><img src="/assets/game-art/mines.webp" width="640" height="360" alt="지뢰찾기 클래식 플레이 화면"><span><strong>지뢰찾기</strong><small>숫자 단서 퍼즐</small></span></a><a href="/games/card-solitaire/"><img src="/assets/game-art/card-solitaire.webp" width="640" height="360" alt="카드 솔리테어 플레이 화면"><span><strong>솔리테어</strong><small>클론다이크 카드</small></span></a><a href="/games/sudoku-mini/"><img src="/assets/game-art/sudoku-mini.webp" width="640" height="360" alt="스도쿠 클래식 플레이 화면"><span><strong>스도쿠</strong><small>9×9 논리 퍼즐</small></span></a></div>
   </section>`;
 
@@ -446,8 +528,8 @@ updateFile("index.html", (html) => {
     `$1\n${homeGameCards}\n  $2`,
   );
   next = next.replace(
-    /<section class="section"><div class="section-heading"><p class="eyebrow">64 Guides<\/p>[\s\S]*?<\/div><\/section>/,
-    `<section class="section"><div class="section-heading"><p class="eyebrow">11 Guides</p><h2>게임 공략과 플레이 기준</h2><p>대표 게임의 실패 원인과 기록 개선 방법을 실제 규칙에 맞춰 정리했습니다.</p></div><div class="featured-link-grid">\n${homeGuideCards}\n    <a class="featured-link" href="/guides/"><strong>핵심 가이드 전체 보기</strong><span>퍼즐·아케이드 공략과 모바일 조작 기준을 한곳에서 확인하세요.</span></a>\n  </div></section>`,
+    /<section class="section"><div class="section-heading"><p class="eyebrow">(?:64|11|16) Guides<\/p>[\s\S]*?<\/div><\/section>/,
+    `<section class="section"><div class="section-heading"><p class="eyebrow">${coreGuideCount} Guides</p><h2>게임 공략과 플레이 기준</h2><p>대표 게임의 실패 원인과 기록 개선 방법을 실제 규칙에 맞춰 정리했습니다.</p></div><div class="featured-link-grid">\n${homeGuideCards}\n    <a class="featured-link" href="/guides/"><strong>핵심 가이드 전체 보기</strong><span>퍼즐·아케이드 공략과 모바일 조작 기준을 한곳에서 확인하세요.</span></a>\n  </div></section>`,
   );
   return next
     .replace("한판게임 - 설치 없이 즐기는 무료 웹게임 45개", "한판게임 - 설치 없이 즐기는 클래식 웹게임")
@@ -464,7 +546,8 @@ updateFile("index.html", (html) => {
     .replace("무료 웹게임 45개와 플레이 가이드", "클래식 웹게임과 플레이 가이드")
     .replace("무료 웹게임 45개와 플레이 공략을 제공하는", "클래식 웹게임과 플레이 공략을 제공하는")
     .replace("한판게임은 45개 게임을 단순히 나열하지 않고", "한판게임은 규칙과 기록 구조가 분명한 대표 게임을 우선하고")
-    .replace(/한판게임은 규칙과 기록 구조가 분명한 대표 게임을 [^.]+./, "한판게임은 규칙과 기록 구조가 분명한 대표 게임을 4개 핵심 장르로 나누어 소개합니다.");
+    .replace(/한판게임은 규칙과 기록 구조가 분명한 대표 게임을 [^.]+./, "한판게임은 규칙과 기록 구조가 분명한 대표 게임을 5개 핵심 장르로 나누어 소개합니다.")
+    .replace(/<section class="section stats-band" aria-label="사이트 요약">[\s\S]*?<\/section>/, `<section class="section stats-band" aria-label="사이트 요약"><div><strong>${representativeGameCount}</strong><span>대표 게임</span></div><div><strong>5</strong><span>핵심 장르</span></div><div><strong>${coreGuideCount}</strong><span>플레이 가이드</span></div><div><strong>0원</strong><span>설치·로그인 없음</span></div></section>`);
 });
 
 const coreGameCards = homeGameCards;
@@ -476,7 +559,7 @@ const gamesSchema = JSON.stringify({
       "@type": "CollectionPage",
       name: "한판게임 대표 클래식 웹게임",
       url: "https://hanpangames.kr/games/",
-      description: "설치 없이 즐기는 대표 클래식 웹게임 15개",
+      description: `설치 없이 즐기는 대표 클래식 웹게임 ${representativeGameCount}개`,
       inLanguage: "ko-KR",
     },
     {
@@ -504,8 +587,8 @@ updateFile(path.join("games", "index.html"), (html) => {
   );
   next = next.replace(/\s*<section class="section"><div class="section-heading"><p class="eyebrow">Quick picks<\/p>[\s\S]*?<\/section>/, "");
   next = next.replace(
-    /<section class="section" aria-labelledby="categoryTitle">[\s\S]*?<\/section>/,
-    `<section class="section library-category-section" aria-labelledby="categoryTitle"><div class="section-heading"><p class="eyebrow">Categories</p><h2 id="categoryTitle">4개 핵심 장르로 찾기</h2><p>아케이드, 퍼즐, 보드·전략, 두뇌 게임을 필터로 빠르게 고를 수 있습니다.</p></div><div class="category-showcase"><a class="category-jump" style="--category-color:#df4b38" href="#game-library" data-arcade-jump="arcade"><i aria-hidden="true">오</i><span><strong>고전 오락실</strong>벽돌·미로·스네이크 4개</span></a><a class="category-jump" style="--category-color:#2877b9" href="#game-library" data-arcade-jump="puzzle"><i aria-hidden="true">퍼</i><span><strong>퍼즐</strong>논리·배치·연쇄 6개</span></a><a class="category-jump" style="--category-color:#c88b19" href="#game-library" data-arcade-jump="board"><i aria-hidden="true">보</i><span><strong>보드·전략</strong>카드·대전 4개</span></a><a class="category-jump" style="--category-color:#258b62" href="#game-library" data-arcade-jump="brain"><i aria-hidden="true">두</i><span><strong>두뇌·단어</strong>단어 추리 1개</span></a></div></section>`,
+    /<section class="section(?: library-category-section)?" aria-labelledby="categoryTitle">[\s\S]*?<\/section>/,
+    `<section class="section library-category-section" aria-labelledby="categoryTitle"><div class="section-heading"><p class="eyebrow">Categories</p><h2 id="categoryTitle">5개 핵심 장르로 찾기</h2><p>아케이드, 퍼즐, 보드·전략, 두뇌·기억, 순발력 게임을 필터로 빠르게 고를 수 있습니다.</p></div><div class="category-showcase"><a class="category-jump" style="--category-color:#df4b38" href="#game-library" data-arcade-jump="arcade"><i aria-hidden="true">오</i><span><strong>고전 오락실</strong>벽돌·미로·퐁 5개</span></a><a class="category-jump" style="--category-color:#2877b9" href="#game-library" data-arcade-jump="puzzle"><i aria-hidden="true">퍼</i><span><strong>퍼즐</strong>논리·배치·연쇄 7개</span></a><a class="category-jump" style="--category-color:#c88b19" href="#game-library" data-arcade-jump="board"><i aria-hidden="true">보</i><span><strong>보드·전략</strong>카드·대전 5개</span></a><a class="category-jump" style="--category-color:#258b62" href="#game-library" data-arcade-jump="brain"><i aria-hidden="true">두</i><span><strong>두뇌·기억</strong>순서·단어 2개</span></a><a class="category-jump" style="--category-color:#8156a8" href="#game-library" data-arcade-jump="skill"><i aria-hidden="true">속</i><span><strong>순발력·기록</strong>반응 측정 1개</span></a></div></section>`,
   );
   next = next.replace(
     /(<section class="section library-category-section"[\s\S]*?<\/section>)\s*(<section class="featured-games"[\s\S]*?<\/section>)/,
@@ -515,6 +598,9 @@ updateFile(path.join("games", "index.html"), (html) => {
     /<script type="application\/ld\+json">[\s\S]*?<\/script>/,
     `<script type="application/ld+json">${gamesSchema}</script>`,
   );
+  if (!next.includes('data-arcade-filter="skill"')) {
+    next = next.replace('<button type="button" class="filter" data-arcade-filter="brain">두뇌·기억</button>', '<button type="button" class="filter" data-arcade-filter="brain">두뇌·기억</button><button type="button" class="filter" data-arcade-filter="skill">순발력·기록</button>');
+  }
   return next
     .replace("한판게임의 무료 웹게임 45개 전체 목록입니다. 한국 전통놀이 4개, 고전 오락실 12개, 퍼즐 11개, 보드·전략 6개, 두뇌·기억 6개, 순발력·기록 6개를 확인하세요.", "한판게임이 엄선한 클래식 웹게임 15개입니다. 아케이드, 퍼즐, 보드·전략, 두뇌 장르를 설치 없이 즐기세요.")
     .replace("무료 웹게임 45개 전체 목록 - 한판게임", "클래식 웹게임 15개 - 한판게임")
@@ -523,14 +609,18 @@ updateFile(path.join("games", "index.html"), (html) => {
     .replace("검색과 필터로 빠르게 고르거나, 아래 6개 카테고리 전용 페이지에서 장르별 게임과 추천 기준을 먼저 확인하세요.", "검색과 필터로 게임을 빠르게 고르고 각 상세 페이지에서 조작법과 점수 기준을 확인하세요.")
     .replace("설치 없이 바로 즐기는 설치 없이 바로 즐기는 클래식 웹게임.", "설치 없이 바로 즐기는 클래식 웹게임.")
     .replace('<button type="button" class="filter" data-arcade-filter="traditional">한국 전통놀이</button>', "")
-    .replace('<button type="button" class="filter" data-arcade-filter="skill">순발력·기록</button>', "")
     .replace('"description":"무료 웹게임 45개 전체 목록"', '"description":"엄선한 클래식 웹게임 15개"')
     .replace(/45개 게임/g, "15개 대표 게임")
     .replace("전체 게임 목록", "대표 게임 목록")
     .replace("무료 웹게임 45개 전체 목록", "엄선한 클래식 웹게임 목록")
     .replace("무료 웹게임 45개.", "설치 없이 바로 즐기는 클래식 웹게임.")
     .replace("45개 게임을 고르는 기준", "대표 게임을 고르는 기준")
-    .replace("49개 가이드", "핵심 가이드");
+    .replace("49개 가이드", "핵심 가이드")
+    .replace(/한판게임이 엄선한 클래식 웹게임 15개입니다\.[^"]*/, `한판게임이 엄선한 클래식 웹게임 ${representativeGameCount}개입니다. 아케이드, 퍼즐, 보드·전략, 두뇌·기억, 순발력 장르를 설치 없이 즐기세요.`)
+    .replace(/클래식 웹게임 15개/g, `클래식 웹게임 ${representativeGameCount}개`)
+    .replace(/15개 대표 브라우저 게임을 4개 핵심 장르로 나눠/g, `${representativeGameCount}개 대표 브라우저 게임을 5개 핵심 장르로 나눠`)
+    .replace(/대표 클래식 웹게임 15개/g, `대표 클래식 웹게임 ${representativeGameCount}개`)
+    .replace(/15개 대표 게임/g, `${representativeGameCount}개 대표 게임`);
 });
 
 const ticTacToeExtraContent = `<h2>한 판을 시작하는 순서</h2><p>처음에는 AI 대전 또는 2인 대전을 고르고, AI 대전이라면 난이도와 선공을 선택합니다. 설정을 바꾸면 새 매치가 시작되며 X와 O의 매치 점수는 0으로 돌아갑니다. 내가 선공을 선택하면 첫 수를 바로 둘 수 있고, 상대 선공을 선택하면 AI가 먼저 둔 뒤 내 차례가 됩니다. 현재 차례와 내가 맡은 기호는 보드 위 상태표에서 확인할 수 있습니다.</p><h2>보드 위치 읽기</h2><p>숫자키는 키패드가 아니라 읽기 순서대로 배치됩니다. 1·2·3은 위쪽 줄, 4·5·6은 가운데 줄, 7·8·9는 아래쪽 줄입니다. 중앙 5번은 가로·세로·두 대각선에 모두 참여하므로 가장 많은 승리 경로를 가집니다. 네 모서리는 각각 세 개의 승리 경로에 참여하고, 변의 가운데 칸은 두 개의 경로에 참여합니다. 빈 칸 버튼에는 위치가 음성으로 안내되어 화면 읽기 프로그램으로도 현재 보드를 탐색할 수 있습니다.</p><h2>선공과 후공 운영</h2><p>선공이라면 중앙이나 모서리에서 시작해 서로 다른 두 줄에 동시에 참여할 수 있는 기반을 만드는 것이 안정적입니다. 후공인데 상대가 중앙을 차지했다면 모서리로 대응하고, 상대가 모서리에서 시작했다면 중앙을 확보하는 방식이 기본입니다. 다만 정해진 첫 수만 반복하기보다 매 차례 즉시 승리할 칸과 상대가 다음 수에 완성할 칸을 먼저 확인해야 합니다.</p><h2>포크를 찾는 실제 순서</h2><p>포크는 다음 차례에 완성할 수 있는 두 줄을 동시에 만드는 배치입니다. 먼저 내 돌 두 개로 즉시 완성되는 줄이 있는지 보고, 없다면 상대의 즉시 승리를 막습니다. 그 다음 내가 한 수로 두 개의 위협을 만들 수 있는 칸을 찾고, 상대에게 같은 기회가 생기는지도 확인합니다. 공격 모양만 따라가다가 상대의 한 줄 완성을 놓치는 경우가 가장 흔하므로 이 확인 순서를 매번 유지하는 편이 좋습니다.</p><h2>난이도별 연습 목표</h2><p>쉬움에서는 여러 첫 수를 시험하며 가로·세로·대각선 모양을 익힐 수 있습니다. 보통은 유리한 수를 계산하지만 선택에 변동성이 있어 포크와 차단을 연습하기 좋습니다. 어려움은 가능한 후속 수를 끝까지 평가하므로 실수하지 않으면 무승부에 도달합니다. 어려움에서 연속 무승부를 기록했다면 기본 방어 순서가 안정됐다는 뜻이며, 쉬움과 보통에서 승리 기회를 더 빠르게 찾는 연습으로 이어갈 수 있습니다.</p><h2>기록을 읽는 방법</h2><p>승·무·패는 선택한 모드와 난이도별로 따로 쌓입니다. 한 번의 매치에는 여러 판이 포함되므로 게임 수와 매치 수는 서로 다를 수 있습니다. 단판 승률만 보기보다 어려움에서 패배 없이 마친 판의 비율, 보통에서 3승에 도달하기까지 치른 판 수, 선후공을 바꿨을 때의 체감 차이를 함께 확인하면 실력이 어떻게 변하는지 더 분명하게 볼 수 있습니다.</p><h2>모바일과 키보드 플레이</h2><p>모바일에서는 화면을 세로 또는 가로로 돌려도 보드 비율이 유지됩니다. 빈 칸을 한 번 터치하면 착수하며 빠르게 여러 번 눌러도 이미 채워진 칸에는 다시 둘 수 없습니다. 데스크톱에서는 숫자키 1부터 9까지로 원하는 칸을 선택할 수 있고, N 키로 새 매치를 시작합니다. 한 판이 끝났지만 아직 어느 쪽도 3승에 도달하지 않았다면 Enter 키로 다음 판을 시작할 수 있습니다.</p>`;
