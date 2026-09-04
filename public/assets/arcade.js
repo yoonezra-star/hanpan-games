@@ -58,13 +58,14 @@
 
   const illustratedGameIds = new Set(catalog.map(function (game) { return game.id; }));
 
-  const approvalVisibleGameIds = new Set(["block-drop-classic", "brick-break", "card-solitaire", "connect-four", "flappy-jump", "freecell-classic", "hangman", "match-three", "maze-chase", "mines", "sliding-puzzle", "snake-garden", "sudoku-mini", "tic-tac-toe", "twenty-48"]);
+  const approvalVisibleGameIds = new Set(["mines", "card-solitaire", "sudoku-mini", "twenty-48", "block-drop-classic", "brick-break", "snake-garden", "freecell-classic", "tic-tac-toe", "connect-four", "maze-chase", "match-three", "sliding-puzzle", "hangman", "flappy-jump"]);
   const approvalHiddenGameIds = new Set(catalog
     .filter(function (game) { return !approvalVisibleGameIds.has(game.id); })
     .map(function (game) { return game.id; }));
-  const publicCatalog = catalog.filter(function (game) {
-    return !approvalHiddenGameIds.has(game.id);
-  });
+  const gameById = new Map(catalog.map(function (game) { return [game.id, game]; }));
+  const publicCatalog = ["mines", "card-solitaire", "sudoku-mini", "twenty-48", "block-drop-classic", "brick-break", "snake-garden", "freecell-classic", "tic-tac-toe", "connect-four", "maze-chase", "match-three", "sliding-puzzle", "hangman", "flappy-jump"]
+    .map(function (id) { return gameById.get(id); })
+    .filter(Boolean);
 
   let cleanup = [];
 
@@ -9579,8 +9580,10 @@
   function renderGamePageLauncher() {
     const picker = $("[data-game-page-picker]");
     const start = $("[data-game-page-start]");
-    if (!picker || !start) return;
+    if (!picker) return;
     const current = picker.dataset.currentGame;
+    picker.removeAttribute("onchange");
+    picker.onchange = null;
 
     function gamePageUrl(id) {
       return `/games/${encodeURIComponent(id)}/#play-area`;
@@ -9594,6 +9597,7 @@
       picker.appendChild(option);
     });
     function updateTarget() {
+      if (!start) return;
       const selected = picker.value;
       start.href = selected === current ? "#play-area" : gamePageUrl(selected);
       start.textContent = selected === current ? "바로 시작" : "선택한 게임 시작";
@@ -9605,21 +9609,25 @@
         updateTarget();
         return;
       }
-      start.setAttribute("aria-busy", "true");
-      start.textContent = "게임 여는 중";
+      if (start) {
+        start.setAttribute("aria-busy", "true");
+        start.textContent = "게임 여는 중";
+      }
       window.location.assign(gamePageUrl(selected));
     }
 
     picker.addEventListener("change", openSelectedGame);
-    start.addEventListener("click", function (event) {
-      if (picker.value !== current) {
-        event.preventDefault();
-        openSelectedGame();
-        return;
-      }
-      const stage = $("#play-area");
-      if (stage) stage.scrollIntoView({ behavior: "smooth", block: "start" });
-    });
+    if (start) {
+      start.addEventListener("click", function (event) {
+        if (picker.value !== current) {
+          event.preventDefault();
+          openSelectedGame();
+          return;
+        }
+        const stage = $("#play-area");
+        if (stage) stage.scrollIntoView({ behavior: "smooth", block: "start" });
+      });
+    }
     updateTarget();
   }
 

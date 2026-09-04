@@ -4786,3 +4786,139 @@ body.game-fullscreen-fallback-open {
     width: min(100%, calc(100dvh - 28px), 340px);
   }
 }
+
+/* Popular-first home and game library */
+.hero {
+  grid-template-columns: 1fr;
+  align-content: center;
+  gap: 28px;
+  min-height: min(720px, calc(100dvh - 150px));
+  padding: 40px 0 48px;
+}
+
+.hero-copy {
+  max-width: 920px;
+}
+
+.hero-copy h1 {
+  font-size: clamp(58px, 8vw, 96px);
+}
+
+.hero-kicker {
+  margin: 12px 0 0;
+  color: var(--ink);
+  font-size: clamp(26px, 4vw, 42px);
+  font-weight: 1000;
+  line-height: 1.1;
+}
+
+.hero-game-preview {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.hero-game-preview a {
+  position: relative;
+  min-width: 0;
+  overflow: hidden;
+  color: #fff;
+  background: var(--ink);
+  border: 2px solid var(--ink);
+  border-radius: 8px;
+  text-decoration: none;
+  box-shadow: 5px 5px 0 rgba(29, 36, 51, 0.26);
+}
+
+.hero-game-preview img {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+  transition: transform 180ms ease;
+}
+
+.hero-game-preview a:hover img,
+.hero-game-preview a:focus-visible img {
+  transform: scale(1.025);
+}
+
+.hero-game-preview a:focus-visible {
+  outline: 3px solid var(--gold);
+  outline-offset: 3px;
+}
+
+.hero-game-preview span {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 10px 12px;
+  background: var(--ink);
+}
+
+.hero-game-preview strong,
+.hero-game-preview small {
+  overflow-wrap: anywhere;
+}
+
+.hero-game-preview small {
+  color: #ffcf5d;
+  font-weight: 800;
+}
+
+.featured-games {
+  margin: 8px 0 32px;
+}
+
+.library-category-section {
+  padding: 32px 0;
+}
+
+@media (max-width: 620px) {
+  .hero {
+    gap: 22px;
+    min-height: auto;
+    padding: 28px 0 36px;
+  }
+
+  .hero-copy h1 {
+    font-size: 48px;
+  }
+
+  .hero-kicker {
+    font-size: 27px;
+  }
+
+  .hero-actions {
+    margin-top: 22px;
+  }
+
+  .hero-game-preview {
+    grid-auto-flow: column;
+    grid-auto-columns: minmax(230px, 78vw);
+    grid-template-columns: none;
+    gap: 10px;
+    margin-right: -14px;
+    padding: 2px 14px 8px 0;
+    overflow-x: auto;
+    scroll-snap-type: x proximity;
+  }
+
+  .hero-game-preview a {
+    scroll-snap-align: start;
+  }
+
+  .featured-games {
+    margin-top: 0;
+  }
+
+  .library-category-section {
+    padding: 34px 0 26px;
+  }
+
+  .subpage > .page-title {
+    margin-bottom: 22px;
+  }
+}

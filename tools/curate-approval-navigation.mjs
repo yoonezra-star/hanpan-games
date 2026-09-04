@@ -23,8 +23,8 @@ function filterLinkedBlocks(html, pattern, allowedIds) {
 updateFile(path.join("assets", "arcade.js"), (html) => {
   const visibleIds = INDEXABLE_GAME_IDS.map((id) => `"${id}"`).join(", ");
   let next = html.replace(
-    /const approvalVisibleGameIds = new Set\(\[[\s\S]*?\.map\(function \(game\) \{ return game\.id; \}\)\);|const approvalHiddenGameIds = new Set\(\);/,
-    `const approvalVisibleGameIds = new Set([${visibleIds}]);\n  const approvalHiddenGameIds = new Set(catalog\n    .filter(function (game) { return !approvalVisibleGameIds.has(game.id); })\n    .map(function (game) { return game.id; }));`,
+    /const approval(?:Visible|Hidden)GameIds[\s\S]*?const publicCatalog = [\s\S]*?\n  \}\);/,
+    `const approvalVisibleGameIds = new Set([${visibleIds}]);\n  const approvalHiddenGameIds = new Set(catalog\n    .filter(function (game) { return !approvalVisibleGameIds.has(game.id); })\n    .map(function (game) { return game.id; }));\n  const gameById = new Map(catalog.map(function (game) { return [game.id, game]; }));\n  const publicCatalog = [${visibleIds}]\n    .map(function (id) { return gameById.get(id); })\n    .filter(Boolean);`,
   );
   next = next.replace(
     "publicCatalog.forEach(function (game) {\n      const option = document.createElement(\"option\");",
@@ -43,17 +43,23 @@ const homeGuideCards = [
 ].map(([id, title, text]) => `    <a class="featured-link" href="/guides/${id}/"><strong>${title}</strong><span>${text}</span></a>`).join("\n");
 
 const homeGameCards = [
-  ["maze-chase", "red", "고전 오락실", "4분", "미로 추격 클래식", "펠릿을 모으고 추격자를 피해 목숨을 지키며 스테이지를 돌파하세요."],
-  ["freecell-classic", "gold", "보드·전략", "10분", "프리셀 클래식", "네 개의 임시칸과 빈 열을 활용해 공개된 52장을 모두 정리하세요."],
+  ["mines", "blue", "퍼즐", "5분", "지뢰찾기 클래식", "숫자 단서와 깃발을 이용해 지뢰를 피하고 모든 안전 칸을 여세요."],
+  ["card-solitaire", "gold", "보드·전략", "8분", "카드 솔리테어", "숨은 카드를 열고 네 개의 완성 탑에 52장을 차례로 정리하세요."],
+  ["sudoku-mini", "blue", "퍼즐", "8분", "스도쿠 클래식", "후보 메모와 힌트를 활용해 세 가지 난이도의 9×9 퍼즐을 푸세요."],
+  ["twenty-48", "blue", "퍼즐", "3분", "2048 한판", "스와이프와 실행 취소를 활용해 2048 이후의 타일까지 도전하세요."],
   ["block-drop-classic", "blue", "퍼즐", "4분", "블록 드롭 클래식", "홀드와 다음 블록 3개를 활용해 줄 삭제·백투백 기록에 도전합니다."],
   ["brick-break", "red", "고전 오락실", "2분", "벽돌깨기 미니", "패들 위치와 반사각을 조절해 벽돌을 깨고 높은 스테이지에 도전합니다."],
-  ["twenty-48", "blue", "퍼즐", "3분", "2048 한판", "스와이프와 실행 취소를 활용해 2048 이후의 타일까지 도전하세요."],
-  ["tic-tac-toe", "gold", "보드·전략", "2분", "틱택토", "완전탐색 하드 AI 또는 로컬 2인과 3선승 매치를 즐기세요."],
 ].map(([id, tag, category, minutes, title, text]) => `    <article class="featured-game-card"><a href="/games/${id}/"><img src="/assets/game-art/${id}.webp" width="640" height="360" loading="lazy" alt="${title} 플레이 화면"><div class="featured-game-body"><div class="game-meta"><span class="tag ${tag}">${category}</span><span>${minutes}</span></div><h3>${title}</h3><p>${text}</p><strong>바로 시작</strong></div></a></article>`).join("\n");
 
+const homeHero = `<section class="hero">
+    <div class="hero-copy"><p class="eyebrow">15 CLASSIC BROWSER GAMES</p><h1>한판게임</h1><p class="hero-kicker">아는 게임부터, 바로 한 판.</p><p class="lead">지뢰찾기, 솔리테어, 스도쿠, 2048과 블록 드롭을 모바일과 데스크톱에서 설치 없이 즐기세요.</p><div class="hero-actions"><a class="button primary" href="/games/">대표 게임 보기</a><a class="button secondary" href="/games/mines/#play-area">지뢰찾기 시작</a></div></div>
+    <div class="hero-game-preview" aria-label="인기 게임 바로가기"><a href="/games/mines/"><img src="/assets/game-art/mines.webp" width="640" height="360" alt="지뢰찾기 클래식 플레이 화면"><span><strong>지뢰찾기</strong><small>숫자 단서 퍼즐</small></span></a><a href="/games/card-solitaire/"><img src="/assets/game-art/card-solitaire.webp" width="640" height="360" alt="카드 솔리테어 플레이 화면"><span><strong>솔리테어</strong><small>클론다이크 카드</small></span></a><a href="/games/sudoku-mini/"><img src="/assets/game-art/sudoku-mini.webp" width="640" height="360" alt="스도쿠 클래식 플레이 화면"><span><strong>스도쿠</strong><small>9×9 논리 퍼즐</small></span></a></div>
+  </section>`;
+
 updateFile("index.html", (html) => {
-  let next = filterLinkedBlocks(
-    html,
+  let next = html.replace(/<section class="hero">[\s\S]*?<\/section>/, homeHero);
+  next = filterLinkedBlocks(
+    next,
     /\s*<article class="featured-game-card"><a href="\/games\/([^/]+)\/">[\s\S]*?<\/article>/g,
     indexableGameIds,
   );
@@ -86,17 +92,30 @@ updateFile("index.html", (html) => {
     .replace(/한판게임은 규칙과 기록 구조가 분명한 대표 게임을 [^.]+./, "한판게임은 규칙과 기록 구조가 분명한 대표 게임을 4개 핵심 장르로 나누어 소개합니다.");
 });
 
-const coreGameCards = [
-  ["mines", "지뢰찾기 클래식", "숫자 단서와 깃발로 안전한 칸을 찾는 논리 퍼즐."],
-  ["card-solitaire", "카드 솔리테어", "숨은 카드를 열고 무늬별 완성 탑을 만드는 클론다이크."],
-  ["sudoku-mini", "스도쿠 클래식", "후보 메모와 힌트로 푸는 세 가지 난이도의 9×9 퍼즐."],
-  ["sliding-puzzle", "슬라이딩 퍼즐", "빈 칸을 이용해 숫자 타일을 순서대로 맞추는 퍼즐."],
-  ["snake-garden", "뱀의 정원", "먹이를 모으며 몸이 길어져도 탈출 경로를 유지하는 게임."],
-  ["match-three", "매치3 퍼즐", "인접 타일을 바꿔 연쇄와 특수 타일을 만드는 퍼즐."],
-  ["connect-four", "사목 미니", "중앙과 즉시 위협을 읽어 네 개의 말을 먼저 잇는 전략 게임."],
-  ["hangman", "행맨", "글자 빈도와 한글 초성 힌트로 숨은 단어를 추리하는 게임."],
-  ["tic-tac-toe", "틱택토", "완전탐색 하드 AI와 3선승 매치를 갖춘 3×3 전략 게임."],
-].map(([id, title, text]) => `    <a class="featured-link" href="/games/${id}/"><strong>${title}</strong><span>${text}</span></a>`).join("\n");
+const coreGameCards = homeGameCards;
+
+const gamesSchema = JSON.stringify({
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "CollectionPage",
+      name: "한판게임 대표 클래식 웹게임",
+      url: "https://hanpangames.kr/games/",
+      description: "설치 없이 즐기는 대표 클래식 웹게임 15개",
+      inLanguage: "ko-KR",
+    },
+    {
+      "@type": "ItemList",
+      name: "한판게임 대표 게임",
+      numberOfItems: INDEXABLE_GAME_IDS.length,
+      itemListElement: INDEXABLE_GAME_IDS.map((id, index) => ({
+        "@type": "ListItem",
+        position: index + 1,
+        url: `https://hanpangames.kr/games/${id}/`,
+      })),
+    },
+  ],
+});
 
 updateFile(path.join("games", "index.html"), (html) => {
   let next = filterLinkedBlocks(
@@ -105,13 +124,21 @@ updateFile(path.join("games", "index.html"), (html) => {
     indexableGameIds,
   );
   next = next.replace(
-    /(<section class="featured-games" aria-label="대표 심화 게임">[\s\S]*?<div class="featured-link-grid">)[\s\S]*?(<\/div><\/section>)/,
-    `$1\n${coreGameCards}\n  $2`,
+    /<section class="featured-games" aria-label="대표 심화 게임">[\s\S]*?<\/section>/,
+    `<section class="featured-games" aria-label="인기 대표 게임"><div class="section-heading"><p class="eyebrow">Popular classics</p><h2>많이 찾는 게임부터 시작하기</h2><p>규칙이 익숙하고 반복해서 기록에 도전하기 좋은 대표 게임입니다.</p></div><div class="featured-game-grid">\n${coreGameCards}\n  </div></section>`,
   );
   next = next.replace(/\s*<section class="section"><div class="section-heading"><p class="eyebrow">Quick picks<\/p>[\s\S]*?<\/section>/, "");
   next = next.replace(
     /<section class="section" aria-labelledby="categoryTitle">[\s\S]*?<\/section>/,
-    `<section class="section" aria-labelledby="categoryTitle"><div class="section-heading"><p class="eyebrow">Categories</p><h2 id="categoryTitle">4개 핵심 장르로 찾기</h2><p>아케이드, 퍼즐, 보드·전략, 두뇌 게임을 필터로 빠르게 고를 수 있습니다.</p></div><div class="category-showcase"><a class="category-jump" style="--category-color:#df4b38" href="#game-library" data-arcade-jump="arcade"><i aria-hidden="true">오</i><span><strong>고전 오락실</strong>벽돌·미로·스네이크 4개</span></a><a class="category-jump" style="--category-color:#2877b9" href="#game-library" data-arcade-jump="puzzle"><i aria-hidden="true">퍼</i><span><strong>퍼즐</strong>논리·배치·연쇄 6개</span></a><a class="category-jump" style="--category-color:#c88b19" href="#game-library" data-arcade-jump="board"><i aria-hidden="true">보</i><span><strong>보드·전략</strong>카드·대전 4개</span></a><a class="category-jump" style="--category-color:#258b62" href="#game-library" data-arcade-jump="brain"><i aria-hidden="true">두</i><span><strong>두뇌·단어</strong>단어 추리 1개</span></a></div></section>`,
+    `<section class="section library-category-section" aria-labelledby="categoryTitle"><div class="section-heading"><p class="eyebrow">Categories</p><h2 id="categoryTitle">4개 핵심 장르로 찾기</h2><p>아케이드, 퍼즐, 보드·전략, 두뇌 게임을 필터로 빠르게 고를 수 있습니다.</p></div><div class="category-showcase"><a class="category-jump" style="--category-color:#df4b38" href="#game-library" data-arcade-jump="arcade"><i aria-hidden="true">오</i><span><strong>고전 오락실</strong>벽돌·미로·스네이크 4개</span></a><a class="category-jump" style="--category-color:#2877b9" href="#game-library" data-arcade-jump="puzzle"><i aria-hidden="true">퍼</i><span><strong>퍼즐</strong>논리·배치·연쇄 6개</span></a><a class="category-jump" style="--category-color:#c88b19" href="#game-library" data-arcade-jump="board"><i aria-hidden="true">보</i><span><strong>보드·전략</strong>카드·대전 4개</span></a><a class="category-jump" style="--category-color:#258b62" href="#game-library" data-arcade-jump="brain"><i aria-hidden="true">두</i><span><strong>두뇌·단어</strong>단어 추리 1개</span></a></div></section>`,
+  );
+  next = next.replace(
+    /(<section class="section library-category-section"[\s\S]*?<\/section>)\s*(<section class="featured-games"[\s\S]*?<\/section>)/,
+    `$2\n\n  $1`,
+  );
+  next = next.replace(
+    /<script type="application\/ld\+json">[\s\S]*?<\/script>/,
+    `<script type="application/ld+json">${gamesSchema}</script>`,
   );
   return next
     .replace("한판게임의 무료 웹게임 45개 전체 목록입니다. 한국 전통놀이 4개, 고전 오락실 12개, 퍼즐 11개, 보드·전략 6개, 두뇌·기억 6개, 순발력·기록 6개를 확인하세요.", "한판게임이 엄선한 클래식 웹게임 15개입니다. 아케이드, 퍼즐, 보드·전략, 두뇌 장르를 설치 없이 즐기세요.")

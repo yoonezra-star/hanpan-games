@@ -4,21 +4,21 @@ const noindexPattern = /\s*<meta name="robots" content="noindex, follow">/g;
 const adsenseScript = '<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6918910185244897" crossorigin="anonymous"></script>';
 
 export const INDEXABLE_GAME_IDS = Object.freeze([
+  "mines",
+  "card-solitaire",
+  "sudoku-mini",
+  "twenty-48",
   "block-drop-classic",
   "brick-break",
-  "card-solitaire",
-  "connect-four",
-  "flappy-jump",
-  "freecell-classic",
-  "hangman",
-  "match-three",
-  "maze-chase",
-  "mines",
-  "sliding-puzzle",
   "snake-garden",
-  "sudoku-mini",
+  "freecell-classic",
   "tic-tac-toe",
-  "twenty-48",
+  "connect-four",
+  "maze-chase",
+  "match-three",
+  "sliding-puzzle",
+  "hangman",
+  "flappy-jump",
 ]);
 
 export const INDEXABLE_GUIDE_IDS = Object.freeze([

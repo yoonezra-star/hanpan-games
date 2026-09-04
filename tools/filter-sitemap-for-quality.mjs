@@ -25,31 +25,30 @@ function isApprovedLocation(location) {
   return true;
 }
 
-const keptBlocks = urlBlocks.filter((block) => {
+const keptLocations = urlBlocks.flatMap((block) => {
   const location = block.match(/<loc>([^<]+)<\/loc>/)?.[1];
   if (!location) throw new Error("A sitemap URL entry is missing its loc element.");
-  return isApprovedLocation(location);
+  return isApprovedLocation(location) ? [location] : [];
 });
 
-const keptLocations = new Set(
-  keptBlocks.map((block) => block.match(/<loc>([^<]+)<\/loc>/)?.[1]),
-);
+const locationSet = new Set(keptLocations);
 const requiredLocations = [
   ...INDEXABLE_GAME_IDS.map((id) => `https://hanpangames.kr/games/${id}/`),
   ...INDEXABLE_GUIDE_IDS.map((id) => `https://hanpangames.kr/guides/${id}/`),
 ];
 
 for (const location of requiredLocations) {
-  if (!keptLocations.has(location)) {
-    keptBlocks.push(`<url>\n  <loc>${location}</loc>\n</url>`);
+  if (!locationSet.has(location)) {
+    keptLocations.push(location);
+    locationSet.add(location);
   }
 }
 
 const nextSitemap = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-${keptBlocks.map((block) => `  ${block.replace(/\n/g, "\n  ")}`).join("\n")}
+${keptLocations.map((location) => `  <url><loc>${location}</loc></url>`).join("\n")}
 </urlset>
 `;
 
 fs.writeFileSync(sitemapPath, nextSitemap, "utf8");
-console.log(`Filtered sitemap from ${urlBlocks.length} to ${keptBlocks.length} quality-reviewed URLs.`);
+console.log(`Filtered sitemap from ${urlBlocks.length} to ${keptLocations.length} quality-reviewed URLs.`);
