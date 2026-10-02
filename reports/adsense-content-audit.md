@@ -18,20 +18,20 @@
 | 유지 | connect-four | 사목 미니 | 983 | index | 있음 |
 | 유지 | block-drop-classic | 블록 드롭 클래식 | 943 | index | 있음 |
 | 유지 | brick-break | 벽돌깨기 미니 | 893 | index | 있음 |
+| 유지 | simon | 사이먼 게임 | 843 | index | 있음 |
 | 유지 | sudoku-mini | 스도쿠 클래식 | 808 | index | 있음 |
 | 유지 | snake-garden | 뱀의 정원 | 780 | index | 있음 |
 | 유지 | twenty-48 | 2048 한판 | 777 | index | 있음 |
 | 유지 | tic-tac-toe | 틱택토 Tic-Tac-Toe | 721 | index | 있음 |
-| 유지 | simon | 사이먼 게임 | 694 | index | 있음 |
 | 유지 | hangman | 행맨 | 690 | index | 있음 |
+| 유지 | pong-rally | 퐁 랠리 | 681 | index | 있음 |
 | 유지 | sliding-puzzle | 슬라이딩 퍼즐 | 672 | index | 있음 |
+| 유지 | reaction-speed | 반응속도 체크 | 657 | index | 있음 |
 | 유지 | flappy-jump | 플래피 점프 | 642 | index | 있음 |
 | 유지 | match-three | 매치3 퍼즐 | 631 | index | 있음 |
 | 유지 | maze-chase | 미로 추격 클래식 | 628 | index | 있음 |
-| 유지 | pong-rally | 퐁 랠리 | 528 | index | 있음 |
-| 유지 | reaction-speed | 반응속도 체크 | 511 | index | 있음 |
-| 유지 | bubble-shooter | 버블 슈터 클래식 | 398 | index | 있음 |
-| 유지 | omok | 오목 한판 | 328 | index | 있음 |
+| 유지 | bubble-shooter | 버블 슈터 클래식 | 546 | index | 있음 |
+| 유지 | omok | 오목 한판 | 487 | index | 있음 |
 | 보강 대기 | rps-survival | 가위바위보 서바이벌 | 539 | noindex | 없음 |
 | 보강 대기 | click-sprint | 클릭 스프린트 | 498 | noindex | 없음 |
 | 보강 대기 | word-guess | 단어 맞추기 | 465 | noindex | 없음 |
@@ -80,6 +80,7 @@
 | 유지 | pong-rally-strategy | 퐁 랠리 공략: 7점제·반사각·AI 추적·랠리 가속 | 1247 | index | 있음 |
 | 유지 | block-drop-beginner | 블록 드롭 클래식 초보 가이드: 빈칸을 줄이는 배치법 | 690 | index | 있음 |
 | 유지 | snake-garden-guide | 스네이크 게임 공략: 맵·콤보보다 탈출 공간을 먼저 보는 법 | 687 | index | 있음 |
+| 유지 | simon-strategy | 사이먼 게임 공략: 긴 순서를 덩어리와 리듬으로 기억하는 법 | 639 | index | 있음 |
 | 유지 | brick-break-strategy | 벽돌깨기 초보 공략: 패들 위치와 반사각 이해하기 | 620 | index | 있음 |
 | 유지 | twenty-48-strategy | 2048 초보 전략: 큰 타일을 만드는 모서리 운영법 | 496 | index | 있음 |
 | 유지 | mines-beginner-guide | 지뢰찾기 기본 규칙: 숫자 힌트로 안전한 칸 찾는 법 | 424 | index | 있음 |
@@ -88,7 +89,6 @@
 | 유지 | mobile-browser-game-tips | 모바일 브라우저 게임을 편하게 즐기는 조작 팁 | 418 | index | 있음 |
 | 유지 | sudoku-classic-guide | 스도쿠 입문 공략: 후보 메모로 확정 숫자 찾는 법 | 418 | index | 있음 |
 | 유지 | browser-game-benefits | 무료 브라우저 게임의 장점과 주의할 점 | 396 | index | 있음 |
-| 유지 | simon-strategy | 사이먼 게임 공략: 긴 순서를 덩어리와 리듬으로 기억하는 법 | 353 | index | 있음 |
 | 보강 대기 | number-vault-strategy | 숫자 금고 공략: 1~500 UP/DOWN·중간값·최소 시도·저장 | 1792 | noindex | 없음 |
 | 보강 대기 | perfume-workshop-strategy | 향수 소트 공략: 빈 병·묶음 이동·최소 이동·최단 시간 전략 | 1773 | noindex | 없음 |
 | 보강 대기 | math-climb-strategy | 수학 등산 공략: 12~18구간·콤보·점수·제한시간 전략 | 1548 | noindex | 없음 |
