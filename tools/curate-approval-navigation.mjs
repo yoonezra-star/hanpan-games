@@ -3,6 +3,7 @@ import path from "node:path";
 import {
   FLAGSHIP_GAME_IDS,
   INDEXABLE_GAME_IDS,
+  INDEXABLE_GUIDE_IDS,
   indexableGameIds,
   indexableGuideIds,
 } from "./content-quality.mjs";
@@ -508,6 +509,67 @@ const homeGameCards = [
   ["simon", "green", "두뇌·기억", "2분", "사이먼 게임", "빛과 소리의 순서를 덩어리로 기억해 더 긴 라운드에 도전하세요."],
 ].map(([id, tag, category, minutes, title, text]) => `    <article class="featured-game-card"><a href="/games/${id}/"><img src="/assets/game-art/${id}.webp" width="640" height="360" loading="lazy" alt="${title} 플레이 화면"><div class="featured-game-body"><div class="game-meta"><span class="tag ${tag}">${category}</span><span>${minutes}</span></div><h3>${title}</h3><p>${text}</p><strong>바로 시작</strong></div></a></article>`).join("\n");
 
+const guideHubCards = [
+  ["block-drop-beginner", "블록 드롭 클래식 초보 가이드", "빈칸과 홀드, 다음 블록을 관리합니다."],
+  ["brick-break-strategy", "벽돌깨기 초보 공략", "패들 위치와 반사각으로 공을 오래 유지합니다."],
+  ["browser-game-benefits", "무료 브라우저 게임의 장점과 주의할 점", "설치 없는 게임의 특징과 기록 방식을 정리합니다."],
+  ["memory-game-tips", "기억력 게임 잘하는 법", "구역 나누기와 묶어 기억하는 방법을 설명합니다."],
+  ["mines-beginner-guide", "지뢰찾기 기본 규칙", "숫자 힌트로 안전한 칸과 지뢰 후보를 구분합니다."],
+  ["mobile-browser-game-tips", "모바일 브라우저 게임 조작 팁", "터치 실수와 화면 가림을 줄이는 기준을 정리합니다."],
+  ["omok-strategy", "오목 실전 공략", "열린 3과 교차 위협, 즉시 차단 순서를 실제 판세로 설명합니다."],
+  ["bubble-shooter-strategy", "버블 슈터 공략", "3매치와 연결점 낙하, 추가줄을 관리하는 순서를 정리합니다."],
+  ["pong-rally-strategy", "퐁 랠리 공략", "7점제와 반사각, AI 추적과 랠리 운영을 설명합니다."],
+  ["reaction-speed-guide", "반응속도 측정법", "평균·중앙값·일관성을 이용해 기록을 올바르게 비교합니다."],
+  ["short-break-web-games", "짧은 휴식 시간 게임 고르는 법", "플레이 시간과 조작 난이도로 선택합니다."],
+  ["simon-strategy", "사이먼 게임 공략", "색·소리·위치를 묶어 긴 순서를 기억하는 방법을 설명합니다."],
+  ["snake-garden-guide", "스네이크 게임 공략", "먹이보다 탈출 공간을 먼저 확인하는 경로 판단을 정리합니다."],
+  ["sudoku-classic-guide", "스도쿠 입문 공략", "후보 메모와 행·열·박스 교차로 확정 숫자를 찾습니다."],
+  ["tic-tac-toe-strategy", "틱택토 전략 가이드", "즉시 승리·차단·포크와 완전탐색 AI 대응을 설명합니다."],
+  ["twenty-48-strategy", "2048 초보 전략", "큰 타일을 모서리에 고정하고 빈칸을 관리합니다."],
+].map(([id, title, text]) => `      <a class="featured-link" href="/guides/${id}/"><strong>${title}</strong><span>${text}</span></a>`).join("\n");
+
+const staticGameDirectoryCards = [
+  ["mines", "지뢰찾기 클래식", "숫자 단서와 깃발로 안전한 칸을 찾습니다."],
+  ["card-solitaire", "카드 솔리테어", "숨은 카드를 열고 네 기초 더미를 완성합니다."],
+  ["sudoku-mini", "스도쿠 클래식", "행·열·박스의 후보를 지우며 9×9를 풉니다."],
+  ["twenty-48", "2048 한판", "큰 타일을 모서리에 두고 빈칸을 지킵니다."],
+  ["block-drop-classic", "블록 드롭 클래식", "홀드와 다음 블록으로 줄 삭제를 이어갑니다."],
+  ["brick-break", "벽돌깨기 미니", "패들을 움직여 공의 반사각을 바꿉니다."],
+  ["snake-garden", "스네이크 가든", "먹이를 모으면서 몸통의 탈출 공간을 지킵니다."],
+  ["freecell-classic", "프리셀 클래식", "빈 열과 프리셀을 이용해 카드를 정리합니다."],
+  ["tic-tac-toe", "틱택토", "3×3 보드에서 한 줄 완성과 차단을 겨룹니다."],
+  ["connect-four", "사목", "말을 떨어뜨려 네 개 연결을 먼저 만듭니다."],
+  ["maze-chase", "미로 추격", "미로의 빛 조각을 모으며 추격자를 피합니다."],
+  ["match-three", "매치3 퍼즐", "같은 색을 세 개 이상 연결해 목표를 풉니다."],
+  ["sliding-puzzle", "슬라이딩 퍼즐", "빈칸을 돌려 숫자를 순서대로 맞춥니다."],
+  ["hangman", "행맨 단어 맞히기", "힌트와 글자 빈도로 단어를 추리합니다."],
+  ["flappy-jump", "플래피 점프", "점프 높이를 조절해 기둥 사이를 통과합니다."],
+  ["omok", "오목 한판", "15×15 바둑판에서 다섯 돌 연결을 노립니다."],
+  ["bubble-shooter", "버블 슈터 클래식", "같은 색 버블을 연결해 군집을 떨어뜨립니다."],
+  ["pong-rally", "퐁 랠리", "패들로 공을 받아 AI보다 먼저 7점을 얻습니다."],
+  ["simon", "사이먼 게임", "빛과 소리의 순서를 기억해 입력합니다."],
+  ["reaction-speed", "반응속도 체크", "신호가 바뀌는 순간을 눌러 기록을 비교합니다."],
+].map(([id, title, text]) => `      <a class="featured-link" href="/games/${id}/"><strong>${title}</strong><span>${text}</span></a>`).join("\n");
+
+const guideHubSchema = JSON.stringify({
+  "@context": "https://schema.org",
+  "@type": "CollectionPage",
+  name: "한판게임 핵심 플레이 가이드",
+  url: "https://hanpangames.kr/guides/",
+  description: `대표 게임의 규칙과 기록 개선 방법을 정리한 ${coreGuideCount}개 플레이 가이드`,
+  inLanguage: "ko-KR",
+  mainEntity: {
+    "@type": "ItemList",
+    name: "한판게임 플레이 가이드 목록",
+    numberOfItems: INDEXABLE_GUIDE_IDS.length,
+    itemListElement: INDEXABLE_GUIDE_IDS.map((id, index) => ({
+      "@type": "ListItem",
+      position: index + 1,
+      url: `https://hanpangames.kr/guides/${id}/`,
+    })),
+  },
+});
+
 const homeHero = `<section class="hero">
     <div class="hero-copy"><p class="eyebrow">${representativeGameCount} CLASSIC BROWSER GAMES</p><h1>한판게임</h1><p class="hero-kicker">아는 게임부터, 바로 한 판.</p><p class="lead">지뢰찾기, 솔리테어, 스도쿠, 오목과 버블 슈터를 모바일과 데스크톱에서 설치 없이 즐기세요.</p><div class="hero-actions"><a class="button primary" href="/games/">대표 게임 보기</a><a class="button secondary" href="/games/mines/#play-area">지뢰찾기 시작</a></div></div>
     <div class="hero-game-preview" aria-label="인기 게임 바로가기"><a href="/games/mines/"><img src="/assets/game-art/mines.webp" width="640" height="360" alt="지뢰찾기 클래식 플레이 화면"><span><strong>지뢰찾기</strong><small>숫자 단서 퍼즐</small></span></a><a href="/games/card-solitaire/"><img src="/assets/game-art/card-solitaire.webp" width="640" height="360" alt="카드 솔리테어 플레이 화면"><span><strong>솔리테어</strong><small>클론다이크 카드</small></span></a><a href="/games/sudoku-mini/"><img src="/assets/game-art/sudoku-mini.webp" width="640" height="360" alt="스도쿠 클래식 플레이 화면"><span><strong>스도쿠</strong><small>9×9 논리 퍼즐</small></span></a></div>
@@ -598,6 +660,10 @@ updateFile(path.join("games", "index.html"), (html) => {
     /<script type="application\/ld\+json">[\s\S]*?<\/script>/,
     `<script type="application/ld+json">${gamesSchema}</script>`,
   );
+  next = next.replace(
+    /<section class="game-list" data-arcade-list[^>]*><\/section>/,
+    `<section class="game-list" data-arcade-list aria-label="대표 게임 목록"><div class="game-list-fallback" aria-label="대표 게임 바로가기">\n${staticGameDirectoryCards}\n    </div></section>`,
+  );
   if (!next.includes('data-arcade-filter="skill"')) {
     next = next.replace('<button type="button" class="filter" data-arcade-filter="brain">두뇌·기억</button>', '<button type="button" class="filter" data-arcade-filter="brain">두뇌·기억</button><button type="button" class="filter" data-arcade-filter="skill">순발력·기록</button>');
   }
@@ -634,16 +700,28 @@ updateFile(path.join("games", "tic-tac-toe", "index.html"), (html) => {
 });
 
 updateFile(path.join("guides", "index.html"), (html) => {
-  const next = filterLinkedBlocks(
+  let next = filterLinkedBlocks(
     html,
     /\s*<a class="featured-link" href="\/guides\/([^/]+)\/">[\s\S]*?<\/a>/g,
     indexableGuideIds,
   );
-  return next
-    .replace("한판게임의 64개 게임 공략·플레이 가이드입니다. 무료·클래식·간단 조작·키보드·마우스·터치 웹게임 추천부터 숫자·수학, 논리·추리, 기억력, 집중력·주의력, 단어, 아케이드, 한국 전통놀이, 보드·카드, 퍼즐, 반응속도, 두뇌 게임 추천과 개별 전략을 안내합니다.", "한판게임의 11개 핵심 플레이 가이드입니다. 지뢰찾기, 스도쿠, 2048, 벽돌깨기, 블록 드롭, 스네이크의 규칙과 실패 원인을 정리합니다.")
-    .replace(/64개 가이드/g, "11개 핵심 가이드")
+  next = next.replace(
+    /<section class="featured-games">[\s\S]*?<\/section>/,
+    `<section class="featured-games">\n    <div class="section-heading"><p class="eyebrow">${coreGuideCount} Guides</p><h2>최근 발행·수정한 가이드</h2><p>${coreGuideCount}개 핵심 가이드는 독립 URL로 제공되며 관련 게임 페이지와 서로 연결되어 있습니다.</p></div>\n    <div class="featured-link-grid">\n${guideHubCards}\n    </div>\n  </section>`,
+  );
+  next = next
+    .replace(/한판게임의 \d+개 핵심 플레이 가이드입니다\./, `한판게임의 ${coreGuideCount}개 핵심 플레이 가이드입니다.`)
+    .replace(/\d+개 핵심 가이드는/g, `${coreGuideCount}개 핵심 가이드는`)
     .replace("실제 플레이 규칙, 기록 방식과 실패 원인을 기준으로 정리한 독립 공략과 장르별 선택 가이드입니다.", "대표 게임의 실제 규칙, 기록 방식과 실패 원인을 기준으로 정리한 핵심 공략입니다.")
-    .replace(/<article class="article">[\s\S]*?<\/article>/, '<article class="article"><h2>퍼즐은 실패한 순간을 복기합니다</h2><p>지뢰찾기는 숫자 단서를 잘못 읽은 칸, 2048은 큰 타일이 모서리에서 빠져나온 수, 스도쿠는 후보를 제거하지 못한 구간을 찾으면 다음 판의 판단을 바꿀 수 있습니다.</p><h2>아케이드는 다음 위치를 먼저 봅니다</h2><p>벽돌깨기는 패들의 현재 위치보다 공이 내려올 지점을 예측하고, 스네이크는 먹이보다 몸이 돌아나갈 공간을 먼저 확인하면 기록을 안정적으로 늘릴 수 있습니다.</p></article>');
+    .replace(/<article class="article">[\s\S]*?<\/article>/, '<article class="article"><h2>게임을 고르는 기준</h2><p>짧은 판을 원하면 반응속도, 퐁 랠리, 틱택토처럼 결과가 빠르게 나오는 게임부터 시작하세요. 퍼즐을 천천히 풀고 싶다면 지뢰찾기, 스도쿠, 2048의 공략에서 현재 막힌 지점을 찾는 방법을 확인할 수 있습니다.</p><h2>실패를 기록으로 바꾸는 방법</h2><p>가이드는 정답만 나열하지 않습니다. 지뢰찾기는 숫자 단서를 놓친 칸, 벽돌깨기는 공이 내려올 위치를 놓친 순간, 오목은 상대의 즉시 승리를 막지 못한 수처럼 다음 판에 다시 확인할 장면을 기준으로 설명합니다.</p><h2>모바일에서 다시 도전하기</h2><p>각 공략에는 터치 조작, 가로 화면, 속도와 난이도 선택처럼 실제 플레이 중 생기는 문제도 함께 정리합니다. 게임에서 한 판을 끝낸 뒤 해당 가이드의 연습 순서를 적용하고, 기록과 실패 원인을 비교하면 짧은 플레이도 다음 도전으로 이어집니다.</p></article>')
+    .replace(/\s*<script type="application\/ld\+json">[\s\S]*?<\/script>/g, "")
+    .replace(/<\/body>/, `<script type="application/ld+json">${guideHubSchema}</script>\n</body>`);
+  return next;
 });
+
+updateFile(path.join("about", "index.html"), (html) => html.replace(
+  "현재 공개 목록에서 제공하는 게임은 고전 오락실, 퍼즐, 보드·전략, 두뇌·기억, 순발력·기록, 한국 전통놀이의 여섯 카테고리를 합쳐 45개입니다.",
+  `현재 검색·색인 대상으로 운영하는 대표 목록은 ${representativeGameCount}개입니다. 전체 카탈로그에는 고전 오락실, 퍼즐, 보드·전략, 두뇌·기억, 순발력·기록, 한국 전통놀이 게임이 있으며, 품질 검토가 끝난 대표 게임과 가이드를 우선 공개하고 나머지는 계속 보강합니다.`,
+));
 
 console.log("Curated approval navigation around the reviewed games and guides.");

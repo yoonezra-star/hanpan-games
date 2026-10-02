@@ -939,6 +939,13 @@ a:focus-visible {
   grid-template-columns: repeat(3, 1fr);
 }
 
+.game-list-fallback {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+}
+
 .game-card h2 {
   margin-top: 12px;
   font-size: 25px;
@@ -3812,6 +3819,7 @@ body.game-fullscreen-fallback-open {
   .contact-grid,
   .game-list,
   .game-list[data-arcade-list],
+  .game-list-fallback,
   .featured-link-grid,
   .stats-band {
     grid-template-columns: repeat(2, 1fr);
@@ -3882,6 +3890,7 @@ body.game-fullscreen-fallback-open {
   .contact-grid,
   .game-list,
   .game-list[data-arcade-list],
+  .game-list-fallback,
   .featured-link-grid,
   .stats-band {
     grid-template-columns: 1fr;
