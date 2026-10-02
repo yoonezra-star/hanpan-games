@@ -74,6 +74,9 @@ const updatedLocations = new Set([
   "https://hanpangames.kr/guides/pong-rally-strategy/",
   "https://hanpangames.kr/guides/simon-strategy/",
   "https://hanpangames.kr/guides/reaction-speed-guide/",
+  "https://hanpangames.kr/guides/card-solitaire-strategy/",
+  "https://hanpangames.kr/guides/connect-four-strategy/",
+  "https://hanpangames.kr/guides/freecell-classic-strategy/",
   "https://hanpangames.kr/games/arcade/",
   "https://hanpangames.kr/games/board/",
   "https://hanpangames.kr/games/brain/",
@@ -85,9 +88,9 @@ const updatedLocations = new Set([
 function withLastModified(entry) {
   if (!updatedLocations.has(entry.location)) return entry.block;
   if (/<lastmod>[^<]+<\/lastmod>/.test(entry.block)) {
-    return entry.block.replace(/<lastmod>[^<]+<\/lastmod>/, "<lastmod>2026-09-04</lastmod>");
+    return entry.block.replace(/<lastmod>[^<]+<\/lastmod>/, "<lastmod>2026-10-02</lastmod>");
   }
-  return entry.block.replace("</url>", "<lastmod>2026-09-04</lastmod></url>");
+  return entry.block.replace("</url>", "<lastmod>2026-10-02</lastmod></url>");
 }
 
 const nextSitemap = `<?xml version="1.0" encoding="UTF-8"?>

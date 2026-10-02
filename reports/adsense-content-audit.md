@@ -3,8 +3,8 @@
 - 기준일: 2026-10-02
 - 대표 게임: 20개
 - 보강 대기 게임: 25개
-- 핵심 가이드: 16개
-- 통합·보강 검토 가이드: 48개
+- 핵심 가이드: 19개
+- 통합·보강 검토 가이드: 45개
 - 색인 카테고리 허브: 6개
 - 색인/광고 정책 오류: 0개
 
@@ -77,6 +77,9 @@
 | 유지 | reaction-speed-guide | 반응속도 체크 가이드: 5·10회 측정, 평균·중앙값·부정출발 해석 | 1673 | index | 있음 |
 | 유지 | bubble-shooter-strategy | 버블 슈터 공략: 3매치·연쇄 낙하·추가줄·콤보 점수 전략 | 1626 | index | 있음 |
 | 유지 | pong-rally-strategy | 퐁 랠리 공략: 7점제·반사각·AI 추적·랠리 가속 | 1247 | index | 있음 |
+| 유지 | freecell-classic-strategy | 프리셀 클래식 공략: 임시칸과 빈 열을 남기는 카드 이동 순서 | 1059 | index | 있음 |
+| 유지 | card-solitaire-strategy | 카드 솔리테어 공략: 클론다이크에서 막히지 않는 카드 이동 순서 | 953 | index | 있음 |
+| 유지 | connect-four-strategy | 사목 Connect Four 공략: 중앙과 이중 위협을 읽는 순서 | 756 | index | 있음 |
 | 유지 | block-drop-beginner | 블록 드롭 클래식 초보 가이드: 빈칸을 줄이는 배치법 | 690 | index | 있음 |
 | 유지 | twenty-48-strategy | 2048 초보 전략: 큰 타일을 만드는 모서리 운영법 | 673 | index | 있음 |
 | 유지 | simon-strategy | 사이먼 게임 공략: 긴 순서를 덩어리와 리듬으로 기억하는 법 | 639 | index | 있음 |
@@ -107,11 +110,8 @@
 | 보강 대기 | dessert-catch-guide | 디저트 캐치 공략: 골든 케이크·탄 음식·콤보 생존법 | 1122 | noindex | 없음 |
 | 보강 대기 | airplane-dodge-guide | 붕붕 비행기 공략: 항로 선택·스테이지 생존·회피 기록 | 1072 | noindex | 없음 |
 | 보강 대기 | aim-trainer-guide | 에임 트레이너 공략: 평균 반응시간·정확도·미스 줄이기 | 1058 | noindex | 없음 |
-| 보강 대기 | freecell-classic-strategy | 프리셀 클래식 공략: 임시칸과 빈 열을 남기는 카드 이동 순서 | 986 | noindex | 없음 |
 | 보강 대기 | chair-dash-guide | 의자 질주 공략: 중앙 복귀·레인 읽기·콤보 운영 | 946 | noindex | 없음 |
-| 보강 대기 | card-solitaire-strategy | 카드 솔리테어 공략: 클론다이크에서 막히지 않는 카드 이동 순서 | 880 | noindex | 없음 |
 | 보강 대기 | free-web-games-guide | 무료 웹게임 추천: 설치 없이 바로 할 수 있는 미니게임 고르는 법 | 751 | noindex | 없음 |
-| 보강 대기 | connect-four-strategy | 사목 Connect Four 공략: 중앙과 이중 위협을 읽는 순서 | 691 | noindex | 없음 |
 | 보강 대기 | gonggi-strategy | 공기놀이 공략: 흩어진 돌·줍기 타이밍·받기 5단계 | 675 | noindex | 없음 |
 | 보강 대기 | reaction-games-guide | 반응속도 게임 추천: 클릭·에임·순간 판단 게임 고르는 법 | 650 | noindex | 없음 |
 | 보강 대기 | puzzle-games-guide | 퍼즐 게임 추천: 스도쿠·2048·매치3·슬라이딩 퍼즐 고르는 법 | 631 | noindex | 없음 |
