@@ -37,7 +37,7 @@
         <p class="eyebrow">퍼즐 공략 · 7분</p>
         <h1>2048 초보 전략: 큰 타일을 만드는 모서리 운영법</h1>
         <p>2048은 숫자를 합치는 게임이지만, 실제 핵심은 큰 타일을 한쪽 모서리에 고정하고 보드 흐름을 무너뜨리지 않는 것입니다. 같은 숫자를 급하게 합치기보다 다음 합칠 자리를 남겨두면 오래 버틸 수 있습니다.</p>
-        <p class="mini-note">발행: 2026-07-22 · 수정: 2026-08-20</p>
+        <p class="mini-note">발행: 2026-07-22 · 수정: 2026-10-02</p>
         <ul class="toc-list">
           <li><a href="#section-1">큰 타일은 한쪽 모서리에 붙여 둡니다</a></li>
           <li><a href="#section-2">한 줄 안에서 숫자 순서를 만듭니다</a></li>
@@ -45,6 +45,8 @@
           <li><a href="#section-4">막힌 보드는 빈칸부터 회복합니다</a></li>
           <li><a href="#section-5">연습 목표는 2048보다 512 안정화입니다</a></li>
           <li><a href="#section-6">실행 취소는 정답 버튼보다 복기 도구로 씁니다</a></li>
+          <li><a href="#section-7">입력 전에는 다음 합칠 자리까지 봅니다</a></li>
+          <li><a href="#section-8">끝난 판은 모서리가 빠진 순간을 찾습니다</a></li>
           <li><a href="#checklist">플레이 체크리스트</a></li>
           <li><a href="#related-games">관련 게임</a></li>
         </ul>
@@ -74,6 +76,14 @@
         <h2 id="section-6">실행 취소는 정답 버튼보다 복기 도구로 씁니다</h2>
         <p>직전 한 수 실행 취소는 위험한 방향을 시험하고 결과를 비교하는 연습에 유용합니다. 큰 타일이 모서리에서 빠졌거나 새 타일 때문에 줄 순서가 무너졌다면 되돌리기 전에 왜 그 수가 위험했는지 먼저 확인해 보세요.</p>
         <p>매번 불리한 새 타일을 지우는 용도로만 쓰면 보드 판단은 늘기 어렵습니다. 한 판에 사용할 횟수를 스스로 제한하고, 구조를 잘못 읽은 결정적인 수를 복기할 때 쓰는 편이 안정적인 실력 향상에 도움이 됩니다.</p>
+
+        <h2 id="section-7">입력 전에는 다음 합칠 자리까지 봅니다</h2>
+        <p>한 번의 이동은 네 줄 전체를 바꾸므로, 지금 합쳐지는 타일만 보고 방향을 누르면 다음 수의 공간이 사라질 수 있습니다. 입력 전에는 가장 큰 타일이 계속 같은 모서리에 남는지, 새 타일이 들어올 빈칸이 두 곳 이상 남는지, 다음에 합칠 숫자가 어느 줄에 생기는지를 차례로 확인하세요.</p>
+        <p>특히 반대 방향 입력은 작은 타일을 정리해 주는 대신 고정한 모서리를 흔들 수 있습니다. 버튼을 누르기 전에 보드가 한 칸 밀린 뒤 가장 큰 타일과 두 번째 타일이 어떤 순서로 놓일지 머릿속으로 한 번만 시뮬레이션하면 급한 합치기를 줄일 수 있습니다.</p>
+
+        <h2 id="section-8">끝난 판은 모서리가 빠진 순간을 찾습니다</h2>
+        <p>게임 오버 뒤 점수만 보면 같은 실패를 반복하기 쉽습니다. 가장 큰 타일이 모서리에서 빠진 이동, 빈칸이 세 칸 이하로 줄어든 이동, 합친 뒤 다음 조합이 막힌 이동 중 하나를 골라 복기하세요. 패배의 원인을 한 가지로 좁히면 다음 판에서 바꿀 행동도 분명해집니다.</p>
+        <p>2048의 좋은 기록은 큰 타일을 한 번 만드는 데서 끝나지 않습니다. 512나 1024를 만든 뒤에도 같은 구조를 유지하는 판을 여러 번 만들 수 있는지가 중요합니다. 목표를 단계별로 나누고 구조가 유지된 판의 수를 기록하면 최고 점수에만 매달리는 플레이보다 안정적인 실력이 남습니다.</p>
 
         <h2 id="checklist">플레이 체크리스트</h2>
         <ul class="detail-list">
@@ -143,7 +153,7 @@
       </nav>
       <p class="copyright">© <span id="year"></span> Hanpan Game. All rights reserved.</p>
     </footer>
-    <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Article","headline":"2048 초보 전략: 큰 타일을 만드는 모서리 운영법","description":"2048에서 큰 타일을 안정적으로 만들기 위한 모서리 고정, 이동 방향 제한, 막힌 보드 복구법을 초보자 기준으로 정리했습니다.","datePublished":"2026-07-22","dateModified":"2026-08-20","inLanguage":"ko-KR","mainEntityOfPage":"https://hanpangames.kr/guides/twenty-48-strategy/","author":{"@type":"Organization","name":"Hanpan Game"},"publisher":{"@type":"Organization","name":"Hanpan Game","url":"https://hanpangames.kr"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"홈","item":"https://hanpangames.kr/"},{"@type":"ListItem","position":2,"name":"가이드","item":"https://hanpangames.kr/guides/"},{"@type":"ListItem","position":3,"name":"2048 초보 전략: 큰 타일을 만드는 모서리 운영법","item":"https://hanpangames.kr/guides/twenty-48-strategy/"}]}]}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Article","headline":"2048 초보 전략: 큰 타일을 만드는 모서리 운영법","description":"2048에서 큰 타일을 안정적으로 만들기 위한 모서리 고정, 이동 방향 제한, 막힌 보드 복구법을 초보자 기준으로 정리했습니다.","datePublished":"2026-07-22","dateModified":"2026-10-02","inLanguage":"ko-KR","mainEntityOfPage":"https://hanpangames.kr/guides/twenty-48-strategy/","author":{"@type":"Organization","name":"Hanpan Game"},"publisher":{"@type":"Organization","name":"Hanpan Game","url":"https://hanpangames.kr"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"홈","item":"https://hanpangames.kr/"},{"@type":"ListItem","position":2,"name":"가이드","item":"https://hanpangames.kr/guides/"},{"@type":"ListItem","position":3,"name":"2048 초보 전략: 큰 타일을 만드는 모서리 운영법","item":"https://hanpangames.kr/guides/twenty-48-strategy/"}]}]}</script>
     <script src="/assets/app.js?v=20260820-blockdrop" defer></script>
   </body>
 </html>

@@ -724,7 +724,7 @@ updateFile(path.join("guides", "index.html"), (html) => {
     indexableGuideIds,
   );
   next = next.replace(
-    /<section class="featured-games">[\s\S]*?<\/section>/,
+    /<section class="featured-games"[^>]*>[\s\S]*?<\/section>/,
     `<section class="featured-games">\n    <div class="section-heading"><p class="eyebrow">${coreGuideCount} Guides</p><h2>최근 발행·수정한 가이드</h2><p>${coreGuideCount}개 핵심 가이드는 독립 URL로 제공되며 관련 게임 페이지와 서로 연결되어 있습니다.</p></div>\n    <div class="featured-link-grid">\n${guideHubCards}\n    </div>\n  </section>`,
   );
   next = next

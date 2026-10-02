@@ -76,19 +76,19 @@
 | 유지 | omok-strategy | 오목 공략: 열린 3·4·교차 위협과 AI 대전 전략 | 1743 | index | 있음 |
 | 유지 | reaction-speed-guide | 반응속도 체크 가이드: 5·10회 측정, 평균·중앙값·부정출발 해석 | 1673 | index | 있음 |
 | 유지 | bubble-shooter-strategy | 버블 슈터 공략: 3매치·연쇄 낙하·추가줄·콤보 점수 전략 | 1626 | index | 있음 |
-| 유지 | tic-tac-toe-strategy | 틱택토 전략: 포크·중앙·모서리·하드 AI 3선승 공략 | 1355 | index | 있음 |
 | 유지 | pong-rally-strategy | 퐁 랠리 공략: 7점제·반사각·AI 추적·랠리 가속 | 1247 | index | 있음 |
 | 유지 | block-drop-beginner | 블록 드롭 클래식 초보 가이드: 빈칸을 줄이는 배치법 | 690 | index | 있음 |
-| 유지 | snake-garden-guide | 스네이크 게임 공략: 맵·콤보보다 탈출 공간을 먼저 보는 법 | 687 | index | 있음 |
+| 유지 | twenty-48-strategy | 2048 초보 전략: 큰 타일을 만드는 모서리 운영법 | 673 | index | 있음 |
 | 유지 | simon-strategy | 사이먼 게임 공략: 긴 순서를 덩어리와 리듬으로 기억하는 법 | 639 | index | 있음 |
-| 유지 | brick-break-strategy | 벽돌깨기 초보 공략: 패들 위치와 반사각 이해하기 | 620 | index | 있음 |
-| 유지 | twenty-48-strategy | 2048 초보 전략: 큰 타일을 만드는 모서리 운영법 | 496 | index | 있음 |
-| 유지 | mines-beginner-guide | 지뢰찾기 기본 규칙: 숫자 힌트로 안전한 칸 찾는 법 | 424 | index | 있음 |
-| 유지 | short-break-web-games | 짧은 휴식 시간에 하기 좋은 무료 웹게임 고르는 법 | 421 | index | 있음 |
-| 유지 | memory-game-tips | 기억력 게임 잘하는 법: 위치를 오래 기억하는 작은 습관 | 419 | index | 있음 |
-| 유지 | mobile-browser-game-tips | 모바일 브라우저 게임을 편하게 즐기는 조작 팁 | 418 | index | 있음 |
-| 유지 | sudoku-classic-guide | 스도쿠 입문 공략: 후보 메모로 확정 숫자 찾는 법 | 418 | index | 있음 |
-| 유지 | browser-game-benefits | 무료 브라우저 게임의 장점과 주의할 점 | 396 | index | 있음 |
+| 유지 | tic-tac-toe-strategy | 틱택토 전략 가이드: 지지 않는 첫 수와 막는 순서 | 604 | index | 있음 |
+| 유지 | mines-beginner-guide | 지뢰찾기 기본 규칙: 숫자 힌트로 안전한 칸 찾는 법 | 585 | index | 있음 |
+| 유지 | mobile-browser-game-tips | 모바일 브라우저 게임을 편하게 즐기는 조작 팁 | 582 | index | 있음 |
+| 유지 | short-break-web-games | 짧은 휴식 시간에 하기 좋은 무료 웹게임 고르는 법 | 582 | index | 있음 |
+| 유지 | memory-game-tips | 기억력 게임 잘하는 법: 위치를 오래 기억하는 작은 습관 | 570 | index | 있음 |
+| 유지 | sudoku-classic-guide | 스도쿠 입문 공략: 후보 메모로 확정 숫자 찾는 법 | 562 | index | 있음 |
+| 유지 | browser-game-benefits | 무료 브라우저 게임의 장점과 주의할 점 | 550 | index | 있음 |
+| 유지 | snake-garden-guide | 스네이크 게임 오래 버티는 법: 막다른 길을 피하는 경로 판단 | 548 | index | 있음 |
+| 유지 | brick-break-strategy | 벽돌깨기 초보 공략: 패들 위치와 반사각 이해하기 | 534 | index | 있음 |
 | 보강 대기 | number-vault-strategy | 숫자 금고 공략: 1~500 UP/DOWN·중간값·최소 시도·저장 | 1792 | noindex | 없음 |
 | 보강 대기 | perfume-workshop-strategy | 향수 소트 공략: 빈 병·묶음 이동·최소 이동·최단 시간 전략 | 1773 | noindex | 없음 |
 | 보강 대기 | math-climb-strategy | 수학 등산 공략: 12~18구간·콤보·점수·제한시간 전략 | 1548 | noindex | 없음 |

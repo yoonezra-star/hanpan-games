@@ -37,13 +37,15 @@
         <p class="eyebrow">퍼즐 공략 · 6분</p>
         <h1>지뢰찾기 기본 규칙: 숫자 힌트로 안전한 칸 찾는 법</h1>
         <p>지뢰찾기는 운으로 누르는 게임이 아니라 숫자가 알려주는 조건을 차근차근 해석하는 퍼즐입니다. 확정적으로 안전한 칸과 아직 추측해야 하는 칸을 구분하면 실수가 크게 줄어듭니다.</p>
-        <p class="mini-note">발행: 2026-07-22 · 수정: 2026-07-22</p>
+        <p class="mini-note">발행: 2026-07-22 · 수정: 2026-10-02</p>
         <ul class="toc-list">
           <li><a href="#section-1">숫자는 주변 지뢰 개수를 말합니다</a></li>
           <li><a href="#section-2">깃발은 확신이 있을 때만 둡니다</a></li>
           <li><a href="#section-3">확정 안전 칸을 먼저 엽니다</a></li>
           <li><a href="#section-4">추측 구간은 마지막으로 미룹니다</a></li>
           <li><a href="#section-5">초보 연습은 작은 보드에서 시작합니다</a></li>
+          <li><a href="#section-6">확정 칸과 추측 칸을 분리합니다</a></li>
+          <li><a href="#section-7">큰 판에서는 경계를 따라 이동합니다</a></li>
           <li><a href="#checklist">플레이 체크리스트</a></li>
           <li><a href="#related-games">관련 게임</a></li>
         </ul>
@@ -71,6 +73,14 @@
         <p>한 판이 끝난 뒤에는 터진 칸만 보지 말고 직전에 어떤 숫자를 잘못 해석했는지 확인해 보세요. 잘못된 깃발인지, 안전 칸을 열지 않은 상태에서 추측했는지 알면 다음 판의 판단이 훨씬 안정됩니다.</p>
         <p>처음에는 빠른 클리어보다 확정 규칙을 소리 없이 반복하는 연습이 좋습니다. 숫자 주변의 닫힌 칸 수와 필요한 지뢰 수가 같은지, 이미 깃발 수가 숫자와 같은지, 남은 칸이 안전한지를 매번 같은 순서로 확인하면 불필요한 추측을 줄일 수 있습니다.</p>
         <p>지뢰찾기의 재미는 큰 추측을 맞히는 순간보다 작은 확정을 이어가는 흐름에 있습니다. 안전 칸 하나를 열어 새 숫자를 얻고, 그 숫자로 또 다른 안전 칸을 찾는 과정이 이어질 때 보드가 자연스럽게 풀립니다.</p>
+
+        <h2 id="section-6">확정 칸과 추측 칸을 분리합니다</h2>
+        <p>숫자 주변의 깃발 수가 숫자와 같다면 나머지 닫힌 칸은 안전하다는 식의 확정 규칙부터 처리합니다. 반대로 숫자와 닫힌 칸만으로 지뢰 위치를 하나로 정할 수 없다면 그 칸은 아직 추측 영역입니다. 확정된 정보와 가능성 높은 선택을 같은 표시로 다루지 않는 것이 중요합니다.</p>
+        <p>깃발은 지뢰라고 확신할 때만 놓으세요. 잘못된 깃발 하나는 주변 숫자를 계속 오해하게 만들고, 이후 연쇄 열기에서 여러 칸을 한꺼번에 위험하게 만들 수 있습니다. 애매한 위치는 표시하지 않고 주변의 다른 숫자 경계를 먼저 여는 편이 안전합니다.</p>
+
+        <h2 id="section-7">큰 판에서는 경계를 따라 이동합니다</h2>
+        <p>중급과 고급 판은 열린 공간의 숫자를 무작위로 읽기보다 닫힌 칸과 맞닿은 숫자 경계를 따라가는 것이 효율적입니다. 한 구역의 조건을 정리한 뒤 인접한 경계로 이동하면 같은 칸을 여러 번 세는 실수가 줄고 새로운 안전 칸을 찾기 쉽습니다.</p>
+        <p>운이 필요한 선택을 해야 할 때도 먼저 가능한 안전 칸과 지뢰 후보를 모두 표시한 뒤 확률을 비교하세요. 실패한 판은 첫 번째 추측 위치와 그때 남은 숫자 조건을 기억해 두면 다음에는 같은 위험을 더 늦추거나 다른 경계에서 정보를 모을 수 있습니다.</p>
 
         <h2 id="checklist">플레이 체크리스트</h2>
         <ul class="detail-list">
@@ -139,7 +149,7 @@
       </nav>
       <p class="copyright">© <span id="year"></span> Hanpan Game. All rights reserved.</p>
     </footer>
-    <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Article","headline":"지뢰찾기 기본 규칙: 숫자 힌트로 안전한 칸 찾는 법","description":"지뢰찾기에서 숫자 힌트를 읽는 방법, 깃발 사용 기준, 확정 칸과 추측 칸을 구분하는 초보 공략을 정리했습니다.","datePublished":"2026-07-22","dateModified":"2026-07-22","inLanguage":"ko-KR","mainEntityOfPage":"https://hanpangames.kr/guides/mines-beginner-guide/","author":{"@type":"Organization","name":"Hanpan Game"},"publisher":{"@type":"Organization","name":"Hanpan Game","url":"https://hanpangames.kr"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"홈","item":"https://hanpangames.kr/"},{"@type":"ListItem","position":2,"name":"가이드","item":"https://hanpangames.kr/guides/"},{"@type":"ListItem","position":3,"name":"지뢰찾기 기본 규칙: 숫자 힌트로 안전한 칸 찾는 법","item":"https://hanpangames.kr/guides/mines-beginner-guide/"}]}]}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Article","headline":"지뢰찾기 기본 규칙: 숫자 힌트로 안전한 칸 찾는 법","description":"지뢰찾기에서 숫자 힌트를 읽는 방법, 깃발 사용 기준, 확정 칸과 추측 칸을 구분하는 초보 공략을 정리했습니다.","datePublished":"2026-07-22","dateModified":"2026-10-02","inLanguage":"ko-KR","mainEntityOfPage":"https://hanpangames.kr/guides/mines-beginner-guide/","author":{"@type":"Organization","name":"Hanpan Game"},"publisher":{"@type":"Organization","name":"Hanpan Game","url":"https://hanpangames.kr"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"홈","item":"https://hanpangames.kr/"},{"@type":"ListItem","position":2,"name":"가이드","item":"https://hanpangames.kr/guides/"},{"@type":"ListItem","position":3,"name":"지뢰찾기 기본 규칙: 숫자 힌트로 안전한 칸 찾는 법","item":"https://hanpangames.kr/guides/mines-beginner-guide/"}]}]}</script>
     <script src="/assets/app.js?v=20260820-blockdrop" defer></script>
   </body>
 </html>
