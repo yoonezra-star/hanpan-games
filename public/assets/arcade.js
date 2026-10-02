@@ -627,23 +627,37 @@
     let timer = null;
     let start = 0;
     let state = "idle";
+    let recent = null;
+    renderScore(surface, [
+      { label: "최근", value: "-" },
+      { label: "최고", value: getBest(game.id) ? `${getBest(game.id)}ms` : "-" },
+      { label: "상태", value: "대기" }
+    ]);
+    const stats = surface.querySelectorAll(".mini-score b");
     const stage = document.createElement("button");
     stage.type = "button";
     stage.className = "signal-pad";
     stage.innerHTML = "<strong>시작</strong><span>초록 신호가 켜지면 누르세요.</span>";
     surface.appendChild(stage);
+    function sync(status) {
+      stats[0].textContent = recent === null ? "-" : `${recent}ms`;
+      stats[1].textContent = getBest(game.id) ? `${getBest(game.id)}ms` : "-";
+      stats[2].textContent = status;
+    }
     cleanup.push(function () { clearTimeout(timer); });
     stage.addEventListener("click", function () {
       if (state === "idle" || state === "done" || state === "early") {
         state = "wait";
         stage.dataset.state = "wait";
         stage.innerHTML = "<strong>기다리세요</strong><span>아직 누르면 실패입니다.</span>";
+        sync("측정중");
         setResult("빨간 대기 상태입니다.");
         timer = setTimeout(function () {
           state = "ready";
           start = performance.now();
           stage.dataset.state = "ready";
           stage.innerHTML = "<strong>지금!</strong><span>바로 누르세요.</span>";
+          sync("신호");
         }, 900 + Math.random() * 2200);
         return;
       }
@@ -652,18 +666,22 @@
         state = "early";
         stage.dataset.state = "early";
         stage.innerHTML = "<strong>실패</strong><span>너무 빨랐습니다.</span>";
+        sync("실패");
         setResult("신호가 바뀐 뒤에 눌러야 기록됩니다.");
         return;
       }
       if (state === "ready") {
         const score = Math.round(performance.now() - start);
         const best = saveBest(game.id, score, function (a, b) { return a < b; });
+        recent = score;
         state = "done";
         stage.dataset.state = "done";
         stage.innerHTML = `<strong>${score}ms</strong><span>다시 누르면 새 라운드입니다.</span>`;
+        sync("완료");
         setResult(best ? `새 최고 기록: ${score}ms` : `이번 기록: ${score}ms`);
       }
     });
+    sync("대기");
   }
 
   function renderNumber(game, surface) {
@@ -3074,9 +3092,11 @@
     sound.addEventListener("click", function () { audio.toggle(sound); });
     upBtn.addEventListener("pointerdown", function () { hold("up", true); });
     upBtn.addEventListener("pointerup", function () { hold("up", false); });
+    upBtn.addEventListener("pointercancel", function () { hold("up", false); });
     upBtn.addEventListener("pointerleave", function () { hold("up", false); });
     downBtn.addEventListener("pointerdown", function () { hold("down", true); });
     downBtn.addEventListener("pointerup", function () { hold("down", false); });
+    downBtn.addEventListener("pointercancel", function () { hold("down", false); });
     downBtn.addEventListener("pointerleave", function () { hold("down", false); });
     canvas.addEventListener("pointermove", function (event) {
       const rect = canvas.getBoundingClientRect();
@@ -9020,27 +9040,29 @@
     const stats = surface.querySelectorAll(".mini-score b");
     const wrap = document.createElement("div");
     wrap.className = "choice-row simon-pad";
-    colors.forEach(function (color) {
+    function selectColor(color, item) {
+      if (showing || !sequence.length) return;
+      pulseClass(item, "simon-flash");
+      input.push(color);
+      const ok = input.every(function (value, index) { return value === sequence[index]; });
+      if (!ok) {
+        showing = false;
+        Array.from(wrap.children).forEach(function (buttonEl) { buttonEl.disabled = true; });
+        saveBest(game.id, Math.max(0, level - 1), function (a, b) { return a > b; });
+        setResult(`틀렸습니다. 도달 단계 ${level}.`);
+        return;
+      }
+      sync();
+      if (input.length === sequence.length) {
+        setResult("정확합니다. 다음 순서를 준비합니다.");
+        timers.push(setTimeout(next, 520));
+      }
+    }
+    colors.forEach(function (color, index) {
       const item = button(color, "button secondary");
       item.dataset.color = color;
-      item.addEventListener("click", function () {
-        if (showing || !sequence.length) return;
-        pulseClass(item, "simon-flash");
-        input.push(color);
-        const ok = input.every(function (value, index) { return value === sequence[index]; });
-        if (!ok) {
-          showing = false;
-          Array.from(wrap.children).forEach(function (buttonEl) { buttonEl.disabled = true; });
-          saveBest(game.id, Math.max(0, level - 1), function (a, b) { return a > b; });
-          setResult(`틀렸습니다. 도달 단계 ${level}.`);
-          return;
-        }
-        sync();
-        if (input.length === sequence.length) {
-          setResult("정확합니다. 다음 순서를 준비합니다.");
-          timers.push(setTimeout(next, 520));
-        }
-      });
+      item.setAttribute("aria-label", `${color} 입력 버튼, 숫자 ${index + 1}`);
+      item.addEventListener("click", function () { selectColor(color, item); });
       wrap.appendChild(item);
     });
     surface.appendChild(wrap);
@@ -9081,8 +9103,21 @@
       sync();
       flashSequence();
     }
+    function onKey(event) {
+      if (showing || !sequence.length || event.repeat) return;
+      const target = event.target;
+      if (target instanceof HTMLElement && ["INPUT", "SELECT", "TEXTAREA"].includes(target.tagName)) return;
+      const index = Number(event.key) - 1;
+      if (index < 0 || index >= colors.length) return;
+      event.preventDefault();
+      selectColor(colors[index], wrap.children[index]);
+    }
     start.addEventListener("click", next);
-    cleanup.push(clearSequenceTimers);
+    document.addEventListener("keydown", onKey);
+    cleanup.push(function () {
+      clearSequenceTimers();
+      document.removeEventListener("keydown", onKey);
+    });
     sync();
     setResult("순서 보기를 눌러 첫 패턴을 확인하세요.");
   }
