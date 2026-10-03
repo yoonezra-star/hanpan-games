@@ -1,6 +1,6 @@
 # AdSense 콘텐츠 품질 감사
 
-- 기준일: 2026-10-02
+- 기준일: 2026-10-03
 - 대표 게임: 20개
 - 보강 대기 게임: 25개
 - 핵심 가이드: 19개
@@ -13,16 +13,16 @@
 | 상태 | ID | 페이지 | 단어 수 | 색인 | AdSense |
 | --- | --- | --- | ---: | --- | --- |
 | 유지 | freecell-classic | 프리셀 클래식 | 1335 | index | 있음 |
-| 유지 | card-solitaire | 카드 솔리테어 | 1178 | index | 있음 |
-| 유지 | mines | 지뢰찾기 클래식 | 1046 | index | 있음 |
+| 유지 | card-solitaire | 카드 솔리테어 | 1242 | index | 있음 |
+| 유지 | mines | 지뢰찾기 클래식 | 1110 | index | 있음 |
+| 유지 | block-drop-classic | 블록 드롭 클래식 | 1002 | index | 있음 |
 | 유지 | connect-four | 사목 미니 | 983 | index | 있음 |
-| 유지 | block-drop-classic | 블록 드롭 클래식 | 943 | index | 있음 |
-| 유지 | brick-break | 벽돌깨기 미니 | 893 | index | 있음 |
+| 유지 | brick-break | 벽돌깨기 미니 | 952 | index | 있음 |
+| 유지 | sudoku-mini | 스도쿠 클래식 | 862 | index | 있음 |
 | 유지 | simon | 사이먼 게임 | 843 | index | 있음 |
-| 유지 | sudoku-mini | 스도쿠 클래식 | 808 | index | 있음 |
+| 유지 | twenty-48 | 2048 한판 | 843 | index | 있음 |
 | 유지 | snake-garden | 뱀의 정원 | 780 | index | 있음 |
-| 유지 | twenty-48 | 2048 한판 | 777 | index | 있음 |
-| 유지 | tic-tac-toe | 틱택토 Tic-Tac-Toe | 721 | index | 있음 |
+| 유지 | tic-tac-toe | 틱택토 Tic-Tac-Toe | 776 | index | 있음 |
 | 유지 | hangman | 행맨 | 690 | index | 있음 |
 | 유지 | pong-rally | 퐁 랠리 | 681 | index | 있음 |
 | 유지 | sliding-puzzle | 슬라이딩 퍼즐 | 672 | index | 있음 |
@@ -30,8 +30,8 @@
 | 유지 | flappy-jump | 플래피 점프 | 642 | index | 있음 |
 | 유지 | match-three | 매치3 퍼즐 | 631 | index | 있음 |
 | 유지 | maze-chase | 미로 추격 클래식 | 628 | index | 있음 |
+| 유지 | omok | 오목 한판 | 550 | index | 있음 |
 | 유지 | bubble-shooter | 버블 슈터 클래식 | 546 | index | 있음 |
-| 유지 | omok | 오목 한판 | 487 | index | 있음 |
 | 보강 대기 | rps-survival | 가위바위보 서바이벌 | 539 | noindex | 없음 |
 | 보강 대기 | click-sprint | 클릭 스프린트 | 498 | noindex | 없음 |
 | 보강 대기 | word-guess | 단어 맞추기 | 465 | noindex | 없음 |
